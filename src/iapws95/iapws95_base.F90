@@ -2,14 +2,27 @@ submodule(module_iapws95) iapws95_base
     implicit none
 contains
 
-    module pure elemental function calc_phi0_iapws95(tau, delta) result(property)
+    module subroutine initialize_type_iapws95(self)
         implicit none
+        !> IAPWS-95 model instance
+        class(type_iapws95), intent(inout) :: self
+
+        self%T_c = critical_temperature
+        self%rho_c = critical_density
+        self%R = specific_gas_constant_water
+
+    end subroutine initialize_type_iapws95
+
+    module pure elemental subroutine calc_phi0_iapws95(self, tau, delta, property)
+        implicit none
+        !> IAPWS-95 model instance
+        class(type_iapws95), intent(in) :: self
         !> Inverse reduced temperature Tc/T, [-]
         real(real64), intent(in) :: tau
         !> Reduced density ρ/rho_c, [-]
         real(real64), intent(in) :: delta
         !> IAPWS-95 ideal helmholtz properties
-        type(type_iapws95_phi0_properties) :: property
+        type(type_iapws_phi_property), intent(inout) :: property
 
         ! Local variables
         integer(int32) :: i
@@ -67,16 +80,18 @@ contains
             property%phi0_tt = property%phi0_tt &
                                - n_val * g_val**2 * exp_gtau * (inv_one_minus_exp**2)
         end do
-    end function calc_phi0_iapws95
+    end subroutine calc_phi0_iapws95
 
-    module pure elemental function calc_phir_iapws95(tau, delta) result(property)
+    module pure elemental subroutine calc_phir_iapws95(self, tau, delta, property)
         implicit none
+        !> IAPWS-95 model instance
+        class(type_iapws95), intent(in) :: self
         !> Inverse reduced temperature Tc/T, [-]
         real(real64), intent(in) :: tau
         !> Reduced density ρ/rho_c, [-]
         real(real64), intent(in) :: delta
         !> IAPWS-95 residual helmholtz properties (phi and derivatives)
-        type(type_iapws95_phir_properties) :: property
+        type(type_iapws_phi_property), intent(inout) :: property
 
         ! --- Loop variables ---
         integer(int32) :: i
@@ -360,5 +375,5 @@ contains
 
         end do NonAnalitic
 
-    end function calc_phir_iapws95
+    end subroutine calc_phir_iapws95
 end submodule iapws95_base
