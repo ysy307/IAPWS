@@ -96,13 +96,30 @@
     ],
     "buildPresets": [
         {
-            "name": "build-default",
+            "name": "build-base",
+            "hidden": true,
             "jobs": 4
+        },
+        {
+            "name": "build-gcc",
+            "inherits": "build-base",
+            "configurePreset": "gcc-debug"
+        },
+        {
+            "name": "build-intel",
+            "inherits": "build-base",
+            "configurePreset": "intel-debug"
+        },
+        {
+            "name": "build-nvidia",
+            "inherits": "build-base",
+            "configurePreset": "nvidia-debug"
         }
     ],
     "testPresets": [
         {
-            "name": "run-output",
+            "name": "run-base",
+            "hidden": true,
             "description": "Run the executable and show output",
             "output": {
                 "verbosity": "extra"
@@ -110,6 +127,21 @@
             "execution": {
                 "noTestsAction": "error"
             }
+        },
+        {
+            "name": "run-gcc",
+            "inherits": "run-base",
+            "configurePreset": "gcc-debug"
+        },
+        {
+            "name": "run-intel",
+            "inherits": "run-base",
+            "configurePreset": "intel-debug"
+        },
+        {
+            "name": "run-nvidia",
+            "inherits": "run-base",
+            "configurePreset": "nvidia-debug"
         }
     ],
     "workflowPresets": [
@@ -123,11 +155,11 @@
                 },
                 {
                     "type": "build",
-                    "name": "build-default"
+                    "name": "build-gcc"
                 },
                 {
                     "type": "test",
-                    "name": "run-output"
+                    "name": "run-gcc"
                 }
             ]
         },
@@ -141,11 +173,11 @@
                 },
                 {
                     "type": "build",
-                    "name": "build-default"
+                    "name": "build-intel"
                 },
                 {
                     "type": "test",
-                    "name": "run-output"
+                    "name": "run-intel"
                 }
             ]
         },
@@ -159,11 +191,11 @@
                 },
                 {
                     "type": "build",
-                    "name": "build-default"
+                    "name": "build-nvidia"
                 },
                 {
                     "type": "test",
-                    "name": "run-output"
+                    "name": "run-nvidia"
                 }
             ]
         }

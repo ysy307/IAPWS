@@ -50,7 +50,7 @@
     "fortran.linter.extraArgs": [
         "-fpp",
         "-module",
-        "/workspaces/FTDSS/CMakeBuild/.mod",
+        "/workspaces/IAPWS/build/intel-debug/.mod",
         "-module",
         "/opt/intel/oneapi/mkl/latest/include",
         "-module",
@@ -60,7 +60,7 @@
     ],
     "fortran.linter.compiler": "ifx",
     "fortran.linter.compilerPath": "/opt/intel/oneapi/compiler/latest/bin/ifx",
-    "fortran.linter.modOutput": "/workspaces/IAPWS/CMakeBuild/.mod/",
+    "fortran.linter.modOutput": "/workspaces/IAPWS/build/intel-debug/.mod/",
     "fortran.fortls.nthreads": 16,
     "fortran.fortls.preprocessor.suffixes": [
         ".F90"
@@ -136,7 +136,14 @@
     },
     "files.exclude": {
         "**/.git": true,
-        "**/.tmp.drive*": true
+        "**/.tmp.drive*": true,
+        "**/docs": true,
+        "**/build": true,
+        "**/bin": true,
+        "**/lib": true,
+        "**/.github": true,
+        "**/.fortls": true,
+        "**/.devcontainer": true,
     },
     "workbench.colorCustomizations": {
         "editor.background": "#2e282c"
