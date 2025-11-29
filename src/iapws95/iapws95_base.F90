@@ -1,0 +1,364 @@
+submodule(module_iapws95) iapws95_base
+    implicit none
+contains
+
+    module pure elemental function calc_phi0_iapws95(tau, delta) result(property)
+        implicit none
+        !> Inverse reduced temperature Tc/T, [-]
+        real(real64), intent(in) :: tau
+        !> Reduced density ρ/rho_c, [-]
+        real(real64), intent(in) :: delta
+        !> IAPWS-95 ideal helmholtz properties
+        type(type_iapws95_phi0_properties) :: property
+
+        ! Local variables
+        integer(int32) :: i
+        integer(int32) :: pow_i
+        real(real64) :: t_val, n_val, g_val
+        real(real64) :: exp_gtau, one_minus_exp, inv_one_minus_exp
+
+        ! Initialize properties
+        property%phi0 = 0.0d0
+        property%phi0_t = 0.0d0
+        property%phi0_tt = 0.0d0
+        property%phi0_d = 0.0d0
+        property%phi0_dd = 0.0d0
+        property%phi0_dt = 0.0d0
+
+        property%phi0 = n0_log(1) * log(delta) + n0_log(2) * log(tau)
+        property%phi0_t = n0_log(2) / tau
+        property%phi0_tt = -n0_log(2) / tau**2
+
+        property%phi0_d = 1.0d0 / delta
+        property%phi0_dd = -1.0d0 / delta**2
+        property%phi0_dt = 0.0d0
+
+        do i = 1, size(pow)
+            pow_i = pow(i)
+            t_val = real(pow_i, real64)
+            n_val = n0_pow(i)
+
+            property%phi0 = property%phi0 + n_val * (tau**t_val)
+
+            if (pow_i /= 0) then
+                property%phi0_t = property%phi0_t &
+                                  + t_val * n_val * (tau**(pow_i - 1))
+            end if
+            if (pow_i /= 0 .and. pow_i /= 1) then
+                property%phi0_tt = property%phi0_tt &
+                                   + n_val * t_val * (t_val - 1.0d0) * (tau**(pow_i - 2))
+            end if
+        end do
+
+        do i = 1, size(n0_exp)
+            n_val = n0_exp(i)
+            g_val = g0(i)
+
+            exp_gtau = exp(-g_val * tau)
+            one_minus_exp = 1.0d0 - exp_gtau
+            inv_one_minus_exp = 1.0d0 / one_minus_exp
+
+            property%phi0 = property%phi0 &
+                            + n_val * log(one_minus_exp)
+
+            property%phi0_t = property%phi0_t &
+                              + n_val * g_val * (inv_one_minus_exp - 1.0d0)
+
+            property%phi0_tt = property%phi0_tt &
+                               - n_val * g_val**2 * exp_gtau * (inv_one_minus_exp**2)
+        end do
+    end function calc_phi0_iapws95
+
+    module pure elemental function calc_phir_iapws95(tau, delta) result(property)
+        implicit none
+        !> Inverse reduced temperature Tc/T, [-]
+        real(real64), intent(in) :: tau
+        !> Reduced density ρ/rho_c, [-]
+        real(real64), intent(in) :: delta
+        !> IAPWS-95 residual helmholtz properties (phi and derivatives)
+        type(type_iapws95_phir_properties) :: property
+
+        ! --- Loop variables ---
+        integer(int32) :: i
+
+        ! --- Helper variables for optimization ---
+        real(real64) :: inv_delta, inv_tau, inv_delta_sq, inv_tau_sq
+        real(real64) :: delta_sq, tau_sq
+        real(real64) :: bi, term_d, term_t
+
+        ! --- Polynomial & Exponential terms vars ---
+        real(real64) :: d_val, t_val, nr_val, c_val, g_val
+        real(real64) :: delta_pow_c, exp_val
+        real(real64) :: Q, R_val
+
+        ! --- Gaussian terms vars ---
+        real(real64) :: alfa_val, beta_val, gamma_val, eps_val
+        real(real64) :: delta_diff, tau_diff, sq_delta_diff, sq_tau_diff
+        real(real64) :: exp_arg
+
+        ! --- Non-Analytic terms vars ---
+        real(real64) :: a_val, b_val, BB_val, AA_val, beta4_val
+        real(real64) :: c_int_val, D_int_val
+        real(real64) :: diff_d, diff_t, sq_diff_d, sq_diff_t
+        real(real64) :: theta, delta_term, psi
+        real(real64) :: pow_theta
+        real(real64) :: d_theta_d, d_psi_d, d_psi_t
+        real(real64) :: d2_theta_dd, d2_psi_dd, d2_psi_tt, d2_psi_dt
+        real(real64) :: d_Delta_d, d_Delta_t, d2_Delta_dd, d2_Delta_tt, d2_Delta_dt
+        real(real64) :: d_Delta_pow_b_d, d_Delta_pow_b_t
+        real(real64) :: d2_Delta_pow_b_dd, d2_Delta_pow_b_tt, d2_Delta_pow_b_dt
+
+        ! --- Initialization ---
+        property%phir = 0.0d0
+        property%phir_d = 0.0d0
+        property%phir_t = 0.0d0
+        property%phir_dd = 0.0d0
+        property%phir_tt = 0.0d0
+        property%phir_dt = 0.0d0
+
+        ! Pre-calculate inverses and squares
+        inv_delta = 1.0d0 / delta
+        inv_tau = 1.0d0 / tau
+        inv_delta_sq = inv_delta * inv_delta
+        inv_tau_sq = inv_tau * inv_tau
+        delta_sq = delta * delta
+        tau_sq = tau * tau
+
+        ! ==================================================================
+        ! 1. Polynomial Terms (Terms 1-7)
+        !    phi = n * delta^d * tau^t
+        ! ==================================================================
+        Polynomial: do i = 1, size(nr1)
+            nr_val = nr1(i)
+            d_val = real(d1(i), real64)
+            t_val = t1(i)
+
+            ! Base term
+            bi = nr_val * (delta**d1(i)) * (tau**t_val)
+
+            property%phir = property%phir + bi
+
+            ! Derivatives
+            property%phir_d = property%phir_d + bi * (d_val * inv_delta)
+            property%phir_t = property%phir_t + bi * (t_val * inv_tau)
+
+            property%phir_dd = property%phir_dd + bi * (d_val * (d_val - 1.0d0) * inv_delta_sq)
+            property%phir_tt = property%phir_tt + bi * (t_val * (t_val - 1.0d0) * inv_tau_sq)
+            property%phir_dt = property%phir_dt + bi * ((d_val * t_val) * inv_delta * inv_tau)
+        end do Polynomial
+
+        ! ==================================================================
+        ! 2. Exponential Terms (Terms 8-51)
+        !    phi = n * delta^d * tau^t * exp(-g * delta^c)
+        ! ==================================================================
+        Exponential: do i = 1, size(nr2)
+            nr_val = nr2(i)
+            d_val = real(d2(i), real64)
+            t_val = t2(i)
+            c_val = real(c2(i), real64)
+            g_val = gamma2(i)
+
+            ! Common subexpressions
+            delta_pow_c = delta**c2(i)
+            exp_val = exp(-g_val * delta_pow_c)
+            bi = nr_val * (delta**d2(i)) * (tau**t_val) * exp_val
+
+            ! Derivative helpers
+            ! Q = d - c * gamma * delta^c
+            ! R = c^2 * gamma * delta^c  (Used for 2nd derivative)
+            Q = d_val - c_val * g_val * delta_pow_c
+            R_val = (c_val**2) * g_val * delta_pow_c
+
+            property%phir = property%phir + bi
+
+            property%phir_d = property%phir_d + bi * (Q * inv_delta)
+            property%phir_t = property%phir_t + bi * (t_val * inv_tau)
+
+            ! phi_dd = phi/delta^2 * (Q^2 - Q - R)
+            property%phir_dd = property%phir_dd + bi * ((Q**2 - Q - R_val) * inv_delta_sq)
+
+            ! phi_tt = phi/tau^2 * (t * (t-1))
+            property%phir_tt = property%phir_tt + bi * (t_val * (t_val - 1.0d0) * inv_tau_sq)
+
+            ! phi_dt = phi/(delta*tau) * (t * Q)
+            property%phir_dt = property%phir_dt + bi * (t_val * Q * inv_delta * inv_tau)
+        end do Exponential
+
+        ! ==================================================================
+        ! 3. Gaussian Terms (Terms 52-54)
+        !    phi = n * delta^d * tau^t * exp[ -alpha*(delta-epsilon)^2 - beta*(tau-gamma)^2 ]
+        ! ==================================================================
+        Gaussian: do i = 1, size(nr3)
+            nr_val = nr3(i)
+            d_val = real(d3(i), real64)
+            t_val = real(t3(i), real64)
+            alfa_val = alfa3(i)
+            beta_val = beta3(i)
+            gamma_val = gamma3(i)
+            eps_val = epsilon3(i)
+
+            delta_diff = delta - eps_val
+            tau_diff = tau - gamma_val
+            sq_delta_diff = delta_diff * delta_diff
+            sq_tau_diff = tau_diff * tau_diff
+
+            exp_arg = -alfa_val * sq_delta_diff - beta_val * sq_tau_diff
+            exp_val = exp(exp_arg)
+            bi = nr_val * (delta**d3(i)) * (tau**t3(i)) * exp_val
+
+            ! Derivative helpers
+            ! term_d = d/delta - 2*alpha*(delta-epsilon)
+            term_d = (d_val * inv_delta) - 2.0d0 * alfa_val * delta_diff
+
+            ! term_t = t/tau - 2*beta*(tau-gamma)
+            term_t = (t_val * inv_tau) - 2.0d0 * beta_val * tau_diff
+
+            property%phir = property%phir + bi
+
+            property%phir_d = property%phir_d + bi * term_d
+            property%phir_t = property%phir_t + bi * term_t
+
+            ! phi_dd = phi * [ term_d^2 - d/delta^2 - 2*alpha ]
+            property%phir_dd = property%phir_dd &
+                               + bi * (term_d**2 - (d_val * inv_delta_sq) - 2.0d0 * alfa_val)
+
+            ! phi_tt = phi * [ term_t^2 - t/tau^2 - 2*beta ]
+            property%phir_tt = property%phir_tt &
+                               + bi * (term_t**2 - (t_val * inv_tau_sq) - 2.0d0 * beta_val)
+
+            ! phi_dt = phi * term_d * term_t
+            property%phir_dt = property%phir_dt + bi * (term_d * term_t)
+        end do Gaussian
+
+        ! ==================================================================
+        ! 4. Non-Analytic Terms (Terms 55-56)
+        !    phi = n * delta * Delta^b * Psi
+        ! ==================================================================
+        NonAnalitic: do i = 1, size(nr4)
+            nr_val = nr4(i)
+            a_val = a4(i)
+            b_val = b4(i)
+            BB_val = B(i)
+            c_int_val = real(C(i), real64)
+            D_int_val = real(D(i), real64)
+            AA_val = A(i)
+            beta4_val = beta4(i)
+
+            diff_d = delta - 1.0d0
+            diff_t = tau - 1.0d0
+            sq_diff_d = diff_d * diff_d
+            sq_diff_t = diff_t * diff_t
+
+            ! Theta
+            pow_theta = 1.0d0 / (2.0d0 * beta4_val)
+            theta = (1.0d0 - tau) + AA_val * (sq_diff_d**pow_theta)
+
+            ! Delta (delta_term)
+            delta_term = theta**2 + BB_val * (sq_diff_d**a_val)
+            ! Psi
+            psi = exp(-c_int_val * sq_diff_d - D_int_val * sq_diff_t)
+
+            ! Base phi
+            bi = nr_val * delta * (delta_term**b_val) * psi
+            property%phir = property%phir + bi
+
+            ! --- Derivatives of Components ---
+
+            ! d(Theta)/d(delta)
+            d_theta_d = AA_val * (1.0d0 / beta4_val) * diff_d * (sq_diff_d**(pow_theta - 1.0d0))
+
+            ! d2(Theta)/d(delta)^2
+            d2_theta_dd = d_theta_d / diff_d + &
+                          AA_val * (1.0d0 / beta4_val) * (pow_theta - 1.0d0) * &
+                          2.0d0 * sq_diff_d * (sq_diff_d**(pow_theta - 2.0d0))
+
+            ! d(Psi)/d(delta), d(Psi)/d(tau)
+            d_psi_d = psi * (-2.0d0 * c_int_val * diff_d)
+            d_psi_t = psi * (-2.0d0 * D_int_val * diff_t)
+
+            ! d2(Psi)
+            d2_psi_dd = d_psi_d * (-2.0d0 * c_int_val * diff_d) + psi * (-2.0d0 * c_int_val)
+            d2_psi_tt = d_psi_t * (-2.0d0 * D_int_val * diff_t) + psi * (-2.0d0 * D_int_val)
+            d2_psi_dt = d_psi_d * (-2.0d0 * D_int_val * diff_t)
+
+            ! d(Delta)
+            ! d(Delta)/dd = 2*Theta*dTheta/dd + 2*B*a*(d-1)^2^(a-1) * (d-1)
+            d_Delta_d = 2.0d0 * theta * d_theta_d + &
+                        2.0d0 * BB_val * a_val * diff_d * (sq_diff_d**(a_val - 1.0d0))
+            ! d(Delta)/dt = 2*Theta*(-1)
+            d_Delta_t = -2.0d0 * theta
+
+            ! d2(Delta)
+            d2_Delta_dd = 2.0d0 * (d_theta_d**2 + theta * d2_theta_dd) + &
+                          2.0d0 * BB_val * a_val * (sq_diff_d**(a_val - 1.0d0)) + &
+                          4.0d0 * BB_val * a_val * (a_val - 1.0d0) * sq_diff_d * (sq_diff_d**(a_val - 2.0d0))
+            d2_Delta_tt = 2.0d0 ! (-1 * -1 * 2)
+            d2_Delta_dt = -2.0d0 * d_theta_d
+
+            ! d(Delta^b)
+            if (delta_term > 0.0d0) then
+                d_Delta_pow_b_d = b_val * (delta_term**(b_val - 1.0d0)) * d_Delta_d
+                d_Delta_pow_b_t = b_val * (delta_term**(b_val - 1.0d0)) * d_Delta_t
+
+                ! d2(Delta^b) terms
+                d2_Delta_pow_b_dd = b_val * ((b_val - 1.0d0) * (delta_term**(b_val - 2.0d0)) * d_Delta_d**2 + &
+                                             (delta_term**(b_val - 1.0d0)) * d2_Delta_dd)
+                d2_Delta_pow_b_tt = b_val * ((b_val - 1.0d0) * (delta_term**(b_val - 2.0d0)) * d_Delta_t**2 + &
+                                             (delta_term**(b_val - 1.0d0)) * d2_Delta_tt)
+                d2_Delta_pow_b_dt = b_val * ((b_val - 1.0d0) * (delta_term**(b_val - 2.0d0)) * d_Delta_d * d_Delta_t + &
+                                             (delta_term**(b_val - 1.0d0)) * d2_Delta_dt)
+            else
+                d_Delta_pow_b_d = 0.0d0
+                d_Delta_pow_b_t = 0.0d0
+                d2_Delta_pow_b_dd = 0.0d0
+                d2_Delta_pow_b_tt = 0.0d0
+                d2_Delta_pow_b_dt = 0.0d0
+            end if
+
+            ! --- Assembly of Derivatives ---
+
+            ! phi_d = bi/delta + n*delta*d(Delta^b)*Psi + bi/Psi*d(Psi)
+            property%phir_d = property%phir_d &
+                              + (bi * inv_delta) &
+                              + nr_val * delta * d_Delta_pow_b_d * psi &
+                              + bi * (-2.0d0 * c_int_val * diff_d)
+
+            ! phi_t = n*delta*d(Delta^b)*Psi + bi/Psi*d(Psi)
+            property%phir_t = property%phir_t &
+                              + nr_val * delta * d_Delta_pow_b_t * psi &
+                              + bi * (-2.0d0 * D_int_val * diff_t)
+
+            ! phi_dd
+            property%phir_dd = property%phir_dd &
+                               + nr_val * ( &
+                               2.0d0 * d_Delta_pow_b_d * psi + &
+                               delta * d2_Delta_pow_b_dd * psi + &
+                               2.0d0 * delta * d_Delta_pow_b_d * d_psi_d + &
+                               delta * (delta_term**b_val) * d2_psi_dd &
+                               )
+
+            ! phi_tt
+            property%phir_tt = property%phir_tt &
+                               + nr_val * delta * ( &
+                               d2_Delta_pow_b_tt * psi + &
+                               2.0d0 * d_Delta_pow_b_t * d_psi_t + &
+                               (delta_term**b_val) * d2_psi_tt &
+                               )
+
+            ! phi_dt
+            property%phir_dt = property%phir_dt &
+                               + nr_val * ( &
+                               d_Delta_pow_b_t * psi + &
+                               (delta_term**b_val) * d_psi_t + &
+                               delta * ( &
+                               d2_Delta_pow_b_dt * psi + &
+                               d_Delta_pow_b_d * d_psi_t + &
+                               d_Delta_pow_b_t * d_psi_d + &
+                               (delta_term**b_val) * d2_psi_dt &
+                               ) &
+                               )
+
+        end do NonAnalitic
+
+    end function calc_phir_iapws95
+end submodule iapws95_base
