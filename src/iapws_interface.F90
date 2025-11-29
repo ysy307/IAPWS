@@ -9,12 +9,14 @@ module iapws
         real(real64) :: rho_c
         !> Specific Gas Constant, \( R \) [J/(kg K)]
         real(real64) :: R
+        !> Initialization flag
+        logical :: is_initialized = .false.
     contains
-        procedure(abst_iapws_helmholtz_initialize), pass(self), public, deferred :: initialize
-        procedure(abst_calc_phi_iapws), pass(self), public, deferred :: calc_phi0
-        procedure(abst_calc_phi_iapws), pass(self), public, deferred :: calc_phir
+        procedure(abst_iapws_helmholtz_initialize), pass(self), public, deferred :: initialize !&
+        procedure(abst_calc_phi_iapws),             pass(self), public, deferred :: calc_phi !&
+        ! procedure(abst_calc_phi_iapws), pass(self), public, deferred :: calc_phir
         procedure, pass(self), public :: calc_properties => calc_properties_helmholtz
-        ! procedure, pass(self), public :: calc
+        procedure, pass(self), public :: calc_pressure => calc_pressure_helmholtz
     end type abst_iapws_helmholtz
 
     type, abstract :: abst_iapws_gibbs_model
@@ -26,6 +28,18 @@ module iapws
 
     !> Data structure to hold IAPWS properties
     type :: type_iapws_phi_property
+        !> Total adimensional helmholtz energy [-]
+        real(real64) :: phi
+        !> Derivative of total adimensional helmholtz energy with respect to delta,∂phi/∂δ|τ [-]
+        real(real64) :: phi_d
+        !> Derivative of total adimensional helmholtz energy with respect to tau,∂phi/∂τ|δ [-]
+        real(real64) :: phi_t
+        !> Second derivative of total adimensional helmholtz energy with respect to delta,∂²phi/∂δ²|τ [-]
+        real(real64) :: phi_dd
+        !> Second derivative of total adimensional helmholtz energy with respect to tau,∂²phi/∂τ²|δ [-]
+        real(real64) :: phi_tt
+        !> Mixed second derivative of total adimensional helmholtz energy,∂²phi/∂δ∂τ [-]
+        real(real64) :: phi_dt
         !> Ideal adimensional helmholtz energy [-]
         real(real64) :: phi0
         !> Ideal adimensional helmholtz energy derivative with respect to delta,∂phi0/∂δ|τ [-]
@@ -88,7 +102,7 @@ module iapws
 
     abstract interface
         !> Initialize IAPWS Helmholtz model
-        subroutine abst_iapws_helmholtz_initialize(self)
+        pure elemental subroutine abst_iapws_helmholtz_initialize(self)
             import :: abst_iapws_helmholtz
             implicit none
             !> IAPWS Helmholtz model instance
@@ -119,6 +133,15 @@ module iapws
             type(type_iapws_property), intent(inout) :: property
 
         end subroutine calc_properties_helmholtz
+
+        module pure elemental subroutine calc_pressure_helmholtz(self, T_in, rho_in, pressure)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: pressure
+
+        end subroutine calc_pressure_helmholtz
     end interface
 
 end module iapws

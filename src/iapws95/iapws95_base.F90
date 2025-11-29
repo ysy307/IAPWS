@@ -2,7 +2,7 @@ submodule(module_iapws95) iapws95_base
     implicit none
 contains
 
-    module subroutine initialize_type_iapws95(self)
+    module pure elemental subroutine initialize_type_iapws95(self)
         implicit none
         !> IAPWS-95 model instance
         class(type_iapws95), intent(inout) :: self
@@ -11,7 +11,31 @@ contains
         self%rho_c = critical_density
         self%R = specific_gas_constant_water
 
+        self%is_initialized = .true.
+
     end subroutine initialize_type_iapws95
+
+    module pure elemental subroutine calc_phi_iapws95(self, tau, delta, property)
+        implicit none
+        !> IAPWS-95 model instance
+        class(type_iapws95), intent(in) :: self
+        !> Inverse reduced temperature Tc/T, [-]
+        real(real64), intent(in) :: tau
+        !> Reduced density ρ/rho_c, [-]
+        real(real64), intent(in) :: delta
+        !> IAPWS-95 helmholtz properties
+        type(type_iapws_phi_property), intent(inout) :: property
+
+        call self%calc_phi0(tau, delta, property)
+        call self%calc_phir(tau, delta, property)
+
+        property%phi = property%phi0 + property%phir
+        property%phi_d = property%phi0_d + property%phir_d
+        property%phi_t = property%phi0_t + property%phir_t
+        property%phi_dd = property%phi0_dd + property%phir_dd
+        property%phi_tt = property%phi0_tt + property%phir_tt
+        property%phi_dt = property%phi0_dt + property%phir_dt
+    end subroutine calc_phi_iapws95
 
     module pure elemental subroutine calc_phi0_iapws95(self, tau, delta, property)
         implicit none
