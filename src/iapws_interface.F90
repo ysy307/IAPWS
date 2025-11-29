@@ -16,7 +16,7 @@ module iapws
         procedure(abst_calc_phi_iapws),             pass(self), public, deferred :: calc_phi !&
         ! procedure(abst_calc_phi_iapws), pass(self), public, deferred :: calc_phir
         procedure, pass(self), public :: calc_properties => calc_properties_helmholtz
-        procedure, pass(self), public :: calc_pressure => calc_pressure_helmholtz
+        procedure, pass(self), public :: calc_p => calc_p_helmholtz
     end type abst_iapws_helmholtz
 
     type, abstract :: abst_iapws_gibbs_model
@@ -134,14 +134,75 @@ module iapws
 
         end subroutine calc_properties_helmholtz
 
-        module pure elemental subroutine calc_pressure_helmholtz(self, T_in, rho_in, pressure)
+        module pure elemental subroutine calc_p_helmholtz(self, T_in, rho_in, p, prop_in)
             implicit none
             class(abst_iapws_helmholtz), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
-            real(real64), intent(inout) :: pressure
+            real(real64), intent(inout) :: p
+            type(type_iapws_phi_property), intent(inout), optional :: prop_in
 
-        end subroutine calc_pressure_helmholtz
+        end subroutine calc_p_helmholtz
+
+        module pure elemental subroutine calc_u_helmholtz(self, T_in, rho_in, u, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: u
+            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_u_helmholtz
+
+        module pure elemental subroutine calc_s_helmholtz(self, T_in, rho_in, s, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: s
+            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_s_helmholtz
+
+        module pure elemental subroutine calc_h_helmholtz(self, T_in, rho_in, h, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: h
+            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_h_helmholtz
+
+        module pure elemental subroutine calc_cp_helmholtz(self, T_in, rho_in, cp, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: cp
+            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_cp_helmholtz
+
+        module pure elemental subroutine calc_cv_helmholtz(self, T_in, rho_in, cv, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: cv
+            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_cv_helmholtz
+
+        module pure elemental subroutine calc_w_helmholtz(self, T_in, rho_in, w, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: w
+            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_w_helmholtz
     end interface
 
 end module iapws
