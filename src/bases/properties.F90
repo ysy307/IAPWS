@@ -9,6 +9,25 @@ contains
         real(real64), intent(in) :: rho_in
         type(type_iapws_property), intent(inout) :: property
 
+        real(real64) :: tau, delta
+        type(type_iapws_phi_property) :: props
+
+        property%T = T_in
+        property%rho = rho_in
+
+        tau = self%T_c / T_in
+        delta = rho_in / self%rho_c
+
+        call self%calc_phi(tau, delta, props)
+
+        call self%calc_p(T_in, rho_in, property%p, props)
+        call self%calc_u(T_in, rho_in, property%u, props)
+        call self%calc_s(T_in, rho_in, property%s, props)
+        call self%calc_h(T_in, rho_in, property%h, props)
+        call self%calc_cp(T_in, rho_in, property%cp, props)
+        call self%calc_cv(T_in, rho_in, property%cv, props)
+        call self%calc_w(T_in, rho_in, property%w, props)
+
     end subroutine calc_properties_helmholtz
 
     module pure elemental subroutine calc_p_helmholtz(self, T_in, rho_in, p, prop_in)

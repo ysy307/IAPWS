@@ -1,17 +1,14 @@
 module module_iapws95
     use, intrinsic :: iso_fortran_env, only: int32, real64
     use :: iapws, only:abst_iapws_helmholtz, type_iapws_phi_property
+    use :: module_kahan, only:kahan_add
     use :: iapws95_constants
     implicit none
     private
 
     public :: type_iapws95
-    ! public :: type_iapws95_phi0_properties
-    ! public :: type_iapws95_phir_properties
 
     type, extends(abst_iapws_helmholtz) :: type_iapws95
-        ! real(real64) :: T_c = critical_temperature
-        ! real(real64) :: rho_c = critical_density
     contains
         procedure, pass(self) :: initialize => initialize_type_iapws95
         procedure, pass(self) :: calc_phi => calc_phi_iapws95

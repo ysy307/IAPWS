@@ -2,6 +2,7 @@
 add_library(iapws STATIC
     iapws_interface.F90
     bases/properties.F90
+    utils/kahan.F90
     iapws95/iapws95_interface.F90
     iapws95/iapws95_constants.F90
     iapws95/iapws95_base.F90

@@ -1,5 +1,5 @@
 module iapws
-    use, intrinsic :: iso_fortran_env, only: int32, real64
+    use, intrinsic :: iso_fortran_env
     implicit none
 
     type, abstract :: abst_iapws_helmholtz
@@ -14,9 +14,14 @@ module iapws
     contains
         procedure(abst_iapws_helmholtz_initialize), pass(self), public, deferred :: initialize !&
         procedure(abst_calc_phi_iapws),             pass(self), public, deferred :: calc_phi !&
-        ! procedure(abst_calc_phi_iapws), pass(self), public, deferred :: calc_phir
         procedure, pass(self), public :: calc_properties => calc_properties_helmholtz
         procedure, pass(self), public :: calc_p => calc_p_helmholtz
+        procedure, pass(self), public :: calc_u => calc_u_helmholtz
+        procedure, pass(self), public :: calc_s => calc_s_helmholtz
+        procedure, pass(self), public :: calc_h => calc_h_helmholtz
+        procedure, pass(self), public :: calc_cp => calc_cp_helmholtz
+        procedure, pass(self), public :: calc_cv => calc_cv_helmholtz
+        procedure, pass(self), public :: calc_w => calc_w_helmholtz
     end type abst_iapws_helmholtz
 
     type, abstract :: abst_iapws_gibbs_model

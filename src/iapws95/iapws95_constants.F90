@@ -9,7 +9,7 @@ module iapws95_constants
     real(real64), parameter, public :: critical_density = 322.0d0
 
     !> Specific gas constant for water [J/(kg·K)]
-    real(real64), parameter, public :: specific_gas_constant_water = 461.51805d0
+    real(real64), parameter, public :: specific_gas_constant_water = 0.46151805d3
 
     !=================================================================================
     ! IAPWS-95 ideal helmholtz energy equation coefficients
