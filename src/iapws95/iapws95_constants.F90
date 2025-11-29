@@ -4,12 +4,12 @@ module iapws95_constants
     private
 
     !> Critical temperature [K]
-    real(real64), parameter, public :: T_c = 647.096d0
+    real(real64), parameter, public :: critical_temperature = 647.096d0
     !> Critical density [kg/m^3]
-    real(real64), parameter, public :: rho_c = 322.0d0
+    real(real64), parameter, public :: critical_density = 322.0d0
 
     !> Specific gas constant for water [J/(kg·K)]
-    real(real64), parameter, public :: R = 461.51805d0
+    real(real64), parameter, public :: specific_gas_constant_water = 461.51805d0
 
     !=================================================================================
     ! IAPWS-95 ideal helmholtz energy equation coefficients

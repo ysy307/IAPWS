@@ -3,7 +3,13 @@ module module_iapws95
     use :: iapws95_constants
     implicit none
 
+    public :: type_iapws95
+    public :: type_iapws95_phi0_properties
+    public :: type_iapws95_phir_properties
+
     type :: type_iapws95
+        real(real64) :: T_c = critical_temperature
+        real(real64) :: rho_c = critical_density
     contains
         procedure, nopass, public :: calc_phi0_iapws95
         procedure, nopass, public :: calc_phir_iapws95
