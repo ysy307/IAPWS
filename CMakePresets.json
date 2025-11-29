@@ -1,0 +1,171 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "gcc-base",
+            "hidden": true,
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_Fortran_COMPILER": "gfortran",
+                "CMAKE_Fortran_FLAGS": "-Wall -Wextra -fopenmp"
+            }
+        },
+        {
+            "name": "gcc-debug",
+            "displayName": "GCC Debug",
+            "inherits": "gcc-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_Fortran_FLAGS_DEBUG": "-g -O0 -fcheck=all -fbacktrace"
+            }
+        },
+        {
+            "name": "gcc-release",
+            "displayName": "GCC Release",
+            "inherits": "gcc-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_Fortran_FLAGS_RELEASE": "-O3 -march=native -ffast-math"
+            }
+        },
+        {
+            "name": "intel-base",
+            "hidden": true,
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_Fortran_COMPILER": "ifx",
+                "CMAKE_Fortran_FLAGS": "-fpp -traceback -warn all -qopenmp"
+            }
+        },
+        {
+            "name": "intel-debug",
+            "displayName": "Intel (ifx) Debug",
+            "inherits": "intel-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_Fortran_FLAGS_DEBUG": "-g -O0 -check all -fpe0"
+            }
+        },
+        {
+            "name": "intel-release",
+            "displayName": "Intel (ifx) Release",
+            "inherits": "intel-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_Fortran_FLAGS_RELEASE": "-O3 -xHost"
+            }
+        },
+        {
+            "name": "nvidia-base",
+            "hidden": true,
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_Fortran_COMPILER": "nvfortran",
+                "CMAKE_Fortran_FLAGS": "-Minfo=all -mp"
+            }
+        },
+        {
+            "name": "nvidia-debug",
+            "displayName": "NVIDIA Debug",
+            "inherits": "nvidia-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_Fortran_FLAGS_DEBUG": "-g -O0 -Mbounds -Mchkptr -traceback -Ktrap=fp"
+            }
+        },
+        {
+            "name": "nvidia-release",
+            "displayName": "NVIDIA Release",
+            "inherits": "nvidia-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_Fortran_FLAGS_RELEASE": "-O3 -fast"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "build-default",
+            "jobs": 4
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "run-output",
+            "description": "Run the executable and show output",
+            "output": {
+                "verbosity": "extra"
+            },
+            "execution": {
+                "noTestsAction": "error"
+            }
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "gcc-run",
+            "displayName": "GCC: Config -> Build -> Run",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "build-default"
+                },
+                {
+                    "type": "test",
+                    "name": "run-output"
+                }
+            ]
+        },
+        {
+            "name": "intel-run",
+            "displayName": "Intel(ifx): Config -> Build -> Run",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "intel-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "build-default"
+                },
+                {
+                    "type": "test",
+                    "name": "run-output"
+                }
+            ]
+        },
+        {
+            "name": "nvidia-run",
+            "displayName": "NVIDIA: Config -> Build -> Run",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "nvidia-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "build-default"
+                },
+                {
+                    "type": "test",
+                    "name": "run-output"
+                }
+            ]
+        }
+    ]
+}

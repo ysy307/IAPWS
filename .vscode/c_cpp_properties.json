@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Intel Compiler",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/opt/intel/oneapi/compiler/2025.3/bin/icpx",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-x64"
+        }
+    ],
+    "version": 4
+}

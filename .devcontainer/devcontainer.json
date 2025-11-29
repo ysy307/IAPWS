@@ -1,0 +1,40 @@
+{
+    "name": "IAPWS",
+    "dockerFile": "Dockerfile",
+    "build": {
+        "args": {
+            "USERNAME": "devuser"
+        }
+    },
+    "mounts": [
+        "source=${localEnv:USERPROFILE}/.gitconfig,target=/home/devuser/.gitconfig,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/.fortls,target=/home/devuser/.fortls,type=bind,consistency=cached"
+    ],
+    "runArgs": [
+        "--hostname=iapws-dev",
+        "--privileged",
+        "--cap-add=SYS_ADMIN",
+        "--cap-add=SYS_PTRACE",
+        "-v",
+        "/sys/kernel/debug:/sys/kernel/debug",
+        "--cpus=32",
+        "--memory=96g"
+    ],
+    "remoteUser": "devuser",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "MS-CEINTL.vscode-language-pack-ja",
+                "ms-vscode.cpptools",
+                "ms-azuretools.vscode-docker",
+                "fortran-lang.linter-gfortran",
+                "PKief.material-icon-theme",
+                "ms-python.python",
+                "tamasfe.even-better-toml",
+                "ritwickdey.LiveServer",
+                "ms-vscode.cmake-tools"
+            ]
+        }
+    },
+    "postCreateCommand": "sudo chown -R devuser:devuser /workspaces"
+}

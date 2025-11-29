@@ -1,0 +1,82 @@
+# === Build/Compilation Files ===
+*.o
+*.obj
+*.mod
+*.smod
+*.a
+*.lib
+*.dll
+*.so
+*.exe
+*.bin
+
+# === Temporary/Intermediate Files ===
+*.tmp
+*.tmp.*
+*.log
+*.log.*
+*.swp
+*.swp.*
+*.swo
+*.swo.*
+
+# === Debugging/Profiling Files ===
+*.pdb
+*.out
+
+# === Configuration Files ===
+*.yaml
+*.toml
+
+# === Media Files ===
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.tif
+*.svg
+*.ico
+*.webp
+*.webm
+*.mp4
+*.mkv
+*.flv
+
+# === Data Files ===
+*.vtk
+files.vtk.series
+*.dat
+*.csv
+*.bak
+
+# === Executable Files ===
+bin/
+test_program
+ysy_fc
+fpm*
+*.dir
+
+# === Text Files (if not part of source) ===
+# *.txt
+
+# === Optimization Reports ===
+*.optrpt
+repopt
+
+# === Project-Specific Files and Directories ===
+.archive/
+*Build*/
+*EXTERNAL*/ 
+docs/api-docs/
+Results/*
+*tmp/
+*log/
+project/*/Output/
+*/gdb/
+fpm/*
+third_party/*
+
+# === Python Virtual Environment ===
+.venv/
