@@ -1,6 +1,6 @@
 module module_iapws97
     use, intrinsic :: iso_fortran_env
-    use :: module_kahan
+    use :: utils_kahan, only:kahan_add
     use :: iapws
     implicit none
 
@@ -181,7 +181,7 @@ module module_iapws97
     end interface
 
     type :: type_iapws97
-        private
+        ! private
         type(type_iapws97_auxiliary) :: auxiliary
         type(type_iapws97_region1) :: region1
         type(type_iapws97_region2) :: region2
@@ -226,83 +226,75 @@ module module_iapws97
 
         end subroutine calc_properties_iapws97
 
-        module pure elemental subroutine calc_nu_iapws97(self, T_in, p_in, nu, prop_in)
+        module pure elemental subroutine calc_nu_iapws97(self, T_in, p_in, nu)
             implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: nu
-            type(type_iapws_property), intent(inout), optional :: prop_in
 
         end subroutine calc_nu_iapws97
 
-        module pure elemental subroutine calc_rho_iapws97(self, T_in, p_in, rho, prop_in)
+        module pure elemental subroutine calc_rho_iapws97(self, T_in, p_in, rho)
             implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: rho
-            type(type_iapws_property), intent(inout), optional :: prop_in
 
         end subroutine calc_rho_iapws97
 
-        module pure elemental subroutine calc_u_iapws97(self, T_in, p_in, u, prop_in)
+        module pure elemental subroutine calc_u_iapws97(self, T_in, p_in, u)
             implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: u
-            type(type_iapws_property), intent(inout), optional :: prop_in
 
         end subroutine calc_u_iapws97
 
-        module pure elemental subroutine calc_h_iapws97(self, T_in, p_in, h, prop_in)
+        module pure elemental subroutine calc_h_iapws97(self, T_in, p_in, h)
             implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: h
-            type(type_iapws_property), intent(inout), optional :: prop_in
 
         end subroutine calc_h_iapws97
 
-        module pure elemental subroutine calc_s_iapws97(self, T_in, p_in, s, prop_in)
+        module pure elemental subroutine calc_s_iapws97(self, T_in, p_in, s)
             implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: s
-            type(type_iapws_property), intent(inout), optional :: prop_in
 
         end subroutine calc_s_iapws97
 
-        module pure elemental subroutine calc_cp_iapws97(self, T_in, p_in, cp, prop_in)
+        module pure elemental subroutine calc_cp_iapws97(self, T_in, p_in, cp)
             implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: cp
-            type(type_iapws_property), intent(inout), optional :: prop_in
 
         end subroutine calc_cp_iapws97
 
-        module pure elemental subroutine calc_cv_iapws97(self, T_in, p_in, cv, prop_in)
+        module pure elemental subroutine calc_cv_iapws97(self, T_in, p_in, cv)
             implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: cv
-            type(type_iapws_property), intent(inout), optional :: prop_in
 
         end subroutine calc_cv_iapws97
 
-        module pure elemental subroutine calc_w_iapws97(self, T_in, p_in, w, prop_in)
+        module pure elemental subroutine calc_w_iapws97(self, T_in, p_in, w)
             implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: w
-            type(type_iapws_property), intent(inout), optional :: prop_in
 
         end subroutine calc_w_iapws97
     end interface

@@ -95,6 +95,7 @@ contains
         end if
 
     end function get_region_iapws97
+
     module pure elemental subroutine calc_properties_iapws97(self, T_in, p_in, property)
         implicit none
         class(type_iapws97), intent(in) :: self
@@ -109,90 +110,213 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_properties(T_in, p_in, property)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_properties(T_in, p_in, property)
+            call self%region3%calc_rho(T_in, p_in, property%rho)
+            call self%region3%calc_properties(T_in, property%rho, property)
         case (IAPWS97_REGION_5)
             call self%region5%calc_properties(T_in, p_in, property)
         end select
 
     end subroutine calc_properties_iapws97
 
-    module pure elemental subroutine calc_nu_iapws97(self, T_in, p_in, nu, prop_in)
+    module pure elemental subroutine calc_nu_iapws97(self, T_in, p_in, nu)
         implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: nu
-        type(type_iapws_property), intent(inout), optional :: prop_in
 
+        integer(int32) :: region_id
+        real(real64) :: rho
+
+        region_id = self%get_region(T_in, p_in)
+
+        select case (region_id)
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_nu(T_in, p_in, nu)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_nu(T_in, p_in, nu)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_rho(T_in, p_in, rho)
+            nu = 1.0d0 / rho
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_nu(T_in, p_in, nu)
+        end select
     end subroutine calc_nu_iapws97
 
-    module pure elemental subroutine calc_rho_iapws97(self, T_in, p_in, rho, prop_in)
+    module pure elemental subroutine calc_rho_iapws97(self, T_in, p_in, rho)
         implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: rho
-        type(type_iapws_property), intent(inout), optional :: prop_in
+
+        integer(int32) :: region_id
+        region_id = self%get_region(T_in, p_in)
+
+        select case (region_id)
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_rho(T_in, p_in, rho)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_rho(T_in, p_in, rho)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_rho(T_in, p_in, rho)
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_rho(T_in, p_in, rho)
+        end select
 
     end subroutine calc_rho_iapws97
 
-    module pure elemental subroutine calc_u_iapws97(self, T_in, p_in, u, prop_in)
+    module pure elemental subroutine calc_u_iapws97(self, T_in, p_in, u)
         implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: u
-        type(type_iapws_property), intent(inout), optional :: prop_in
+
+        integer(int32) :: region_id
+        real(real64) :: rho
+
+        region_id = self%get_region(T_in, p_in)
+
+        select case (region_id)
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_u(T_in, p_in, u)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_u(T_in, p_in, u)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_rho(T_in, p_in, rho)
+            call self%region3%calc_u(T_in, rho, u)
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_u(T_in, p_in, u)
+        end select
 
     end subroutine calc_u_iapws97
 
-    module pure elemental subroutine calc_h_iapws97(self, T_in, p_in, h, prop_in)
+    module pure elemental subroutine calc_h_iapws97(self, T_in, p_in, h)
         implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: h
-        type(type_iapws_property), intent(inout), optional :: prop_in
+
+        integer(int32) :: region_id
+        real(real64) :: rho
+
+        region_id = self%get_region(T_in, p_in)
+
+        select case (region_id)
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_h(T_in, p_in, h)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_h(T_in, p_in, h)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_rho(T_in, p_in, rho)
+            call self%region3%calc_h(T_in, rho, h)
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_h(T_in, p_in, h)
+        end select
 
     end subroutine calc_h_iapws97
 
-    module pure elemental subroutine calc_s_iapws97(self, T_in, p_in, s, prop_in)
+    module pure elemental subroutine calc_s_iapws97(self, T_in, p_in, s)
         implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: s
-        type(type_iapws_property), intent(inout), optional :: prop_in
+
+        integer(int32) :: region_id
+        real(real64) :: rho
+
+        region_id = self%get_region(T_in, p_in)
+
+        select case (region_id)
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_s(T_in, p_in, s)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_s(T_in, p_in, s)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_rho(T_in, p_in, rho)
+            call self%region3%calc_s(T_in, rho, s)
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_s(T_in, p_in, s)
+        end select
 
     end subroutine calc_s_iapws97
 
-    module pure elemental subroutine calc_cp_iapws97(self, T_in, p_in, cp, prop_in)
+    module pure elemental subroutine calc_cp_iapws97(self, T_in, p_in, cp)
         implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: cp
-        type(type_iapws_property), intent(inout), optional :: prop_in
+
+        integer(int32) :: region_id
+        real(real64) :: rho
+
+        region_id = self%get_region(T_in, p_in)
+        select case (region_id)
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_cp(T_in, p_in, cp)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_cp(T_in, p_in, cp)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_rho(T_in, p_in, rho)
+            call self%region3%calc_cp(T_in, rho, cp)
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_cp(T_in, p_in, cp)
+        end select
 
     end subroutine calc_cp_iapws97
 
-    module pure elemental subroutine calc_cv_iapws97(self, T_in, p_in, cv, prop_in)
+    module pure elemental subroutine calc_cv_iapws97(self, T_in, p_in, cv)
         implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: cv
-        type(type_iapws_property), intent(inout), optional :: prop_in
+
+        integer(int32) :: region_id
+        real(real64) :: rho
+
+        region_id = self%get_region(T_in, p_in)
+        select case (region_id)
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_cv(T_in, p_in, cv)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_cv(T_in, p_in, cv)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_rho(T_in, p_in, rho)
+            call self%region3%calc_cv(T_in, rho, cv)
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_cv(T_in, p_in, cv)
+        end select
 
     end subroutine calc_cv_iapws97
 
-    module pure elemental subroutine calc_w_iapws97(self, T_in, p_in, w, prop_in)
+    module pure elemental subroutine calc_w_iapws97(self, T_in, p_in, w)
         implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: w
-        type(type_iapws_property), intent(inout), optional :: prop_in
+
+        integer(int32) :: region_id
+        real(real64) :: rho
+
+        region_id = self%get_region(T_in, p_in)
+
+        select case (region_id)
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_w(T_in, p_in, w)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_w(T_in, p_in, w)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_rho(T_in, p_in, rho)
+            call self%region3%calc_w(T_in, rho, w)
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_w(T_in, p_in, w)
+        end select
 
     end subroutine calc_w_iapws97
 

@@ -15,7 +15,10 @@ module iapws
         procedure(abst_iapws_helmholtz_initialize), pass(self), public, deferred :: initialize !&
         procedure(abst_calc_phi_iapws),             pass(self), public, deferred :: calc_phi !&
         procedure, pass(self), public :: calc_properties => calc_properties_helmholtz
+        procedure, pass(self), public :: calc_rho => calc_rho_helmholtz
         procedure, pass(self), public :: calc_p => calc_p_helmholtz
+        procedure, pass(self), public :: calc_p_rho => calc_p_rho_helmholtz
+        procedure, pass(self), public :: calc_p_T => calc_p_T_helmholtz
         procedure, pass(self), public :: calc_u => calc_u_helmholtz
         procedure, pass(self), public :: calc_s => calc_s_helmholtz
         procedure, pass(self), public :: calc_h => calc_h_helmholtz
@@ -234,6 +237,14 @@ module iapws
 
         end subroutine calc_properties_helmholtz
 
+        module pure elemental subroutine calc_rho_helmholtz(self, T_in, P_in, rho)
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: P_in
+            real(real64), intent(inout) :: rho
+
+        end subroutine calc_rho_helmholtz
+
         module pure elemental subroutine calc_p_helmholtz(self, T_in, rho_in, p, prop_in)
             implicit none
             class(abst_iapws_helmholtz), intent(in) :: self
@@ -243,6 +254,26 @@ module iapws
             type(type_iapws_phi_property), intent(inout), optional :: prop_in
 
         end subroutine calc_p_helmholtz
+
+        module pure elemental subroutine calc_p_rho_helmholtz(self, T_in, rho_in, p_rho, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: p_rho
+            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_p_rho_helmholtz
+
+        module pure elemental subroutine calc_p_T_helmholtz(self, T_in, rho_in, p_T, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: p_T
+            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_p_T_helmholtz
 
         module pure elemental subroutine calc_u_helmholtz(self, T_in, rho_in, u, prop_in)
             implicit none

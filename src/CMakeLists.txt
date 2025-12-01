@@ -15,6 +15,7 @@ add_library(iapws STATIC
     iapws97/iapws97_region3.F90
     iapws97/iapws97_region4.F90
     iapws97/iapws97_region5.F90
+    iapws97/iapws97_base.F90
     iapws.F90
 )
 

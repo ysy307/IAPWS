@@ -9,6 +9,23 @@ contains
         real(real64), intent(in) :: p_in
         type(type_iapws_property), intent(inout) :: property
 
+        real(real64) :: tau, pi
+        type(type_iapws_gamma_property) :: props
+
+        tau = self%T_star / T_in
+        pi = p_in / self%p_star
+
+        call self%calc_gamma(tau, pi, props)
+
+        call self%calc_nu(T_in, p_in, property%nu, props)
+        call self%calc_rho(T_in, p_in, property%rho, props)
+        call self%calc_u(T_in, p_in, property%u, props)
+        call self%calc_h(T_in, p_in, property%h, props)
+        call self%calc_s(T_in, p_in, property%s, props)
+        call self%calc_cp(T_in, p_in, property%cp, props)
+        call self%calc_cv(T_in, p_in, property%cv, props)
+        call self%calc_w(T_in, p_in, property%w, props)
+
     end subroutine calc_properties_gibbs
 
     module pure elemental subroutine calc_nu_gibbs(self, T_in, p_in, nu, prop_in)
@@ -127,7 +144,8 @@ contains
             call self%calc_gamma(tau, pi, props)
         end if
 
-        h = pi * props%gamma_t * self%R * T_in
+        ! h = pi * props%gamma_t * self%R * T_in
+        h = tau * props%gamma_t * self%R * T_in
 
     end subroutine calc_h_gibbs
 
@@ -175,8 +193,8 @@ contains
             call self%calc_gamma(tau, pi, props)
         end if
 
-        cv = (-tau**2 * props%gamma_tt + ((props%gamma_p - tau * props%gamma_pt)**2) / props%gamma_pp) * self%R
-
+        ! cv = (-tau**2 * props%gamma_tt + ((props%gamma_p - tau * props%gamma_pt)**2) / props%gamma_pp) * self%R
+        cv = (-tau**2 * props%gamma_tt - ((props%gamma_p - tau * props%gamma_pt)**2) / props%gamma_pp) * self%R
     end subroutine calc_cv_gibbs
 
     module pure elemental subroutine calc_w_gibbs(self, T_in, p_in, w, prop_in)
@@ -200,7 +218,8 @@ contains
         end if
 
         w = sqrt(max(0.0d0, &
-                     (props%gamma_p**2 / ((props%gamma_p - tau * props%gamma_pt)**2 / (tau**2 * props%gamma_tt) - props%gamma_pp)) * self%R * T_in))
+                     (props%gamma_p**2 / ((props%gamma_p - tau * props%gamma_pt)**2 / &
+                                          (tau**2 * props%gamma_tt) - props%gamma_pp)) * self%R * T_in))
 
     end subroutine calc_w_gibbs
 

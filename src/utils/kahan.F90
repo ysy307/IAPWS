@@ -1,4 +1,4 @@
-module module_kahan
+module utils_kahan
     use, intrinsic :: iso_fortran_env, only: real64
     implicit none
     private
@@ -23,4 +23,4 @@ contains
         c = (t - sum) - y ! (t - sum) recovers the high-order part of y; subtracting y recovers -(low part of y)
         sum = t ! Algebraically, c should always be zero. Beware overly-aggressive optimizing compilers!
     end subroutine kahan_add
-end module module_kahan
+end module utils_kahan

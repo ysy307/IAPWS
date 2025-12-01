@@ -23,7 +23,7 @@ contains
         !> IAPWS-97 Region 5 object.
         class(type_iapws97_region5), intent(inout) :: self
 
-        self%T_star = 540.0d0 ! [K]
+        self%T_star = 1000.0d0 ! [K]
         self%p_star = 1.0d6 ! [Pa]
         self%R = 461.526d0 ! [J/(kg·K)]
 
@@ -253,7 +253,7 @@ contains
         do i = 1, Nr5_terms
             J_val = real(Jr_r5(i), real64)
             call kahan_add(gammar_t, c_gammar_t, &
-                           nr_r5(i) * J_val * (pi**Ir_r5(i)) * (tau**(Jr_r5(i) - 1.0d0)))
+                           nr_r5(i) * J_val * (pi**Ir_r5(i)) * (tau**(Jr_r5(i) - 1)))
         end do
     end function calc_gammar_t_region5
 

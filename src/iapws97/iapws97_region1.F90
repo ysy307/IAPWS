@@ -112,7 +112,6 @@ contains
             I_val = real(I_r1(i), real64)
             call kahan_add(gamma_p, c_gamma_p, &
                            -n_r1(i) * I_val * (7.1d0 - pi)**(I_r1(i) - 1) * (tau - 1.222d0)**J_r1(i))
-            term_pi = -n_r1(i) * I_val * (7.1d0 - pi)**(I_r1(i) - 1) * (tau - 1.222d0)**J_r1(i)
         end do
 
     end function calc_gamma_p_region1
