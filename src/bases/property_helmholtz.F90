@@ -1,4 +1,4 @@
-submodule(iapws) iapws_base
+submodule(iapws) iapws_property_helmholtz
     implicit none
 contains
 
@@ -203,4 +203,4 @@ contains
 
     end subroutine calc_w_helmholtz
 
-end submodule iapws_base
+end submodule iapws_property_helmholtz

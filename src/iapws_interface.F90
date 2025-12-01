@@ -24,12 +24,28 @@ module iapws
         procedure, pass(self), public :: calc_w => calc_w_helmholtz
     end type abst_iapws_helmholtz
 
-    type, abstract :: abst_iapws_gibbs_model
-        integer(int32) :: T_c
-        integer(int32) :: rho_c
+    type, abstract :: abst_iapws_gibbs
+        !> Reference Temperature, \( T_{star} \) [K]
+        integer(int32) :: T_star
+        !> Reference Pressure, \( p_{star} \) [Pa]
+        integer(int32) :: p_star
+        !> Specific Gas Constant, \( R \) [J/(kg K)]
+        real(real64) :: R
+        !> Initialization flag
+        logical :: is_initialized = .false.
     contains
-        ! Gibbs related procedures can be added here in the future
-    end type abst_iapws_gibbs_model
+        procedure(abst_initialize_iapws_gibbs), pass(self), public, deferred :: initialize
+        procedure(abst_calc_gamma_iapws), pass(self), public, deferred :: calc_gamma
+        procedure, pass(self), public :: calc_properties => calc_properties_gibbs
+        procedure, pass(self), public :: calc_nu => calc_nu_gibbs
+        procedure, pass(self), public :: calc_rho => calc_rho_gibbs
+        procedure, pass(self), public :: calc_u => calc_u_gibbs
+        procedure, pass(self), public :: calc_s => calc_s_gibbs
+        procedure, pass(self), public :: calc_h => calc_h_gibbs
+        procedure, pass(self), public :: calc_cp => calc_cp_gibbs
+        procedure, pass(self), public :: calc_cv => calc_cv_gibbs
+        procedure, pass(self), public :: calc_w => calc_w_gibbs
+    end type abst_iapws_gibbs
 
     !> Data structure to hold IAPWS properties
     type :: type_iapws_phi_property
@@ -69,7 +85,64 @@ module iapws
         real(real64) :: phir_tt
         !> Ideal adimensional helmholtz energy mixed second derivative,∂²phir/∂δ∂τ [-]
         real(real64) :: phir_dt
+    contains
+        procedure, pass(self), public :: reset => reset_iapws_phi_property
     end type type_iapws_phi_property
+
+    type :: type_iapws_gamma_property
+        !> Total adimensional gibbs energy [-]
+        real(real64) :: gamma
+        !> Derivative of total adimensional gibbs energy with respect to pi,∂γ/∂π|τ [-]
+        real(real64) :: gamma_p
+        !> Derivative of total adimensional gibbs energy with respect to tau,∂γ/∂τ|π [-]
+        real(real64) :: gamma_t
+        !> Second derivative of total adimensional gibbs energy with respect to pi,∂²γ/∂π²|τ [-]
+        real(real64) :: gamma_pp
+        !> Second derivative of total adimensional gibbs energy with respect to tau,∂²γ/∂τ²|π [-]
+        real(real64) :: gamma_tt
+        !> Mixed second derivative of total adimensional gibbs energy,∂²γ/∂π∂τ [-]
+        real(real64) :: gamma_pt
+        !> Ideal adimensional gibbs energy [-]
+        real(real64) :: gamma0
+        !> Ideal adimensional gibbs energy derivative with respect to pi,∂γ0/∂π|τ [-]
+        real(real64) :: gamma0_p
+        !> Ideal adimensional gibbs energy derivative with respect to tau,∂γ0/∂τ|π [-]
+        real(real64) :: gamma0_t
+        !> Ideal adimensional gibbs energy second derivative with respect to pi,∂²γ0/∂π²|τ [-]
+        real(real64) :: gamma0_pp
+        !> Ideal adimensional gibbs energy second derivative with respect to tau,∂²γ0/∂τ²|π [-]
+        real(real64) :: gamma0_tt
+        !> Ideal adimensional gibbs energy mixed second derivative,∂²γ0/∂π∂τ [-]
+        real(real64) :: gamma0_pt
+        !> Residual adimensional gibbs energy [-]
+        real(real64) :: gammar
+        !> Residual adimensional gibbs energy derivative with respect to pi,∂γr/∂π|τ [-]
+        real(real64) :: gammar_p
+        !> Residual adimensional gibbs energy derivative with respect to tau,∂γr/∂τ|π [-]
+        real(real64) :: gammar_t
+        !> Residual adimensional gibbs energy second derivative with respect to pi,∂²γr/∂π²|τ [-]
+        real(real64) :: gammar_pp
+        !> Residual adimensional gibbs energy second derivative with respect to tau,∂²γr/∂τ²|π [-]
+        real(real64) :: gammar_tt
+        !> Residual adimensional gibbs energy mixed second derivative,∂²γr/∂π∂τ [-]
+        real(real64) :: gammar_pt
+    contains
+        procedure, pass(self), public :: reset => reset_iapws_gamma_property
+    end type type_iapws_gamma_property
+
+    interface
+        module pure elemental subroutine reset_iapws_phi_property(self)
+            implicit none
+            !> IAPWS Helmholtz properties object
+            class(type_iapws_phi_property), intent(inout) :: self
+        end subroutine reset_iapws_phi_property
+
+        module pure elemental subroutine reset_iapws_gamma_property(self)
+            implicit none
+            !> IAPWS Gibbs properties object
+            class(type_iapws_gamma_property), intent(inout) :: self
+        end subroutine reset_iapws_gamma_property
+    end interface
 
     !> IAPWS properties data structure
     type :: type_iapws_property
@@ -127,6 +200,28 @@ module iapws
             !> IAPWS-95 ideal helmholtz properties
             type(type_iapws_phi_property), intent(inout) :: property
         end subroutine abst_calc_phi_iapws
+    end interface
+
+    abstract interface
+        pure elemental subroutine abst_initialize_iapws_gibbs(self)
+            import :: abst_iapws_gibbs
+            implicit none
+            !> IAPWS Gibbs model instance
+            class(abst_iapws_gibbs), intent(inout) :: self
+        end subroutine abst_initialize_iapws_gibbs
+
+        pure elemental subroutine abst_calc_gamma_iapws(self, tau, pi, property)
+            import :: abst_iapws_gibbs, type_iapws_gamma_property, real64
+            implicit none
+            !> IAPWS Gibbs model instance
+            class(abst_iapws_gibbs), intent(in) :: self
+            !> Inverse reduced temperature Tc/T, [-]
+            real(real64), intent(in) :: tau
+            !> Reduced pressure p/p_c, [-]
+            real(real64), intent(in) :: pi
+            !> IAPWS Gibbs properties
+            type(type_iapws_gamma_property), intent(inout) :: property
+        end subroutine abst_calc_gamma_iapws
     end interface
 
     interface
@@ -208,6 +303,97 @@ module iapws
             type(type_iapws_phi_property), intent(inout), optional :: prop_in
 
         end subroutine calc_w_helmholtz
+    end interface
+
+    interface
+        module pure elemental subroutine calc_properties_gibbs(self, T_in, p_in, property)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            type(type_iapws_property), intent(inout) :: property
+
+        end subroutine calc_properties_gibbs
+
+        module pure elemental subroutine calc_nu_gibbs(self, T_in, p_in, nu, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: nu
+            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_nu_gibbs
+
+        module pure elemental subroutine calc_rho_gibbs(self, T_in, p_in, rho, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: rho
+            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_rho_gibbs
+
+        module pure elemental subroutine calc_u_gibbs(self, T_in, p_in, u, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: u
+            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_u_gibbs
+
+        module pure elemental subroutine calc_s_gibbs(self, T_in, p_in, s, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: s
+            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_s_gibbs
+
+        module pure elemental subroutine calc_h_gibbs(self, T_in, p_in, h, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: h
+            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_h_gibbs
+
+        module pure elemental subroutine calc_cp_gibbs(self, T_in, p_in, cp, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: cp
+            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_cp_gibbs
+
+        module pure elemental subroutine calc_cv_gibbs(self, T_in, p_in, cv, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: cv
+            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_cv_gibbs
+
+        module pure elemental subroutine calc_w_gibbs(self, T_in, p_in, w, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: w
+            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+
+        end subroutine calc_w_gibbs
     end interface
 
 end module iapws
