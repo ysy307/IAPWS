@@ -34,7 +34,7 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: nu
-        type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+        type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, pi
         type(type_iapws_gamma_property) :: props
@@ -57,7 +57,7 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: rho
-        type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+        type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, pi
         type(type_iapws_gamma_property) :: props
@@ -82,7 +82,7 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: u
-        type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+        type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, pi
         type(type_iapws_gamma_property) :: props
@@ -106,7 +106,7 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: s
-        type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+        type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, pi
         type(type_iapws_gamma_property) :: props
@@ -130,7 +130,7 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: h
-        type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+        type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, pi
         type(type_iapws_gamma_property) :: props
@@ -143,8 +143,6 @@ contains
         else
             call self%calc_gamma(tau, pi, props)
         end if
-
-        ! h = pi * props%gamma_t * self%R * T_in
         h = tau * props%gamma_t * self%R * T_in
 
     end subroutine calc_h_gibbs
@@ -155,7 +153,7 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: cp
-        type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+        type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, pi
         type(type_iapws_gamma_property) :: props
@@ -179,7 +177,7 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: cv
-        type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+        type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, pi
         type(type_iapws_gamma_property) :: props
@@ -193,7 +191,6 @@ contains
             call self%calc_gamma(tau, pi, props)
         end if
 
-        ! cv = (-tau**2 * props%gamma_tt + ((props%gamma_p - tau * props%gamma_pt)**2) / props%gamma_pp) * self%R
         cv = (-tau**2 * props%gamma_tt - ((props%gamma_p - tau * props%gamma_pt)**2) / props%gamma_pp) * self%R
     end subroutine calc_cv_gibbs
 
@@ -203,9 +200,10 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: w
-        type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+        type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, pi
+        real(real64) :: w_sq
         type(type_iapws_gamma_property) :: props
 
         tau = self%T_star / T_in
@@ -217,9 +215,10 @@ contains
             call self%calc_gamma(tau, pi, props)
         end if
 
-        w = sqrt(max(0.0d0, &
-                     (props%gamma_p**2 / ((props%gamma_p - tau * props%gamma_pt)**2 / &
-                                          (tau**2 * props%gamma_tt) - props%gamma_pp)) * self%R * T_in))
+        w_sq = (props%gamma_p**2 / ((props%gamma_p - tau * props%gamma_pt)**2 / &
+                                    (tau**2 * props%gamma_tt) - props%gamma_pp)) * self%R * T_in
+
+        w = sqrt(max(w_sq, 0.0d0))
 
     end subroutine calc_w_gibbs
 

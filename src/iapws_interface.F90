@@ -251,7 +251,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
             real(real64), intent(inout) :: p
-            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+            type(type_iapws_phi_property), intent(in), optional :: prop_in
 
         end subroutine calc_p_helmholtz
 
@@ -261,7 +261,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
             real(real64), intent(inout) :: p_rho
-            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+            type(type_iapws_phi_property), intent(in), optional :: prop_in
 
         end subroutine calc_p_rho_helmholtz
 
@@ -271,7 +271,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
             real(real64), intent(inout) :: p_T
-            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+            type(type_iapws_phi_property), intent(in), optional :: prop_in
 
         end subroutine calc_p_T_helmholtz
 
@@ -281,7 +281,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
             real(real64), intent(inout) :: u
-            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+            type(type_iapws_phi_property), intent(in), optional :: prop_in
 
         end subroutine calc_u_helmholtz
 
@@ -291,7 +291,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
             real(real64), intent(inout) :: s
-            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+            type(type_iapws_phi_property), intent(in), optional :: prop_in
 
         end subroutine calc_s_helmholtz
 
@@ -301,7 +301,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
             real(real64), intent(inout) :: h
-            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+            type(type_iapws_phi_property), intent(in), optional :: prop_in
 
         end subroutine calc_h_helmholtz
 
@@ -311,7 +311,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
             real(real64), intent(inout) :: cp
-            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+            type(type_iapws_phi_property), intent(in), optional :: prop_in
 
         end subroutine calc_cp_helmholtz
 
@@ -321,7 +321,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
             real(real64), intent(inout) :: cv
-            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+            type(type_iapws_phi_property), intent(in), optional :: prop_in
 
         end subroutine calc_cv_helmholtz
 
@@ -331,7 +331,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: rho_in
             real(real64), intent(inout) :: w
-            type(type_iapws_phi_property), intent(inout), optional :: prop_in
+            type(type_iapws_phi_property), intent(in), optional :: prop_in
 
         end subroutine calc_w_helmholtz
     end interface
@@ -352,7 +352,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: nu
-            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+            type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         end subroutine calc_nu_gibbs
 
@@ -362,7 +362,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: rho
-            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+            type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         end subroutine calc_rho_gibbs
 
@@ -372,7 +372,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: u
-            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+            type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         end subroutine calc_u_gibbs
 
@@ -382,7 +382,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: s
-            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+            type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         end subroutine calc_s_gibbs
 
@@ -392,7 +392,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: h
-            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+            type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         end subroutine calc_h_gibbs
 
@@ -402,7 +402,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: cp
-            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+            type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         end subroutine calc_cp_gibbs
 
@@ -412,7 +412,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: cv
-            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+            type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         end subroutine calc_cv_gibbs
 
@@ -422,7 +422,7 @@ module iapws
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: p_in
             real(real64), intent(inout) :: w
-            type(type_iapws_gamma_property), intent(inout), optional :: prop_in
+            type(type_iapws_gamma_property), intent(in), optional :: prop_in
 
         end subroutine calc_w_gibbs
     end interface

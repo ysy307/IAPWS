@@ -24,11 +24,11 @@ contains
     !!
     module pure elemental function calc_p_boundary_iapws97_region23(self, temperature) result(pressure)
         implicit none
-        !> IAPWS-97 auxiliary model instance
+        !> IAPWS-97 auxiliary object.
         class(type_iapws97_auxiliary), intent(in) :: self
-        !> Temperature [K]
+        !> Temperature [K].
         real(real64), intent(in) :: temperature
-        !> Pressure [Pa]
+        !> Pressure [Pa].
         real(real64) :: pressure
 
         real(real64) :: theta_val, pi_val
@@ -48,11 +48,11 @@ contains
     !!
     module pure elemental function calc_t_boundary_iapws97_region23(self, pressure) result(temperature)
         implicit none
-        !> IAPWS-97 auxiliary model instance
+        !> IAPWS-97 auxiliary object.
         class(type_iapws97_auxiliary), intent(in) :: self
-        !> Pressure [Pa]
+        !> Pressure [Pa].
         real(real64), intent(in) :: pressure
-        !> Temperature [K]
+        !> Temperature [K].
         real(real64) :: temperature
 
         real(real64) :: pi_val, theta_val
