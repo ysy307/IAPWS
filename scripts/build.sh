@@ -8,13 +8,13 @@ if (( ${#LOG_FILES[@]} > 0 )); then
     rm -f $LOG_FILES
 fi
 
-echo "=== 1. Intel Run ==="
-cmake --workflow --preset intel-run
+echo "=== 1. Intel (Debug) ==="
+cmake --workflow --preset workflow-intel-debug
 
-echo "=== 2. GCC Run ==="
-cmake --workflow --preset gcc-run
+echo "=== 2. GCC (Debug) ==="
+cmake --workflow --preset workflow-gcc-debug
 
-echo "=== 3. NVIDIA Run ==="
-cmake --workflow --preset nvidia-run
+echo "=== 3. NVIDIA (Debug) ==="
+cmake --workflow --preset workflow-nvidia-debug
 
 echo "All workflows completed successfully!"

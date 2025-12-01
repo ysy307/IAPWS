@@ -50,7 +50,7 @@
         },
         {
             "name": "intel-debug",
-            "displayName": "Intel (ifx) Debug",
+            "displayName": "Intel Debug",
             "inherits": "intel-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
@@ -59,7 +59,7 @@
         },
         {
             "name": "intel-release",
-            "displayName": "Intel (ifx) Release",
+            "displayName": "Intel Release",
             "inherits": "intel-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
@@ -101,26 +101,46 @@
             "jobs": 4
         },
         {
-            "name": "build-gcc",
+            "name": "build-gcc-debug",
+            "displayName": "Build GCC [Debug]",
             "inherits": "build-base",
             "configurePreset": "gcc-debug"
         },
         {
-            "name": "build-intel",
+            "name": "build-gcc-release",
+            "displayName": "Build GCC [Release]",
+            "inherits": "build-base",
+            "configurePreset": "gcc-release"
+        },
+        {
+            "name": "build-intel-debug",
+            "displayName": "Build Intel [Debug]",
             "inherits": "build-base",
             "configurePreset": "intel-debug"
         },
         {
-            "name": "build-nvidia",
+            "name": "build-intel-release",
+            "displayName": "Build Intel [Release]",
+            "inherits": "build-base",
+            "configurePreset": "intel-release"
+        },
+        {
+            "name": "build-nvidia-debug",
+            "displayName": "Build NVIDIA [Debug]",
             "inherits": "build-base",
             "configurePreset": "nvidia-debug"
+        },
+        {
+            "name": "build-nvidia-release",
+            "displayName": "Build NVIDIA [Release]",
+            "inherits": "build-base",
+            "configurePreset": "nvidia-release"
         }
     ],
     "testPresets": [
         {
-            "name": "run-base",
+            "name": "test-base",
             "hidden": true,
-            "description": "Run the executable and show output",
             "output": {
                 "verbosity": "extra"
             },
@@ -129,25 +149,40 @@
             }
         },
         {
-            "name": "run-gcc",
-            "inherits": "run-base",
+            "name": "test-gcc-debug",
+            "inherits": "test-base",
             "configurePreset": "gcc-debug"
         },
         {
-            "name": "run-intel",
-            "inherits": "run-base",
+            "name": "test-gcc-release",
+            "inherits": "test-base",
+            "configurePreset": "gcc-release"
+        },
+        {
+            "name": "test-intel-debug",
+            "inherits": "test-base",
             "configurePreset": "intel-debug"
         },
         {
-            "name": "run-nvidia",
-            "inherits": "run-base",
+            "name": "test-intel-release",
+            "inherits": "test-base",
+            "configurePreset": "intel-release"
+        },
+        {
+            "name": "test-nvidia-debug",
+            "inherits": "test-base",
             "configurePreset": "nvidia-debug"
+        },
+        {
+            "name": "test-nvidia-release",
+            "inherits": "test-base",
+            "configurePreset": "nvidia-release"
         }
     ],
     "workflowPresets": [
         {
-            "name": "gcc-run",
-            "displayName": "GCC: Config -> Build -> Run",
+            "name": "workflow-gcc-debug",
+            "displayName": "GCC Debug (Config > Build > Test)",
             "steps": [
                 {
                     "type": "configure",
@@ -155,17 +190,35 @@
                 },
                 {
                     "type": "build",
-                    "name": "build-gcc"
+                    "name": "build-gcc-debug"
                 },
                 {
                     "type": "test",
-                    "name": "run-gcc"
+                    "name": "test-gcc-debug"
                 }
             ]
         },
         {
-            "name": "intel-run",
-            "displayName": "Intel(ifx): Config -> Build -> Run",
+            "name": "workflow-gcc-release",
+            "displayName": "GCC Release (Config > Build > Test)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc-release"
+                },
+                {
+                    "type": "build",
+                    "name": "build-gcc-release"
+                },
+                {
+                    "type": "test",
+                    "name": "test-gcc-release"
+                }
+            ]
+        },
+        {
+            "name": "workflow-intel-debug",
+            "displayName": "Intel Debug (Config > Build > Test)",
             "steps": [
                 {
                     "type": "configure",
@@ -173,17 +226,35 @@
                 },
                 {
                     "type": "build",
-                    "name": "build-intel"
+                    "name": "build-intel-debug"
                 },
                 {
                     "type": "test",
-                    "name": "run-intel"
+                    "name": "test-intel-debug"
                 }
             ]
         },
         {
-            "name": "nvidia-run",
-            "displayName": "NVIDIA: Config -> Build -> Run",
+            "name": "workflow-intel-release",
+            "displayName": "Intel Release (Config > Build > Test)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "intel-release"
+                },
+                {
+                    "type": "build",
+                    "name": "build-intel-release"
+                },
+                {
+                    "type": "test",
+                    "name": "test-intel-release"
+                }
+            ]
+        },
+        {
+            "name": "workflow-nvidia-debug",
+            "displayName": "NVIDIA Debug (Config > Build > Test)",
             "steps": [
                 {
                     "type": "configure",
@@ -191,11 +262,29 @@
                 },
                 {
                     "type": "build",
-                    "name": "build-nvidia"
+                    "name": "build-nvidia-debug"
                 },
                 {
                     "type": "test",
-                    "name": "run-nvidia"
+                    "name": "test-nvidia-debug"
+                }
+            ]
+        },
+        {
+            "name": "workflow-nvidia-release",
+            "displayName": "NVIDIA Release (Config > Build > Test)",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "nvidia-release"
+                },
+                {
+                    "type": "build",
+                    "name": "build-nvidia-release"
+                },
+                {
+                    "type": "test",
+                    "name": "test-nvidia-release"
                 }
             ]
         }

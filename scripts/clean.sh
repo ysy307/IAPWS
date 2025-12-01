@@ -2,4 +2,8 @@
 set -e
 set -o pipefail
 
-rm -rf build/ gcc-run/ intel-run/ nvidia-run/
+for dir in build bin lib; do
+    if [[ -d $dir ]]; then
+        find "$dir" -mindepth 1 -exec rm -rf {} +
+    fi
+done
