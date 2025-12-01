@@ -16,3 +16,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # ---------------------------------------------------------
 add_subdirectory(src)
 add_subdirectory(app)
+
+# ---------------------------------------------------------
+# Installation settings
+# ---------------------------------------------------------
+install(TARGETS iapws
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    INCLUDES DESTINATION include
+)
+install(DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY}/
+        DESTINATION include
+        FILES_MATCHING PATTERN "*.mod"
+)
