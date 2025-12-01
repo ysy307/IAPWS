@@ -1,0 +1,662 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="IAPWS.">
+    <meta name="author" content="Kikuchi Shun" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>type_iapws_phi_property &ndash; IAPWS </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">IAPWS </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Read Me</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>type_iapws_phi_property
+      <small>Derived Type</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p>13.3% of total for derived types.</p>Including implementation: 22 statements, 13.3% of total for derived types.">22 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/iapws_interface.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/iapws_interface.f90.html'>iapws_interface.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/iapws.html'>iapws</a></li>
+            <li class="breadcrumb-item active" aria-current="page">type_iapws_phi_property</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi~2">phi</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi0">phi0</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi0_d">phi0_d</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi0_dd">phi0_dd</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi0_dt">phi0_dt</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi0_t">phi0_t</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi0_tt">phi0_tt</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi_d~2">phi_d</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi_dd~2">phi_dd</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi_dt~2">phi_dt</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi_t~2">phi_t</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phi_tt~2">phi_tt</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phir">phir</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phir_d">phir_d</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phir_dd">phir_dd</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phir_dt">phir_dt</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phir_t">phir_t</a>
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#variable-phir_tt">phir_tt</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/type_iapws_phi_property.html#boundprocedure-reset">reset</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../type/type_iapws_phi_property.html#src">type_iapws_phi_property</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2 id="type-def-statement">
+        type, public :: type_iapws_phi_property</h2>
+    <p>Data structure to hold IAPWS properties</p>
+    <br>
+
+    <section>
+    <h2>Components</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi~2"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Total adimensional helmholtz energy [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi0"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi0</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi0_d"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi0_d</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy derivative with respect to delta,∂phi0/∂δ|τ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi0_dd"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi0_dd</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy second derivative with respect to delta,∂²phi0/∂δ²|τ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi0_dt"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi0_dt</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy mixed second derivative,∂²phi0/∂δ∂τ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi0_t"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi0_t</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy derivative with respect to tau,∂phi0/∂τ|δ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi0_tt"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi0_tt</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy second derivative with respect to tau,∂²phi0/∂τ²|δ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi_d~2"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi_d</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Derivative of total adimensional helmholtz energy with respect to delta,∂phi/∂δ|τ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi_dd~2"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi_dd</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Second derivative of total adimensional helmholtz energy with respect to delta,∂²phi/∂δ²|τ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi_dt~2"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi_dt</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Mixed second derivative of total adimensional helmholtz energy,∂²phi/∂δ∂τ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi_t~2"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi_t</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Derivative of total adimensional helmholtz energy with respect to tau,∂phi/∂τ|δ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi_tt~2"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi_tt</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Second derivative of total adimensional helmholtz energy with respect to tau,∂²phi/∂τ²|δ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phir"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phir</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phir_d"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phir_d</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy derivative with respect to delta,∂phir/∂δ|τ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phir_dd"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phir_dd</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy second derivative with respect to delta,∂²phir/∂δ²|τ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phir_dt"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phir_dt</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy mixed second derivative,∂²phir/∂δ∂τ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phir_t"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phir_t</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy derivative with respect to tau,∂phir/∂τ|δ [-]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phir_tt"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phir_tt</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Ideal adimensional helmholtz energy second derivative with respect to tau,∂²phir/∂τ²|δ [-]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+
+
+      <section>
+        <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-reset"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>reset</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/reset_iapws_phi_property.html'>reset_iapws_phi_property</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    public pure elemental module subroutine reset_iapws_phi_property(self)  
+    <a href="../proc/reset_iapws_phi_property.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='type_iapws_phi_property.html'>type_iapws_phi_property</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                <p>IAPWS Helmholtz properties object</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+      </section>
+
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">type_iapws_phi_property</span>
+<span class="w">        </span><span class="c">!&gt; Total adimensional helmholtz energy [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi</span>
+<span class="w">        </span><span class="c">!&gt; Derivative of total adimensional helmholtz energy with respect to delta,∂phi/∂δ|τ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi_d</span>
+<span class="w">        </span><span class="c">!&gt; Derivative of total adimensional helmholtz energy with respect to tau,∂phi/∂τ|δ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi_t</span>
+<span class="w">        </span><span class="c">!&gt; Second derivative of total adimensional helmholtz energy with respect to delta,∂²phi/∂δ²|τ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi_dd</span>
+<span class="w">        </span><span class="c">!&gt; Second derivative of total adimensional helmholtz energy with respect to tau,∂²phi/∂τ²|δ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi_tt</span>
+<span class="w">        </span><span class="c">!&gt; Mixed second derivative of total adimensional helmholtz energy,∂²phi/∂δ∂τ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi_dt</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi0</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy derivative with respect to delta,∂phi0/∂δ|τ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi0_d</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy derivative with respect to tau,∂phi0/∂τ|δ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi0_t</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy second derivative with respect to delta,∂²phi0/∂δ²|τ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi0_dd</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy second derivative with respect to tau,∂²phi0/∂τ²|δ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi0_tt</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy mixed second derivative,∂²phi0/∂δ∂τ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi0_dt</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phir</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy derivative with respect to delta,∂phir/∂δ|τ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phir_d</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy derivative with respect to tau,∂phir/∂τ|δ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phir_t</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy second derivative with respect to delta,∂²phir/∂δ²|τ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phir_dd</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy second derivative with respect to tau,∂²phir/∂τ²|δ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phir_tt</span>
+<span class="w">        </span><span class="c">!&gt; Ideal adimensional helmholtz energy mixed second derivative,∂²phir/∂δ∂τ [-]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phir_dt</span>
+<span class="w">    </span><span class="k">contains</span>
+<span class="k">        procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">reset</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">reset_iapws_phi_property</span>
+<span class="w">    </span><span class="k">end type </span><span class="n">type_iapws_phi_property</span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              IAPWS
+ was developed by Kikuchi Shun<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-01 14:39 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

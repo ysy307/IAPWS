@@ -1,0 +1,1045 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="IAPWS.">
+    <meta name="author" content="Kikuchi Shun" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>iapws95_constants &ndash; IAPWS</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">IAPWS </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Read Me</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>iapws95_constants
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.6% of total for modules and submodules.">36 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/iapws95_constants.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/iapws95_constants.f90.html'>iapws95_constants.F90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">iapws95_constants</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-a">A</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-b">B</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-c">C</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-d">D</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-a4">a4</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-alfa3">alfa3</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-b4">b4</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-beta3">beta3</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-beta4">beta4</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-c2">c2</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-critical_density">critical_density</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-critical_temperature">critical_temperature</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-d1">d1</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-d2">d2</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-d3">d3</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-epsilon3">epsilon3</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-g0">g0</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-gamma2">gamma2</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-gamma3">gamma3</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-n0_exp">n0_exp</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-n0_log">n0_log</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-n0_pow">n0_pow</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-nr1">nr1</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-nr2">nr2</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-nr3">nr3</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-nr4">nr4</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-pow">pow</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-specific_gas_constant_water">specific_gas_constant_water</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-t1">t1</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-t2">t2</a>
+            <a class="list-group-item" href="../module/iapws95_constants.html#variable-t3">t3</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~iapws95_constants~~UsesGraph Pages: 1 -->
+<svg id="moduleiapws95_constantsUsesGraph" width="250pt" height="32pt"
+ viewBox="0.00 0.00 250.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~iapws95_constants~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~iapws95_constants~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 246,-28 246,4 -4,4"/>
+<!-- module~iapws95_constants -->
+<g id="module~~iapws95_constants~~UsesGraph_node1" class="node">
+<title>module~iapws95_constants</title>
+<polygon fill="none" stroke="black" points="242,-24 130,-24 130,0 242,0 242,-24"/>
+<text text-anchor="middle" x="186" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">iapws95_constants</text>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~iapws95_constants~~UsesGraph_node2" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~iapws95_constants~~UsesGraph_node2"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-24 0,-24 0,0 94,0 94,-24"/>
+<text text-anchor="middle" x="47" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~iapws95_constants&#45;&gt;iso_fortran_env -->
+<g id="module~~iapws95_constants~~UsesGraph_edge1" class="edge">
+<title>module~iapws95_constants&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M129.67,-12C121.33,-12 112.72,-12 104.35,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="104.31,-8.5 94.31,-12 104.31,-15.5 104.31,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~iapws95_constants~~UsedByGraph Pages: 1 -->
+<svg id="moduleiapws95_constantsUsedByGraph" width="382pt" height="74pt"
+ viewBox="0.00 0.00 382.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~iapws95_constants~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>module~~iapws95_constants~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 378,-70 378,4 -4,4"/>
+<!-- module~iapws95_constants -->
+<g id="module~~iapws95_constants~~UsedByGraph_node1" class="node">
+<title>module~iapws95_constants</title>
+<polygon fill="none" stroke="black" points="112,-45 0,-45 0,-21 112,-21 112,-45"/>
+<text text-anchor="middle" x="56" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">iapws95_constants</text>
+</g>
+<!-- module~module_iapws95 -->
+<g id="module~~iapws95_constants~~UsedByGraph_node2" class="node">
+<title>module~module_iapws95</title>
+<g id="a_module~~iapws95_constants~~UsedByGraph_node2"><a xlink:href="../module/module_iapws95.html" xlink:title="module_iapws95">
+<polygon fill="#337ab7" stroke="#337ab7" points="250,-45 148,-45 148,-21 250,-21 250,-45"/>
+<text text-anchor="middle" x="199" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">module_iapws95</text>
+</a>
+</g>
+</g>
+<!-- module~module_iapws95&#45;&gt;module~iapws95_constants -->
+<g id="module~~iapws95_constants~~UsedByGraph_edge1" class="edge">
+<title>module~module_iapws95&#45;&gt;module~iapws95_constants</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M147.89,-33C139.59,-33 130.87,-33 122.25,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="122.22,-29.5 112.22,-33 122.22,-36.5 122.22,-29.5"/>
+</g>
+<!-- module~iapws95_base -->
+<g id="module~~iapws95_constants~~UsedByGraph_node3" class="node">
+<title>module~iapws95_base</title>
+<g id="a_module~~iapws95_constants~~UsedByGraph_node3"><a xlink:href="../module/iapws95_base.html" xlink:title="iapws95_base">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="373.5,-66 286.5,-66 286.5,-42 373.5,-42 373.5,-66"/>
+<text text-anchor="middle" x="330" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iapws95_base</text>
+</a>
+</g>
+</g>
+<!-- module~iapws95_base&#45;&gt;module~module_iapws95 -->
+<g id="module~~iapws95_constants~~UsedByGraph_edge3" class="edge">
+<title>module~iapws95_base&#45;&gt;module~module_iapws95</title>
+<path fill="none" stroke="#ff0000" d="M286.4,-47.07C277.98,-45.69 268.99,-44.23 260.11,-42.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="260.6,-39.32 250.17,-41.17 259.48,-46.23 260.6,-39.32"/>
+</g>
+<!-- module~module_iapws -->
+<g id="module~~iapws95_constants~~UsedByGraph_node4" class="node">
+<title>module~module_iapws</title>
+<g id="a_module~~iapws95_constants~~UsedByGraph_node4"><a xlink:href="../module/module_iapws.html" xlink:title="module_iapws">
+<polygon fill="#337ab7" stroke="#337ab7" points="374,-24 286,-24 286,0 374,0 374,-24"/>
+<text text-anchor="middle" x="330" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">module_iapws</text>
+</a>
+</g>
+</g>
+<!-- module~module_iapws&#45;&gt;module~module_iapws95 -->
+<g id="module~~iapws95_constants~~UsedByGraph_edge2" class="edge">
+<title>module~module_iapws&#45;&gt;module~module_iapws95</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M285.69,-19.05C277.48,-20.39 268.76,-21.81 260.14,-23.21"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="259.42,-19.78 250.11,-24.84 260.54,-26.69 259.42,-19.78"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(2)</td>
+<td> =</td>
+                <td>[0.32d0, 0.32d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>B</strong>(2)</td>
+<td> =</td>
+                <td>[0.2d0, 0.2d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>C</strong>(2)</td>
+<td> =</td>
+                <td>[28, 32]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>D</strong>(2)</td>
+<td> =</td>
+                <td>[700, 800]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a4"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>a4</strong>(2)</td>
+<td> =</td>
+                <td>[3.5d0, 3.5d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alfa3"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>alfa3</strong>(3)</td>
+<td> =</td>
+                <td>[20.0d0, 20.0d0, 20.0d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b4"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>b4</strong>(2)</td>
+<td> =</td>
+                <td>[0.85d0, 0.95d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta3"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>beta3</strong>(3)</td>
+<td> =</td>
+                <td>[150.0d0, 150.0d0, 250.0d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta4"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>beta4</strong>(2)</td>
+<td> =</td>
+                <td>[0.3d0, 0.3d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c2"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>c2</strong>(44)</td>
+<td> =</td>
+                <td>[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 6, 6, 6, 6]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-critical_density"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>critical_density</strong></td>
+<td> =</td>
+                <td>322.0d0</td>
+            <td>
+                <p>Critical density [kg/m^3]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-critical_temperature"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>critical_temperature</strong></td>
+<td> =</td>
+                <td>647.096d0</td>
+            <td>
+                <p>Critical temperature [K]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d1"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>d1</strong>(7)</td>
+<td> =</td>
+                <td>[1, 1, 1, 2, 2, 3, 4]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d2"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>d2</strong>(44)</td>
+<td> =</td>
+                <td>[1, 1, 1, 2, 2, 3, 4, 4, 5, 7, 9, 10, 11, 13, 15, 1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 7, 9, 9, 9, 9, 9, 10, 10, 12, 3, 4, 4, 5, 14, 3, 6, 6, 6]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d3"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>d3</strong>(3)</td>
+<td> =</td>
+                <td>[3, 3, 3]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epsilon3"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>epsilon3</strong>(3)</td>
+<td> =</td>
+                <td>[1.0d0, 1.0d0, 1.0d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g0"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>g0</strong>(5)</td>
+<td> =</td>
+                <td>[1.28728967d0, 3.53734222d0, 7.74073708d0, 9.24437796d0, 27.5075105d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gamma2"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>gamma2</strong>(44)</td>
+<td> =</td>
+                <td>[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gamma3"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>gamma3</strong>(3)</td>
+<td> =</td>
+                <td>[1.21d0, 1.21d0, 1.25d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n0_exp"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>n0_exp</strong>(5)</td>
+<td> =</td>
+                <td>[0.012436d0, 0.97315d0, 1.27950d0, 0.96956d0, 0.24873d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n0_log"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>n0_log</strong>(2)</td>
+<td> =</td>
+                <td>[1.0d0, 3.00632d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n0_pow"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>n0_pow</strong>(2)</td>
+<td> =</td>
+                <td>[-8.3204464837497d0, 6.6832105275932d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nr1"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>nr1</strong>(7)</td>
+<td> =</td>
+                <td>[0.12533547935523d-1, 0.78957634722828d1, -0.87803203303561d1, 0.31802509345418d0, -0.26145533859358d0, -0.78199751687981d-2, 0.88089493102134d-2]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nr2"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>nr2</strong>(44)</td>
+<td> =</td>
+                <td>[-0.66856572307965d0, 0.20433810950965d0, -0.66212605039687d-4, -0.19232721156002d0, -0.25709043003438d0, 0.16074868486251d0, -0.40092828925807d-1, 0.39343422603254d-6, -0.75941377088144d-5, 0.56250979351888d-3, -0.15608652257135d-4, 0.11537996422951d-8, 0.36582165144204d-6, -0.13251180074668d-11, -0.62639586912454d-9, -0.10793600908932d0, 0.17611491008752d-1, 0.22132295167546d0, -0.40247669763528d0, 0.58083399985759d0, 0.49969146990806d-2, -0.31358700712549d-1, -0.74315929710341d0, 0.47807329915480d0, 0.20527940895948d-1, -0.13636435110343d0, 0.14180634400617d-1, 0.83326504880713d-2, -0.29052336009585d-1, 0.38615085574206d-1, -0.20393486513704d-1, -0.16554050063734d-2, 0.19955571979541d-2, 0.15870308324157d-3, -0.16388568342530d-4, 0.43613615723811d-1, 0.34994005463765d-1, -0.76788197844621d-1, 0.22446277332006d-1, -0.62689710414685d-4, -0.55711118565645d-9, -0.19905718354408d0, 0.31777497330738d0, -0.11841182425981d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nr3"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>nr3</strong>(3)</td>
+<td> =</td>
+                <td>[-0.31306260323435d2, 0.31546140237781d2, -0.25213154341695d4]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nr4"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>nr4</strong>(2)</td>
+<td> =</td>
+                <td>[-0.14874640856724d0, 0.31806110878444d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pow"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>pow</strong>(2)</td>
+<td> =</td>
+                <td>[0, 1]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-specific_gas_constant_water"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>specific_gas_constant_water</strong></td>
+<td> =</td>
+                <td>0.46151805d3</td>
+            <td>
+                <p>Specific gas constant for water [J/(kg·K)]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t1"></span>
+              real(kind=real64),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>t1</strong>(7)</td>
+<td> =</td>
+                <td>[-0.5d0, 0.875d0, 1.0d0, 0.5d0, 0.75d0, 0.375d0, 1.0d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t2"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>t2</strong>(44)</td>
+<td> =</td>
+                <td>[4, 6, 12, 1, 5, 4, 2, 13, 9, 3, 4, 11, 4, 13, 1, 7, 1, 9, 10, 10, 3, 7, 10, 10, 6, 10, 10, 1, 2, 3, 4, 8, 6, 9, 8, 16, 22, 23, 23, 10, 50, 44, 46, 50]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t3"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>t3</strong>(3)</td>
+<td> =</td>
+                <td>[0, 1, 4]</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              IAPWS
+ was developed by Kikuchi Shun<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-01 14:39 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

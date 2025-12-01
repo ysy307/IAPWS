@@ -1,0 +1,882 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="IAPWS.">
+    <meta name="author" content="Kikuchi Shun" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>calc_properties_gibbs &ndash; IAPWS</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">IAPWS </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Read Me</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>calc_properties_gibbs
+      <small>Module Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.6% of total for procedures.">20 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/property_gibbs.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/property_gibbs.f90.html'>property_gibbs.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/property_gibbs.html'>property_gibbs</a></li>
+            <li class="breadcrumb-item active" aria-current="page">calc_properties_gibbs</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/calc_properties_gibbs.html#src">calc_properties_gibbs</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>pure elemental module subroutine calc_properties_gibbs(self, T_in, p_in, property)  
+    <a href="../interface/calc_properties_gibbs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h2>
+    
+
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~28"></span>
+              class(<a href='../type/abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~11"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~11"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-property~7"></span>
+              type(<a href='../type/type_iapws_property.html'>type_iapws_property</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>property</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~calc_properties_gibbs~~CallsGraph Pages: 1 -->
+<svg id="proccalc_properties_gibbsCallsGraph" width="641pt" height="251pt"
+ viewBox="0.00 0.00 641.00 251.30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~calc_properties_gibbs~~CallsGraph" class="graph" transform="scale(0.67 0.67) rotate(0) translate(4 370.41)">
+<title>proc~~calc_properties_gibbs~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-370.41 951,-370.41 951,4 -4,4"/>
+<!-- proc~calc_properties_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node1" class="node">
+<title>proc~calc_properties_gibbs</title>
+<polygon fill="none" stroke="black" points="127,-200.19 0,-200.19 0,-176.19 127,-176.19 127,-200.19"/>
+<text text-anchor="middle" x="63.5" y="-185.79" font-family="Helvetica,sans-Serif" font-size="10.50">calc_properties_gibbs</text>
+</g>
+<!-- calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node2" class="node">
+<title>calc_gamma</title>
+<polygon fill="#777777" stroke="#777777" points="947,-199.19 866,-199.19 866,-175.19 947,-175.19 947,-199.19"/>
+<text text-anchor="middle" x="906.5" y="-184.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_gamma</text>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge1" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#ff0000" d="M68.53,-200.3C78.89,-229.27 109.44,-302.4 163,-333.19 268.64,-393.92 314.65,-352.19 436.5,-352.19 436.5,-352.19 436.5,-352.19 614,-352.19 711.4,-352.19 749.82,-370.49 830,-315.19 867.45,-289.36 889.13,-238.38 899,-209.15"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="902.39,-210.05 902.11,-199.46 895.72,-207.91 902.39,-210.05"/>
+</g>
+<!-- interface~calc_cp_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node3" class="node">
+<title>interface~calc_cp_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node3"><a xlink:href="../interface/calc_cp_gibbs.html" xlink:title="abst_iapws_gibbs%calc_cp_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="353,-324.19 166,-324.19 166,-300.19 353,-300.19 353,-324.19"/>
+<text text-anchor="middle" x="259.5" y="-309.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_cp_gibbs</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;interface~calc_cp_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge2" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;interface~calc_cp_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M72.36,-200.26C87.25,-222.1 121.8,-268.03 163,-291.19 166.3,-293.05 169.75,-294.74 173.3,-296.28"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="172.31,-299.65 182.9,-300.02 174.85,-293.13 172.31,-299.65"/>
+</g>
+<!-- interface~calc_cv_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node4" class="node">
+<title>interface~calc_cv_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node4"><a xlink:href="../interface/calc_cv_gibbs.html" xlink:title="abst_iapws_gibbs%calc_cv_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="353,-282.19 166,-282.19 166,-258.19 353,-258.19 353,-282.19"/>
+<text text-anchor="middle" x="259.5" y="-267.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_cv_gibbs</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;interface~calc_cv_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge3" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;interface~calc_cv_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M80.32,-200.36C99.05,-214.19 131.69,-236.49 163,-249.19 168.54,-251.44 174.37,-253.47 180.29,-255.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="179.75,-258.78 190.33,-258.17 181.69,-252.05 179.75,-258.78"/>
+</g>
+<!-- interface~calc_h_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node5" class="node">
+<title>interface~calc_h_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node5"><a xlink:href="../interface/calc_h_gibbs.html" xlink:title="abst_iapws_gibbs%calc_h_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="350,-240.19 169,-240.19 169,-216.19 350,-216.19 350,-240.19"/>
+<text text-anchor="middle" x="259.5" y="-225.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_h_gibbs</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;interface~calc_h_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge4" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;interface~calc_h_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M122.71,-200.19C143.9,-204.56 168.06,-209.54 190.06,-214.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="189.5,-217.54 200,-216.13 190.91,-210.68 189.5,-217.54"/>
+</g>
+<!-- interface~calc_nu_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node6" class="node">
+<title>interface~calc_nu_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node6"><a xlink:href="../interface/calc_nu_gibbs.html" xlink:title="abst_iapws_gibbs%calc_nu_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="707,-199.19 519,-199.19 519,-175.19 707,-175.19 707,-199.19"/>
+<text text-anchor="middle" x="613" y="-184.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_nu_gibbs</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;interface~calc_nu_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge5" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;interface~calc_nu_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M127.04,-188.08C220.18,-187.91 396.43,-187.58 508.85,-187.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="508.85,-190.88 518.85,-187.36 508.84,-183.88 508.85,-190.88"/>
+</g>
+<!-- interface~calc_rho_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node7" class="node">
+<title>interface~calc_rho_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node7"><a xlink:href="../interface/calc_rho_gibbs.html" xlink:title="abst_iapws_gibbs%calc_rho_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="356,-160.19 163,-160.19 163,-136.19 356,-136.19 356,-160.19"/>
+<text text-anchor="middle" x="259.5" y="-145.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_rho_gibbs</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;interface~calc_rho_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge6" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;interface~calc_rho_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M122.71,-176.19C143.9,-171.82 168.06,-166.84 190.06,-162.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="190.91,-165.7 200,-160.25 189.5,-158.84 190.91,-165.7"/>
+</g>
+<!-- interface~calc_s_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node8" class="node">
+<title>interface~calc_s_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node8"><a xlink:href="../interface/calc_s_gibbs.html" xlink:title="abst_iapws_gibbs%calc_s_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="349.5,-118.19 169.5,-118.19 169.5,-94.19 349.5,-94.19 349.5,-118.19"/>
+<text text-anchor="middle" x="259.5" y="-103.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_s_gibbs</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;interface~calc_s_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge7" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;interface~calc_s_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M80.32,-176.03C99.05,-162.2 131.69,-139.9 163,-127.19 168.54,-124.94 174.37,-122.91 180.29,-121.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="181.69,-124.33 190.33,-118.21 179.75,-117.6 181.69,-124.33"/>
+</g>
+<!-- interface~calc_u_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node9" class="node">
+<title>interface~calc_u_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node9"><a xlink:href="../interface/calc_u_gibbs.html" xlink:title="abst_iapws_gibbs%calc_u_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="350,-76.19 169,-76.19 169,-52.19 350,-52.19 350,-76.19"/>
+<text text-anchor="middle" x="259.5" y="-61.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_u_gibbs</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;interface~calc_u_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge8" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;interface~calc_u_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M72.36,-176.12C87.25,-154.29 121.8,-108.35 163,-85.19 166.3,-83.33 169.75,-81.64 173.3,-80.1"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="174.85,-83.25 182.9,-76.36 172.31,-76.73 174.85,-83.25"/>
+</g>
+<!-- interface~calc_w_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node10" class="node">
+<title>interface~calc_w_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node10"><a xlink:href="../interface/calc_w_gibbs.html" xlink:title="abst_iapws_gibbs%calc_w_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="351,-34.19 168,-34.19 168,-10.19 351,-10.19 351,-34.19"/>
+<text text-anchor="middle" x="259.5" y="-19.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_w_gibbs</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;interface~calc_w_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge9" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;interface~calc_w_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M69,-176.16C80.2,-148.01 112.1,-77.66 163,-43.19 165.44,-41.54 167.98,-40.02 170.61,-38.61"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="172.27,-41.7 179.83,-34.27 169.29,-35.36 172.27,-41.7"/>
+</g>
+<!-- proc~calc_cp_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node11" class="node">
+<title>proc~calc_cp_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node11"><a xlink:href="../proc/calc_cp_gibbs.html" xlink:title="calc_cp_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="656,-323.19 570,-323.19 570,-299.19 656,-299.19 656,-323.19"/>
+<text text-anchor="middle" x="613" y="-308.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_cp_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_cp_gibbs&#45;&gt;proc~calc_cp_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge10" class="edge">
+<title>interface~calc_cp_gibbs&#45;&gt;proc~calc_cp_gibbs</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M353.31,-311.93C419.24,-311.74 505.36,-311.49 559.69,-311.34"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="559.8,-314.84 569.79,-311.31 559.78,-307.84 559.8,-314.84"/>
+</g>
+<!-- proc~calc_cv_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node12" class="node">
+<title>proc~calc_cv_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node12"><a xlink:href="../proc/calc_cv_gibbs.html" xlink:title="calc_cv_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="829,-280.19 744,-280.19 744,-256.19 829,-256.19 829,-280.19"/>
+<text text-anchor="middle" x="786.5" y="-265.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_cv_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_cv_gibbs&#45;&gt;proc~calc_cv_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge11" class="edge">
+<title>interface~calc_cv_gibbs&#45;&gt;proc~calc_cv_gibbs</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M353.15,-269.84C463.87,-269.42 645.22,-268.73 733.7,-268.39"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="733.77,-271.89 743.76,-268.35 733.74,-264.89 733.77,-271.89"/>
+</g>
+<!-- proc~calc_h_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node13" class="node">
+<title>proc~calc_h_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node13"><a xlink:href="../proc/calc_h_gibbs.html" xlink:title="calc_h_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="653,-241.19 573,-241.19 573,-217.19 653,-217.19 653,-241.19"/>
+<text text-anchor="middle" x="613" y="-226.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_h_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_h_gibbs&#45;&gt;proc~calc_h_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge12" class="edge">
+<title>interface~calc_h_gibbs&#45;&gt;proc~calc_h_gibbs</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M350.11,-228.45C417.56,-228.64 507.5,-228.89 562.51,-229.05"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="562.68,-232.55 572.69,-229.08 562.7,-225.55 562.68,-232.55"/>
+</g>
+<!-- proc~calc_nu_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node14" class="node">
+<title>proc~calc_nu_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node14"><a xlink:href="../proc/calc_nu_gibbs.html" xlink:title="calc_nu_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="830,-199.19 743,-199.19 743,-175.19 830,-175.19 830,-199.19"/>
+<text text-anchor="middle" x="786.5" y="-184.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_nu_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_nu_gibbs&#45;&gt;proc~calc_nu_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge13" class="edge">
+<title>interface~calc_nu_gibbs&#45;&gt;proc~calc_nu_gibbs</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M707.03,-187.19C715.78,-187.19 724.42,-187.19 732.6,-187.19"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="732.68,-190.69 742.68,-187.19 732.68,-183.69 732.68,-190.69"/>
+</g>
+<!-- proc~calc_rho_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node15" class="node">
+<title>proc~calc_rho_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node15"><a xlink:href="../proc/calc_rho_gibbs.html" xlink:title="calc_rho_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="483,-160.19 392,-160.19 392,-136.19 483,-136.19 483,-160.19"/>
+<text text-anchor="middle" x="437.5" y="-145.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_rho_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_rho_gibbs&#45;&gt;proc~calc_rho_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge14" class="edge">
+<title>interface~calc_rho_gibbs&#45;&gt;proc~calc_rho_gibbs</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M356.23,-148.19C364.96,-148.19 373.58,-148.19 381.76,-148.19"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="381.85,-151.69 391.85,-148.19 381.85,-144.69 381.85,-151.69"/>
+</g>
+<!-- proc~calc_s_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node16" class="node">
+<title>proc~calc_s_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node16"><a xlink:href="../proc/calc_s_gibbs.html" xlink:title="calc_s_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="826,-119.19 747,-119.19 747,-95.19 826,-95.19 826,-119.19"/>
+<text text-anchor="middle" x="786.5" y="-104.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_s_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_s_gibbs&#45;&gt;proc~calc_s_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge15" class="edge">
+<title>interface~calc_s_gibbs&#45;&gt;proc~calc_s_gibbs</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M349.56,-106.36C461.16,-106.57 648.48,-106.93 736.72,-107.1"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="736.97,-110.6 746.98,-107.12 736.99,-103.6 736.97,-110.6"/>
+</g>
+<!-- proc~calc_u_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node17" class="node">
+<title>proc~calc_u_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node17"><a xlink:href="../proc/calc_u_gibbs.html" xlink:title="calc_u_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="477.5,-77.19 397.5,-77.19 397.5,-53.19 477.5,-53.19 477.5,-77.19"/>
+<text text-anchor="middle" x="437.5" y="-62.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_u_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_u_gibbs&#45;&gt;proc~calc_u_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge16" class="edge">
+<title>interface~calc_u_gibbs&#45;&gt;proc~calc_u_gibbs</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M350.05,-64.7C362.79,-64.77 375.49,-64.84 387.08,-64.91"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="387.36,-68.41 397.38,-64.97 387.4,-61.41 387.36,-68.41"/>
+</g>
+<!-- proc~calc_w_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_node18" class="node">
+<title>proc~calc_w_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CallsGraph_node18"><a xlink:href="../proc/calc_w_gibbs.html" xlink:title="calc_w_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="478.5,-35.19 396.5,-35.19 396.5,-11.19 478.5,-11.19 478.5,-35.19"/>
+<text text-anchor="middle" x="437.5" y="-20.79" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_w_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_w_gibbs&#45;&gt;proc~calc_w_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge17" class="edge">
+<title>interface~calc_w_gibbs&#45;&gt;proc~calc_w_gibbs</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M351.08,-22.71C363.08,-22.77 375.01,-22.84 385.99,-22.9"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="386.17,-26.4 396.19,-22.96 386.21,-19.4 386.17,-26.4"/>
+</g>
+<!-- proc~calc_cp_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge18" class="edge">
+<title>proc~calc_cp_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#ff0000" d="M656.4,-316.53C702.29,-320.2 776.11,-319.87 830,-289.19 862.17,-270.88 884.63,-232.67 896.27,-208.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="899.58,-209.75 900.6,-199.2 893.23,-206.82 899.58,-209.75"/>
+</g>
+<!-- proc~calc_cv_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge19" class="edge">
+<title>proc~calc_cv_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#ffbf00" d="M807.11,-256.05C814.36,-251.48 822.61,-246.18 830,-241.19 847.31,-229.51 866.44,-215.82 881.11,-205.15"/>
+<polygon fill="#ffbf00" stroke="#ffbf00" points="883.18,-207.98 889.19,-199.25 879.05,-202.32 883.18,-207.98"/>
+</g>
+<!-- proc~calc_h_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge20" class="edge">
+<title>proc~calc_h_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#7fff00" d="M653.31,-227.43C696.82,-225.01 768.88,-219.57 830,-208.19 838.84,-206.54 848.15,-204.35 857.1,-201.99"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="858.28,-205.3 867.01,-199.29 856.44,-198.55 858.28,-205.3"/>
+</g>
+<!-- proc~calc_nu_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge21" class="edge">
+<title>proc~calc_nu_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#00ff3f" d="M830.1,-187.19C838.36,-187.19 847.09,-187.19 855.56,-187.19"/>
+<polygon fill="#00ff3f" stroke="#00ff3f" points="855.72,-190.69 865.72,-187.19 855.72,-183.69 855.72,-190.69"/>
+</g>
+<!-- proc~calc_rho_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge22" class="edge">
+<title>proc~calc_rho_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#00ffff" d="M483.16,-146.99C556.2,-145.76 705.54,-146.28 830,-166.19 839.47,-167.71 849.45,-169.98 858.95,-172.48"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="858.05,-175.86 868.62,-175.14 859.91,-169.11 858.05,-175.86"/>
+</g>
+<!-- proc~calc_rho_gibbs&#45;&gt;interface~calc_nu_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge23" class="edge">
+<title>proc~calc_rho_gibbs&#45;&gt;interface~calc_nu_gibbs</title>
+<path fill="none" stroke="#00ffff" d="M483.18,-158.23C503.12,-162.72 526.97,-168.08 548.7,-172.96"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="547.99,-176.39 558.51,-175.17 549.52,-169.56 547.99,-176.39"/>
+</g>
+<!-- proc~calc_s_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge24" class="edge">
+<title>proc~calc_s_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#003fff" d="M808.01,-119.33C815.05,-123.6 822.93,-128.51 830,-133.19 847.41,-144.72 866.54,-158.41 881.18,-169.12"/>
+<polygon fill="#003fff" stroke="#003fff" points="879.11,-171.94 889.24,-175.05 883.26,-166.3 879.11,-171.94"/>
+</g>
+<!-- proc~calc_u_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge25" class="edge">
+<title>proc~calc_u_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#7f00ff" d="M477.78,-56.97C551.74,-43.6 714.62,-24.46 830,-86.19 862.43,-103.54 884.81,-141.62 896.37,-165.74"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="893.31,-167.49 900.65,-175.13 899.68,-164.58 893.31,-167.49"/>
+</g>
+<!-- proc~calc_w_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_properties_gibbs~~CallsGraph_edge26" class="edge">
+<title>proc~calc_w_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#ff00bf" d="M478.52,-14.3C554.08,0.12 720.03,20.32 830,-51.19 870.71,-77.66 891.48,-134.04 900.23,-165.25"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="896.91,-166.38 902.84,-175.15 903.68,-164.59 896.91,-166.38"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panproccalc_properties_gibbsCallsGraph = svgPanZoom('#proccalc_properties_gibbsCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~calc_properties_gibbs~~CalledByGraph Pages: 1 -->
+<svg id="proccalc_properties_gibbsCalledByGraph" width="641pt" height="24pt"
+ viewBox="0.00 0.00 641.00 24.48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~calc_properties_gibbs~~CalledByGraph" class="graph" transform="scale(0.76 0.76) rotate(0) translate(4 28)">
+<title>proc~~calc_properties_gibbs~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 834,-28 834,4 -4,4"/>
+<!-- proc~calc_properties_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CalledByGraph_node1" class="node">
+<title>proc~calc_properties_gibbs</title>
+<polygon fill="none" stroke="black" points="830,-24 703,-24 703,0 830,0 830,-24"/>
+<text text-anchor="middle" x="766.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_properties_gibbs</text>
+</g>
+<!-- interface~calc_properties_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CalledByGraph_node2" class="node">
+<title>interface~calc_properties_gibbs</title>
+<g id="a_proc~~calc_properties_gibbs~~CalledByGraph_node2"><a xlink:href="../interface/calc_properties_gibbs.html" xlink:title="abst_iapws_gibbs%calc_properties_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="667,-24 438,-24 438,0 667,0 667,-24"/>
+<text text-anchor="middle" x="552.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_properties_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_properties_gibbs&#45;&gt;proc~calc_properties_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CalledByGraph_edge1" class="edge">
+<title>interface~calc_properties_gibbs&#45;&gt;proc~calc_properties_gibbs</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M667.26,-12C675.82,-12 684.32,-12 692.52,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="692.74,-15.5 702.74,-12 692.74,-8.5 692.74,-15.5"/>
+</g>
+<!-- proc~calc_properties_iapws97 -->
+<g id="proc~~calc_properties_gibbs~~CalledByGraph_node3" class="node">
+<title>proc~calc_properties_iapws97</title>
+<g id="a_proc~~calc_properties_gibbs~~CalledByGraph_node3"><a xlink:href="../proc/calc_properties_iapws97.html" xlink:title="calc_properties_iapws97">
+<polygon fill="#d9534f" stroke="#d9534f" points="402,-24 260,-24 260,0 402,0 402,-24"/>
+<text text-anchor="middle" x="331" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_properties_iapws97</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_iapws97&#45;&gt;interface~calc_properties_gibbs -->
+<g id="proc~~calc_properties_gibbs~~CalledByGraph_edge2" class="edge">
+<title>proc~calc_properties_iapws97&#45;&gt;interface~calc_properties_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M402.05,-12C410.26,-12 418.81,-12 427.48,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="427.7,-15.5 437.7,-12 427.7,-8.5 427.7,-15.5"/>
+</g>
+<!-- interface~calc_properties_iapws97 -->
+<g id="proc~~calc_properties_gibbs~~CalledByGraph_node4" class="node">
+<title>interface~calc_properties_iapws97</title>
+<g id="a_proc~~calc_properties_gibbs~~CalledByGraph_node4"><a xlink:href="../interface/calc_properties_iapws97.html" xlink:title="type_iapws97%calc_properties_iapws97">
+<polygon fill="#a7506f" stroke="#a7506f" points="224,-24 0,-24 0,0 224,0 224,-24"/>
+<text text-anchor="middle" x="112" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_iapws97%calc_properties_iapws97</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_properties_iapws97&#45;&gt;proc~calc_properties_iapws97 -->
+<g id="proc~~calc_properties_gibbs~~CalledByGraph_edge3" class="edge">
+<title>interface~calc_properties_iapws97&#45;&gt;proc~calc_properties_iapws97</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M224.04,-12C232.72,-12 241.37,-12 249.78,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="249.9,-15.5 259.9,-12 249.9,-8.5 249.9,-15.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panproccalc_properties_gibbsCalledByGraph = svgPanZoom('#proccalc_properties_gibbsCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">module pure elemental subroutine </span><span class="n">calc_properties_gibbs</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">property</span><span class="p">)</span>
+<span class="w">        </span><span class="k">implicit none</span>
+<span class="k">        class</span><span class="p">(</span><span class="n">abst_iapws_gibbs</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">T_in</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p_in</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_property</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">property</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_gamma_property</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">props</span>
+
+<span class="w">        </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">T_star</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">T_in</span>
+<span class="w">        </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_in</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">p_star</span>
+
+<span class="w">        </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_gamma</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_nu</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">property</span><span class="p">%</span><span class="n">nu</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_rho</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">property</span><span class="p">%</span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_u</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">property</span><span class="p">%</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_h</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">property</span><span class="p">%</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_s</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">property</span><span class="p">%</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_cp</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">property</span><span class="p">%</span><span class="n">cp</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_cv</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">property</span><span class="p">%</span><span class="n">cv</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_w</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">property</span><span class="p">%</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">calc_properties_gibbs</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              IAPWS
+ was developed by Kikuchi Shun<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-01 14:39 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
