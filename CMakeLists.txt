@@ -1,8 +1,18 @@
 cmake_minimum_required(VERSION 3.25)
 project(IAPWS LANGUAGES Fortran)
-
-add_executable(main src/main.f90)
-
 enable_testing()
+# ---------------------------------------------------------
+# Settings for build output directories
+# ---------------------------------------------------------
+# Module files -> <build>/.mod/
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/.mod)
+# Static libraries (.a) -> <build>/lib/
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+# Executable files -> <build>/bin/
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_test(NAME run_main COMMAND main)
+# ---------------------------------------------------------
+# Reading subdirectories
+# ---------------------------------------------------------
+add_subdirectory(src)
+add_subdirectory(app)
