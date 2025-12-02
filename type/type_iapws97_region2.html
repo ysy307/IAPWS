@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 3.0% of total for derived types.</p>Including implementation: 5 statements,  3.0% of total for derived types.">5 statements</a>
+                 title="<p> 2.8% of total for derived types.</p>Including implementation: 5 statements,  2.8% of total for derived types.">5 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -164,17 +164,21 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_alpha">calc_alpha</a>
+            <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_beta">calc_beta</a>
             <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_cp~2">calc_cp</a>
             <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_cv~2">calc_cv</a>
-            <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_gamma~3">calc_gamma</a>
+            <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_gamma~4">calc_gamma</a>
             <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_h~2">calc_h</a>
+            <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_kappa_t">calc_kappa_T</a>
+            <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_kappa_s">calc_kappa_s</a>
             <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_nu">calc_nu</a>
             <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_properties~2">calc_properties</a>
             <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_rho~2">calc_rho</a>
             <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_s~2">calc_s</a>
             <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_u~2">calc_u</a>
             <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-calc_w~2">calc_w</a>
-            <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-initialize~5">initialize</a>
+            <a class="list-group-item" href="../type/type_iapws97_region2.html#boundprocedure-initialize~7">initialize</a>
         </div>
       </div>
     </div>
@@ -412,7 +416,7 @@ large graphs.</div>
         <tr>
             <td>
               <span class="anchor" id="variable-t_star"></span>
-              integer(kind=int32),
+              real(kind=real64),
             </td>
               <td>public</td>
             <td>
@@ -446,7 +450,7 @@ large graphs.</div>
         <tr>
             <td>
               <span class="anchor" id="variable-p_star"></span>
-              integer(kind=int32),
+              real(kind=real64),
             </td>
               <td>public</td>
             <td>
@@ -473,10 +477,10 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calc_cp~2"></span>
+      <span class="anchor" id="boundprocedure-calc_alpha"></span>
       <h3>
           procedure, public, pass(self) ::
-  <strong>calc_cp</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_cp_gibbs.html'>calc_cp_gibbs</a>
+  <strong>calc_alpha</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_alpha_gibbs.html'>calc_alpha_gibbs</a>
         
       </h3>
     </div>
@@ -484,11 +488,11 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_cp_gibbs(self, T_in, p_in, cp, prop_in)  
-    <a href="../proc/calc_cp_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure elemental module subroutine calc_alpha_gibbs(self, T_in, P_in, alpha, prop_in)  
+    <a href="../proc/calc_alpha_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  
+  <p>Calculate cubic expansion coefficient using Gibbs formulation</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -513,7 +517,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-                
+                <p>IAPWS Gibbs model instance</p>
             </td>
         </tr>
         <tr>
@@ -528,7 +532,237 @@ large graphs.</div>
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-                
+                <p>Temperature, T [K].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong></td>
+            <td>
+                <p>Pressure, P [Pa].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+                <p>Cubic expansion coefficient [1/K].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prop_in</strong></td>
+            <td>
+                <p>Gibbs coefficients</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_beta"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_beta</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_beta_gibbs.html'>calc_beta_gibbs</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    public pure elemental module subroutine calc_beta_gibbs(self, T_in, P_in, beta, prop_in)  
+    <a href="../proc/calc_beta_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>Calculate pressure coefficient using Gibbs formulation</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                <p>IAPWS Gibbs model instance</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                <p>Temperature, T [K].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong></td>
+            <td>
+                <p>Pressure, P [Pa].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+                <p>Pressure coefficient [Pa/K].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prop_in</strong></td>
+            <td>
+                <p>Gibbs coefficients</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_cp~2"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_cp</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_cp_gibbs.html'>calc_cp_gibbs</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    public pure elemental module subroutine calc_cp_gibbs(self, T_in, p_in, cp, prop_in)  
+    <a href="../proc/calc_cp_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>Calculate specific heat capacity at constant pressure using Gibbs formulation</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                <p>IAPWS Gibbs model instance</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                <p>Temperature, T [K].</p>
             </td>
         </tr>
         <tr>
@@ -543,7 +777,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-                
+                <p>Pressure, P [Pa].</p>
             </td>
         </tr>
         <tr>
@@ -558,13 +792,13 @@ large graphs.</div>
             <td>::</td>
             <td><strong>cp</strong></td>
             <td>
-                
+                <p>Specific heat capacity at constant pressure, cp [J/(kg·K)].</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -573,7 +807,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>prop_in</strong></td>
             <td>
-                
+                <p>Gibbs coefficients</p>
             </td>
         </tr>
     </tbody>
@@ -603,7 +837,7 @@ large graphs.</div>
     <a href="../proc/calc_cv_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  
+  <p>Calculate specific heat capacity at constant volume using Gibbs formulation</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -628,7 +862,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-                
+                <p>IAPWS Gibbs model instance</p>
             </td>
         </tr>
         <tr>
@@ -643,7 +877,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-                
+                <p>Temperature, T [K].</p>
             </td>
         </tr>
         <tr>
@@ -658,7 +892,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-                
+                <p>Pressure, P [Pa].</p>
             </td>
         </tr>
         <tr>
@@ -673,13 +907,13 @@ large graphs.</div>
             <td>::</td>
             <td><strong>cv</strong></td>
             <td>
-                
+                <p>Specific heat capacity at constant volume, cv [J/(kg·K)].</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -688,7 +922,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>prop_in</strong></td>
             <td>
-                
+                <p>Gibbs coefficients</p>
             </td>
         </tr>
     </tbody>
@@ -703,7 +937,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calc_gamma~3"></span>
+      <span class="anchor" id="boundprocedure-calc_gamma~4"></span>
       <h3>
           procedure, public, pass(self) ::
   <strong>calc_gamma</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_gamma_iapws97_region2.html'>calc_gamma_iapws97_region2</a>
@@ -714,11 +948,11 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_gamma_iapws97_region2(self, tau, pi, property)  
+    public pure elemental module subroutine calc_gamma_iapws97_region2(self, T_in, P_in, coef)  
     <a href="../proc/calc_gamma_iapws97_region2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  <p>Calculate the dimensionless Gibbs free energy <script type="math/tex">\gamma</script> for Region 2.</p>
+  <p>Calculate the Gibbs free energy <script type="math/tex">\gamma</script> for Region 2.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -756,9 +990,9 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>tau</strong></td>
+            <td><strong>T_in</strong></td>
             <td>
-                <p>Inverse reduced temperature Tc/T, [-]</p>
+                <p>Temperature, T [K].</p>
             </td>
         </tr>
         <tr>
@@ -771,24 +1005,24 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>pi</strong></td>
+            <td><strong>P_in</strong></td>
             <td>
-                <p>Reduced pressure p/p_c, [-]</p>
+                <p>Pressure, p [Pa].</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>property</strong></td>
+            <td><strong>coef</strong></td>
             <td>
-                <p>IAPWS Gibbs properties</p>
+                <p>IAPWS Gibbs coefficients</p>
             </td>
         </tr>
     </tbody>
@@ -818,7 +1052,7 @@ large graphs.</div>
     <a href="../proc/calc_h_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  
+  <p>Calculate specific enthalpy using Gibbs formulation</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -843,7 +1077,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-                
+                <p>IAPWS Gibbs model instance</p>
             </td>
         </tr>
         <tr>
@@ -858,7 +1092,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-                
+                <p>Temperature, T [K].</p>
             </td>
         </tr>
         <tr>
@@ -873,7 +1107,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-                
+                <p>Pressure, P [Pa].</p>
             </td>
         </tr>
         <tr>
@@ -888,13 +1122,13 @@ large graphs.</div>
             <td>::</td>
             <td><strong>h</strong></td>
             <td>
-                
+                <p>Specific enthalpy, h [J/kg].</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -903,7 +1137,237 @@ large graphs.</div>
             <td>::</td>
             <td><strong>prop_in</strong></td>
             <td>
-                
+                <p>Gibbs coefficients</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_kappa_t"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_kappa_T</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_kappa_t_gibbs.html'>calc_kappa_T_gibbs</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    public pure elemental module subroutine calc_kappa_T_gibbs(self, T_in, P_in, kappa_T, prop_in)  
+    <a href="../proc/calc_kappa_t_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>Calculate isothermal compressibility using Gibbs formulation</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                <p>IAPWS Gibbs model instance</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                <p>Temperature, T [K].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong></td>
+            <td>
+                <p>Pressure, P [Pa].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kappa_T</strong></td>
+            <td>
+                <p>Isothermal compressibility [1/Pa].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prop_in</strong></td>
+            <td>
+                <p>Gibbs coefficients</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_kappa_s"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_kappa_s</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_kappa_s_gibbs.html'>calc_kappa_s_gibbs</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    public pure elemental module subroutine calc_kappa_s_gibbs(self, T_in, P_in, kappa_s, prop_in)  
+    <a href="../proc/calc_kappa_s_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>Calculate adiabatic compressibility using Gibbs formulation</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                <p>IAPWS Gibbs model instance</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                <p>Temperature, T [K].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong></td>
+            <td>
+                <p>Pressure, P [Pa].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kappa_s</strong></td>
+            <td>
+                <p>Adiabatic compressibility [1/Pa].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prop_in</strong></td>
+            <td>
+                <p>Gibbs coefficients</p>
             </td>
         </tr>
     </tbody>
@@ -933,7 +1397,7 @@ large graphs.</div>
     <a href="../proc/calc_nu_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  
+  <p>Calculate specific volume using Gibbs formulation</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -958,7 +1422,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-                
+                <p>IAPWS Gibbs model instance</p>
             </td>
         </tr>
         <tr>
@@ -973,7 +1437,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-                
+                <p>Temperature, T [K].</p>
             </td>
         </tr>
         <tr>
@@ -988,7 +1452,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-                
+                <p>Pressure, P [Pa].</p>
             </td>
         </tr>
         <tr>
@@ -1003,13 +1467,13 @@ large graphs.</div>
             <td>::</td>
             <td><strong>nu</strong></td>
             <td>
-                
+                <p>Specific volume, ν [m^3/kg].</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -1018,7 +1482,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>prop_in</strong></td>
             <td>
-                
+                <p>Gibbs coefficients</p>
             </td>
         </tr>
     </tbody>
@@ -1148,7 +1612,7 @@ large graphs.</div>
     <a href="../proc/calc_rho_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  
+  <p>Calculate density using Gibbs formulation</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1173,7 +1637,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-                
+                <p>IAPWS Gibbs model instance</p>
             </td>
         </tr>
         <tr>
@@ -1188,7 +1652,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-                
+                <p>Temperature, T [K].</p>
             </td>
         </tr>
         <tr>
@@ -1203,7 +1667,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-                
+                <p>Pressure, P [Pa].</p>
             </td>
         </tr>
         <tr>
@@ -1218,13 +1682,13 @@ large graphs.</div>
             <td>::</td>
             <td><strong>rho</strong></td>
             <td>
-                
+                <p>Density, ρ [kg/m^3].</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -1233,7 +1697,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>prop_in</strong></td>
             <td>
-                
+                <p>Gibbs coefficients</p>
             </td>
         </tr>
     </tbody>
@@ -1263,7 +1727,7 @@ large graphs.</div>
     <a href="../proc/calc_s_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  
+  <p>Calculate specific entropy using Gibbs formulation</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1288,7 +1752,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-                
+                <p>IAPWS Gibbs model instance</p>
             </td>
         </tr>
         <tr>
@@ -1303,7 +1767,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-                
+                <p>Temperature, T [K].</p>
             </td>
         </tr>
         <tr>
@@ -1318,7 +1782,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-                
+                <p>Pressure, P [Pa].</p>
             </td>
         </tr>
         <tr>
@@ -1333,13 +1797,13 @@ large graphs.</div>
             <td>::</td>
             <td><strong>s</strong></td>
             <td>
-                
+                <p>Specific entropy, s [J/(kg·K)].</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -1348,7 +1812,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>prop_in</strong></td>
             <td>
-                
+                <p>Gibbs coefficients</p>
             </td>
         </tr>
     </tbody>
@@ -1378,7 +1842,7 @@ large graphs.</div>
     <a href="../proc/calc_u_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  
+  <p>Calculate specific internal energy using Gibbs formulation</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1403,7 +1867,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-                
+                <p>IAPWS Gibbs model instance</p>
             </td>
         </tr>
         <tr>
@@ -1418,7 +1882,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-                
+                <p>Temperature, T [K].</p>
             </td>
         </tr>
         <tr>
@@ -1433,7 +1897,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-                
+                <p>Pressure, P [Pa].</p>
             </td>
         </tr>
         <tr>
@@ -1448,13 +1912,13 @@ large graphs.</div>
             <td>::</td>
             <td><strong>u</strong></td>
             <td>
-                
+                <p>Specific internal energy, u [J/kg].</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -1463,7 +1927,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>prop_in</strong></td>
             <td>
-                
+                <p>Gibbs coefficients</p>
             </td>
         </tr>
     </tbody>
@@ -1493,7 +1957,7 @@ large graphs.</div>
     <a href="../proc/calc_w_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  
+  <p>Calculate speed of sound using Gibbs formulation</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1518,7 +1982,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-                
+                <p>IAPWS Gibbs model instance</p>
             </td>
         </tr>
         <tr>
@@ -1533,7 +1997,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-                
+                <p>Temperature, T [K].</p>
             </td>
         </tr>
         <tr>
@@ -1548,7 +2012,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-                
+                <p>Pressure, P [Pa].</p>
             </td>
         </tr>
         <tr>
@@ -1563,13 +2027,13 @@ large graphs.</div>
             <td>::</td>
             <td><strong>w</strong></td>
             <td>
-                
+                <p>Speed of sound, w [m/s].</p>
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -1578,7 +2042,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>prop_in</strong></td>
             <td>
-                
+                <p>Gibbs coefficients</p>
             </td>
         </tr>
     </tbody>
@@ -1593,7 +2057,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-initialize~5"></span>
+      <span class="anchor" id="boundprocedure-initialize~7"></span>
       <h3>
           procedure, public, pass(self) ::
   <strong>initialize</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/initialize_type_iapws97_region2.html'>initialize_type_iapws97_region2</a>
@@ -1676,7 +2140,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-01 14:40 +0000             </p>
+ on 2025-12-02 10:01 +0000             </p>
           </div>
         </div>
         <br>

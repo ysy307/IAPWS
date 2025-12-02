@@ -53,40 +53,75 @@ contains
         self%is_initialized = .true.
     end subroutine initialize_type_iapws97_region2
 
-    !> Calculate the dimensionless Gibbs free energy \(\gamma\) for Region 2.
-    module pure elemental subroutine calc_gamma_iapws97_region2(self, tau, pi, property)
+!> Calculate the dimensional Gibbs free energy g and its derivatives for Region 2.
+    module pure elemental subroutine calc_gamma_iapws97_region2(self, T_in, P_in, coef)
         implicit none
         !> IAPWS-97 Region 2 object.
         class(type_iapws97_region2), intent(in) :: self
-        !> Inverse reduced temperature Tc/T, [-]
-        real(real64), intent(in) :: tau
-        !> Reduced pressure p/p_c, [-]
-        real(real64), intent(in) :: pi
-        !> IAPWS Gibbs properties
-        type(type_iapws_gamma_property), intent(inout) :: property
+        !> temperature T, [K]
+        real(real64), intent(in) :: T_in
+        !> pressure P, [Pa]
+        real(real64), intent(in) :: P_in
+        !> IAPWS Gibbs coefficients (Dimensional)
+        type(type_iapws_gibbs_coefficient), intent(inout) :: coef
 
-        call property%reset()
+        real(real64) :: tau, pi
+        ! Local variables for dimensionless sums
+        real(real64) :: val_g, val_gp, val_gt
+        real(real64) :: val_gpp, val_gtt, val_gpt
+        real(real64) :: RT, R_pstar
 
-        ! Calculate gamma and its derivatives
-        property%gamma0 = calc_gamma0_region2(tau, pi)
-        property%gamma0_p = calc_gamma0_p_region2(tau, pi)
-        property%gamma0_t = calc_gamma0_t_region2(tau, pi)
-        property%gamma0_pp = calc_gamma0_pp_region2(tau, pi)
-        property%gamma0_tt = calc_gamma0_tt_region2(tau, pi)
-        property%gamma0_pt = calc_gamma0_pt_region2(tau, pi)
-        property%gammar = calc_gammar_region2(tau, pi)
-        property%gammar_p = calc_gammar_p_region2(tau, pi)
-        property%gammar_t = calc_gammar_t_region2(tau, pi)
-        property%gammar_pp = calc_gammar_pp_region2(tau, pi)
-        property%gammar_tt = calc_gammar_tt_region2(tau, pi)
-        property%gammar_pt = calc_gammar_pt_region2(tau, pi)
+        call coef%reset()
 
-        property%gamma = property%gamma0 + property%gammar
-        property%gamma_p = property%gamma0_p + property%gammar_p
-        property%gamma_t = property%gamma0_t + property%gammar_t
-        property%gamma_pp = property%gamma0_pp + property%gammar_pp
-        property%gamma_tt = property%gamma0_tt + property%gammar_tt
-        property%gamma_pt = property%gamma0_pt + property%gammar_pt
+        ! 1. Dimensionless variables (Region 2 definition)
+        tau = self%T_star / T_in
+        pi = P_in / self%p_star
+
+        ! 2. Summing Ideal-gas part (0) and Residual part (r)
+        !    Region 2: gamma = gamma0 + gammar
+
+        ! gamma
+        val_g = calc_gamma0_region2(tau, pi) + calc_gammar_region2(tau, pi)
+
+        ! gamma_pi
+        val_gp = calc_gamma0_p_region2(tau, pi) + calc_gammar_p_region2(tau, pi)
+
+        ! gamma_tau
+        val_gt = calc_gamma0_t_region2(tau, pi) + calc_gammar_t_region2(tau, pi)
+
+        ! gamma_pi_pi
+        val_gpp = calc_gamma0_pp_region2(tau, pi) + calc_gammar_pp_region2(tau, pi)
+
+        ! gamma_tau_tau
+        val_gtt = calc_gamma0_tt_region2(tau, pi) + calc_gammar_tt_region2(tau, pi)
+
+        ! gamma_pi_tau
+        val_gpt = calc_gamma0_pt_region2(tau, pi) + calc_gammar_pt_region2(tau, pi)
+
+        ! 3. Convert to DIMENSIONAL quantities (The Adapter Logic)
+        !    Using chain rules for tau = T*/T and pi = P/p*
+
+        RT = self%R * T_in
+        R_pstar = self%R / self%p_star ! Pre-calc R/p*
+
+        ! g [J/kg] = R * T * gamma
+        coef%g = RT * val_g
+
+        ! g_p [m^3/kg] = (RT / p*) * gamma_pi
+        coef%g_p = (RT / self%p_star) * val_gp
+
+        ! g_t [J/(kg K)] = R * (gamma - tau * gamma_tau)  <-- Entropy term (-s)
+        coef%g_t = self%R * (val_g - tau * val_gt)
+
+        ! g_pp [m^3/(kg Pa)] = (RT / p*^2) * gamma_pi_pi
+        coef%g_pp = (RT / (self%p_star**2)) * val_gpp
+
+        ! g_tt [J/(kg K^2)] = (R * tau^2 / T) * gamma_tau_tau <-- Relates to -Cp/T
+        coef%g_tt = (self%R * tau**2 / T_in) * val_gtt
+
+        ! g_pt [m^3/(kg K)] = (R / p*) * (gamma_pi - tau * gamma_pi_tau)
+        coef%g_pt = R_pstar * (val_gp - tau * val_gpt)
+
     end subroutine calc_gamma_iapws97_region2
 
     pure elemental function calc_gamma0_region2(tau, pi) result(gamma0)

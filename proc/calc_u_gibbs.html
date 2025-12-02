@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for procedures.">18 statements</a>
+                 title=" 0.3% of total for procedures.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -159,7 +159,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure elemental module subroutine calc_u_gibbs(self, T_in, p_in, u, prop_in)  
+    <h2>pure elemental module subroutine calc_u_gibbs(self, T_in, P_in, u, prop_in)  
     <a href="../interface/calc_u_gibbs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
@@ -179,7 +179,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~30"></span>
+              <span class="anchor" id="variable-self~57"></span>
               class(<a href='../type/abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
             </td>
 <td>intent(in)</td>
@@ -194,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~24"></span>
+              <span class="anchor" id="variable-t_in~32"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -217,7 +217,7 @@
               
             </td>
             <td>::</td>
-            <td><strong>p_in</strong></td>
+            <td><strong>P_in</strong></td>
             <td>
                 
             </td>
@@ -239,8 +239,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prop_in~20"></span>
-              type(<a href='../type/type_iapws_gamma_property.html'>type_iapws_gamma_property</a>),
+              <span class="anchor" id="variable-prop_in~24"></span>
+              type(<a href='../type/type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -601,27 +601,23 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">module pure elemental subroutine </span><span class="n">calc_u_gibbs</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_in</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">prop_in</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">module pure elemental subroutine </span><span class="n">calc_u_gibbs</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">P_in</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">prop_in</span><span class="p">)</span>
 <span class="w">        </span><span class="k">implicit none</span>
 <span class="k">        class</span><span class="p">(</span><span class="n">abst_iapws_gibbs</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">T_in</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p_in</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">P_in</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u</span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_gamma_property</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prop_in</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_gibbs_coefficient</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prop_in</span>
 
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_gamma_property</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">props</span>
-
-<span class="w">        </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">T_star</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">T_in</span>
-<span class="w">        </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_in</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">p_star</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_gibbs_coefficient</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">props</span>
 
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">prop_in</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
 <span class="k">            </span><span class="n">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prop_in</span>
 <span class="w">        </span><span class="k">else</span>
-<span class="k">            call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_gamma</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="k">            call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_gamma</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">P_in</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
 <span class="w">        </span><span class="k">end if</span>
 
-<span class="k">        </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">props</span><span class="p">%</span><span class="n">gamma_t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">props</span><span class="p">%</span><span class="n">gamma_p</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">T_in</span>
+<span class="k">        </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">props</span><span class="p">%</span><span class="n">g</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">T_in</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">props</span><span class="p">%</span><span class="n">g_t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">P_in</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">props</span><span class="p">%</span><span class="n">g_p</span>
 
 <span class="w">    </span><span class="k">end subroutine </span><span class="n">calc_u_gibbs</span>
 </pre></div>
@@ -647,7 +643,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-01 14:40 +0000             </p>
+ on 2025-12-02 10:01 +0000             </p>
           </div>
         </div>
         <br>

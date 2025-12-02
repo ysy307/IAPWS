@@ -1,0 +1,518 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="IAPWS.">
+    <meta name="author" content="Kikuchi Shun" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>calc_r2_iapws06_Ih &ndash; IAPWS</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">IAPWS </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Read Me</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>calc_r2_iapws06_Ih
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.3% of total for procedures.">12 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/iapws06_iceIh_base.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/iapws06_iceih_base.f90.html'>iapws06_iceIh_base.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/iapws06_iceih_base.html'>iapws06_iceIh_base</a></li>
+            <li class="breadcrumb-item active" aria-current="page">calc_r2_iapws06_Ih</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/calc_r2_iapws06_ih.html#src">calc_r2_iapws06_Ih</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>pure elemental function calc_r2_iapws06_Ih(pi, pi_0) result(val)  
+</h2>
+    
+
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pi~50"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pi</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pi_0~5"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pi_0</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-val~3"></span>
+          complex(kind=real64)
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~calc_r2_iapws06_ih~~CalledByGraph Pages: 1 -->
+<svg id="proccalc_r2_iapws06_ihCalledByGraph" width="641pt" height="74pt"
+ viewBox="0.00 0.00 641.00 74.06" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph" class="graph" transform="scale(0.64 0.64) rotate(0) translate(4 112)">
+<title>proc~~calc_r2_iapws06_ih~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 1000,-112 1000,4 -4,4"/>
+<!-- proc~calc_r2_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_node1" class="node">
+<title>proc~calc_r2_iapws06_ih</title>
+<polygon fill="none" stroke="black" points="996,-66 881,-66 881,-42 996,-42 996,-66"/>
+<text text-anchor="middle" x="938.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_r2_iapws06_Ih</text>
+</g>
+<!-- proc~calc_gamma_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_node2" class="node">
+<title>proc~calc_gamma_iapws06_ih</title>
+<g id="a_proc~~calc_r2_iapws06_ih~~CalledByGraph_node2"><a xlink:href="../proc/calc_gamma_iapws06_ih.html" xlink:title="calc_gamma_iapws06_Ih">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="839,-108 694,-108 694,-84 839,-84 839,-108"/>
+<text text-anchor="middle" x="766.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_gamma_iapws06_Ih</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_gamma_iapws06_ih&#45;&gt;proc~calc_r2_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge1" class="edge">
+<title>proc~calc_gamma_iapws06_ih&#45;&gt;proc~calc_r2_iapws06_ih</title>
+<path fill="none" stroke="#ff0000" d="M816.22,-83.96C835.78,-79.13 858.49,-73.52 878.94,-68.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="879.91,-71.83 888.78,-66.04 878.23,-65.04 879.91,-71.83"/>
+</g>
+<!-- proc~calc_gamma_t_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_node3" class="node">
+<title>proc~calc_gamma_t_iapws06_ih</title>
+<g id="a_proc~~calc_r2_iapws06_ih~~CalledByGraph_node3"><a xlink:href="../proc/calc_gamma_t_iapws06_ih.html" xlink:title="calc_gamma_t_iapws06_Ih">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="843.5,-66 689.5,-66 689.5,-42 843.5,-42 843.5,-66"/>
+<text text-anchor="middle" x="766.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_gamma_t_iapws06_Ih</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_gamma_t_iapws06_ih&#45;&gt;proc~calc_r2_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge2" class="edge">
+<title>proc~calc_gamma_t_iapws06_ih&#45;&gt;proc~calc_r2_iapws06_ih</title>
+<path fill="none" stroke="#ff0000" d="M843.55,-54C852.57,-54 861.73,-54 870.61,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="870.89,-57.5 880.89,-54 870.89,-50.5 870.89,-57.5"/>
+</g>
+<!-- proc~calc_gamma_tt_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_node4" class="node">
+<title>proc~calc_gamma_tt_iapws06_ih</title>
+<g id="a_proc~~calc_r2_iapws06_ih~~CalledByGraph_node4"><a xlink:href="../proc/calc_gamma_tt_iapws06_ih.html" xlink:title="calc_gamma_tt_iapws06_Ih">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="845,-24 688,-24 688,0 845,0 845,-24"/>
+<text text-anchor="middle" x="766.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_gamma_tt_iapws06_Ih</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_gamma_tt_iapws06_ih&#45;&gt;proc~calc_r2_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge3" class="edge">
+<title>proc~calc_gamma_tt_iapws06_ih&#45;&gt;proc~calc_r2_iapws06_ih</title>
+<path fill="none" stroke="#ff0000" d="M816.22,-24.04C835.78,-28.87 858.49,-34.48 878.94,-39.53"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="878.23,-42.96 888.78,-41.96 879.91,-36.17 878.23,-42.96"/>
+</g>
+<!-- interface~calc_gamma_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_node5" class="node">
+<title>interface~calc_gamma_iapws06_ih</title>
+<g id="a_proc~~calc_r2_iapws06_ih~~CalledByGraph_node5"><a xlink:href="../interface/calc_gamma_iapws06_ih.html" xlink:title="type_iapws06%calc_gamma_iapws06_Ih">
+<polygon fill="#a7506f" stroke="#a7506f" points="645.5,-108 419.5,-108 419.5,-84 645.5,-84 645.5,-108"/>
+<text text-anchor="middle" x="532.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_iapws06%calc_gamma_iapws06_Ih</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_gamma_iapws06_ih&#45;&gt;proc~calc_gamma_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge4" class="edge">
+<title>interface~calc_gamma_iapws06_ih&#45;&gt;proc~calc_gamma_iapws06_ih</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M645.76,-96C658.5,-96 671.3,-96 683.55,-96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="683.69,-99.5 693.69,-96 683.69,-92.5 683.69,-99.5"/>
+</g>
+<!-- interface~calc_gamma_t_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_node6" class="node">
+<title>interface~calc_gamma_t_iapws06_ih</title>
+<g id="a_proc~~calc_r2_iapws06_ih~~CalledByGraph_node6"><a xlink:href="../interface/calc_gamma_t_iapws06_ih.html" xlink:title="type_iapws06%calc_gamma_t_iapws06_Ih">
+<polygon fill="#a7506f" stroke="#a7506f" points="650,-66 415,-66 415,-42 650,-42 650,-66"/>
+<text text-anchor="middle" x="532.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_iapws06%calc_gamma_t_iapws06_Ih</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_gamma_t_iapws06_ih&#45;&gt;proc~calc_gamma_t_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge5" class="edge">
+<title>interface~calc_gamma_t_iapws06_ih&#45;&gt;proc~calc_gamma_t_iapws06_ih</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M650.18,-54C659.96,-54 669.73,-54 679.22,-54"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="679.39,-57.5 689.39,-54 679.39,-50.5 679.39,-57.5"/>
+</g>
+<!-- interface~calc_gamma_tt_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_node7" class="node">
+<title>interface~calc_gamma_tt_iapws06_ih</title>
+<g id="a_proc~~calc_r2_iapws06_ih~~CalledByGraph_node7"><a xlink:href="../interface/calc_gamma_tt_iapws06_ih.html" xlink:title="type_iapws06%calc_gamma_tt_iapws06_Ih">
+<polygon fill="#a7506f" stroke="#a7506f" points="652,-24 413,-24 413,0 652,0 652,-24"/>
+<text text-anchor="middle" x="532.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_iapws06%calc_gamma_tt_iapws06_Ih</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_gamma_tt_iapws06_ih&#45;&gt;proc~calc_gamma_tt_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge6" class="edge">
+<title>interface~calc_gamma_tt_iapws06_ih&#45;&gt;proc~calc_gamma_tt_iapws06_ih</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M652.22,-12C660.78,-12 669.32,-12 677.65,-12"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="677.7,-15.5 687.7,-12 677.7,-8.5 677.7,-15.5"/>
+</g>
+<!-- proc~calc_gamma_iapws06 -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_node8" class="node">
+<title>proc~calc_gamma_iapws06</title>
+<g id="a_proc~~calc_r2_iapws06_ih~~CalledByGraph_node8"><a xlink:href="../proc/calc_gamma_iapws06.html" xlink:title="calc_gamma_iapws06">
+<polygon fill="#d9534f" stroke="#d9534f" points="377,-66 247,-66 247,-42 377,-42 377,-66"/>
+<text text-anchor="middle" x="312" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_gamma_iapws06</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_gamma_iapws06&#45;&gt;interface~calc_gamma_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge7" class="edge">
+<title>proc~calc_gamma_iapws06&#45;&gt;interface~calc_gamma_iapws06_ih</title>
+<path fill="none" stroke="#ff0000" d="M368.74,-66.03C383.14,-69.05 398.63,-72.22 413,-75 425.38,-77.4 438.51,-79.83 451.35,-82.15"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="451.1,-85.66 461.57,-83.98 452.34,-78.77 451.1,-85.66"/>
+</g>
+<!-- proc~calc_gamma_iapws06&#45;&gt;interface~calc_gamma_t_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge8" class="edge">
+<title>proc~calc_gamma_iapws06&#45;&gt;interface~calc_gamma_t_iapws06_ih</title>
+<path fill="none" stroke="#00ff00" d="M377.08,-54C385.87,-54 395.12,-54 404.56,-54"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="404.86,-57.5 414.86,-54 404.86,-50.5 404.86,-57.5"/>
+</g>
+<!-- proc~calc_gamma_iapws06&#45;&gt;interface~calc_gamma_tt_iapws06_ih -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge9" class="edge">
+<title>proc~calc_gamma_iapws06&#45;&gt;interface~calc_gamma_tt_iapws06_ih</title>
+<path fill="none" stroke="#0000ff" d="M368.74,-41.97C383.14,-38.95 398.63,-35.78 413,-33 425.38,-30.6 438.51,-28.17 451.35,-25.85"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="452.34,-29.23 461.57,-24.02 451.1,-22.34 452.34,-29.23"/>
+</g>
+<!-- interface~calc_gamma_iapws06 -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_node9" class="node">
+<title>interface~calc_gamma_iapws06</title>
+<g id="a_proc~~calc_r2_iapws06_ih~~CalledByGraph_node9"><a xlink:href="../interface/calc_gamma_iapws06.html" xlink:title="type_iapws06%calc_gamma_iapws06">
+<polygon fill="#a7506f" stroke="#a7506f" points="211,-66 0,-66 0,-42 211,-42 211,-66"/>
+<text text-anchor="middle" x="105.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_iapws06%calc_gamma_iapws06</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_gamma_iapws06&#45;&gt;proc~calc_gamma_iapws06 -->
+<g id="proc~~calc_r2_iapws06_ih~~CalledByGraph_edge10" class="edge">
+<title>interface~calc_gamma_iapws06&#45;&gt;proc~calc_gamma_iapws06</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M211.15,-54C219.81,-54 228.45,-54 236.82,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="236.87,-57.5 246.87,-54 236.87,-50.5 236.87,-57.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panproccalc_r2_iapws06_ihCalledByGraph = svgPanZoom('#proccalc_r2_iapws06_ihCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure elemental function </span><span class="n">calc_r2_iapws06_Ih</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="n">pi_0</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<span class="w">        </span><span class="k">implicit none</span>
+<span class="k">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="n">pi_0</span>
+<span class="w">        </span><span class="kt">complex</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">val</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">delta_pi</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">        </span><span class="n">delta_pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pi_0</span>
+<span class="w">        </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r2_Ih_r2</span><span class="p">(</span><span class="n">r2_terms</span><span class="p">)</span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r2_terms</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">            </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r2_Ih_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta_pi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">val</span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">    end function </span><span class="n">calc_r2_iapws06_Ih</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              IAPWS
+ was developed by Kikuchi Shun<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-02 10:01 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

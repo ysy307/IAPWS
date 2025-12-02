@@ -1,4 +1,4 @@
-submodule(iapws) iapws_property_helmholtz
+submodule(module_iapws) iapws_property_helmholtz
     implicit none
 contains
 
@@ -10,7 +10,7 @@ contains
         type(type_iapws_property), intent(inout) :: property
 
         real(real64) :: tau, delta
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
 
         property%T = T_in
         property%rho = rho_in
@@ -39,7 +39,7 @@ contains
         real(real64) :: p, dp, delta, tau
         real(real64) :: drho, rho_old
         real(real64) :: p_diff, threshold
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
 
         ! --- 1. 初期値推測 (変更なし) ---
         if (P_in > 22.1d6) then
@@ -77,11 +77,6 @@ contains
                 ! 暴走を防ぐため、変化量を制限する (ダンピング)
                 if (drho > 0.2d0 * rho) drho = 0.2d0 * rho
                 if (drho < -0.2d0 * rho) drho = -0.2d0 * rho
-            else
-                ! [B] 十分近い場合 (誤差 <= 1%):
-                ! ダンピングを解除！ 純粋なニュートン法で一気に収束させる。
-                ! これにより、最後の数桁のズレを瞬時に修正します。
-                ! (何もしない = そのまま drho を適用)
             end if
 
             rho = rho + drho
@@ -104,10 +99,10 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: rho_in
         real(real64), intent(inout) :: p
-        type(type_iapws_phi_property), intent(in), optional :: prop_in
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, delta
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
 
         tau = self%T_c / T_in
         delta = rho_in / self%rho_c
@@ -118,7 +113,7 @@ contains
             call self%calc_phi(tau, delta, props)
         end if
 
-        p = rho_in * self%R * T_in * delta * props%phi_d
+        p = rho_in * self%R * T_in * delta * props%f_d
 
     end subroutine calc_p_helmholtz
 
@@ -128,10 +123,10 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: rho_in
         real(real64), intent(inout) :: p_rho
-        type(type_iapws_phi_property), intent(in), optional :: prop_in
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, delta
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
         real(real64) :: R, RT
 
         tau = self%T_c / T_in
@@ -146,8 +141,8 @@ contains
             call self%calc_phi(tau, delta, props)
         end if
 
-        ! p_rho = R * T_in * (delta * props%phi_d + delta * props%phi_d + delta**2 * props%phi_dd) / self%rho_c
-        p_rho = R * T_in * (2.0d0 * delta * props%phi_d + delta**2 * props%phi_dd)
+        ! p_rho = R * T_in * (delta * props%f_d + delta * props%f_d + delta**2 * props%f_dd) / self%rho_c
+        p_rho = R * T_in * (2.0d0 * delta * props%f_d + delta**2 * props%f_dd)
 
     end subroutine calc_p_rho_helmholtz
 
@@ -157,10 +152,10 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: rho_in
         real(real64), intent(inout) :: p_T
-        type(type_iapws_phi_property), intent(in), optional :: prop_in
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, delta
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
         real(real64) :: R
 
         tau = self%T_c / T_in
@@ -176,7 +171,7 @@ contains
 
         ! ∂p/∂T  (rho constant)
         ! p_T = rho R delta ( phi_d - tau * phi_dt )
-        p_T = rho_in * R * delta * (props%phi_d - tau * props%phi_dt)
+        p_T = rho_in * R * delta * (props%f_d - tau * props%f_dt)
 
     end subroutine calc_p_T_helmholtz
 
@@ -186,10 +181,10 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: rho_in
         real(real64), intent(inout) :: u
-        type(type_iapws_phi_property), intent(in), optional :: prop_in
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, delta
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
 
         tau = self%T_c / T_in
         delta = rho_in / self%rho_c
@@ -200,7 +195,7 @@ contains
             call self%calc_phi(tau, delta, props)
         end if
 
-        u = self%R * T_in * tau * props%phi_t
+        u = self%R * T_in * tau * props%f_t
 
     end subroutine calc_u_helmholtz
 
@@ -210,10 +205,10 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: rho_in
         real(real64), intent(inout) :: s
-        type(type_iapws_phi_property), intent(in), optional :: prop_in
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, delta
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
 
         tau = self%T_c / T_in
         delta = rho_in / self%rho_c
@@ -224,7 +219,7 @@ contains
             call self%calc_phi(tau, delta, props)
         end if
 
-        s = self%R * (tau * props%phi_t - props%phi)
+        s = self%R * (tau * props%f_t - props%f)
 
     end subroutine calc_s_helmholtz
 
@@ -234,10 +229,10 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: rho_in
         real(real64), intent(inout) :: h
-        type(type_iapws_phi_property), intent(in), optional :: prop_in
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, delta
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
 
         tau = self%T_c / T_in
         delta = rho_in / self%rho_c
@@ -248,7 +243,7 @@ contains
             call self%calc_phi(tau, delta, props)
         end if
 
-        h = self%R * T_in * (tau * props%phi_t + delta * props%phi_d)
+        h = self%R * T_in * (tau * props%f_t + delta * props%f_d)
 
     end subroutine calc_h_helmholtz
 
@@ -258,10 +253,10 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: rho_in
         real(real64), intent(inout) :: cv
-        type(type_iapws_phi_property), intent(in), optional :: prop_in
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, delta
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
 
         tau = self%T_c / T_in
         delta = rho_in / self%rho_c
@@ -272,7 +267,7 @@ contains
             call self%calc_phi(tau, delta, props)
         end if
 
-        cv = self%R * (-tau**2 * props%phi_tt)
+        cv = self%R * (-tau**2 * props%f_tt)
 
     end subroutine calc_cv_helmholtz
 
@@ -282,10 +277,10 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: rho_in
         real(real64), intent(inout) :: cp
-        type(type_iapws_phi_property), intent(in), optional :: prop_in
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, delta
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
 
         tau = self%T_c / T_in
         delta = rho_in / self%rho_c
@@ -296,9 +291,9 @@ contains
             call self%calc_phi(tau, delta, props)
         end if
 
-        cp = self%R * (-tau**2 * props%phi_tt + &
-                       (delta * props%phi_d - delta * tau * props%phi_dt)**2 / &
-                       (2.0d0 * delta * props%phi_d + delta**2 * props%phi_dd))
+        cp = self%R * (-tau**2 * props%f_tt + &
+                       (delta * props%f_d - delta * tau * props%f_dt)**2 / &
+                       (2.0d0 * delta * props%f_d + delta**2 * props%f_dd))
 
     end subroutine calc_cp_helmholtz
 
@@ -308,11 +303,11 @@ contains
         real(real64), intent(in) :: T_in
         real(real64), intent(in) :: rho_in
         real(real64), intent(inout) :: w
-        type(type_iapws_phi_property), intent(in), optional :: prop_in
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
 
         real(real64) :: tau, delta
         real(real64) :: w_sq
-        type(type_iapws_phi_property) :: props
+        type(type_iapws_helmholtz_property) :: props
 
         tau = self%T_c / T_in
         delta = rho_in / self%rho_c
@@ -324,9 +319,9 @@ contains
         end if
 
         w_sq = self%R * T_in * &
-               (2.0d0 * delta * props%phi_d + delta**2 * props%phi_dd - &
-                ((delta * props%phi_d - delta * tau * props%phi_dt)**2) / &
-                (tau**2 * props%phi_tt))
+               (2.0d0 * delta * props%f_d + delta**2 * props%f_dd - &
+                ((delta * props%f_d - delta * tau * props%f_dt)**2) / &
+                (tau**2 * props%f_tt))
 
         w = sqrt(max(w_sq, 0.0d0))
     end subroutine calc_w_helmholtz

@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for procedures.">18 statements</a>
+                 title=" 0.4% of total for procedures.">18 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -179,7 +179,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~89"></span>
+              <span class="anchor" id="variable-self~125"></span>
               class(<a href='../type/abst_iapws_helmholtz.html'>abst_iapws_helmholtz</a>),
             </td>
 <td>intent(in)</td>
@@ -194,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~55"></span>
+              <span class="anchor" id="variable-t_in~72"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -239,8 +239,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prop_in~29"></span>
-              type(<a href='../type/type_iapws_phi_property.html'>type_iapws_phi_property</a>),
+              <span class="anchor" id="variable-prop_in~37"></span>
+              type(<a href='../type/type_iapws_helmholtz_property.html'>type_iapws_helmholtz_property</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -547,10 +547,10 @@ large graphs.</div>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">T_in</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rho_in</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u</span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_phi_property</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prop_in</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_helmholtz_property</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prop_in</span>
 
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">delta</span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_phi_property</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">props</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_helmholtz_property</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">props</span>
 
 <span class="w">        </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">T_c</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">T_in</span>
 <span class="w">        </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rho_in</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">rho_c</span>
@@ -561,7 +561,7 @@ large graphs.</div>
 <span class="k">            call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_phi</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
 <span class="w">        </span><span class="k">end if</span>
 
-<span class="k">        </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">T_in</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">props</span><span class="p">%</span><span class="n">phi_t</span>
+<span class="k">        </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">T_in</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">props</span><span class="p">%</span><span class="n">f_t</span>
 
 <span class="w">    </span><span class="k">end subroutine </span><span class="n">calc_u_helmholtz</span>
 </pre></div>
@@ -587,7 +587,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-01 14:40 +0000             </p>
+ on 2025-12-02 10:01 +0000             </p>
           </div>
         </div>
         <br>
