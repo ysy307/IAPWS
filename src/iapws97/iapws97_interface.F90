@@ -1,7 +1,7 @@
 module module_iapws97
     use, intrinsic :: iso_fortran_env
+    use :: module_iapws
     use :: utils_kahan, only:kahan_add
-    use :: iapws
     implicit none
 
     type :: type_iapws97_auxiliary

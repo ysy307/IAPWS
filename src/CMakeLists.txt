@@ -1,31 +1,34 @@
-# --- 1. 内部モジュール (OBJECTライブラリ) の定義 ---
-# ※ ここでのパスはすべて src/ からの相対パスになります
+# ------------------------------------------------------------------------------
+# Define internal components as Object Libraries
+# This avoids installing many small .a files and bundles them into the main library.
+# ------------------------------------------------------------------------------
 
-# Utils: 計算補助など
+# 1. Utils: 計算補助など
 add_library(iapws_utils OBJECT
     utils/kahan.F90
 )
 
-# Bases: 基本型や共通定義
+# 2. Bases: 基本型や共通定義
 add_library(iapws_bases OBJECT
-    iapws_interface.F90
+    bases/iapws_interface.F90
     bases/types.F90
     bases/property_helmholtz.F90
     bases/property_gibbs.F90
 )
-# 依存関係 (Bases は Utils を使う)
-target_link_libraries(iapws_bases PUBLIC iapws_utils)
 
-# IAPWS-95: 一般水・蒸気
+# 3. IAPWS-95: 一般水・蒸気
 add_library(iapws_95 OBJECT
     iapws95/iapws95_constants.F90
     iapws95/iapws95_base.F90
     iapws95/iapws95_interface.F90
 )
-# 依存関係 (95 は Bases を使う)
-target_link_libraries(iapws_95 PUBLIC iapws_bases)
+# 依存関係
+target_link_libraries(iapws_95 PUBLIC
+    iapws_utils
+    iapws_bases
+)
 
-# IAPWS-97: 産業用
+# 4. IAPWS-97: 産業用
 add_library(iapws_97 OBJECT
     iapws97/iapws97_base.F90
     iapws97/iapws97_auxiliary.F90
@@ -36,33 +39,51 @@ add_library(iapws_97 OBJECT
     iapws97/iapws97_region5.F90
     iapws97/iapws97_interface.F90
 )
-# 依存関係 (97 は Bases を使う)
-target_link_libraries(iapws_97 PUBLIC iapws_bases)
-
-
-# --- 2. 最終ライブラリの定義 (STATIC) ---
-# ここで全てのオブジェクトを結合して libiapws.a を作成
-
+# 依存関係
+target_link_libraries(iapws_97  PUBLIC
+    iapws_utils
+    iapws_bases
+)
+# --- 5. IAPWS-06: 氷 (Ice Ih) ---
+# ディレクトリ構造に存在していましたが、コードから抜けていたため追加しておきます
+# 不要であればコメントアウトしてください
+add_library(iapws_06 OBJECT
+    iapws06/iapws06_iceIh_interface.F90
+)
+target_link_libraries(iapws_06 PUBLIC  PUBLIC
+    iapws_utils
+    iapws_bases
+)
+# ------------------------------------------------------------------------------
+# Main Library Target (STATIC)
+# ------------------------------------------------------------------------------
 add_library(iapws STATIC
-    # src直下のファイル
+    # src直下のメインファイル群
     iapws.F90
     # 分割したオブジェクトファイルを取り込む
     $<TARGET_OBJECTS:iapws_utils>
     $<TARGET_OBJECTS:iapws_bases>
     $<TARGET_OBJECTS:iapws_95>
     $<TARGET_OBJECTS:iapws_97>
+    $<TARGET_OBJECTS:iapws_06>
 )
 
-# Fortranのモジュール参照(.mod)の順序解決のためにリンク設定を行う
+# ------------------------------------------------------------------------------
+# Link Libraries Configuration
+# ------------------------------------------------------------------------------
 target_link_libraries(iapws PRIVATE
-    iapws_utils
-    iapws_bases
-    iapws_95
-    iapws_97
+    $<BUILD_INTERFACE:iapws_utils>
+    $<BUILD_INTERFACE:iapws_bases>
+    $<BUILD_INTERFACE:iapws_95>
+    $<BUILD_INTERFACE:iapws_97>
+    $<BUILD_INTERFACE:iapws_06>
 )
 
-# --- 3. インターフェースの公開 ---
-# このライブラリを使う側 (appなど) に .mod ファイルの場所を教える
+# ------------------------------------------------------------------------------
+# Include Directories Configuration
+# ------------------------------------------------------------------------------
 target_include_directories(iapws PUBLIC
-    ${CMAKE_Fortran_MODULE_DIRECTORY}
+    $<BUILD_INTERFACE:${CMAKE_Fortran_MODULE_DIRECTORY}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    $<INSTALL_INTERFACE:include/iapws>
 )

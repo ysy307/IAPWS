@@ -1,4 +1,4 @@
-submodule(iapws) iapws_types
+submodule(module_iapws) iapws_types
     implicit none
 contains
     module pure elemental subroutine reset_iapws_phi_property(self)

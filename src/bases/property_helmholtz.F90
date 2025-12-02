@@ -1,4 +1,4 @@
-submodule(iapws) iapws_property_helmholtz
+submodule(module_iapws) iapws_property_helmholtz
     implicit none
 contains
 

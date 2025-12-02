@@ -1,4 +1,4 @@
-module iapws
+module module_iapws
     use, intrinsic :: iso_fortran_env
     implicit none
 
@@ -427,4 +427,4 @@ module iapws
         end subroutine calc_w_gibbs
     end interface
 
-end module iapws
+end module module_iapws

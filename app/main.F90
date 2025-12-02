@@ -1,6 +1,6 @@
 program main
     use, intrinsic :: iso_fortran_env
-    use :: module_iapws
+    use :: iapws
     implicit none
 
     call test_iapws95()
@@ -178,14 +178,15 @@ contains
 
         if (rel_diff > current_tol) then
             write (unit, '(a)') "- **FAIL**: `"//v_name//"`"
-            write (unit, '(a)') ""
-            write (unit, '("|",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
-            write (unit, '("|",a6,"|",a20,"|",a20,"|",a20,"|")') &
+            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
+            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') &
                 repeat('-', 6), repeat('-', 20), repeat('-', 20), repeat('-', 20)
             if (present(id)) then
-                write (unit, '("|",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') id, v, v_exa, rel_diff
+                write (unit, '("    |",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
+                    id, v, v_exa, rel_diff
             else
-                write (unit, '("|",a6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') "-", v, v_exa, rel_diff
+                write (unit, '("    |",a6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
+                    "-", v, v_exa, rel_diff
             end if
         else
             write (unit, '(a)') "- PASS: `"//v_name//"`"
@@ -226,17 +227,18 @@ contains
         if (any(rel_diff > current_tol)) then
             fail_count = count(rel_diff > current_tol)
             write (unit, '(a,i0,a)') "- **FAIL**: `"//v_name//"` (Failed count: ", fail_count, ")"
-            write (unit, '(a)') ""
-            write (unit, '("|",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
-            write (unit, '("|",a6,"|",a20,"|",a20,"|",a20,"|")') &
+            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
+            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') &
                 repeat('-', 6), repeat('-', 20), repeat('-', 20), repeat('-', 20)
 
             do i = 1, n
                 if (rel_diff(i) > current_tol) then
                     if (present(ids)) then
-                        write (unit, '("|",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') ids(i), v(i), v_exa(i), rel_diff(i)
+                        write (unit, '("    |",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
+                            ids(i), v(i), v_exa(i), rel_diff(i)
                     else
-                        write (unit, '("|",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') i, v(i), v_exa(i), rel_diff(i)
+                        write (unit, '("    |",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
+                            i, v(i), v_exa(i), rel_diff(i)
                     end if
                 end if
             end do

@@ -1,4 +1,4 @@
-submodule(iapws) property_gibbs
+submodule(module_iapws) property_gibbs
     implicit none
 
 contains
