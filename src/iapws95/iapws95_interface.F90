@@ -1,6 +1,6 @@
 module module_iapws95
     use, intrinsic :: iso_fortran_env, only: int32, real64
-    use :: module_iapws, only:abst_iapws_helmholtz, type_iapws_phi_property
+    use :: module_iapws, only:abst_iapws_helmholtz, type_iapws_helmholtz_property
     use :: utils_kahan, only:kahan_add
     use :: iapws95_constants
     implicit none
@@ -32,7 +32,7 @@ module module_iapws95
             !> Reduced density ρ/rho_c, [-]
             real(real64), intent(in) :: delta
             !> IAPWS-95 helmholtz properties
-            type(type_iapws_phi_property), intent(inout) :: property
+            type(type_iapws_helmholtz_property), intent(inout) :: property
         end subroutine calc_phi_iapws95
 
         module pure elemental subroutine calc_phi0_iapws95(self, tau, delta, property)
@@ -44,7 +44,7 @@ module module_iapws95
             !> Reduced density ρ/rho_c, [-]
             real(real64), intent(in) :: delta
             !> IAPWS-95 ideal helmholtz properties
-            type(type_iapws_phi_property), intent(inout) :: property
+            type(type_iapws_helmholtz_property), intent(inout) :: property
 
         end subroutine calc_phi0_iapws95
 
@@ -57,7 +57,7 @@ module module_iapws95
             !> Reduced density ρ/rho_c, [-]
             real(real64), intent(in) :: delta
             !> IAPWS-95 ideal helmholtz properties
-            type(type_iapws_phi_property), intent(inout) :: property
+            type(type_iapws_helmholtz_property), intent(inout) :: property
 
         end subroutine calc_phir_iapws95
     end interface

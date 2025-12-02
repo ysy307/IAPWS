@@ -1,56 +1,55 @@
 submodule(module_iapws) iapws_types
     implicit none
 contains
-    module pure elemental subroutine reset_iapws_phi_property(self)
+    module pure elemental subroutine reset_iapws_helmholtz_property(self)
         implicit none
         !> IAPWS Helmholtz properties object
-        class(type_iapws_phi_property), intent(inout) :: self
+        class(type_iapws_helmholtz_property), intent(inout) :: self
 
-        self%phi = 0.0d0
-        self%phi_d = 0.0d0
-        self%phi_t = 0.0d0
-        self%phi_dd = 0.0d0
-        self%phi_dt = 0.0d0
-        self%phi_tt = 0.0d0
+        self%f = 0.0d0
+        self%f_d = 0.0d0
+        self%f_t = 0.0d0
+        self%f_dd = 0.0d0
+        self%f_dt = 0.0d0
+        self%f_tt = 0.0d0
 
-        self%phi0 = 0.0d0
-        self%phi0_d = 0.0d0
-        self%phi0_t = 0.0d0
-        self%phi0_dd = 0.0d0
-        self%phi0_dt = 0.0d0
-        self%phi0_tt = 0.0d0
-        self%phir = 0.0d0
-        self%phir_d = 0.0d0
-        self%phir_t = 0.0d0
-        self%phir_dd = 0.0d0
-        self%phir_dt = 0.0d0
-        self%phir_tt = 0.0d0
-    end subroutine reset_iapws_phi_property
+        self%f0 = 0.0d0
+        self%f0_d = 0.0d0
+        self%f0_t = 0.0d0
+        self%f0_dd = 0.0d0
+        self%f0_dt = 0.0d0
+        self%f0_tt = 0.0d0
+        self%fr = 0.0d0
+        self%fr_d = 0.0d0
+        self%fr_t = 0.0d0
+        self%fr_dd = 0.0d0
+        self%fr_dt = 0.0d0
+        self%fr_tt = 0.0d0
+    end subroutine reset_iapws_helmholtz_property
 
-    module pure elemental subroutine reset_iapws_gamma_property(self)
+    module pure elemental subroutine reset_iapws_gibbs_coefficient(self)
         implicit none
         !> IAPWS Gibbs properties object
-        class(type_iapws_gamma_property), intent(inout) :: self
+        class(type_iapws_gibbs_coefficient), intent(inout) :: self
 
-        self%gamma = 0.0d0
-        self%gamma_p = 0.0d0
-        self%gamma_t = 0.0d0
-        self%gamma_pp = 0.0d0
-        self%gamma_tt = 0.0d0
-        self%gamma_pt = 0.0d0
+        self%g = 0.0d0
+        self%g_p = 0.0d0
+        self%g_t = 0.0d0
+        self%g_pp = 0.0d0
+        self%g_tt = 0.0d0
+        self%g_pt = 0.0d0
 
-        self%gamma0 = 0.0d0
-        self%gamma0_p = 0.0d0
-        self%gamma0_t = 0.0d0
-        self%gamma0_pp = 0.0d0
-        self%gamma0_tt = 0.0d0
-        self%gamma0_pt = 0.0d0
-        self%gammar = 0.0d0
-        self%gammar_p = 0.0d0
-        self%gammar_t = 0.0d0
-        self%gammar_pp = 0.0d0
-        self%gammar_tt = 0.0d0
-        self%gammar_pt = 0.0d0
-    end subroutine reset_iapws_gamma_property
-
+        self%g0 = 0.0d0
+        self%g0_p = 0.0d0
+        self%g0_t = 0.0d0
+        self%g0_pp = 0.0d0
+        self%g0_tt = 0.0d0
+        self%g0_pt = 0.0d0
+        self%gr = 0.0d0
+        self%gr_p = 0.0d0
+        self%gr_t = 0.0d0
+        self%gr_pp = 0.0d0
+        self%gr_tt = 0.0d0
+        self%gr_pt = 0.0d0
+    end subroutine reset_iapws_gibbs_coefficient
 end submodule iapws_types

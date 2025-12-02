@@ -50,17 +50,17 @@ contains
         !> Reduced density ρ/rho_c, [-]
         real(real64), intent(in) :: delta
         !> IAPWS-97 helmholtz properties
-        type(type_iapws_phi_property), intent(inout) :: property
+        type(type_iapws_helmholtz_property), intent(inout) :: property
 
         call property%reset()
 
         ! Calculate phi and its derivatives
-        property%phi = calc_phi_region3(tau, delta)
-        property%phi_d = calc_phi_d_region3(tau, delta)
-        property%phi_t = calc_phi_t_region3(tau, delta)
-        property%phi_dd = calc_phi_dd_region3(tau, delta)
-        property%phi_tt = calc_phi_tt_region3(tau, delta)
-        property%phi_dt = calc_phi_dt_region3(tau, delta)
+        property%f = calc_phi_region3(tau, delta)
+        property%f_d = calc_phi_d_region3(tau, delta)
+        property%f_t = calc_phi_t_region3(tau, delta)
+        property%f_dd = calc_phi_dd_region3(tau, delta)
+        property%f_tt = calc_phi_tt_region3(tau, delta)
+        property%f_dt = calc_phi_dt_region3(tau, delta)
     end subroutine calc_phi_iapws97_region3
 
     !> Calculate phi

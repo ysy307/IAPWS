@@ -72,8 +72,6 @@ contains
 
         type(type_iapws97) :: iapws97_model
         type(type_iapws_property) :: props_g(test_gibbs), props_h(test_helmholtz)
-        type(type_iapws_gamma_property) :: prop_g
-        type(type_iapws_phi_property) :: prop_h
 
         open (unit=10, file="/workspaces/IAPWS/validations/iapws97/test_iapws97.dat", status="old", action="read")
         read (10, *)
