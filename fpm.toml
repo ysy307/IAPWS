@@ -10,17 +10,18 @@ auto-executables = true
 auto-tests = true
 auto-examples = true
 
-# ライブラリのソースディレクトリ指定
-# fpmはここにあるサブディレクトリも含めて全ソースをコンパイルします
+# ---------------------------------------------------------
+# Library Configuration
+# ---------------------------------------------------------
 [library]
 source-dir = "src"
+# fpm automatically finds sources in subdirectories (bases, iapws95, etc.)
 
-# アプリケーション（実行ファイル）の設定
-# app ディレクトリ内の program を含むファイルを自動検出させます
-# もし app ディレクトリ内のファイル名が main.f90 なら、
-# 生成される実行ファイル名は "IAPWS" (プロジェクト名) になります。
-# 別の名前にしたい場合やファイル名が異なる場合は以下のように明示します。
-[[executable]]
-name = "iapws-app"
-source-dir = "app"
-main = "main.f90"  # appディレクトリ内のメインプログラムを含むファイル名に合わせてください
+# ---------------------------------------------------------
+# Test Configuration
+# ---------------------------------------------------------
+# Explicitly define the test target based on "test/iapws_test.F90"
+[[test]]
+name = "iapws_test"
+source-dir = "test"
+main = "iapws_test.F90"

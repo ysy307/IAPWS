@@ -92,6 +92,35 @@
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_Fortran_FLAGS_RELEASE": "-O3 -fast"
             }
+        },
+        {
+            "name": "windows-msvc-base",
+            "hidden": true,
+            "generator": "Visual Studio 17 2022",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "windows-msvc-debug",
+            "displayName": "Windows MSVC [Debug]",
+            "inherits": "windows-msvc-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_Fortran_FLAGS_DEBUG": "/Od /Zi /Traceback /check:bounds"
+            }
+        },
+        {
+            "name": "windows-msvc-release",
+            "displayName": "Windows MSVC [Release]",
+            "inherits": "windows-msvc-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_Fortran_FLAGS_RELEASE": "/O2"
+            }
         }
     ],
     "buildPresets": [
@@ -102,39 +131,45 @@
         },
         {
             "name": "build-gcc-debug",
-            "displayName": "Build GCC [Debug]",
             "inherits": "build-base",
             "configurePreset": "gcc-debug"
         },
         {
             "name": "build-gcc-release",
-            "displayName": "Build GCC [Release]",
             "inherits": "build-base",
             "configurePreset": "gcc-release"
         },
         {
             "name": "build-intel-debug",
-            "displayName": "Build Intel [Debug]",
             "inherits": "build-base",
             "configurePreset": "intel-debug"
         },
         {
             "name": "build-intel-release",
-            "displayName": "Build Intel [Release]",
             "inherits": "build-base",
             "configurePreset": "intel-release"
         },
         {
             "name": "build-nvidia-debug",
-            "displayName": "Build NVIDIA [Debug]",
             "inherits": "build-base",
             "configurePreset": "nvidia-debug"
         },
         {
             "name": "build-nvidia-release",
-            "displayName": "Build NVIDIA [Release]",
             "inherits": "build-base",
             "configurePreset": "nvidia-release"
+        },
+        {
+            "name": "build-msvc-debug",
+            "displayName": "Build MSVC [Debug]",
+            "inherits": "build-base",
+            "configurePreset": "windows-msvc-debug"
+        },
+        {
+            "name": "build-msvc-release",
+            "displayName": "Build MSVC [Release]",
+            "inherits": "build-base",
+            "configurePreset": "windows-msvc-release"
         }
     ],
     "testPresets": [
