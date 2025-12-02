@@ -45,10 +45,9 @@ target_link_libraries(iapws_97  PUBLIC
     iapws_bases
 )
 # --- 5. IAPWS-06: 氷 (Ice Ih) ---
-# ディレクトリ構造に存在していましたが、コードから抜けていたため追加しておきます
-# 不要であればコメントアウトしてください
 add_library(iapws_06 OBJECT
     iapws06/iapws06_iceIh_interface.F90
+    iapws06/iapws06_iceIh_base.F90
 )
 target_link_libraries(iapws_06 PUBLIC  PUBLIC
     iapws_utils

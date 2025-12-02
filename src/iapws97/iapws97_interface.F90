@@ -182,7 +182,7 @@ module module_iapws97
     end interface
 
     type :: type_iapws97
-        private
+        ! private
         type(type_iapws97_auxiliary) :: auxiliary
         type(type_iapws97_region1) :: region1
         type(type_iapws97_region2) :: region2

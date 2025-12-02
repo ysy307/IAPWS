@@ -70,25 +70,13 @@ contains
         val_gtt = calc_gamma_tt_region1(tau, pi)
         val_gpt = calc_gamma_pt_region1(tau, pi)
 
-        ! g [J/kg]
         coef%g = self%R * T_in * val_g
-
-        ! ∂g/∂p [m^3/kg]
         coef%g_p = self%R * T_in * val_gp / self%p_star
-
-        ! ∂g/∂T [J/(kg K)]
         coef%g_t = self%R * (val_g - tau * val_gt)
-
-        ! ∂²g/∂p² [m^3/(kg Pa)]
-        coef%g_pp = self%R * T_in * val_gpp / (self%p_star**2)
-
-        ! ∂²g/∂T² [J/(kg K^2)]
-        ! g_TT = R * τ²/T * γ_TT
+        coef%g_pp = self%R * T_in * val_gpp / (self%p_star * self%p_star)
         coef%g_tt = self%R * (tau**2) * val_gtt / T_in
-
-        ! ∂²g/(∂p∂T)  [m^3/(kg K)]
-        ! g_pT = R*( γ_π - τ γ_{πτ} ) / p_star
         coef%g_pt = self%R * (val_gp - tau * val_gpt) / self%p_star
+
     end subroutine calc_gamma_iapws97_region1
 
     !> Calculate the dimensionless Gibbs free energy \(\gamma\) for Region 1.

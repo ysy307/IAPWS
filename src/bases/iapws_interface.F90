@@ -29,9 +29,9 @@ module module_iapws
 
     type, abstract :: abst_iapws_gibbs
         !> Reference Temperature, \( T_{star} \) [K]
-        integer(int32) :: T_star
+        real(real64) :: T_star
         !> Reference Pressure, \( p_{star} \) [Pa]
-        integer(int32) :: p_star
+        real(real64) :: p_star
         !> Specific Gas Constant, \( R \) [J/(kg K)]
         real(real64) :: R
         !> Initialization flag
