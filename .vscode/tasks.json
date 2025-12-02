@@ -2,11 +2,28 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Clean",
+            "label": "CMake Build",
             "type": "shell",
             "command": "zsh",
             "args": [
-                "${workspaceFolder}/scripts/clean.sh"
+                "${workspaceFolder}/scripts/CMakeBuild.sh"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "echo": true
+            }
+        },
+        {
+            "label": "CMake Clean",
+            "type": "shell",
+            "command": "zsh",
+            "args": [
+                "${workspaceFolder}/scripts/CMakeClean.sh"
             ],
             "group": {
                 "kind": "build",
@@ -18,22 +35,5 @@
                 "echo": true
             }
         },
-        {
-            "label": "Build",
-            "type": "shell",
-            "command": "zsh",
-            "args": [
-                "${workspaceFolder}/scripts/build.sh"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared",
-                "echo": true
-            }
-        }
     ]
 }
