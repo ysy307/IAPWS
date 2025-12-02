@@ -26,7 +26,6 @@
 
 # === Configuration Files ===
 *.yaml
-*.toml
 
 # === Media Files ===
 *.png
@@ -53,10 +52,6 @@ files.vtk.series
 
 # === Executable Files ===
 bin/
-test_program
-ysy_fc
-fpm*
-*.dir
 
 # === Text Files (if not part of source) ===
 # *.txt

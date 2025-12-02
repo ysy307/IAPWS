@@ -24,17 +24,17 @@ contains
         !> Reduced density ρ/rho_c, [-]
         real(real64), intent(in) :: delta
         !> IAPWS-95 helmholtz properties
-        type(type_iapws_phi_property), intent(inout) :: property
+        type(type_iapws_helmholtz_property), intent(inout) :: property
 
         call self%calc_phi0(tau, delta, property)
         call self%calc_phir(tau, delta, property)
 
-        property%phi = property%phi0 + property%phir
-        property%phi_d = property%phi0_d + property%phir_d
-        property%phi_t = property%phi0_t + property%phir_t
-        property%phi_dd = property%phi0_dd + property%phir_dd
-        property%phi_tt = property%phi0_tt + property%phir_tt
-        property%phi_dt = property%phi0_dt + property%phir_dt
+        property%f = property%f0 + property%fr
+        property%f_d = property%f0_d + property%fr_d
+        property%f_t = property%f0_t + property%fr_t
+        property%f_dd = property%f0_dd + property%fr_dd
+        property%f_tt = property%f0_tt + property%fr_tt
+        property%f_dt = property%f0_dt + property%fr_dt
     end subroutine calc_phi_iapws95
 
     module pure elemental subroutine calc_phi0_iapws95(self, tau, delta, property)
@@ -46,7 +46,7 @@ contains
         !> Reduced density ρ/rho_c, [-]
         real(real64), intent(in) :: delta
         !> IAPWS-95 ideal helmholtz properties
-        type(type_iapws_phi_property), intent(inout) :: property
+        type(type_iapws_helmholtz_property), intent(inout) :: property
 
         ! Local variables
         integer(int32) :: i
@@ -58,12 +58,12 @@ contains
         real(real64) :: c_phi0, c_phi0_t, c_phi0_tt
 
         ! Initialize properties
-        property%phi0 = 0.0d0
-        property%phi0_t = 0.0d0
-        property%phi0_tt = 0.0d0
-        property%phi0_d = 0.0d0
-        property%phi0_dd = 0.0d0
-        property%phi0_dt = 0.0d0
+        property%f0 = 0.0d0
+        property%f0_t = 0.0d0
+        property%f0_tt = 0.0d0
+        property%f0_d = 0.0d0
+        property%f0_dd = 0.0d0
+        property%f0_dt = 0.0d0
 
         ! Initialize compensation variables
         c_phi0 = 0.0d0
@@ -71,13 +71,13 @@ contains
         c_phi0_tt = 0.0d0
 
         ! Base ideal gas terms (using direct assignment for initial values)
-        property%phi0 = n0_log(1) * log(delta) + n0_log(2) * log(tau)
-        property%phi0_t = n0_log(2) / tau
-        property%phi0_tt = -n0_log(2) / tau**2
+        property%f0 = n0_log(1) * log(delta) + n0_log(2) * log(tau)
+        property%f0_t = n0_log(2) / tau
+        property%f0_tt = -n0_log(2) / tau**2
 
-        property%phi0_d = 1.0d0 / delta
-        property%phi0_dd = -1.0d0 / delta**2
-        property%phi0_dt = 0.0d0
+        property%f0_d = 1.0d0 / delta
+        property%f0_dd = -1.0d0 / delta**2
+        property%f0_dt = 0.0d0
 
         ! Loop 1: Power terms (Apply Kahan)
         do i = 1, size(pow)
@@ -85,13 +85,13 @@ contains
             t_val = real(pow_i, real64)
             n_val = n0_pow(i)
 
-            call kahan_add(property%phi0, c_phi0, n_val * (tau**t_val))
+            call kahan_add(property%f0, c_phi0, n_val * (tau**t_val))
 
             if (pow_i /= 0) then
-                call kahan_add(property%phi0_t, c_phi0_t, t_val * n_val * (tau**(pow_i - 1)))
+                call kahan_add(property%f0_t, c_phi0_t, t_val * n_val * (tau**(pow_i - 1)))
             end if
             if (pow_i /= 0 .and. pow_i /= 1) then
-                call kahan_add(property%phi0_tt, c_phi0_tt, n_val * t_val * (t_val - 1.0d0) * (tau**(pow_i - 2)))
+                call kahan_add(property%f0_tt, c_phi0_tt, n_val * t_val * (t_val - 1.0d0) * (tau**(pow_i - 2)))
             end if
         end do
 
@@ -104,11 +104,11 @@ contains
             one_minus_exp = 1.0d0 - exp_gtau
             inv_one_minus_exp = 1.0d0 / one_minus_exp
 
-            call kahan_add(property%phi0, c_phi0, n_val * log(one_minus_exp))
+            call kahan_add(property%f0, c_phi0, n_val * log(one_minus_exp))
 
-            call kahan_add(property%phi0_t, c_phi0_t, n_val * g_val * (inv_one_minus_exp - 1.0d0))
+            call kahan_add(property%f0_t, c_phi0_t, n_val * g_val * (inv_one_minus_exp - 1.0d0))
 
-            call kahan_add(property%phi0_tt, c_phi0_tt, -n_val * g_val**2 * exp_gtau * (inv_one_minus_exp**2))
+            call kahan_add(property%f0_tt, c_phi0_tt, -n_val * g_val**2 * exp_gtau * (inv_one_minus_exp**2))
         end do
     end subroutine calc_phi0_iapws95
 
@@ -121,7 +121,7 @@ contains
         !> Reduced density ρ/rho_c, [-]
         real(real64), intent(in) :: delta
         !> IAPWS-95 residual helmholtz properties (phi and derivatives)
-        type(type_iapws_phi_property), intent(inout) :: property
+        type(type_iapws_helmholtz_property), intent(inout) :: property
 
         ! --- Loop variables ---
         integer(int32) :: i
@@ -157,12 +157,12 @@ contains
         real(real64) :: c_phir, c_phir_d, c_phir_t, c_phir_dd, c_phir_tt, c_phir_dt
 
         ! --- Initialization ---
-        property%phir = 0.0d0
-        property%phir_d = 0.0d0
-        property%phir_t = 0.0d0
-        property%phir_dd = 0.0d0
-        property%phir_tt = 0.0d0
-        property%phir_dt = 0.0d0
+        property%fr = 0.0d0
+        property%fr_d = 0.0d0
+        property%fr_t = 0.0d0
+        property%fr_dd = 0.0d0
+        property%fr_tt = 0.0d0
+        property%fr_dt = 0.0d0
 
         c_phir = 0.0d0
         c_phir_d = 0.0d0
@@ -191,15 +191,15 @@ contains
             ! Base term
             bi = nr_val * (delta**d1(i)) * (tau**t_val)
 
-            call kahan_add(property%phir, c_phir, bi)
+            call kahan_add(property%fr, c_phir, bi)
 
             ! Derivatives
-            call kahan_add(property%phir_d, c_phir_d, bi * (d_val * inv_delta))
-            call kahan_add(property%phir_t, c_phir_t, bi * (t_val * inv_tau))
+            call kahan_add(property%fr_d, c_phir_d, bi * (d_val * inv_delta))
+            call kahan_add(property%fr_t, c_phir_t, bi * (t_val * inv_tau))
 
-            call kahan_add(property%phir_dd, c_phir_dd, bi * (d_val * (d_val - 1.0d0) * inv_delta_sq))
-            call kahan_add(property%phir_tt, c_phir_tt, bi * (t_val * (t_val - 1.0d0) * inv_tau_sq))
-            call kahan_add(property%phir_dt, c_phir_dt, bi * ((d_val * t_val) * inv_delta * inv_tau))
+            call kahan_add(property%fr_dd, c_phir_dd, bi * (d_val * (d_val - 1.0d0) * inv_delta_sq))
+            call kahan_add(property%fr_tt, c_phir_tt, bi * (t_val * (t_val - 1.0d0) * inv_tau_sq))
+            call kahan_add(property%fr_dt, c_phir_dt, bi * ((d_val * t_val) * inv_delta * inv_tau))
         end do Polynomial
 
         ! ==================================================================
@@ -222,14 +222,14 @@ contains
             Q = d_val - c_val * g_val * delta_pow_c
             R_val = (c_val**2) * g_val * delta_pow_c
 
-            call kahan_add(property%phir, c_phir, bi)
+            call kahan_add(property%fr, c_phir, bi)
 
-            call kahan_add(property%phir_d, c_phir_d, bi * (Q * inv_delta))
-            call kahan_add(property%phir_t, c_phir_t, bi * (t_val * inv_tau))
+            call kahan_add(property%fr_d, c_phir_d, bi * (Q * inv_delta))
+            call kahan_add(property%fr_t, c_phir_t, bi * (t_val * inv_tau))
 
-            call kahan_add(property%phir_dd, c_phir_dd, bi * ((Q**2 - Q - R_val) * inv_delta_sq))
-            call kahan_add(property%phir_tt, c_phir_tt, bi * (t_val * (t_val - 1.0d0) * inv_tau_sq))
-            call kahan_add(property%phir_dt, c_phir_dt, bi * (t_val * Q * inv_delta * inv_tau))
+            call kahan_add(property%fr_dd, c_phir_dd, bi * ((Q**2 - Q - R_val) * inv_delta_sq))
+            call kahan_add(property%fr_tt, c_phir_tt, bi * (t_val * (t_val - 1.0d0) * inv_tau_sq))
+            call kahan_add(property%fr_dt, c_phir_dt, bi * (t_val * Q * inv_delta * inv_tau))
         end do Exponential
 
         ! ==================================================================
@@ -258,14 +258,14 @@ contains
             term_d = (d_val * inv_delta) - 2.0d0 * alfa_val * delta_diff
             term_t = (t_val * inv_tau) - 2.0d0 * beta_val * tau_diff
 
-            call kahan_add(property%phir, c_phir, bi)
+            call kahan_add(property%fr, c_phir, bi)
 
-            call kahan_add(property%phir_d, c_phir_d, bi * term_d)
-            call kahan_add(property%phir_t, c_phir_t, bi * term_t)
+            call kahan_add(property%fr_d, c_phir_d, bi * term_d)
+            call kahan_add(property%fr_t, c_phir_t, bi * term_t)
 
-            call kahan_add(property%phir_dd, c_phir_dd, bi * (term_d**2 - (d_val * inv_delta_sq) - 2.0d0 * alfa_val))
-            call kahan_add(property%phir_tt, c_phir_tt, bi * (term_t**2 - (t_val * inv_tau_sq) - 2.0d0 * beta_val))
-            call kahan_add(property%phir_dt, c_phir_dt, bi * (term_d * term_t))
+            call kahan_add(property%fr_dd, c_phir_dd, bi * (term_d**2 - (d_val * inv_delta_sq) - 2.0d0 * alfa_val))
+            call kahan_add(property%fr_tt, c_phir_tt, bi * (term_t**2 - (t_val * inv_tau_sq) - 2.0d0 * beta_val))
+            call kahan_add(property%fr_dt, c_phir_dt, bi * (term_d * term_t))
         end do Gaussian
 
         ! ==================================================================
@@ -298,7 +298,7 @@ contains
 
             ! Base phi
             bi = nr_val * delta * (delta_term**b_val) * psi
-            call kahan_add(property%phir, c_phir, bi)
+            call kahan_add(property%fr, c_phir, bi)
 
             ! --- Derivatives of Components ---
 
@@ -355,18 +355,18 @@ contains
             ! --- Assembly of Derivatives ---
 
             ! phi_d
-            call kahan_add(property%phir_d, c_phir_d, &
+            call kahan_add(property%fr_d, c_phir_d, &
                            (bi * inv_delta) + &
                            nr_val * delta * d_Delta_pow_b_d * psi + &
                            bi * (-2.0d0 * c_int_val * diff_d))
 
             ! phi_t
-            call kahan_add(property%phir_t, c_phir_t, &
+            call kahan_add(property%fr_t, c_phir_t, &
                            nr_val * delta * d_Delta_pow_b_t * psi + &
                            bi * (-2.0d0 * D_int_val * diff_t))
 
             ! phi_dd
-            call kahan_add(property%phir_dd, c_phir_dd, &
+            call kahan_add(property%fr_dd, c_phir_dd, &
                            nr_val * ( &
                            2.0d0 * d_Delta_pow_b_d * psi + &
                            delta * d2_Delta_pow_b_dd * psi + &
@@ -375,7 +375,7 @@ contains
                            ))
 
             ! phi_tt
-            call kahan_add(property%phir_tt, c_phir_tt, &
+            call kahan_add(property%fr_tt, c_phir_tt, &
                            nr_val * delta * ( &
                            d2_Delta_pow_b_tt * psi + &
                            2.0d0 * d_Delta_pow_b_t * d_psi_t + &
@@ -383,7 +383,7 @@ contains
                            ))
 
             ! phi_dt
-            call kahan_add(property%phir_dt, c_phir_dt, &
+            call kahan_add(property%fr_dt, c_phir_dt, &
                            nr_val * ( &
                            d_Delta_pow_b_t * psi + &
                            (delta_term**b_val) * d_psi_t + &

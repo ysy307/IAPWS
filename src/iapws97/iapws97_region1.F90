@@ -42,27 +42,41 @@ contains
         self%is_initialized = .true.
     end subroutine initialize_type_iapws97_region1
 
-    !> Calculate the dimensionless Gibbs free energy \(\gamma\) for Region 1.
-    module pure elemental subroutine calc_gamma_iapws97_region1(self, tau, pi, property)
+    !> Calculate the Gibbs free energy \(\gamma\) for Region 1.
+    module pure elemental subroutine calc_gamma_iapws97_region1(self, T_in, P_in, coef)
         implicit none
         !> IAPWS-97 Region 1 object
         class(type_iapws97_region1), intent(in) :: self
-        !> Inverse reduced temperature Tc/T, [-]
-        real(real64), intent(in) :: tau
-        !> Reduced pressure p/p_c, [-]
-        real(real64), intent(in) :: pi
-        !> IAPWS Gibbs properties
-        type(type_iapws_gamma_property), intent(inout) :: property
+        !> Temperature T, [K]
+        real(real64), intent(in) :: T_in
+        !> Pressure P, [Pa]
+        real(real64), intent(in) :: P_in
+        !> IAPWS Gibbs coefficients
+        type(type_iapws_gibbs_coefficient), intent(inout) :: coef
 
-        call property%reset()
+        real(real64) :: tau, pi
+        real(real64) :: val_g, val_gp, val_gt, val_gpp, val_gtt, val_gpt
+
+        tau = self%T_star / T_in
+        pi = P_in / self%p_star
+
+        call coef%reset()
 
         ! Calculate gamma and its derivatives
-        property%gamma = calc_gamma_region1(tau, pi)
-        property%gamma_p = calc_gamma_p_region1(tau, pi)
-        property%gamma_t = calc_gamma_t_region1(tau, pi)
-        property%gamma_pp = calc_gamma_pp_region1(tau, pi)
-        property%gamma_tt = calc_gamma_tt_region1(tau, pi)
-        property%gamma_pt = calc_gamma_pt_region1(tau, pi)
+        val_g = calc_gamma_region1(tau, pi)
+        val_gp = calc_gamma_p_region1(tau, pi)
+        val_gt = calc_gamma_t_region1(tau, pi)
+        val_gpp = calc_gamma_pp_region1(tau, pi)
+        val_gtt = calc_gamma_tt_region1(tau, pi)
+        val_gpt = calc_gamma_pt_region1(tau, pi)
+
+        coef%g = self%R * T_in * val_g
+        coef%g_p = self%R * T_in * val_gp / self%p_star
+        coef%g_t = self%R * (val_g - tau * val_gt)
+        coef%g_pp = self%R * T_in * val_gpp / (self%p_star * self%p_star)
+        coef%g_tt = self%R * (tau**2) * val_gtt / T_in
+        coef%g_pt = self%R * (val_gp - tau * val_gpt) / self%p_star
+
     end subroutine calc_gamma_iapws97_region1
 
     !> Calculate the dimensionless Gibbs free energy \(\gamma\) for Region 1.

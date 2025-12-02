@@ -1,7 +1,7 @@
 module module_iapws97
     use, intrinsic :: iso_fortran_env
+    use :: module_iapws
     use :: utils_kahan, only:kahan_add
-    use :: iapws
     implicit none
 
     type :: type_iapws97_auxiliary
@@ -52,15 +52,16 @@ module module_iapws97
         end subroutine initialize_type_iapws97_region1
 
         !> Calculate the dimensionless Gibbs free energy \(\gamma\) for Region 1.
-        module pure elemental subroutine calc_gamma_iapws97_region1(self, tau, pi, property)
+        module pure elemental subroutine calc_gamma_iapws97_region1(self, T_in, P_in, coef)
             implicit none
             class(type_iapws97_region1), intent(in) :: self
             !> Inverse reduced temperature Tc/T, [-]
-            real(real64), intent(in) :: tau
-            !> Reduced pressure p/p_c, [-]
-            real(real64), intent(in) :: pi
-            !> IAPWS Gibbs properties
-            type(type_iapws_gamma_property), intent(inout) :: property
+            !> Temperature, T [K].
+            real(real64), intent(in) :: T_in
+            !> Pressure, p [Pa].
+            real(real64), intent(in) :: P_in
+            !> IAPWS Gibbs coefficients
+            type(type_iapws_gibbs_coefficient), intent(inout) :: coef
         end subroutine calc_gamma_iapws97_region1
     end interface
 
@@ -78,17 +79,17 @@ module module_iapws97
             class(type_iapws97_region2), intent(inout) :: self
         end subroutine initialize_type_iapws97_region2
 
-        !> Calculate the dimensionless Gibbs free energy \(\gamma\) for Region 2.
-        module pure elemental subroutine calc_gamma_iapws97_region2(self, tau, pi, property)
+        !> Calculate the Gibbs free energy \(\gamma\) for Region 2.
+        module pure elemental subroutine calc_gamma_iapws97_region2(self, T_in, P_in, coef)
             implicit none
             !> IAPWS-97 Region 2 object.
             class(type_iapws97_region2), intent(in) :: self
-            !> Inverse reduced temperature Tc/T, [-]
-            real(real64), intent(in) :: tau
-            !> Reduced pressure p/p_c, [-]
-            real(real64), intent(in) :: pi
-            !> IAPWS Gibbs properties
-            type(type_iapws_gamma_property), intent(inout) :: property
+            !> Temperature, T [K].
+            real(real64), intent(in) :: T_in
+            !> Pressure, p [Pa].
+            real(real64), intent(in) :: P_in
+            !> IAPWS Gibbs coefficients
+            type(type_iapws_gibbs_coefficient), intent(inout) :: coef
         end subroutine calc_gamma_iapws97_region2
     end interface
 
@@ -114,7 +115,7 @@ module module_iapws97
             !> Reduced density ρ/rho_c, [-]
             real(real64), intent(in) :: delta
             !> IAPWS-95 helmholtz properties
-            type(type_iapws_phi_property), intent(inout) :: property
+            type(type_iapws_helmholtz_property), intent(inout) :: property
         end subroutine calc_phi_iapws97_region3
     end interface
 
@@ -167,21 +168,21 @@ module module_iapws97
         end subroutine initialize_type_iapws97_region5
 
         !> Calculate the dimensionless Gibbs free energy \(\gamma\) for Region 5.
-        module pure elemental subroutine calc_gamma_iapws97_region5(self, tau, pi, property)
+        module pure elemental subroutine calc_gamma_iapws97_region5(self, T_in, P_in, coef)
             implicit none
             !> IAPWS-97 Region 5 object.
             class(type_iapws97_region5), intent(in) :: self
-            !> Inverse reduced temperature Tc/T, [-]
-            real(real64), intent(in) :: tau
-            !> Reduced pressure p/p_c, [-]
-            real(real64), intent(in) :: pi
-            !> IAPWS Gibbs properties
-            type(type_iapws_gamma_property), intent(inout) :: property
+            !> Temperature, T [K].
+            real(real64), intent(in) :: T_in
+            !> Pressure, p [Pa].
+            real(real64), intent(in) :: P_in
+            !> IAPWS Gibbs coefficients
+            type(type_iapws_gibbs_coefficient), intent(inout) :: coef
         end subroutine calc_gamma_iapws97_region5
     end interface
 
     type :: type_iapws97
-        private
+        ! private
         type(type_iapws97_auxiliary) :: auxiliary
         type(type_iapws97_region1) :: region1
         type(type_iapws97_region2) :: region2

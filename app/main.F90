@@ -1,10 +1,11 @@
 program main
     use, intrinsic :: iso_fortran_env
-    use :: module_iapws
+    use :: iapws
     implicit none
 
     call test_iapws95()
     call test_iapws97()
+    call test_iapws06()
 
 contains
     subroutine test_iapws95()
@@ -72,8 +73,6 @@ contains
 
         type(type_iapws97) :: iapws97_model
         type(type_iapws_property) :: props_g(test_gibbs), props_h(test_helmholtz)
-        type(type_iapws_gamma_property) :: prop_g
-        type(type_iapws_phi_property) :: prop_h
 
         open (unit=10, file="/workspaces/IAPWS/validations/iapws97/test_iapws97.dat", status="old", action="read")
         read (10, *)
@@ -102,7 +101,6 @@ contains
 
         call iapws97_model%initialize()
         call iapws97_model%calc_properties(T_g, p_g, props_g)
-
         call iapws97_model%calc_properties(T_h(:), p_h_exa(:), props_h(:))
 
         write (unit, '(a)') "## Gibbs Formulation Tests"
@@ -136,6 +134,64 @@ contains
                              w_h_exa, "w", [(i, i=1, test_helmholtz)], 1.0d-7)
 
     end subroutine test_iapws97
+
+    subroutine test_iapws06()
+        implicit none
+        integer(int32) :: unit
+        integer(int32), parameter :: test_case = 3
+        real(real64) :: T_g(test_case), p_g(test_case)
+        real(real64) :: nu_g_exa(test_case)
+        real(real64) :: u_g_exa(test_case), h_g_exa(test_case)
+        real(real64) :: s_g_exa(test_case), cp_g_exa(test_case)
+        real(real64) :: alpha_exa(test_case), beta_exa(test_case)
+        real(real64) :: kappa_T_exa(test_case), kappa_s_exa(test_case)
+        integer(int32) :: i
+        logical :: exists
+
+        type(type_iapws06) :: iapws06_model
+        type(type_iapws_property) :: props(test_case)
+
+        open (unit=10, file="/workspaces/IAPWS/validations/iapws06/test_iapws06.dat", status="old", action="read")
+        read (10, *)
+        do i = 1, test_case
+            read (10, *) T_g(i), p_g(i), nu_g_exa(i), h_g_exa(i), u_g_exa(i), s_g_exa(i), &
+                cp_g_exa(i), alpha_exa(i), beta_exa(i), kappa_T_exa(i), kappa_s_exa(i)
+        end do
+        close (10)
+
+        inquire (file="/workspaces/IAPWS/validations/iapws06/test_iapws06.log", exist=exists)
+        if (.not. exists) then
+            open (newunit=unit, file="/workspaces/IAPWS/validations/iapws06/test_iapws06.log", &
+                  status="new", action="write")
+        else
+            open (newunit=unit, file="/workspaces/IAPWS/validations/iapws06/test_iapws06.log", &
+                  status="old", action="write", position="append")
+        end if
+
+        write (unit, '(a)') "# IAPWS-06 Validation Test Log ("//trim(get_compiler_name())//")"
+        call iapws06_model%initialize()
+        call iapws06_model%calc_properties(T_g, p_g, props)
+
+        call check_variables(unit, [(props(i)%nu, i=1, test_case)], &
+                             nu_g_exa, "Specific Volume", [(i, i=1, test_case)])
+        call check_variables(unit, [(props(i)%u, i=1, test_case)], &
+                             u_g_exa, "Internal Energy", [(i, i=1, test_case)])
+        call check_variables(unit, [(props(i)%h, i=1, test_case)], &
+                             h_g_exa, "Enthalpy", [(i, i=1, test_case)])
+        call check_variables(unit, [(props(i)%s, i=1, test_case)], &
+                             s_g_exa, "Entropy", [(i, i=1, test_case)])
+        call check_variables(unit, [(props(i)%cp, i=1, test_case)], &
+                             cp_g_exa, "cp", [(i, i=1, test_case)])
+        call check_variables(unit, [(props(i)%alpha, i=1, test_case)], &
+                             alpha_exa, "Thermal Expansivity", [(i, i=1, test_case)])
+        call check_variables(unit, [(props(i)%beta, i=1, test_case)], &
+                             beta_exa, "Isobaric Pressure Coefficient", [(i, i=1, test_case)])
+        call check_variables(unit, [(props(i)%kappa_T, i=1, test_case)], &
+                             kappa_T_exa, "Isothermal Compressibility", [(i, i=1, test_case)])
+        call check_variables(unit, [(props(i)%kappa_s, i=1, test_case)], &
+                             kappa_s_exa, "Isentropic Compressibility", [(i, i=1, test_case)])
+
+    end subroutine test_iapws06
 
     function get_compiler_name() result(name)
         implicit none
@@ -178,14 +234,15 @@ contains
 
         if (rel_diff > current_tol) then
             write (unit, '(a)') "- **FAIL**: `"//v_name//"`"
-            write (unit, '(a)') ""
-            write (unit, '("|",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
-            write (unit, '("|",a6,"|",a20,"|",a20,"|",a20,"|")') &
+            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
+            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') &
                 repeat('-', 6), repeat('-', 20), repeat('-', 20), repeat('-', 20)
             if (present(id)) then
-                write (unit, '("|",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') id, v, v_exa, rel_diff
+                write (unit, '("    |",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
+                    id, v, v_exa, rel_diff
             else
-                write (unit, '("|",a6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') "-", v, v_exa, rel_diff
+                write (unit, '("    |",a6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
+                    "-", v, v_exa, rel_diff
             end if
         else
             write (unit, '(a)') "- PASS: `"//v_name//"`"
@@ -226,17 +283,18 @@ contains
         if (any(rel_diff > current_tol)) then
             fail_count = count(rel_diff > current_tol)
             write (unit, '(a,i0,a)') "- **FAIL**: `"//v_name//"` (Failed count: ", fail_count, ")"
-            write (unit, '(a)') ""
-            write (unit, '("|",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
-            write (unit, '("|",a6,"|",a20,"|",a20,"|",a20,"|")') &
+            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
+            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') &
                 repeat('-', 6), repeat('-', 20), repeat('-', 20), repeat('-', 20)
 
             do i = 1, n
                 if (rel_diff(i) > current_tol) then
                     if (present(ids)) then
-                        write (unit, '("|",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') ids(i), v(i), v_exa(i), rel_diff(i)
+                        write (unit, '("    |",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
+                            ids(i), v(i), v_exa(i), rel_diff(i)
                     else
-                        write (unit, '("|",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') i, v(i), v_exa(i), rel_diff(i)
+                        write (unit, '("    |",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
+                            i, v(i), v_exa(i), rel_diff(i)
                     end if
                 end if
             end do

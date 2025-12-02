@@ -1,0 +1,26 @@
+name = "IAPWS"
+version = "1.0.0"
+license = "MIT"
+author = "Kikuchi Shun"
+maintainer = "Kikuchi Shun"
+copyright = "Copyright 2025, Kikuchi Shun"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+
+# ライブラリのソースディレクトリ指定
+# fpmはここにあるサブディレクトリも含めて全ソースをコンパイルします
+[library]
+source-dir = "src"
+
+# アプリケーション（実行ファイル）の設定
+# app ディレクトリ内の program を含むファイルを自動検出させます
+# もし app ディレクトリ内のファイル名が main.f90 なら、
+# 生成される実行ファイル名は "IAPWS" (プロジェクト名) になります。
+# 別の名前にしたい場合やファイル名が異なる場合は以下のように明示します。
+[[executable]]
+name = "iapws-app"
+source-dir = "app"
+main = "main.f90"  # appディレクトリ内のメインプログラムを含むファイル名に合わせてください
