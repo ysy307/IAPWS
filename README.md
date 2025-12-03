@@ -18,9 +18,9 @@ The library implements the following IAPWS standards:
 ## Prerequisites
 To build this library, you need a Fortran compiler and a build system.
 - Fortran Compiler:
-    - GNU Fortran (**gfortran**)
-    - Intel OneAPI Compiler (**ifx**)
-    - NVIDIA HPC SDK (**nvfortran**)
+    - GNU Fortran (`gfortran`)
+    - Intel OneAPI Compiler (`ifx`)
+    - NVIDIA HPC SDK (`nvfortran`)
 - Build Tools (either one):
     - CMake (Version 3.25 or later) - Recommended
     - Fortran Package Manager (fpm)
