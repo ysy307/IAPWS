@@ -31,17 +31,16 @@ CMake is the primary and recommended build system for installing and integrating
 Using CMake (Recommended)This method is best for system-wide installation or integration into C++/mixed projects.
 
 #### Basic Build:
-```bash
+```sh
 cmake -S . -B build
 cmake --build build
 ```
 Using Presets (Cross-Platform):This project provides CMake presets for different compilers (`gcc`, `intel`, `nvidia`, `windows-msvc`).
-```bash
+```sh
 # List available presets
 cmake --list-presets
 
 # Configure (e.g., using GCC Release settings)
-
 cmake --preset gcc-release
 
 # Build
@@ -51,34 +50,36 @@ cmake --build --preset build-gcc-release
 ctest --preset test-gcc-release
 ```
 #### Installation:
-```bash
+```sh
 cmake --install build --prefix /usr/local
 ```
 
 ### Method 2: Using the Helper Script (For Developers)
-A helper script run_fpm.sh is provided to simplify the build and test process using fpm with predefined compiler flags. This is useful for rapid development and testing.
-```bash
-Usage:./run_fpm.sh [compiler] [build_type]
+A helper script FPMBuild.sh is provided to simplify the build and test process using fpm with predefined compiler flags. This is useful for rapid development and testing.
+
+#### Usage:
+```sh
+./FPMBuild.sh [compiler] [build_type]
 ```
 Arguments:
 - `compiler`: `gcc`, `intel`, `nvidia`, or `clean`
 - `build_type`: `debug` or `release`
 
 #### Examples:
-```bash
+```sh
 # Build and test using gfortran in debug mode
-./run_fpm.sh gcc debug
+./FPMBuild.sh gcc debug
 
 # Build and test using Intel ifx in release mode
-./run_fpm.sh intel release
+./FPMBuild.sh intel release
 
 # Clean build artifacts
-./run_fpm.sh clean
+./FPMBuild.sh clean
 ```
 
 ### Method 3: Using Fortran Package Manager (fpm)
 If you prefer using standard fpm commands for development:
-```bash
+```sh
 # Build the project
 fpm build
 
@@ -92,7 +93,7 @@ fpm build --profile release
 ## Usage in Your Project
 ### Using CMake
 In your CMakeLists.txt, use `find_package`:
-```cmake
+```make
 find_package(IAPWS REQUIRED)
 add_executable(my_app main.f90)
 target_link_libraries(my_app PRIVATE IAPWS::IAPWS)
