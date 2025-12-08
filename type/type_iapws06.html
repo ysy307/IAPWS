@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 7.2% of total for derived types.</p>Including implementation: 13 statements,  7.2% of total for derived types.">13 statements</a>
+                 title="<p> 7.0% of total for derived types.</p>Including implementation: 13 statements,  7.0% of total for derived types.">13 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -169,7 +169,9 @@
             <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_beta">calc_beta</a>
             <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_cp~2">calc_cp</a>
             <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_cv~2">calc_cv</a>
-            <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_gamma">calc_gamma</a>
+            <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_drho_dp">calc_drho_dP</a>
+            <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_drho_dt">calc_drho_dT</a>
+            <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_gamma~5">calc_gamma</a>
             <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_gamma_ih">calc_gamma_Ih</a>
             <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_gamma_p_ih">calc_gamma_p_Ih</a>
             <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_gamma_pp_ih">calc_gamma_pp_Ih</a>
@@ -185,7 +187,7 @@
             <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_s~2">calc_s</a>
             <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_u~2">calc_u</a>
             <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-calc_w~2">calc_w</a>
-            <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-initialize">initialize</a>
+            <a class="list-group-item" href="../type/type_iapws06.html#boundprocedure-initialize~10">initialize</a>
         </div>
       </div>
     </div>
@@ -870,7 +872,237 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calc_gamma"></span>
+      <span class="anchor" id="boundprocedure-calc_drho_dp"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_drho_dP</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_gibbs.html'>calc_drho_dP_gibbs</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    public pure elemental module subroutine calc_drho_dP_gibbs(self, T_in, P_in, drho_dP, prop_in)  
+    <a href="../proc/calc_drho_dp_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>密度の圧力微分 (drho/dP)_T</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dP</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prop_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_drho_dt"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_drho_dT</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_gibbs.html'>calc_drho_dT_gibbs</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    public pure elemental module subroutine calc_drho_dT_gibbs(self, T_in, P_in, drho_dT, prop_in)  
+    <a href="../proc/calc_drho_dt_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>密度の温度微分 (drho/dT)_P</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dT</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prop_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_gamma~5"></span>
       <h3>
           procedure, public, pass(self) ::
   <strong>calc_gamma</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_gamma_iapws06.html'>calc_gamma_iapws06</a>
@@ -2530,7 +2762,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-initialize"></span>
+      <span class="anchor" id="boundprocedure-initialize~10"></span>
       <h3>
           procedure, public, pass(self) ::
   <strong>initialize</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/initialize_type_iapws06.html'>initialize_type_iapws06</a>
@@ -2621,7 +2853,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-02 10:01 +0000             </p>
+ on 2025-12-08 02:26 +0000             </p>
           </div>
         </div>
         <br>

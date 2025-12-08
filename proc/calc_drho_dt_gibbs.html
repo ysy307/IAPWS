@@ -10,7 +10,7 @@
     <meta name="author" content="Kikuchi Shun" >
     <link rel="icon" href="../favicon.png">
 
-    <title>calc_p_T_helmholtz &ndash; IAPWS</title>
+    <title>calc_drho_dT_gibbs &ndash; IAPWS</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -81,7 +81,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>calc_p_T_helmholtz
+    <h1>calc_drho_dT_gibbs
       <small>Module Subroutine</small>
       
     </h1>
@@ -92,21 +92,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">20 statements</a>
+                 title=" 0.3% of total for procedures.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/property_helmholtz.F90"> Source File</a>
+              <a href="../src/property_gibbs.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/property_helmholtz.f90.html'>property_helmholtz.F90</a></li>
-                <li class="breadcrumb-item"><a href='../module/iapws_property_helmholtz.html'>iapws_property_helmholtz</a></li>
-            <li class="breadcrumb-item active" aria-current="page">calc_p_T_helmholtz</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/property_gibbs.f90.html'>property_gibbs.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/property_gibbs.html'>property_gibbs</a></li>
+            <li class="breadcrumb-item active" aria-current="page">calc_drho_dT_gibbs</li>
           </ol>
         </nav>
       </div>
@@ -149,7 +149,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/calc_p_t_helmholtz.html#src">calc_p_T_helmholtz</a>
+        <a class="list-group-item" href="../proc/calc_drho_dt_gibbs.html#src">calc_drho_dT_gibbs</a>
       </div>
     </div>
 
@@ -159,11 +159,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure elemental module subroutine calc_p_T_helmholtz(self, T_in, rho_in, p_T, prop_in)  
-    <a href="../interface/calc_p_t_helmholtz.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>pure elemental module subroutine calc_drho_dT_gibbs(self, T_in, P_in, drho_dT, prop_in)  
+    <a href="../interface/calc_drho_dt_gibbs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
+    <p>密度の温度微分 (drho/dT)_P</p>
 
 
     <h3>Arguments</h3>
@@ -179,8 +180,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~50"></span>
-              class(<a href='../type/abst_iapws_helmholtz.html'>abst_iapws_helmholtz</a>),
+              <span class="anchor" id="variable-self~85"></span>
+              class(<a href='../type/abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -194,7 +195,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~43"></span>
+              <span class="anchor" id="variable-t_in~66"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -209,7 +210,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rho_in~14"></span>
+              <span class="anchor" id="variable-p_in~17"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -217,14 +218,14 @@
               
             </td>
             <td>::</td>
-            <td><strong>rho_in</strong></td>
+            <td><strong>P_in</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_t~2"></span>
+              <span class="anchor" id="variable-drho_dt~3"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -232,15 +233,15 @@
               
             </td>
             <td>::</td>
-            <td><strong>p_T</strong></td>
+            <td><strong>drho_dT</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prop_in~26"></span>
-              type(<a href='../type/type_iapws_helmholtz_property.html'>type_iapws_helmholtz_property</a>),
+              <span class="anchor" id="variable-prop_in~35"></span>
+              type(<a href='../type/type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -266,29 +267,29 @@
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~calc_p_t_helmholtz~~CallsGraph Pages: 1 -->
-<svg id="proccalc_p_t_helmholtzCallsGraph" width="216pt" height="32pt"
- viewBox="0.00 0.00 216.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~calc_p_t_helmholtz~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~calc_p_t_helmholtz~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 212,-28 212,4 -4,4"/>
-<!-- proc~calc_p_t_helmholtz -->
-<g id="proc~~calc_p_t_helmholtz~~CallsGraph_node1" class="node">
-<title>proc~calc_p_t_helmholtz</title>
-<polygon fill="none" stroke="black" points="116,-24 0,-24 0,0 116,0 116,-24"/>
-<text text-anchor="middle" x="58" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_p_T_helmholtz</text>
+<!-- Title: proc~~calc_drho_dt_gibbs~~CallsGraph Pages: 1 -->
+<svg id="proccalc_drho_dt_gibbsCallsGraph" width="242pt" height="32pt"
+ viewBox="0.00 0.00 242.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~calc_drho_dt_gibbs~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~calc_drho_dt_gibbs~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 238,-28 238,4 -4,4"/>
+<!-- proc~calc_drho_dt_gibbs -->
+<g id="proc~~calc_drho_dt_gibbs~~CallsGraph_node1" class="node">
+<title>proc~calc_drho_dt_gibbs</title>
+<polygon fill="none" stroke="black" points="117,-24 0,-24 0,0 117,0 117,-24"/>
+<text text-anchor="middle" x="58.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_drho_dT_gibbs</text>
 </g>
-<!-- calc_phi -->
-<g id="proc~~calc_p_t_helmholtz~~CallsGraph_node2" class="node">
-<title>calc_phi</title>
-<polygon fill="#777777" stroke="#777777" points="208,-24 152,-24 152,0 208,0 208,-24"/>
-<text text-anchor="middle" x="180" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_phi</text>
+<!-- calc_gamma -->
+<g id="proc~~calc_drho_dt_gibbs~~CallsGraph_node2" class="node">
+<title>calc_gamma</title>
+<polygon fill="#777777" stroke="#777777" points="234,-24 153,-24 153,0 234,0 234,-24"/>
+<text text-anchor="middle" x="193.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_gamma</text>
 </g>
-<!-- proc~calc_p_t_helmholtz&#45;&gt;calc_phi -->
-<g id="proc~~calc_p_t_helmholtz~~CallsGraph_edge1" class="edge">
-<title>proc~calc_p_t_helmholtz&#45;&gt;calc_phi</title>
-<path fill="none" stroke="#ff0000" d="M116.19,-12C124.83,-12 133.56,-12 141.64,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="141.84,-15.5 151.84,-12 141.84,-8.5 141.84,-15.5"/>
+<!-- proc~calc_drho_dt_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_drho_dt_gibbs~~CallsGraph_edge1" class="edge">
+<title>proc~calc_drho_dt_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#ff0000" d="M117.06,-12C125.65,-12 134.43,-12 142.84,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="142.86,-15.5 152.86,-12 142.86,-8.5 142.86,-15.5"/>
 </g>
 </g>
 </svg>
@@ -383,36 +384,100 @@ large graphs.</div>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~calc_p_t_helmholtz~~CalledByGraph Pages: 1 -->
-<svg id="proccalc_p_t_helmholtzCalledByGraph" width="401pt" height="32pt"
- viewBox="0.00 0.00 401.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~calc_p_t_helmholtz~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~calc_p_t_helmholtz~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 397,-28 397,4 -4,4"/>
-<!-- proc~calc_p_t_helmholtz -->
-<g id="proc~~calc_p_t_helmholtz~~CalledByGraph_node1" class="node">
-<title>proc~calc_p_t_helmholtz</title>
-<polygon fill="none" stroke="black" points="393,-24 277,-24 277,0 393,0 393,-24"/>
-<text text-anchor="middle" x="335" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_p_T_helmholtz</text>
+<!-- Title: proc~~calc_drho_dt_gibbs~~CalledByGraph Pages: 1 -->
+<svg id="proccalc_drho_dt_gibbsCalledByGraph" width="641pt" height="16pt"
+ viewBox="0.00 0.00 641.00 16.48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph" class="graph" transform="scale(0.51 0.51) rotate(0) translate(4 28)">
+<title>proc~~calc_drho_dt_gibbs~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 1241,-28 1241,4 -4,4"/>
+<!-- proc~calc_drho_dt_gibbs -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_node1" class="node">
+<title>proc~calc_drho_dt_gibbs</title>
+<polygon fill="none" stroke="black" points="1237,-24 1120,-24 1120,0 1237,0 1237,-24"/>
+<text text-anchor="middle" x="1178.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_drho_dT_gibbs</text>
 </g>
-<!-- interface~calc_p_t_helmholtz -->
-<g id="proc~~calc_p_t_helmholtz~~CalledByGraph_node2" class="node">
-<title>interface~calc_p_t_helmholtz</title>
-<g id="a_proc~~calc_p_t_helmholtz~~CalledByGraph_node2"><a xlink:href="../interface/calc_p_t_helmholtz.html" xlink:title="abst_iapws_helmholtz%calc_p_T_helmholtz">
-<polygon fill="#a7506f" stroke="#a7506f" points="241,-24 0,-24 0,0 241,0 241,-24"/>
-<text text-anchor="middle" x="120.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_helmholtz%calc_p_T_helmholtz</text>
+<!-- interface~calc_drho_dt_gibbs -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_node2" class="node">
+<title>interface~calc_drho_dt_gibbs</title>
+<g id="a_proc~~calc_drho_dt_gibbs~~CalledByGraph_node2"><a xlink:href="../interface/calc_drho_dt_gibbs.html" xlink:title="abst_iapws_gibbs%calc_drho_dT_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="1084,-24 866,-24 866,0 1084,0 1084,-24"/>
+<text text-anchor="middle" x="975" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_drho_dT_gibbs</text>
 </a>
 </g>
 </g>
-<!-- interface~calc_p_t_helmholtz&#45;&gt;proc~calc_p_t_helmholtz -->
-<g id="proc~~calc_p_t_helmholtz~~CalledByGraph_edge1" class="edge">
-<title>interface~calc_p_t_helmholtz&#45;&gt;proc~calc_p_t_helmholtz</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M241.1,-12C249.8,-12 258.37,-12 266.58,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="266.77,-15.5 276.77,-12 266.77,-8.5 266.77,-15.5"/>
+<!-- interface~calc_drho_dt_gibbs&#45;&gt;proc~calc_drho_dt_gibbs -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_edge1" class="edge">
+<title>interface~calc_drho_dt_gibbs&#45;&gt;proc~calc_drho_dt_gibbs</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1084.12,-12C1092.79,-12 1101.38,-12 1109.64,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1109.91,-15.5 1119.91,-12 1109.91,-8.5 1109.91,-15.5"/>
+</g>
+<!-- proc~calc_properties_gibbs -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_node3" class="node">
+<title>proc~calc_properties_gibbs</title>
+<g id="a_proc~~calc_drho_dt_gibbs~~CalledByGraph_node3"><a xlink:href="../proc/calc_properties_gibbs.html" xlink:title="calc_properties_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="830,-24 703,-24 703,0 830,0 830,-24"/>
+<text text-anchor="middle" x="766.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_properties_gibbs</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_gibbs&#45;&gt;interface~calc_drho_dt_gibbs -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_edge2" class="edge">
+<title>proc~calc_properties_gibbs&#45;&gt;interface~calc_drho_dt_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M830.02,-12C838.3,-12 846.99,-12 855.84,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="855.87,-15.5 865.87,-12 855.87,-8.5 855.87,-15.5"/>
+</g>
+<!-- interface~calc_properties_gibbs -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_node4" class="node">
+<title>interface~calc_properties_gibbs</title>
+<g id="a_proc~~calc_drho_dt_gibbs~~CalledByGraph_node4"><a xlink:href="../interface/calc_properties_gibbs.html" xlink:title="abst_iapws_gibbs%calc_properties_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="667,-24 438,-24 438,0 667,0 667,-24"/>
+<text text-anchor="middle" x="552.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_properties_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_properties_gibbs&#45;&gt;proc~calc_properties_gibbs -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_edge3" class="edge">
+<title>interface~calc_properties_gibbs&#45;&gt;proc~calc_properties_gibbs</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M667.26,-12C675.82,-12 684.32,-12 692.52,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="692.74,-15.5 702.74,-12 692.74,-8.5 692.74,-15.5"/>
+</g>
+<!-- proc~calc_properties_iapws97 -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_node5" class="node">
+<title>proc~calc_properties_iapws97</title>
+<g id="a_proc~~calc_drho_dt_gibbs~~CalledByGraph_node5"><a xlink:href="../proc/calc_properties_iapws97.html" xlink:title="calc_properties_iapws97">
+<polygon fill="#d9534f" stroke="#d9534f" points="402,-24 260,-24 260,0 402,0 402,-24"/>
+<text text-anchor="middle" x="331" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_properties_iapws97</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_properties_iapws97&#45;&gt;interface~calc_properties_gibbs -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_edge4" class="edge">
+<title>proc~calc_properties_iapws97&#45;&gt;interface~calc_properties_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M402.05,-12C410.26,-12 418.81,-12 427.48,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="427.7,-15.5 437.7,-12 427.7,-8.5 427.7,-15.5"/>
+</g>
+<!-- interface~calc_properties_iapws97 -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_node6" class="node">
+<title>interface~calc_properties_iapws97</title>
+<g id="a_proc~~calc_drho_dt_gibbs~~CalledByGraph_node6"><a xlink:href="../interface/calc_properties_iapws97.html" xlink:title="type_iapws97%calc_properties_iapws97">
+<polygon fill="#a7506f" stroke="#a7506f" points="224,-24 0,-24 0,0 224,0 224,-24"/>
+<text text-anchor="middle" x="112" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_iapws97%calc_properties_iapws97</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_properties_iapws97&#45;&gt;proc~calc_properties_iapws97 -->
+<g id="proc~~calc_drho_dt_gibbs~~CalledByGraph_edge5" class="edge">
+<title>interface~calc_properties_iapws97&#45;&gt;proc~calc_properties_iapws97</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M224.04,-12C232.72,-12 241.37,-12 249.78,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="249.9,-15.5 259.9,-12 249.9,-8.5 249.9,-15.5"/>
 </g>
 </g>
 </svg>
-</div>          <div>
+</div>                <script>
+                  var panproccalc_drho_dt_gibbsCalledByGraph = svgPanZoom('#proccalc_drho_dt_gibbsCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
             <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
           </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
@@ -507,34 +572,26 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">module pure elemental subroutine </span><span class="n">calc_p_T_helmholtz</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">rho_in</span><span class="p">,</span><span class="w"> </span><span class="n">p_T</span><span class="p">,</span><span class="w"> </span><span class="n">prop_in</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">module pure elemental subroutine </span><span class="n">calc_drho_dT_gibbs</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">P_in</span><span class="p">,</span><span class="w"> </span><span class="n">drho_dT</span><span class="p">,</span><span class="w"> </span><span class="n">prop_in</span><span class="p">)</span>
 <span class="w">        </span><span class="k">implicit none</span>
-<span class="k">        class</span><span class="p">(</span><span class="n">abst_iapws_helmholtz</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<span class="k">        class</span><span class="p">(</span><span class="n">abst_iapws_gibbs</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">T_in</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rho_in</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p_T</span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_helmholtz_property</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prop_in</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">P_in</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">drho_dT</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_gibbs_coefficient</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prop_in</span>
 
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">delta</span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_helmholtz_property</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">props</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">R</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_gibbs_coefficient</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">props</span>
 
-<span class="w">        </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">T_c</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">T_in</span>
-<span class="w">        </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rho_in</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">rho_c</span>
-<span class="w">        </span><span class="n">R</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">R</span>
-
-<span class="w">        </span><span class="c">! φ, φ_d, φ_dd, φ_dt の取得</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">prop_in</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
 <span class="k">            </span><span class="n">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prop_in</span>
 <span class="w">        </span><span class="k">else</span>
-<span class="k">            call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_phi</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="k">            call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_gamma</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">P_in</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
 <span class="w">        </span><span class="k">end if</span>
 
-<span class="w">        </span><span class="c">! ∂p/∂T  (rho constant)</span>
-<span class="w">        </span><span class="c">! p_T = rho R delta ( phi_d - tau * phi_dt )</span>
-<span class="w">        </span><span class="n">p_T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rho_in</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">props</span><span class="p">%</span><span class="n">f_d</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">props</span><span class="p">%</span><span class="n">f_dt</span><span class="p">)</span>
+<span class="w">        </span><span class="c">! Formula: - g_pt / (g_p)^2</span>
+<span class="w">        </span><span class="n">drho_dT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">props</span><span class="p">%</span><span class="n">g_pt</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">props</span><span class="p">%</span><span class="n">g_p</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="w">    </span><span class="k">end subroutine </span><span class="n">calc_p_T_helmholtz</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">calc_drho_dT_gibbs</span>
 </pre></div>
 
     </section>

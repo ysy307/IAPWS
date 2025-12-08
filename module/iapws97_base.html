@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 9.5% of total for modules and submodules.">247 statements</a>
+                 title=" 9.3% of total for modules and submodules.">247 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -412,7 +412,7 @@ parameter
 <td> =</td>
                 <td>-1</td>
             <td>
-                
+                <p>Invalid region identifier</p>
             </td>
         </tr>
         <tr>
@@ -429,7 +429,7 @@ parameter
 <td> =</td>
                 <td>100.0d6</td>
             <td>
-                
+                <p>Global maximum pressure limit [Pa]</p>
             </td>
         </tr>
         <tr>
@@ -446,7 +446,7 @@ parameter
 <td> =</td>
                 <td>2273.15d0</td>
             <td>
-                
+                <p>Global maximum temperature limit [K]</p>
             </td>
         </tr>
         <tr>
@@ -463,7 +463,7 @@ parameter
 <td> =</td>
                 <td>50.0d6</td>
             <td>
-                
+                <p>Region 5 maximum pressure [Pa]</p>
             </td>
         </tr>
         <tr>
@@ -480,7 +480,7 @@ parameter
 <td> =</td>
                 <td>1073.15d0</td>
             <td>
-                
+                <p>Region 5 minimum temperature [K]</p>
             </td>
         </tr>
         <tr>
@@ -497,7 +497,7 @@ parameter
 <td> =</td>
                 <td>1</td>
             <td>
-                
+                <p>Region 1 (Liquid water) identifier</p>
             </td>
         </tr>
         <tr>
@@ -514,7 +514,7 @@ parameter
 <td> =</td>
                 <td>2</td>
             <td>
-                
+                <p>Region 2 (Steam) identifier</p>
             </td>
         </tr>
         <tr>
@@ -531,7 +531,7 @@ parameter
 <td> =</td>
                 <td>3</td>
             <td>
-                
+                <p>Region 3 (Critical / Supercritical) identifier</p>
             </td>
         </tr>
         <tr>
@@ -548,7 +548,7 @@ parameter
 <td> =</td>
                 <td>5</td>
             <td>
-                
+                <p>Region 5 (High temperature) identifier</p>
             </td>
         </tr>
     </tbody>
@@ -571,7 +571,8 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Determine the IAPWS-97 region for a given temperature and pressure.
+Checks validity limits and boundaries between regions (Saturation, B23).</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -586,7 +587,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~110"></span>
+              <span class="anchor" id="variable-self~36"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -596,12 +597,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~57"></span>
+              <span class="anchor" id="variable-t_in~29"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -611,12 +612,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~20"></span>
+              <span class="anchor" id="variable-p_in~10"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -626,7 +627,7 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
     </tbody>
@@ -636,7 +637,7 @@ parameter
     Return Value
     <small>integer(kind=int32)</small>
     </h4>
-    
+    <p>Region ID result</p>
 
     </div>
   </div>
@@ -652,7 +653,7 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate specific isobaric heat capacity <script type="math/tex"> c_p </script>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -667,7 +668,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~117"></span>
+              <span class="anchor" id="variable-self~43"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -677,12 +678,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~64"></span>
+              <span class="anchor" id="variable-t_in~36"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -692,12 +693,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~27"></span>
+              <span class="anchor" id="variable-p_in~17"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -707,12 +708,12 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cp~6"></span>
+              <span class="anchor" id="variable-cp~4"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -722,7 +723,7 @@ parameter
             <td>::</td>
             <td><strong>cp</strong></td>
             <td>
-
+<p>Specific isobaric heat capacity [J/(kg K)]</p>
             </td>
         </tr>
     </tbody>
@@ -738,7 +739,7 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate specific isochoric heat capacity <script type="math/tex"> c_v </script>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -753,7 +754,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~118"></span>
+              <span class="anchor" id="variable-self~44"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -763,12 +764,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~65"></span>
+              <span class="anchor" id="variable-t_in~37"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -778,12 +779,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~28"></span>
+              <span class="anchor" id="variable-p_in~18"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -793,12 +794,12 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cv~6"></span>
+              <span class="anchor" id="variable-cv~4"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -808,7 +809,7 @@ parameter
             <td>::</td>
             <td><strong>cv</strong></td>
             <td>
-
+<p>Specific isochoric heat capacity [J/(kg K)]</p>
             </td>
         </tr>
     </tbody>
@@ -824,7 +825,7 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate specific enthalpy <script type="math/tex"> h </script>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -839,7 +840,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~115"></span>
+              <span class="anchor" id="variable-self~41"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -849,12 +850,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~62"></span>
+              <span class="anchor" id="variable-t_in~34"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -864,12 +865,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~25"></span>
+              <span class="anchor" id="variable-p_in~15"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -879,12 +880,12 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-h~6"></span>
+              <span class="anchor" id="variable-h~4"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -894,7 +895,7 @@ parameter
             <td>::</td>
             <td><strong>h</strong></td>
             <td>
-
+<p>Specific enthalpy [J/kg]</p>
             </td>
         </tr>
     </tbody>
@@ -910,7 +911,7 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate specific volume <script type="math/tex"> \nu </script>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -925,7 +926,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~112"></span>
+              <span class="anchor" id="variable-self~38"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -935,12 +936,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~59"></span>
+              <span class="anchor" id="variable-t_in~31"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -950,12 +951,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~22"></span>
+              <span class="anchor" id="variable-p_in~12"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -965,12 +966,12 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nu~6"></span>
+              <span class="anchor" id="variable-nu~3"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -980,7 +981,7 @@ parameter
             <td>::</td>
             <td><strong>nu</strong></td>
             <td>
-
+<p>Specific volume [m^3/kg]</p>
             </td>
         </tr>
     </tbody>
@@ -996,7 +997,8 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate all thermodynamic properties for a given state.
+Dispatches calculation to the appropriate region based on <script type="math/tex"> T </script> and <script type="math/tex"> P </script>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1011,7 +1013,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~111"></span>
+              <span class="anchor" id="variable-self~37"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1021,12 +1023,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~58"></span>
+              <span class="anchor" id="variable-t_in~30"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1036,12 +1038,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~21"></span>
+              <span class="anchor" id="variable-p_in~11"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1051,12 +1053,12 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-property~14"></span>
+              <span class="anchor" id="variable-property~4"></span>
               type(<a href='../type/type_iapws_property.html'>type_iapws_property</a>),
             </td>
 <td>intent(inout)</td>
@@ -1066,7 +1068,7 @@ parameter
             <td>::</td>
             <td><strong>property</strong></td>
             <td>
-
+<p>Output property structure</p>
             </td>
         </tr>
     </tbody>
@@ -1082,7 +1084,7 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate density <script type="math/tex"> \rho </script>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1097,7 +1099,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~113"></span>
+              <span class="anchor" id="variable-self~39"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1107,12 +1109,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~60"></span>
+              <span class="anchor" id="variable-t_in~32"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1122,12 +1124,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~23"></span>
+              <span class="anchor" id="variable-p_in~13"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1137,12 +1139,12 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rho~7"></span>
+              <span class="anchor" id="variable-rho~5"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1152,7 +1154,7 @@ parameter
             <td>::</td>
             <td><strong>rho</strong></td>
             <td>
-
+<p>Density [kg/m^3]</p>
             </td>
         </tr>
     </tbody>
@@ -1168,7 +1170,7 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate specific entropy <script type="math/tex"> s </script>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1183,7 +1185,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~116"></span>
+              <span class="anchor" id="variable-self~42"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1193,12 +1195,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~63"></span>
+              <span class="anchor" id="variable-t_in~35"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1208,12 +1210,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~26"></span>
+              <span class="anchor" id="variable-p_in~16"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1223,12 +1225,12 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~6"></span>
+              <span class="anchor" id="variable-s~4"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1238,7 +1240,7 @@ parameter
             <td>::</td>
             <td><strong>s</strong></td>
             <td>
-
+<p>Specific entropy [J/(kg K)]</p>
             </td>
         </tr>
     </tbody>
@@ -1254,7 +1256,7 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate specific internal energy <script type="math/tex"> u </script>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1269,7 +1271,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~114"></span>
+              <span class="anchor" id="variable-self~40"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1279,12 +1281,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~61"></span>
+              <span class="anchor" id="variable-t_in~33"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1294,12 +1296,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~24"></span>
+              <span class="anchor" id="variable-p_in~14"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1309,12 +1311,12 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-u~6"></span>
+              <span class="anchor" id="variable-u~4"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1324,7 +1326,7 @@ parameter
             <td>::</td>
             <td><strong>u</strong></td>
             <td>
-
+<p>Specific internal energy [J/kg]</p>
             </td>
         </tr>
     </tbody>
@@ -1340,7 +1342,7 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate speed of sound <script type="math/tex"> w </script>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1355,7 +1357,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~119"></span>
+              <span class="anchor" id="variable-self~45"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1365,12 +1367,12 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~66"></span>
+              <span class="anchor" id="variable-t_in~38"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1380,12 +1382,12 @@ parameter
             <td>::</td>
             <td><strong>T_in</strong></td>
             <td>
-
+<p>Temperature [K]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~29"></span>
+              <span class="anchor" id="variable-p_in~19"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1395,12 +1397,12 @@ parameter
             <td>::</td>
             <td><strong>p_in</strong></td>
             <td>
-
+<p>Pressure [Pa]</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-w~6"></span>
+              <span class="anchor" id="variable-w~4"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1410,7 +1412,7 @@ parameter
             <td>::</td>
             <td><strong>w</strong></td>
             <td>
-
+<p>Speed of sound [m/s]</p>
             </td>
         </tr>
     </tbody>
@@ -1426,7 +1428,8 @@ parameter
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Initialize the IAPWS-97 model instance.
+Initializes all sub-region handlers and auxiliary equations.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1441,7 +1444,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~109"></span>
+              <span class="anchor" id="variable-self~35"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(inout)</td>
@@ -1451,7 +1454,7 @@ parameter
             <td>::</td>
             <td><strong>self</strong></td>
             <td>
-
+<p>IAPWS-97 instance</p>
             </td>
         </tr>
     </tbody>
@@ -1482,7 +1485,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-02 10:01 +0000             </p>
+ on 2025-12-08 02:26 +0000             </p>
           </div>
         </div>
         <br>

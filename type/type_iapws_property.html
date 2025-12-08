@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 9.4% of total for derived types.</p>Including implementation: 17 statements,  9.4% of total for derived types.">17 statements</a>
+                 title="<p>10.3% of total for derived types.</p>Including implementation: 19 statements, 10.3% of total for derived types.">19 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -139,6 +139,8 @@
             <a class="list-group-item" href="../type/type_iapws_property.html#variable-beta">beta</a>
             <a class="list-group-item" href="../type/type_iapws_property.html#variable-cp">cp</a>
             <a class="list-group-item" href="../type/type_iapws_property.html#variable-cv">cv</a>
+            <a class="list-group-item" href="../type/type_iapws_property.html#variable-drho_dp">drho_dP</a>
+            <a class="list-group-item" href="../type/type_iapws_property.html#variable-drho_dt">drho_dT</a>
             <a class="list-group-item" href="../type/type_iapws_property.html#variable-h">h</a>
             <a class="list-group-item" href="../type/type_iapws_property.html#variable-kappa_t">kappa_T</a>
             <a class="list-group-item" href="../type/type_iapws_property.html#variable-kappa_s">kappa_s</a>
@@ -284,6 +286,40 @@
                 <td>0.0d0</td>
             <td>
                 <p>Specific Heat Capacity at constant volume, <script type="math/tex"> c_v </script> [J/(kg K)]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-drho_dp"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dP</strong></td>
+<td> =</td>
+                <td>0.0d0</td>
+            <td>
+                <p>Pressure derivative of density, <script type="math/tex"> \left(\frac{\partial \rho}{\partial P}\right)_T </script> [kg/(m^3 Pa)]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-drho_dt"></span>
+              real(kind=real64),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dT</strong></td>
+<td> =</td>
+                <td>0.0d0</td>
+            <td>
+                <p>Temperature derivative of density, <script type="math/tex"> \left(\frac{\partial \rho}{\partial T}\right)_P </script> [kg/(m^3 K)]</p>
             </td>
         </tr>
         <tr>
@@ -474,6 +510,10 @@
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0d0</span>
 <span class="w">        </span><span class="c">!&gt; Density, \( \rho \) [kg/m^3]</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0d0</span>
+<span class="w">        </span><span class="c">!&gt; Temperature derivative of density, \( \left(\frac{\partial \rho}{\partial T}\right)_P \) [kg/(m^3 K)]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">drho_dT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0d0</span>
+<span class="w">        </span><span class="c">!&gt; Pressure derivative of density, \( \left(\frac{\partial \rho}{\partial P}\right)_T \) [kg/(m^3 Pa)]</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">drho_dP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0d0</span>
 <span class="w">        </span><span class="c">!&gt; Specific Internal Energy, \( u \) [J/kg]</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0d0</span>
 <span class="w">        </span><span class="c">!&gt; Specific Entropy, \( s \) [J/(kg K)]</span>
@@ -521,7 +561,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-02 10:01 +0000             </p>
+ on 2025-12-08 02:26 +0000             </p>
           </div>
         </div>
         <br>

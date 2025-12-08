@@ -116,7 +116,109 @@
       </div>
 
     <div class="col-9" id='text'>
-      <h1 id="iapws-fortran-library">IAPWS Fortran Library</h1>
+      <h1 id="iapws-fortran-library-for-water-and-steam-properties">IAPWS: Fortran Library for Water and Steam Properties</h1>
+<p><a href="https://github.com/ysy307/IAPWS/actions"><img alt="CI Status" src="https://github.com/ysy307/IAPWS/actions/workflows/ci.yml/badge.svg"></a>
+<a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/ysy307/IAPWS"></a></p>
+<p>This library provides a modern Fortran implementation of the thermodynamic properties of water and steam, based on the formulations released by the International Association for the Properties of Water and Steam (IAPWS).</p>
+<p>It is designed for scientific simulations and industrial applications requiring high-precision calculation of fluid properties.</p>
+<h2 id="features">Features</h2>
+<p>The library implements the following IAPWS standards:
+- <strong>IAPWS-95</strong>: The formulation for general and scientific use (high accuracy).
+- <strong>IAPWS-IF97</strong>: The industrial formulation for calculating the properties of water and steam (optimized for computational speed).
+- <strong>IAPWS-06</strong>: The formulation for the properties of Ice Ih. </p>
+<h2 id="technical-highlights">Technical Highlights</h2>
+<ul>
+<li>Written in Modern Fortran (F2008+ standards).</li>
+<li>Supports multiple build systems: CMake (Recommended) and Fortran Package Manager (fpm).</li>
+<li>Cross-platform compatibility (Linux, Windows).</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To build this library, you need a Fortran compiler and a build system.
+- Fortran Compiler:
+    - GNU Fortran (<code>gfortran</code>)
+    - Intel OneAPI Compiler (<code>ifx</code>)
+    - NVIDIA HPC SDK (<code>nvfortran</code>)
+- Build Tools (either one):
+    - CMake (Version 3.25 or later) - Recommended
+    - Fortran Package Manager (fpm)</p>
+<h2 id="build-and-installation">Build and Installation</h2>
+<p>CMake is the primary and recommended build system for installing and integrating this library.</p>
+<h3 id="method-1">Method 1:</h3>
+<p>Using CMake (Recommended)This method is best for system-wide installation or integration into C++/mixed projects.</p>
+<h4 id="basic-build">Basic Build:</h4>
+<div class="codehilite"><pre><span></span><code>cmake<span class="w"> </span>-S<span class="w"> </span>.<span class="w"> </span>-B<span class="w"> </span>build
+cmake<span class="w"> </span>--build<span class="w"> </span>build
+</code></pre></div>
+
+<p>Using Presets (Cross-Platform):This project provides CMake presets for different compilers (<code>gcc</code>, <code>intel</code>, <code>nvidia</code>, <code>windows-msvc</code>).</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># List available presets</span>
+cmake<span class="w"> </span>--list-presets
+
+<span class="c1"># Configure (e.g., using GCC Release settings)</span>
+cmake<span class="w"> </span>--preset<span class="w"> </span>gcc-release
+
+<span class="c1"># Build</span>
+cmake<span class="w"> </span>--build<span class="w"> </span>--preset<span class="w"> </span>build-gcc-release
+
+<span class="c1"># Test</span>
+ctest<span class="w"> </span>--preset<span class="w"> </span>test-gcc-release
+</code></pre></div>
+
+<h4 id="installation">Installation:</h4>
+<div class="codehilite"><pre><span></span><code>cmake<span class="w"> </span>--install<span class="w"> </span>build<span class="w"> </span>--prefix<span class="w"> </span>/usr/local
+</code></pre></div>
+
+<h3 id="method-2-using-the-helper-script-for-developers">Method 2: Using the Helper Script (For Developers)</h3>
+<p>A helper script FPMBuild.sh is provided to simplify the build and test process using fpm with predefined compiler flags. This is useful for rapid development and testing.</p>
+<h4 id="usage">Usage:</h4>
+<div class="codehilite"><pre><span></span><code>./FPMBuild.sh<span class="w"> </span><span class="o">[</span>compiler<span class="o">]</span><span class="w"> </span><span class="o">[</span>build_type<span class="o">]</span>
+</code></pre></div>
+
+<p>Arguments:
+- <code>compiler</code>: <code>gcc</code>, <code>intel</code>, <code>nvidia</code>, or <code>clean</code>
+- <code>build_type</code>: <code>debug</code> or <code>release</code></p>
+<h4 id="examples">Examples:</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build and test using gfortran in debug mode</span>
+./FPMBuild.sh<span class="w"> </span>gcc<span class="w"> </span>debug
+
+<span class="c1"># Build and test using Intel ifx in release mode</span>
+./FPMBuild.sh<span class="w"> </span>intel<span class="w"> </span>release
+
+<span class="c1"># Clean build artifacts</span>
+./FPMBuild.sh<span class="w"> </span>clean
+</code></pre></div>
+
+<h3 id="method-3-using-fortran-package-manager-fpm">Method 3: Using Fortran Package Manager (fpm)</h3>
+<p>If you prefer using standard fpm commands for development:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build the project</span>
+fpm<span class="w"> </span>build
+
+<span class="c1"># Run tests</span>
+fpm<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># Build with release optimizations</span>
+fpm<span class="w"> </span>build<span class="w"> </span>--profile<span class="w"> </span>release
+</code></pre></div>
+
+<h2 id="usage-in-your-project">Usage in Your Project</h2>
+<h3 id="using-cmake">Using CMake</h3>
+<p>In your CMakeLists.txt, use <code>find_package</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">find_package(IAPWS</span><span class="w"> </span><span class="err">REQUIRED)</span>
+<span class="err">add_executable(my_app</span><span class="w"> </span><span class="err">main.f90)</span>
+<span class="nf">target_link_libraries(my_app PRIVATE IAPWS</span><span class="o">::</span><span class="n">IAPWS</span>)
+</code></pre></div>
+
+<h3 id="using-fpm">Using fpm</h3>
+<p>Add the following dependency to your fpm.toml:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[dependencies]</span>
+<span class="n">IAPWS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">git</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;https://github.com/ysy307/IAPWS.git&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<h1 id="api-document">API Document</h1>
+<p>Full API documentation is available here:
+<a href="https://ysy307.github.io/IAPWS/">IAPWS FORD Document</a></p>
+<h1 id="license">License</h1>
+<p>This project is licensed under the MIT License - see the LICENSE file for details.</p>
     </div>
   </div>
       <hr>
@@ -134,7 +236,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-02 10:01 +0000             </p>
+ on 2025-12-08 02:26 +0000             </p>
           </div>
         </div>
         <br>
