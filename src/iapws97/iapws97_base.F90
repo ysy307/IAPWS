@@ -198,6 +198,52 @@ contains
 
     end subroutine calc_rho_iapws97
 
+    module pure elemental subroutine calc_drho_dT_iapws97(self, T_in, p_in, drho_dT)
+        implicit none
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(in) :: p_in
+        real(real64), intent(inout) :: drho_dT
+
+        integer(int32) :: region_id
+        region_id = self%get_region(T_in, p_in)
+
+        select case (self%get_region(T_in, p_in))
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_drho_dT(T_in, p_in, drho_dT)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_drho_dT(T_in, p_in, drho_dT)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_drho_dT(T_in, p_in, drho_dT)
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_drho_dT(T_in, p_in, drho_dT)
+        end select
+
+    end subroutine calc_drho_dT_iapws97
+
+    module pure elemental subroutine calc_drho_dp_iapws97(self, T_in, p_in, drho_dp)
+        implicit none
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(in) :: p_in
+        real(real64), intent(inout) :: drho_dp
+
+        integer(int32) :: region_id
+        region_id = self%get_region(T_in, p_in)
+
+        select case (self%get_region(T_in, p_in))
+        case (IAPWS97_REGION_1)
+            call self%region1%calc_drho_dp(T_in, p_in, drho_dp)
+        case (IAPWS97_REGION_2)
+            call self%region2%calc_drho_dp(T_in, p_in, drho_dp)
+        case (IAPWS97_REGION_3)
+            call self%region3%calc_drho_dp(T_in, p_in, drho_dp)
+        case (IAPWS97_REGION_5)
+            call self%region5%calc_drho_dp(T_in, p_in, drho_dp)
+        end select
+
+    end subroutine calc_drho_dp_iapws97
+
     !> Calculate specific internal energy \( u \).
     module pure elemental subroutine calc_u_iapws97(self, T_in, p_in, u)
         implicit none
@@ -381,5 +427,47 @@ contains
         end select
 
     end subroutine calc_w_iapws97
+
+    !> 蒸発潜熱の計算 (Implementation)
+    module pure elemental subroutine calc_latent_heat_iapws97(self, latent_heat, T_in, p_in)
+        implicit none
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(inout) :: latent_heat
+        real(real64), intent(in), optional :: T_in
+        real(real64), intent(in), optional :: p_in
+
+        real(real64) :: T_sat, P_sat
+        real(real64) :: h_liq, h_vap
+
+        ! 1. 入力に基づき飽和点 (T, P) を特定
+        if (present(T_in) .and. .not. present(p_in)) then
+            ! 温度指定 -> 飽和圧力を計算 (Region 4)
+            T_sat = T_in
+            P_sat = self%region4%calc_psat(T_sat)
+
+        else if (.not. present(T_in) .and. present(p_in)) then
+            ! 圧力指定 -> 飽和温度を計算 (Region 4)
+            P_sat = p_in
+            T_sat = self%region4%calc_tsat(P_sat)
+
+        else
+            ! エラー: 両方指定、または両方なし
+            ! 必要に応じて error stop 等を入れてください
+            latent_heat = 0.0_real64
+            return
+        end if
+
+        ! 2. 飽和液体エンタルピー h' (Region 1)
+        ! Region 1 は abst_iapws_gibbs を継承しているため calc_h が使えます
+        call self%region1%calc_h(T_sat, P_sat, h_liq)
+
+        ! 3. 飽和蒸気エンタルピー h'' (Region 2)
+        ! Region 2 も abst_iapws_gibbs を継承しているため calc_h が使えます
+        call self%region2%calc_h(T_sat, P_sat, h_vap)
+
+        ! 4. 潜熱 L = h'' - h'
+        latent_heat = h_vap - h_liq
+
+    end subroutine calc_latent_heat_iapws97
 
 end submodule iapws97_base

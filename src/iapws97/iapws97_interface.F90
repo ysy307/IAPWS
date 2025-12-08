@@ -3,6 +3,9 @@ module module_iapws97
     use :: module_iapws
     use :: utils_kahan, only:kahan_add
     implicit none
+    private
+
+    public :: type_iapws97
 
     type :: type_iapws97_auxiliary
         real(real64) :: T_star
@@ -182,7 +185,7 @@ module module_iapws97
     end interface
 
     type :: type_iapws97
-        ! private
+        private
         type(type_iapws97_auxiliary) :: auxiliary
         type(type_iapws97_region1) :: region1
         type(type_iapws97_region2) :: region2
@@ -195,12 +198,15 @@ module module_iapws97
         procedure, pass(self), public :: calc_properties => calc_properties_iapws97
         procedure, pass(self), public :: calc_nu => calc_nu_iapws97
         procedure, pass(self), public :: calc_rho => calc_rho_iapws97
+        procedure, pass(self), public :: calc_drho_dT => calc_drho_dT_iapws97
+        procedure, pass(self), public :: calc_drho_dp => calc_drho_dp_iapws97
         procedure, pass(self), public :: calc_u => calc_u_iapws97
         procedure, pass(self), public :: calc_h => calc_h_iapws97
         procedure, pass(self), public :: calc_s => calc_s_iapws97
         procedure, pass(self), public :: calc_cp => calc_cp_iapws97
         procedure, pass(self), public :: calc_cv => calc_cv_iapws97
         procedure, pass(self), public :: calc_w => calc_w_iapws97
+        procedure, pass(self), public :: calc_latent_heat => calc_latent_heat_iapws97
     end type type_iapws97
 
     interface
@@ -244,6 +250,24 @@ module module_iapws97
             real(real64), intent(inout) :: rho
 
         end subroutine calc_rho_iapws97
+
+        module pure elemental subroutine calc_drho_dT_iapws97(self, T_in, p_in, drho_dT)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: drho_dT
+
+        end subroutine calc_drho_dT_iapws97
+
+        module pure elemental subroutine calc_drho_dp_iapws97(self, T_in, p_in, drho_dp)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: p_in
+            real(real64), intent(inout) :: drho_dp
+
+        end subroutine calc_drho_dp_iapws97
 
         module pure elemental subroutine calc_u_iapws97(self, T_in, p_in, u)
             implicit none
@@ -298,6 +322,16 @@ module module_iapws97
             real(real64), intent(inout) :: w
 
         end subroutine calc_w_iapws97
+
+        !> Calculate Latent Heat of Vaporization [J/kg]
+        !> User must provide EITHER T_in [K] OR p_in [Pa].
+        module pure elemental subroutine calc_latent_heat_iapws97(self, latent_heat, T_in, p_in)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(inout) :: latent_heat
+            real(real64), intent(in), optional :: T_in
+            real(real64), intent(in), optional :: p_in
+        end subroutine calc_latent_heat_iapws97
     end interface
 
 end module module_iapws97

@@ -301,7 +301,6 @@ contains
         real(real64), intent(inout) :: kappa_s
         type(type_iapws_gibbs_coefficient), intent(in), optional :: prop_in
         type(type_iapws_gibbs_coefficient) :: props
-        real(real64) :: term
 
         if (present(prop_in)) then
             props = prop_in

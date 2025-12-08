@@ -19,7 +19,7 @@ contains
 
         type(type_iapws95) :: iapws95_model
 
-        type(type_iapws_property) :: props(test_case), prop
+        type(type_iapws_property) :: props(test_case)
 
         open (unit=10, file="/workspaces/IAPWS/validations/iapws95/Helmholtz.dat", status="old", action="read")
         read (10, *)

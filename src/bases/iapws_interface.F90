@@ -1,6 +1,14 @@
 module module_iapws
     use, intrinsic :: iso_fortran_env
     implicit none
+    private
+    public :: abst_iapws_helmholtz
+    public :: abst_iapws_gibbs
+
+    public :: type_iapws_helmholtz_property
+    public :: type_iapws_gibbs_coefficient
+
+    public :: type_iapws_property
 
     type, abstract :: abst_iapws_helmholtz
         !> Critical Temperature, \( T_c \) [K]
@@ -12,10 +20,12 @@ module module_iapws
         !> Initialization flag
         logical :: is_initialized = .false.
     contains
-        procedure(abst_iapws_helmholtz_initialize), pass(self), public, deferred :: initialize !&
-        procedure(abst_calc_phi_iapws),             pass(self), public, deferred :: calc_phi !&
+        procedure(abst_iapws_helmholtz_initialize), pass(self), public, deferred :: initialize
+        procedure(abst_calc_phi_iapws), pass(self), public, deferred :: calc_phi
         procedure, pass(self), public :: calc_properties => calc_properties_helmholtz
         procedure, pass(self), public :: calc_rho => calc_rho_helmholtz
+        procedure, pass(self), public :: calc_drho_dT => calc_drho_dT_helmholtz
+        procedure, pass(self), public :: calc_drho_dP => calc_drho_dP_helmholtz
         procedure, pass(self), public :: calc_p => calc_p_helmholtz
         procedure, pass(self), public :: calc_p_rho => calc_p_rho_helmholtz
         procedure, pass(self), public :: calc_p_T => calc_p_T_helmholtz
@@ -256,6 +266,28 @@ module module_iapws
             real(real64), intent(inout) :: rho
 
         end subroutine calc_rho_helmholtz
+
+        !> 密度の温度微分 (drho/dT)_P
+        module pure elemental subroutine calc_drho_dT_helmholtz(self, T_in, rho_in, drho_dT, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: drho_dT
+            type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
+
+        end subroutine calc_drho_dT_helmholtz
+
+        !> 密度の圧力微分 (drho/dP)_T
+        module pure elemental subroutine calc_drho_dP_helmholtz(self, T_in, rho_in, drho_dP, prop_in)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: rho_in
+            real(real64), intent(inout) :: drho_dP
+            type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
+
+        end subroutine calc_drho_dP_helmholtz
 
         module pure elemental subroutine calc_p_helmholtz(self, T_in, rho_in, p, prop_in)
             implicit none

@@ -115,7 +115,6 @@ contains
         real(real64) :: gamma_p
 
         integer(int32) :: i
-        real(real64) :: term_pi
         real(real64) :: I_val
         real(real64) :: c_gamma_p
 
