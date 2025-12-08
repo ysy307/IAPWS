@@ -344,6 +344,15 @@ module module_iapws97
 
         end subroutine calc_saturation_density_iapws97
 
+        module pure elemental subroutine calc_saturation_cp(self, T_in, cp_vap, cp_liq)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(inout), optional :: cp_vap ! 飽和蒸気比熱 cp''
+            real(real64), intent(inout), optional :: cp_liq ! 飽和液体比熱 cp'
+
+        end subroutine calc_saturation_cp
+
     end interface
 
 end module module_iapws97

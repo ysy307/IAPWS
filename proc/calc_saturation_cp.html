@@ -10,7 +10,7 @@
     <meta name="author" content="Kikuchi Shun" >
     <link rel="icon" href="../favicon.png">
 
-    <title>calc_u_helmholtz &ndash; IAPWS</title>
+    <title>calc_saturation_cp &ndash; IAPWS</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -81,7 +81,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>calc_u_helmholtz
+    <h1>calc_saturation_cp
       <small>Module Subroutine</small>
       
     </h1>
@@ -92,21 +92,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for procedures.">18 statements</a>
+                 title=" 0.2% of total for procedures.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/property_helmholtz.F90"> Source File</a>
+              <a href="../src/iapws97_base.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/property_helmholtz.f90.html'>property_helmholtz.F90</a></li>
-                <li class="breadcrumb-item"><a href='../module/iapws_property_helmholtz.html'>iapws_property_helmholtz</a></li>
-            <li class="breadcrumb-item active" aria-current="page">calc_u_helmholtz</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/iapws97_base.f90.html'>iapws97_base.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/iapws97_base.html'>iapws97_base</a></li>
+            <li class="breadcrumb-item active" aria-current="page">calc_saturation_cp</li>
           </ol>
         </nav>
       </div>
@@ -149,7 +149,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/calc_u_helmholtz.html#src">calc_u_helmholtz</a>
+        <a class="list-group-item" href="../proc/calc_saturation_cp.html#src">calc_saturation_cp</a>
       </div>
     </div>
 
@@ -159,8 +159,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure elemental module subroutine calc_u_helmholtz(self, T_in, rho_in, u, prop_in)  
-    <a href="../interface/calc_u_helmholtz.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>pure elemental module subroutine calc_saturation_cp(self, T_in, cp_vap, cp_liq)  
+    <a href="../interface/calc_saturation_cp.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
@@ -179,8 +179,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~115"></span>
-              class(<a href='../type/abst_iapws_helmholtz.html'>abst_iapws_helmholtz</a>),
+              <span class="anchor" id="variable-self~56"></span>
+              class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -194,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~74"></span>
+              <span class="anchor" id="variable-t_in~35"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -209,45 +209,30 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rho_in~19"></span>
+              <span class="anchor" id="variable-cp_vap~2"></span>
               real(kind=real64),
             </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rho_in</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-u~6"></span>
-              real(kind=real64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>u</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-prop_in~31"></span>
-              type(<a href='../type/type_iapws_helmholtz_property.html'>type_iapws_helmholtz_property</a>),
-            </td>
-<td>intent(in),</td>
+<td>intent(inout),</td>
               <td>optional</td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>prop_in</strong></td>
+            <td><strong>cp_vap</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cp_liq~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cp_liq</strong></td>
             <td>
                 
             </td>
@@ -266,33 +251,112 @@
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~calc_u_helmholtz~~CallsGraph Pages: 1 -->
-<svg id="proccalc_u_helmholtzCallsGraph" width="204pt" height="32pt"
- viewBox="0.00 0.00 204.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~calc_u_helmholtz~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~calc_u_helmholtz~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 200,-28 200,4 -4,4"/>
-<!-- proc~calc_u_helmholtz -->
-<g id="proc~~calc_u_helmholtz~~CallsGraph_node1" class="node">
-<title>proc~calc_u_helmholtz</title>
-<polygon fill="none" stroke="black" points="104,-24 0,-24 0,0 104,0 104,-24"/>
-<text text-anchor="middle" x="52" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_u_helmholtz</text>
+<!-- Title: proc~~calc_saturation_cp~~CallsGraph Pages: 1 -->
+<svg id="proccalc_saturation_cpCallsGraph" width="641pt" height="56pt"
+ viewBox="0.00 0.00 641.00 55.94" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~calc_saturation_cp~~CallsGraph" class="graph" transform="scale(0.76 0.76) rotate(0) translate(4 70)">
+<title>proc~~calc_saturation_cp~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 844,-70 844,4 -4,4"/>
+<!-- proc~calc_saturation_cp -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_node1" class="node">
+<title>proc~calc_saturation_cp</title>
+<polygon fill="none" stroke="black" points="112,-45 0,-45 0,-21 112,-21 112,-45"/>
+<text text-anchor="middle" x="56" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_saturation_cp</text>
 </g>
-<!-- calc_phi -->
-<g id="proc~~calc_u_helmholtz~~CallsGraph_node2" class="node">
-<title>calc_phi</title>
-<polygon fill="#777777" stroke="#777777" points="196,-24 140,-24 140,0 196,0 196,-24"/>
-<text text-anchor="middle" x="168" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_phi</text>
+<!-- interface~calc_cp_gibbs -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_node2" class="node">
+<title>interface~calc_cp_gibbs</title>
+<g id="a_proc~~calc_saturation_cp~~CallsGraph_node2"><a xlink:href="../interface/calc_cp_gibbs.html" xlink:title="abst_iapws_gibbs%calc_cp_gibbs">
+<polygon fill="#a7506f" stroke="#a7506f" points="383.5,-66 196.5,-66 196.5,-42 383.5,-42 383.5,-66"/>
+<text text-anchor="middle" x="290" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_gibbs%calc_cp_gibbs</text>
+</a>
 </g>
-<!-- proc~calc_u_helmholtz&#45;&gt;calc_phi -->
-<g id="proc~~calc_u_helmholtz~~CallsGraph_edge1" class="edge">
-<title>proc~calc_u_helmholtz&#45;&gt;calc_phi</title>
-<path fill="none" stroke="#ff0000" d="M104.33,-12C112.88,-12 121.6,-12 129.71,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="129.96,-15.5 139.96,-12 129.96,-8.5 129.96,-15.5"/>
+</g>
+<!-- proc~calc_saturation_cp&#45;&gt;interface~calc_cp_gibbs -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_edge1" class="edge">
+<title>proc~calc_saturation_cp&#45;&gt;interface~calc_cp_gibbs</title>
+<path fill="none" stroke="#ff0000" d="M112.28,-38C134.4,-40.01 160.63,-42.38 186.02,-44.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="185.8,-48.17 196.07,-45.59 186.43,-41.2 185.8,-48.17"/>
+</g>
+<!-- interface~calc_psat_iapws97_region4 -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_node3" class="node">
+<title>interface~calc_psat_iapws97_region4</title>
+<g id="a_proc~~calc_saturation_cp~~CallsGraph_node3"><a xlink:href="../interface/calc_psat_iapws97_region4.html" xlink:title="type_iapws97_region4%calc_psat_iapws97_region4">
+<polygon fill="#a7506f" stroke="#a7506f" points="432,-24 148,-24 148,0 432,0 432,-24"/>
+<text text-anchor="middle" x="290" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_iapws97_region4%calc_psat_iapws97_region4</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_saturation_cp&#45;&gt;interface~calc_psat_iapws97_region4 -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_edge2" class="edge">
+<title>proc~calc_saturation_cp&#45;&gt;interface~calc_psat_iapws97_region4</title>
+<path fill="none" stroke="#ff0000" d="M112.28,-28C122.85,-27.04 134.36,-26 146.27,-24.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="146.72,-28.39 156.36,-24.01 146.09,-21.42 146.72,-28.39"/>
+</g>
+<!-- proc~calc_cp_gibbs -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_node4" class="node">
+<title>proc~calc_cp_gibbs</title>
+<g id="a_proc~~calc_saturation_cp~~CallsGraph_node4"><a xlink:href="../proc/calc_cp_gibbs.html" xlink:title="calc_cp_gibbs">
+<polygon fill="#d9534f" stroke="#d9534f" points="589.5,-66 503.5,-66 503.5,-42 589.5,-42 589.5,-66"/>
+<text text-anchor="middle" x="546.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_cp_gibbs</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_cp_gibbs&#45;&gt;proc~calc_cp_gibbs -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_edge3" class="edge">
+<title>interface~calc_cp_gibbs&#45;&gt;proc~calc_cp_gibbs</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M383.6,-54C420.5,-54 461.61,-54 493.17,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="493.49,-57.5 503.49,-54 493.49,-50.5 493.49,-57.5"/>
+</g>
+<!-- proc~calc_psat_iapws97_region4 -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_node5" class="node">
+<title>proc~calc_psat_iapws97_region4</title>
+<g id="a_proc~~calc_saturation_cp~~CallsGraph_node5"><a xlink:href="../proc/calc_psat_iapws97_region4.html" xlink:title="calc_psat_iapws97_region4">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="625,-24 468,-24 468,0 625,0 625,-24"/>
+<text text-anchor="middle" x="546.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_psat_iapws97_region4</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_psat_iapws97_region4&#45;&gt;proc~calc_psat_iapws97_region4 -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_edge4" class="edge">
+<title>interface~calc_psat_iapws97_region4&#45;&gt;proc~calc_psat_iapws97_region4</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M432.02,-12C440.74,-12 449.38,-12 457.76,-12"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="457.85,-15.5 467.85,-12 457.85,-8.5 457.85,-15.5"/>
+</g>
+<!-- calc_gamma -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_node6" class="node">
+<title>calc_gamma</title>
+<polygon fill="#777777" stroke="#777777" points="791,-66 710,-66 710,-42 791,-42 791,-66"/>
+<text text-anchor="middle" x="750.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_gamma</text>
+</g>
+<!-- proc~calc_cp_gibbs&#45;&gt;calc_gamma -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_edge5" class="edge">
+<title>proc~calc_cp_gibbs&#45;&gt;calc_gamma</title>
+<path fill="none" stroke="#ff0000" d="M589.85,-54C621.93,-54 666.09,-54 699.84,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="699.95,-57.5 709.95,-54 699.95,-50.5 699.95,-57.5"/>
+</g>
+<!-- proc~calc_vartheta_iapws97_region4 -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_node7" class="node">
+<title>proc~calc_vartheta_iapws97_region4</title>
+<g id="a_proc~~calc_saturation_cp~~CallsGraph_node7"><a xlink:href="../proc/calc_vartheta_iapws97_region4.html" xlink:title="calc_vartheta_iapws97_region4">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="840,-24 661,-24 661,0 840,0 840,-24"/>
+<text text-anchor="middle" x="750.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_vartheta_iapws97_region4</text>
+</a>
+</g>
+</g>
+<!-- proc~calc_psat_iapws97_region4&#45;&gt;proc~calc_vartheta_iapws97_region4 -->
+<g id="proc~~calc_saturation_cp~~CallsGraph_edge6" class="edge">
+<title>proc~calc_psat_iapws97_region4&#45;&gt;proc~calc_vartheta_iapws97_region4</title>
+<path fill="none" stroke="#00ffff" d="M625.02,-12C633.42,-12 642.04,-12 650.65,-12"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="650.73,-15.5 660.73,-12 650.73,-8.5 650.73,-15.5"/>
 </g>
 </g>
 </svg>
-</div>          <div>
+</div>                <script>
+                  var panproccalc_saturation_cpCallsGraph = svgPanZoom('#proccalc_saturation_cpCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
             <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
           </div>
           <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
@@ -383,70 +447,36 @@ large graphs.</div>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~calc_u_helmholtz~~CalledByGraph Pages: 1 -->
-<svg id="proccalc_u_helmholtzCalledByGraph" width="641pt" height="23pt"
- viewBox="0.00 0.00 641.00 23.39" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~calc_u_helmholtz~~CalledByGraph" class="graph" transform="scale(0.73 0.73) rotate(0) translate(4 28)">
-<title>proc~~calc_u_helmholtz~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 873,-28 873,4 -4,4"/>
-<!-- proc~calc_u_helmholtz -->
-<g id="proc~~calc_u_helmholtz~~CalledByGraph_node1" class="node">
-<title>proc~calc_u_helmholtz</title>
-<polygon fill="none" stroke="black" points="869,-24 765,-24 765,0 869,0 869,-24"/>
-<text text-anchor="middle" x="817" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_u_helmholtz</text>
+<!-- Title: proc~~calc_saturation_cp~~CalledByGraph Pages: 1 -->
+<svg id="proccalc_saturation_cpCalledByGraph" width="268pt" height="32pt"
+ viewBox="0.00 0.00 268.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~calc_saturation_cp~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~calc_saturation_cp~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 264,-28 264,4 -4,4"/>
+<!-- proc~calc_saturation_cp -->
+<g id="proc~~calc_saturation_cp~~CalledByGraph_node1" class="node">
+<title>proc~calc_saturation_cp</title>
+<polygon fill="none" stroke="black" points="260,-24 148,-24 148,0 260,0 260,-24"/>
+<text text-anchor="middle" x="204" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_saturation_cp</text>
 </g>
-<!-- interface~calc_u_helmholtz -->
-<g id="proc~~calc_u_helmholtz~~CalledByGraph_node2" class="node">
-<title>interface~calc_u_helmholtz</title>
-<g id="a_proc~~calc_u_helmholtz~~CalledByGraph_node2"><a xlink:href="../interface/calc_u_helmholtz.html" xlink:title="abst_iapws_helmholtz%calc_u_helmholtz">
-<polygon fill="#a7506f" stroke="#a7506f" points="729,-24 500,-24 500,0 729,0 729,-24"/>
-<text text-anchor="middle" x="614.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_helmholtz%calc_u_helmholtz</text>
+<!-- interface~calc_saturation_cp -->
+<g id="proc~~calc_saturation_cp~~CalledByGraph_node2" class="node">
+<title>interface~calc_saturation_cp</title>
+<g id="a_proc~~calc_saturation_cp~~CalledByGraph_node2"><a xlink:href="../interface/calc_saturation_cp.html" xlink:title="calc_saturation_cp">
+<polygon fill="#a7506f" stroke="#a7506f" points="112,-24 0,-24 0,0 112,0 112,-24"/>
+<text text-anchor="middle" x="56" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_saturation_cp</text>
 </a>
 </g>
 </g>
-<!-- interface~calc_u_helmholtz&#45;&gt;proc~calc_u_helmholtz -->
-<g id="proc~~calc_u_helmholtz~~CalledByGraph_edge1" class="edge">
-<title>interface~calc_u_helmholtz&#45;&gt;proc~calc_u_helmholtz</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M729.22,-12C737.92,-12 746.49,-12 754.64,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="754.74,-15.5 764.74,-12 754.74,-8.5 754.74,-15.5"/>
-</g>
-<!-- proc~calc_properties_helmholtz -->
-<g id="proc~~calc_u_helmholtz~~CalledByGraph_node3" class="node">
-<title>proc~calc_properties_helmholtz</title>
-<g id="a_proc~~calc_u_helmholtz~~CalledByGraph_node3"><a xlink:href="../proc/calc_properties_helmholtz.html" xlink:title="calc_properties_helmholtz">
-<polygon fill="#d9534f" stroke="#d9534f" points="464,-24 313,-24 313,0 464,0 464,-24"/>
-<text text-anchor="middle" x="388.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_properties_helmholtz</text>
-</a>
-</g>
-</g>
-<!-- proc~calc_properties_helmholtz&#45;&gt;interface~calc_u_helmholtz -->
-<g id="proc~~calc_u_helmholtz~~CalledByGraph_edge2" class="edge">
-<title>proc~calc_properties_helmholtz&#45;&gt;interface~calc_u_helmholtz</title>
-<path fill="none" stroke="#ff0000" d="M464.09,-12C472.32,-12 480.86,-12 489.49,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="489.66,-15.5 499.66,-12 489.66,-8.5 489.66,-15.5"/>
-</g>
-<!-- interface~calc_properties_helmholtz -->
-<g id="proc~~calc_u_helmholtz~~CalledByGraph_node4" class="node">
-<title>interface~calc_properties_helmholtz</title>
-<g id="a_proc~~calc_u_helmholtz~~CalledByGraph_node4"><a xlink:href="../interface/calc_properties_helmholtz.html" xlink:title="abst_iapws_helmholtz%calc_properties_helmholtz">
-<polygon fill="#a7506f" stroke="#a7506f" points="277,-24 0,-24 0,0 277,0 277,-24"/>
-<text text-anchor="middle" x="138.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_helmholtz%calc_properties_helmholtz</text>
-</a>
-</g>
-</g>
-<!-- interface~calc_properties_helmholtz&#45;&gt;proc~calc_properties_helmholtz -->
-<g id="proc~~calc_u_helmholtz~~CalledByGraph_edge3" class="edge">
-<title>interface~calc_properties_helmholtz&#45;&gt;proc~calc_properties_helmholtz</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M277.28,-12C285.82,-12 294.28,-12 302.48,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="302.73,-15.5 312.73,-12 302.73,-8.5 302.73,-15.5"/>
+<!-- interface~calc_saturation_cp&#45;&gt;proc~calc_saturation_cp -->
+<g id="proc~~calc_saturation_cp~~CalledByGraph_edge1" class="edge">
+<title>interface~calc_saturation_cp&#45;&gt;proc~calc_saturation_cp</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M112.2,-12C120.46,-12 129.05,-12 137.51,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="137.73,-15.5 147.73,-12 137.73,-8.5 137.73,-15.5"/>
 </g>
 </g>
 </svg>
-</div>                <script>
-                  var panproccalc_u_helmholtzCalledByGraph = svgPanZoom('#proccalc_u_helmholtzCalledByGraph',
-                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
-                  );
-                </script>          <div>
+</div>          <div>
             <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
           </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
@@ -541,29 +571,31 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">module pure elemental subroutine </span><span class="n">calc_u_helmholtz</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">rho_in</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">prop_in</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">module pure elemental subroutine </span><span class="n">calc_saturation_cp</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">cp_vap</span><span class="p">,</span><span class="w"> </span><span class="n">cp_liq</span><span class="p">)</span>
 <span class="w">        </span><span class="k">implicit none</span>
-<span class="k">        class</span><span class="p">(</span><span class="n">abst_iapws_helmholtz</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<span class="k">        class</span><span class="p">(</span><span class="n">type_iapws97</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">T_in</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rho_in</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u</span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_helmholtz_property</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prop_in</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cp_vap</span><span class="w"> </span><span class="c">! 飽和蒸気比熱 cp&#39;&#39;</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cp_liq</span><span class="w"> </span><span class="c">! 飽和液体比熱 cp&#39;</span>
 
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">delta</span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_helmholtz_property</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">props</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">P_sat</span>
 
-<span class="w">        </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">T_c</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">T_in</span>
-<span class="w">        </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rho_in</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">rho_c</span>
+<span class="w">        </span><span class="c">! 1. 飽和圧力 P_sat を計算 (Region 4)</span>
+<span class="w">        </span><span class="n">P_sat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">region4</span><span class="p">%</span><span class="n">calc_psat</span><span class="p">(</span><span class="n">T_in</span><span class="p">)</span>
 
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">prop_in</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prop_in</span>
-<span class="w">        </span><span class="k">else</span>
-<span class="k">            call </span><span class="n">self</span><span class="p">%</span><span class="n">calc_phi</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">)</span>
+<span class="w">        </span><span class="c">! 2. 飽和蒸気比熱 (Region 2)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">cp_vap</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! Region 2 の calc_cp を呼ぶ</span>
+<span class="w">            </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">region2</span><span class="p">%</span><span class="n">calc_cp</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">P_sat</span><span class="p">,</span><span class="w"> </span><span class="n">cp_vap</span><span class="p">)</span>
 <span class="w">        </span><span class="k">end if</span>
 
-<span class="k">        </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">T_in</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">props</span><span class="p">%</span><span class="n">f_t</span>
+<span class="w">        </span><span class="c">! 3. 飽和液体比熱 (Region 1)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">cp_liq</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! Region 1 の calc_cp を呼ぶ</span>
+<span class="w">            </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">region1</span><span class="p">%</span><span class="n">calc_cp</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">P_sat</span><span class="p">,</span><span class="w"> </span><span class="n">cp_liq</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end if</span>
 
-<span class="w">    </span><span class="k">end subroutine </span><span class="n">calc_u_helmholtz</span>
+<span class="k">    end subroutine </span><span class="n">calc_saturation_cp</span>
 </pre></div>
 
     </section>

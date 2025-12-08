@@ -497,4 +497,30 @@ contains
 
     end subroutine calc_saturation_density_iapws97
 
+    module pure elemental subroutine calc_saturation_cp(self, T_in, cp_vap, cp_liq)
+        implicit none
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(inout), optional :: cp_vap ! 飽和蒸気比熱 cp''
+        real(real64), intent(inout), optional :: cp_liq ! 飽和液体比熱 cp'
+
+        real(real64) :: P_sat
+
+        ! 1. 飽和圧力 P_sat を計算 (Region 4)
+        P_sat = self%region4%calc_psat(T_in)
+
+        ! 2. 飽和蒸気比熱 (Region 2)
+        if (present(cp_vap)) then
+            ! Region 2 の calc_cp を呼ぶ
+            call self%region2%calc_cp(T_in, P_sat, cp_vap)
+        end if
+
+        ! 3. 飽和液体比熱 (Region 1)
+        if (present(cp_liq)) then
+            ! Region 1 の calc_cp を呼ぶ
+            call self%region1%calc_cp(T_in, P_sat, cp_liq)
+        end if
+
+    end subroutine calc_saturation_cp
+
 end submodule iapws97_base
