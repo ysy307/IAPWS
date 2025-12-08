@@ -1,6 +1,6 @@
 # IAPWS: Fortran Library for Water and Steam Properties
 
-[![CI Status](https://github.com/ysy307/IAPWS/actions/workflows/document.yml/badge.svg)](https://github.com/ysy307/IAPWS/actions)
+[![CI Status](https://github.com/ysy307/IAPWS/actions/workflows/documentation.yml/badge.svg)](https://github.com/ysy307/IAPWS/actions)
 [![License](https://img.shields.io/github/license/ysy307/IAPWS)](LICENSE)
 
 This library provides a modern Fortran implementation of the thermodynamic properties of water and steam, based on the formulations released by the International Association for the Properties of Water and Steam (IAPWS).
