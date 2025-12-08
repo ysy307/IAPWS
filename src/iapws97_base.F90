@@ -497,7 +497,7 @@ contains
 
     end subroutine calc_saturation_density_iapws97
 
-    module pure elemental subroutine calc_saturation_cp(self, T_in, cp_vap, cp_liq)
+    module pure elemental subroutine calc_saturation_cp_iapws97(self, T_in, cp_vap, cp_liq)
         implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in
@@ -521,6 +521,6 @@ contains
             call self%region1%calc_cp(T_in, P_sat, cp_liq)
         end if
 
-    end subroutine calc_saturation_cp
+    end subroutine calc_saturation_cp_iapws97
 
 end submodule iapws97_base
