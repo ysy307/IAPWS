@@ -1,5 +1,8 @@
 # IAPWS: Fortran Library for Water and Steam Properties
 
+[![CI Status](https://github.com/ysy307/IAPWS/actions/workflows/ci.yml/badge.svg)](https://github.com/ysy307/IAPWS/actions)
+[![License](https://img.shields.io/github/license/ysy307/IAPWS)](LICENSE)
+
 This library provides a modern Fortran implementation of the thermodynamic properties of water and steam, based on the formulations released by the International Association for the Properties of Water and Steam (IAPWS).
 
 It is designed for scientific simulations and industrial applications requiring high-precision calculation of fluid properties.
@@ -10,10 +13,11 @@ The library implements the following IAPWS standards:
 - **IAPWS-IF97**: The industrial formulation for calculating the properties of water and steam (optimized for computational speed).
 - **IAPWS-06**: The formulation for the properties of Ice Ih. 
 
+
 ## Technical Highlights
 - Written in Modern Fortran (F2008+ standards).
 - Supports multiple build systems: CMake (Recommended) and Fortran Package Manager (fpm).
-- Cross-platform compatibility (Linux, Windows, macOS).
+- Cross-platform compatibility (Linux, Windows).
 
 ## Prerequisites
 To build this library, you need a Fortran compiler and a build system.
@@ -105,3 +109,10 @@ Add the following dependency to your fpm.toml:
 [dependencies]
 IAPWS = { git = "https://github.com/ysy307/IAPWS.git" }
 ```
+
+# API Document
+Full API documentation is available here:
+[IAPWS FORD Document](https://ysy307.github.io/IAPWS/)
+
+# License
+This project is licensed under the MIT License - see the LICENSE file for details.
