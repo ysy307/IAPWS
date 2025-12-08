@@ -207,6 +207,7 @@ module module_iapws97
         procedure, pass(self), public :: calc_cv => calc_cv_iapws97
         procedure, pass(self), public :: calc_w => calc_w_iapws97
         procedure, pass(self), public :: calc_latent_heat => calc_latent_heat_iapws97
+        procedure, pass(self), public :: calc_saturation_density => calc_saturation_density_iapws97
     end type type_iapws97
 
     interface
@@ -332,6 +333,17 @@ module module_iapws97
             real(real64), intent(in), optional :: T_in
             real(real64), intent(in), optional :: p_in
         end subroutine calc_latent_heat_iapws97
+
+        !> 飽和蒸気密度と飽和液体密度を計算 (T入力)
+        module pure elemental subroutine calc_saturation_density_iapws97(self, T_in, rho_vap, rho_liq)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(inout), optional :: rho_vap ! 飽和蒸気密度 rho''
+            real(real64), intent(inout), optional :: rho_liq ! 飽和液体密度 rho'
+
+        end subroutine calc_saturation_density_iapws97
+
     end interface
 
 end module module_iapws97

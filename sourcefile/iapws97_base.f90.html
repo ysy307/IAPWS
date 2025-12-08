@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="10.9% of total for source files.">307 statements</a>
+                 title="11.3% of total for source files.">322 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -762,7 +762,34 @@ large graphs.</div>
 <a id="ln-470" name="ln-470" href="#ln-470"></a>
 <a id="ln-471" name="ln-471" href="#ln-471"></a><span class="w">    </span><span class="k">end subroutine </span><span class="n">calc_latent_heat_iapws97</span>
 <a id="ln-472" name="ln-472" href="#ln-472"></a>
-<a id="ln-473" name="ln-473" href="#ln-473"></a><span class="k">end submodule </span><span class="n">iapws97_base</span>
+<a id="ln-473" name="ln-473" href="#ln-473"></a><span class="w">    </span><span class="c">!&gt; 飽和蒸気密度と飽和液体密度を計算 (T入力)</span>
+<a id="ln-474" name="ln-474" href="#ln-474"></a><span class="w">    </span><span class="k">module pure elemental subroutine </span><span class="n">calc_saturation_density_iapws97</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">rho_vap</span><span class="p">,</span><span class="w"> </span><span class="n">rho_liq</span><span class="p">)</span>
+<a id="ln-475" name="ln-475" href="#ln-475"></a><span class="w">        </span><span class="k">implicit none</span>
+<a id="ln-476" name="ln-476" href="#ln-476"></a><span class="k">        class</span><span class="p">(</span><span class="n">type_iapws97</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-477" name="ln-477" href="#ln-477"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">T_in</span>
+<a id="ln-478" name="ln-478" href="#ln-478"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rho_vap</span><span class="w"> </span><span class="c">! 飽和蒸気密度 rho&#39;&#39;</span>
+<a id="ln-479" name="ln-479" href="#ln-479"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rho_liq</span><span class="w"> </span><span class="c">! 飽和液体密度 rho&#39;</span>
+<a id="ln-480" name="ln-480" href="#ln-480"></a>
+<a id="ln-481" name="ln-481" href="#ln-481"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">P_sat</span>
+<a id="ln-482" name="ln-482" href="#ln-482"></a>
+<a id="ln-483" name="ln-483" href="#ln-483"></a><span class="w">        </span><span class="c">! 1. 飽和圧力 P_sat を計算 (Region 4)</span>
+<a id="ln-484" name="ln-484" href="#ln-484"></a><span class="w">        </span><span class="n">P_sat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">region4</span><span class="p">%</span><span class="n">calc_psat</span><span class="p">(</span><span class="n">T_in</span><span class="p">)</span>
+<a id="ln-485" name="ln-485" href="#ln-485"></a>
+<a id="ln-486" name="ln-486" href="#ln-486"></a><span class="w">        </span><span class="c">! 2. 飽和蒸気密度 (Region 2)</span>
+<a id="ln-487" name="ln-487" href="#ln-487"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">rho_vap</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-488" name="ln-488" href="#ln-488"></a><span class="w">            </span><span class="c">! Region 2 の calc_rho を呼ぶ</span>
+<a id="ln-489" name="ln-489" href="#ln-489"></a><span class="w">            </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">region2</span><span class="p">%</span><span class="n">calc_rho</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">P_sat</span><span class="p">,</span><span class="w"> </span><span class="n">rho_vap</span><span class="p">)</span>
+<a id="ln-490" name="ln-490" href="#ln-490"></a><span class="w">        </span><span class="k">end if</span>
+<a id="ln-491" name="ln-491" href="#ln-491"></a>
+<a id="ln-492" name="ln-492" href="#ln-492"></a><span class="w">        </span><span class="c">! 3. 飽和液体密度 (Region 1)</span>
+<a id="ln-493" name="ln-493" href="#ln-493"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">rho_liq</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-494" name="ln-494" href="#ln-494"></a><span class="w">            </span><span class="c">! Region 1 の calc_rho を呼ぶ</span>
+<a id="ln-495" name="ln-495" href="#ln-495"></a><span class="w">            </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">region1</span><span class="p">%</span><span class="n">calc_rho</span><span class="p">(</span><span class="n">T_in</span><span class="p">,</span><span class="w"> </span><span class="n">P_sat</span><span class="p">,</span><span class="w"> </span><span class="n">rho_liq</span><span class="p">)</span>
+<a id="ln-496" name="ln-496" href="#ln-496"></a><span class="w">        </span><span class="k">end if</span>
+<a id="ln-497" name="ln-497" href="#ln-497"></a>
+<a id="ln-498" name="ln-498" href="#ln-498"></a><span class="k">    end subroutine </span><span class="n">calc_saturation_density_iapws97</span>
+<a id="ln-499" name="ln-499" href="#ln-499"></a>
+<a id="ln-500" name="ln-500" href="#ln-500"></a><span class="k">end submodule </span><span class="n">iapws97_base</span>
 </pre></div>
 
       </section>
@@ -784,7 +811,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-08 03:27 +0000             </p>
+ on 2025-12-08 04:09 +0000             </p>
           </div>
         </div>
         <br>
