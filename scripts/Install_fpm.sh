@@ -20,4 +20,5 @@ cd "$FPM_DIR"
 
 ./install.sh --prefix="$INSTALL_PREFIX"
 
-export PATH="$INSTALL_PREFIX/bin:$PATH"
+echo 'export PATH="$INSTALL_PREFIX/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc

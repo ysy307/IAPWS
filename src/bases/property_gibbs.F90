@@ -15,6 +15,8 @@ contains
 
         call self%calc_nu(T_in, P_in, property%nu, coef)
         call self%calc_rho(T_in, P_in, property%rho, coef)
+        call self%calc_drho_dT(T_in, P_in, property%drho_dT, coef)
+        call self%calc_drho_dP(T_in, P_in, property%drho_dP, coef)
         call self%calc_u(T_in, P_in, property%u, coef)
         call self%calc_h(T_in, P_in, property%h, coef)
         call self%calc_s(T_in, P_in, property%s, coef)
@@ -67,6 +69,50 @@ contains
         call self%calc_nu(T_in, P_in, nu, props)
         rho = 1.0d0 / nu
     end subroutine calc_rho_gibbs
+
+    !> 密度の温度微分 (drho/dT)_P
+    module pure elemental subroutine calc_drho_dT_gibbs(self, T_in, P_in, drho_dT, prop_in)
+        implicit none
+        class(abst_iapws_gibbs), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(in) :: P_in
+        real(real64), intent(inout) :: drho_dT
+        type(type_iapws_gibbs_coefficient), intent(in), optional :: prop_in
+
+        type(type_iapws_gibbs_coefficient) :: props
+
+        if (present(prop_in)) then
+            props = prop_in
+        else
+            call self%calc_gamma(T_in, P_in, props)
+        end if
+
+        ! Formula: - g_pt / (g_p)^2
+        drho_dT = -props%g_pt / (props%g_p**2)
+
+    end subroutine calc_drho_dT_gibbs
+
+    !> 密度の圧力微分 (drho/dP)_T
+    module pure elemental subroutine calc_drho_dP_gibbs(self, T_in, P_in, drho_dP, prop_in)
+        implicit none
+        class(abst_iapws_gibbs), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(in) :: P_in
+        real(real64), intent(inout) :: drho_dP
+        type(type_iapws_gibbs_coefficient), intent(in), optional :: prop_in
+
+        type(type_iapws_gibbs_coefficient) :: props
+
+        if (present(prop_in)) then
+            props = prop_in
+        else
+            call self%calc_gamma(T_in, P_in, props)
+        end if
+
+        ! Formula: - g_pp / (g_p)^2
+        drho_dP = -props%g_pp / (props%g_p**2)
+
+    end subroutine calc_drho_dP_gibbs
 
     module pure elemental subroutine calc_u_gibbs(self, T_in, P_in, u, prop_in)
         implicit none

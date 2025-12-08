@@ -42,6 +42,8 @@ module module_iapws
         procedure, pass(self), public :: calc_properties => calc_properties_gibbs
         procedure, pass(self), public :: calc_nu => calc_nu_gibbs
         procedure, pass(self), public :: calc_rho => calc_rho_gibbs
+        procedure, pass(self), public :: calc_drho_dT => calc_drho_dT_gibbs
+        procedure, pass(self), public :: calc_drho_dP => calc_drho_dP_gibbs
         procedure, pass(self), public :: calc_u => calc_u_gibbs
         procedure, pass(self), public :: calc_s => calc_s_gibbs
         procedure, pass(self), public :: calc_h => calc_h_gibbs
@@ -160,6 +162,10 @@ module module_iapws
         real(real64) :: nu = 0.0d0
         !> Density, \( \rho \) [kg/m^3]
         real(real64) :: rho = 0.0d0
+        !> Temperature derivative of density, \( \left(\frac{\partial \rho}{\partial T}\right)_P \) [kg/(m^3 K)]
+        real(real64) :: drho_dT = 0.0d0
+        !> Pressure derivative of density, \( \left(\frac{\partial \rho}{\partial P}\right)_T \) [kg/(m^3 Pa)]
+        real(real64) :: drho_dP = 0.0d0
         !> Specific Internal Energy, \( u \) [J/kg]
         real(real64) :: u = 0.0d0
         !> Specific Entropy, \( s \) [J/(kg K)]
@@ -383,6 +389,28 @@ module module_iapws
             type(type_iapws_gibbs_coefficient), intent(in), optional :: prop_in
 
         end subroutine calc_rho_gibbs
+
+        !> 密度の温度微分 (drho/dT)_P
+        module pure elemental subroutine calc_drho_dT_gibbs(self, T_in, P_in, drho_dT, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: P_in
+            real(real64), intent(inout) :: drho_dT
+            type(type_iapws_gibbs_coefficient), intent(in), optional :: prop_in
+
+        end subroutine calc_drho_dT_gibbs
+
+        !> 密度の圧力微分 (drho/dP)_T
+        module pure elemental subroutine calc_drho_dP_gibbs(self, T_in, P_in, drho_dP, prop_in)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            real(real64), intent(in) :: P_in
+            real(real64), intent(inout) :: drho_dP
+            type(type_iapws_gibbs_coefficient), intent(in), optional :: prop_in
+
+        end subroutine calc_drho_dP_gibbs
 
         !> Calculate specific internal energy using Gibbs formulation
         module pure elemental subroutine calc_u_gibbs(self, T_in, p_in, u, prop_in)
