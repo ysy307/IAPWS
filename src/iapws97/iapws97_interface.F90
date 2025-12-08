@@ -208,6 +208,7 @@ module module_iapws97
         procedure, pass(self), public :: calc_w => calc_w_iapws97
         procedure, pass(self), public :: calc_latent_heat => calc_latent_heat_iapws97
         procedure, pass(self), public :: calc_saturation_density => calc_saturation_density_iapws97
+        procedure, pass(self), public :: calc_saturation_cp => calc_saturation_cp_iapws97
     end type type_iapws97
 
     interface
@@ -344,14 +345,14 @@ module module_iapws97
 
         end subroutine calc_saturation_density_iapws97
 
-        module pure elemental subroutine calc_saturation_cp(self, T_in, cp_vap, cp_liq)
+        module pure elemental subroutine calc_saturation_cp_iapws97(self, T_in, cp_vap, cp_liq)
             implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(inout), optional :: cp_vap ! 飽和蒸気比熱 cp''
             real(real64), intent(inout), optional :: cp_liq ! 飽和液体比熱 cp'
 
-        end subroutine calc_saturation_cp
+        end subroutine calc_saturation_cp_iapws97
 
     end interface
 
