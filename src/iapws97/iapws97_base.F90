@@ -470,4 +470,31 @@ contains
 
     end subroutine calc_latent_heat_iapws97
 
+    !> 飽和蒸気密度と飽和液体密度を計算 (T入力)
+    module pure elemental subroutine calc_saturation_density_iapws97(self, T_in, rho_vap, rho_liq)
+        implicit none
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(inout), optional :: rho_vap ! 飽和蒸気密度 rho''
+        real(real64), intent(inout), optional :: rho_liq ! 飽和液体密度 rho'
+
+        real(real64) :: P_sat
+
+        ! 1. 飽和圧力 P_sat を計算 (Region 4)
+        P_sat = self%region4%calc_psat(T_in)
+
+        ! 2. 飽和蒸気密度 (Region 2)
+        if (present(rho_vap)) then
+            ! Region 2 の calc_rho を呼ぶ
+            call self%region2%calc_rho(T_in, P_sat, rho_vap)
+        end if
+
+        ! 3. 飽和液体密度 (Region 1)
+        if (present(rho_liq)) then
+            ! Region 1 の calc_rho を呼ぶ
+            call self%region1%calc_rho(T_in, P_sat, rho_liq)
+        end if
+
+    end subroutine calc_saturation_density_iapws97
+
 end submodule iapws97_base
