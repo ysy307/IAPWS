@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 8.6% of total for modules and submodules.">228 statements</a>
+                 title=" 9.0% of total for modules and submodules.">255 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -143,10 +143,13 @@
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_t_boundary_iapws97_region23">calc_T_boundary_iapws97_region23</a>
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_cp_iapws97">calc_cp_iapws97</a>
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_cv_iapws97">calc_cv_iapws97</a>
+            <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_drho_dt_iapws97">calc_drho_dT_iapws97</a>
+            <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_drho_dp_iapws97">calc_drho_dp_iapws97</a>
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_gamma_iapws97_region1">calc_gamma_iapws97_region1</a>
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_gamma_iapws97_region2">calc_gamma_iapws97_region2</a>
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_gamma_iapws97_region5">calc_gamma_iapws97_region5</a>
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_h_iapws97">calc_h_iapws97</a>
+            <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_latent_heat_iapws97">calc_latent_heat_iapws97</a>
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_nu_iapws97">calc_nu_iapws97</a>
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_p_boundary_iapws97_region23">calc_p_boundary_iapws97_region23</a>
             <a class="list-group-item" href="../module/module_iapws97.html#interface-calc_phi_iapws97_region3">calc_phi_iapws97_region3</a>
@@ -211,9 +214,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='module_iapws.html'>module_iapws</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item"><a href='utils_kahan.html'>utils_kahan</a></li>
+                  <li class="list-inline-item"><a href='module_iapws.html'>module_iapws</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -619,7 +622,7 @@ large graphs.</div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module function calc_T_boundary_iapws97_region23(self, pressure) result(temperature)  
+    private pure elemental module function calc_T_boundary_iapws97_region23(self, pressure) result(temperature)  
     <a href="../proc/calc_t_boundary_iapws97_region23.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -638,7 +641,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~16"></span>
+              <span class="anchor" id="variable-self~15"></span>
               class(<a href='../type/type_iapws97_auxiliary.html'>type_iapws97_auxiliary</a>),
             </td>
 <td>intent(in)</td>
@@ -653,7 +656,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pressure~2"></span>
+              <span class="anchor" id="variable-pressure~6"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -688,102 +691,8 @@ large graphs.</div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_cp_iapws97(self, T_in, p_in, cp)  
+    private pure elemental module subroutine calc_cp_iapws97(self, T_in, p_in, cp)  
     <a href="../proc/calc_cp_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~36"></span>
-              class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-t_in~22"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>T_in</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-p_in~18"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>p_in</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-cp~2"></span>
-              real(kind=real64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>cp</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-calc_cv_iapws97"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    public pure elemental module subroutine calc_cv_iapws97(self, T_in, p_in, cv)  
-    <a href="../proc/calc_cv_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -816,7 +725,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~23"></span>
+              <span class="anchor" id="variable-t_in~14"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -831,7 +740,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~19"></span>
+              <span class="anchor" id="variable-p_in~10"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -846,7 +755,101 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cv~2"></span>
+              <span class="anchor" id="variable-cp"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cp</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-calc_cv_iapws97"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure elemental module subroutine calc_cv_iapws97(self, T_in, p_in, cv)  
+    <a href="../proc/calc_cv_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~38"></span>
+              class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~15"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~11"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cv"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -869,6 +872,194 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-calc_drho_dt_iapws97"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure elemental module subroutine calc_drho_dT_iapws97(self, T_in, p_in, drho_dT)  
+    <a href="../proc/calc_drho_dt_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~32"></span>
+              class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~9"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~5"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-drho_dt"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dT</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-calc_drho_dp_iapws97"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure elemental module subroutine calc_drho_dp_iapws97(self, T_in, p_in, drho_dp)  
+    <a href="../proc/calc_drho_dp_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~33"></span>
+              class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~10"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~6"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-drho_dp"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dp</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-calc_gamma_iapws97_region1"></span>
       <h3>        interface
       </h3>
@@ -876,7 +1067,7 @@ large graphs.</div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_gamma_iapws97_region1(self, T_in, P_in, coef)  
+    private pure elemental module subroutine calc_gamma_iapws97_region1(self, T_in, P_in, coef)  
     <a href="../proc/calc_gamma_iapws97_region1.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -895,7 +1086,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~18"></span>
+              <span class="anchor" id="variable-self~17"></span>
               class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
             </td>
 <td>intent(in)</td>
@@ -910,7 +1101,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~12"></span>
+              <span class="anchor" id="variable-t_in~2"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -971,7 +1162,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_gamma_iapws97_region2(self, T_in, P_in, coef)  
+    private pure elemental module subroutine calc_gamma_iapws97_region2(self, T_in, P_in, coef)  
     <a href="../proc/calc_gamma_iapws97_region2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -990,7 +1181,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~20"></span>
+              <span class="anchor" id="variable-self~19"></span>
               class(<a href='../type/type_iapws97_region2.html'>type_iapws97_region2</a>),
             </td>
 <td>intent(in)</td>
@@ -1005,7 +1196,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~13"></span>
+              <span class="anchor" id="variable-t_in~3"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1065,7 +1256,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_gamma_iapws97_region5(self, T_in, P_in, coef)  
+    private pure elemental module subroutine calc_gamma_iapws97_region5(self, T_in, P_in, coef)  
     <a href="../proc/calc_gamma_iapws97_region5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1084,7 +1275,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~27"></span>
+              <span class="anchor" id="variable-self~26"></span>
               class(<a href='../type/type_iapws97_region5.html'>type_iapws97_region5</a>),
             </td>
 <td>intent(in)</td>
@@ -1099,7 +1290,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~14"></span>
+              <span class="anchor" id="variable-t_in~4"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1159,7 +1350,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_h_iapws97(self, T_in, p_in, h)  
+    private pure elemental module subroutine calc_h_iapws97(self, T_in, p_in, h)  
     <a href="../proc/calc_h_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1178,7 +1369,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~34"></span>
+              <span class="anchor" id="variable-self~35"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1193,7 +1384,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~20"></span>
+              <span class="anchor" id="variable-t_in~12"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1208,7 +1399,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~16"></span>
+              <span class="anchor" id="variable-p_in~8"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1223,7 +1414,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-h~2"></span>
+              <span class="anchor" id="variable-h"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1246,6 +1437,101 @@ Temperature, T [K].</p>
 
               <div class="card">
     <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-calc_latent_heat_iapws97"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure elemental module subroutine calc_latent_heat_iapws97(self, latent_heat, T_in, p_in)  
+    <a href="../proc/calc_latent_heat_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Calculate Latent Heat of Vaporization [J/kg]
+User must provide EITHER T_in [K] OR p_in [Pa].</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~40"></span>
+              class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-latent_heat"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>latent_heat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~17"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~13"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-calc_nu_iapws97"></span>
       <h3>        interface
       </h3>
@@ -1253,7 +1539,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_nu_iapws97(self, T_in, p_in, nu)  
+    private pure elemental module subroutine calc_nu_iapws97(self, T_in, p_in, nu)  
     <a href="../proc/calc_nu_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1272,7 +1558,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~31"></span>
+              <span class="anchor" id="variable-self~30"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1287,7 +1573,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~17"></span>
+              <span class="anchor" id="variable-t_in~7"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1302,7 +1588,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~13"></span>
+              <span class="anchor" id="variable-p_in~3"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1317,7 +1603,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nu~2"></span>
+              <span class="anchor" id="variable-nu"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1347,7 +1633,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module function calc_p_boundary_iapws97_region23(self, temperature) result(pressure)  
+    private pure elemental module function calc_p_boundary_iapws97_region23(self, temperature) result(pressure)  
     <a href="../proc/calc_p_boundary_iapws97_region23.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1366,7 +1652,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~15"></span>
+              <span class="anchor" id="variable-self~14"></span>
               class(<a href='../type/type_iapws97_auxiliary.html'>type_iapws97_auxiliary</a>),
             </td>
 <td>intent(in)</td>
@@ -1381,7 +1667,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-temperature"></span>
+              <span class="anchor" id="variable-temperature~5"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1416,7 +1702,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_phi_iapws97_region3(self, tau, delta, property)  
+    private pure elemental module subroutine calc_phi_iapws97_region3(self, tau, delta, property)  
     <a href="../proc/calc_phi_iapws97_region3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1435,7 +1721,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~22"></span>
+              <span class="anchor" id="variable-self~21"></span>
               class(<a href='../type/type_iapws97_region3.html'>type_iapws97_region3</a>),
             </td>
 <td>intent(in)</td>
@@ -1450,7 +1736,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~8"></span>
+              <span class="anchor" id="variable-tau~21"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1465,7 +1751,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delta"></span>
+              <span class="anchor" id="variable-delta~8"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1510,7 +1796,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_properties_iapws97(self, T_in, p_in, property)  
+    private pure elemental module subroutine calc_properties_iapws97(self, T_in, p_in, property)  
     <a href="../proc/calc_properties_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1529,7 +1815,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~30"></span>
+              <span class="anchor" id="variable-self~29"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1544,7 +1830,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~16"></span>
+              <span class="anchor" id="variable-t_in~6"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1559,7 +1845,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~12"></span>
+              <span class="anchor" id="variable-p_in~2"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1604,7 +1890,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module function calc_psat_iapws97_region4(self, temperature) result(P_sat)  
+    private pure elemental module function calc_psat_iapws97_region4(self, temperature) result(P_sat)  
     <a href="../proc/calc_psat_iapws97_region4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1623,7 +1909,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~24"></span>
+              <span class="anchor" id="variable-self~23"></span>
               class(<a href='../type/type_iapws97_region4.html'>type_iapws97_region4</a>),
             </td>
 <td>intent(in)</td>
@@ -1638,7 +1924,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-temperature~3"></span>
+              <span class="anchor" id="variable-temperature~7"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1673,7 +1959,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_rho_iapws97(self, T_in, p_in, rho)  
+    private pure elemental module subroutine calc_rho_iapws97(self, T_in, p_in, rho)  
     <a href="../proc/calc_rho_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1692,7 +1978,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~32"></span>
+              <span class="anchor" id="variable-self~31"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1707,7 +1993,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~18"></span>
+              <span class="anchor" id="variable-t_in~8"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1722,7 +2008,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~14"></span>
+              <span class="anchor" id="variable-p_in~4"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1737,7 +2023,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rho~9"></span>
+              <span class="anchor" id="variable-rho"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1767,7 +2053,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_s_iapws97(self, T_in, p_in, s)  
+    private pure elemental module subroutine calc_s_iapws97(self, T_in, p_in, s)  
     <a href="../proc/calc_s_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1786,7 +2072,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~35"></span>
+              <span class="anchor" id="variable-self~36"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1801,7 +2087,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~21"></span>
+              <span class="anchor" id="variable-t_in~13"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1816,7 +2102,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~17"></span>
+              <span class="anchor" id="variable-p_in~9"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1831,7 +2117,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~2"></span>
+              <span class="anchor" id="variable-s"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1861,7 +2147,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module function calc_tsat_iapws97_region4(self, pressure) result(T_sat)  
+    private pure elemental module function calc_tsat_iapws97_region4(self, pressure) result(T_sat)  
     <a href="../proc/calc_tsat_iapws97_region4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1880,7 +2166,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~25"></span>
+              <span class="anchor" id="variable-self~24"></span>
               class(<a href='../type/type_iapws97_region4.html'>type_iapws97_region4</a>),
             </td>
 <td>intent(in)</td>
@@ -1895,7 +2181,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pressure~3"></span>
+              <span class="anchor" id="variable-pressure~7"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1930,7 +2216,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_u_iapws97(self, T_in, p_in, u)  
+    private pure elemental module subroutine calc_u_iapws97(self, T_in, p_in, u)  
     <a href="../proc/calc_u_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -1949,7 +2235,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~33"></span>
+              <span class="anchor" id="variable-self~34"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1964,7 +2250,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~19"></span>
+              <span class="anchor" id="variable-t_in~11"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1979,7 +2265,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~15"></span>
+              <span class="anchor" id="variable-p_in~7"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1994,7 +2280,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-u~2"></span>
+              <span class="anchor" id="variable-u"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -2024,7 +2310,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine calc_w_iapws97(self, T_in, p_in, w)  
+    private pure elemental module subroutine calc_w_iapws97(self, T_in, p_in, w)  
     <a href="../proc/calc_w_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -2043,7 +2329,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~38"></span>
+              <span class="anchor" id="variable-self~39"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -2058,7 +2344,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~24"></span>
+              <span class="anchor" id="variable-t_in~16"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -2073,7 +2359,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~20"></span>
+              <span class="anchor" id="variable-p_in~12"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -2088,7 +2374,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-w~2"></span>
+              <span class="anchor" id="variable-w"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -2118,7 +2404,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module function get_region_iapws97(self, T_in, p_in) result(region_id)  
+    private pure elemental module function get_region_iapws97(self, T_in, p_in) result(region_id)  
     <a href="../proc/get_region_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -2137,7 +2423,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~29"></span>
+              <span class="anchor" id="variable-self~28"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -2152,7 +2438,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~15"></span>
+              <span class="anchor" id="variable-t_in~5"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -2167,7 +2453,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~11"></span>
+              <span class="anchor" id="variable-p_in"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -2202,7 +2488,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine initialize_type_iapws97(self)  
+    private pure elemental module subroutine initialize_type_iapws97(self)  
     <a href="../proc/initialize_type_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -2221,7 +2507,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~28"></span>
+              <span class="anchor" id="variable-self~27"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(inout)</td>
@@ -2251,7 +2537,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine initialize_type_iapws97_auxiliary(self)  
+    private pure elemental module subroutine initialize_type_iapws97_auxiliary(self)  
     <a href="../proc/initialize_type_iapws97_auxiliary.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -2270,7 +2556,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~14"></span>
+              <span class="anchor" id="variable-self~13"></span>
               class(<a href='../type/type_iapws97_auxiliary.html'>type_iapws97_auxiliary</a>),
             </td>
 <td>intent(inout)</td>
@@ -2300,7 +2586,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine initialize_type_iapws97_region1(self)  
+    private pure elemental module subroutine initialize_type_iapws97_region1(self)  
     <a href="../proc/initialize_type_iapws97_region1.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -2319,7 +2605,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~17"></span>
+              <span class="anchor" id="variable-self~16"></span>
               class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
             </td>
 <td>intent(inout)</td>
@@ -2349,7 +2635,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine initialize_type_iapws97_region2(self)  
+    private pure elemental module subroutine initialize_type_iapws97_region2(self)  
     <a href="../proc/initialize_type_iapws97_region2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -2368,7 +2654,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~19"></span>
+              <span class="anchor" id="variable-self~18"></span>
               class(<a href='../type/type_iapws97_region2.html'>type_iapws97_region2</a>),
             </td>
 <td>intent(inout)</td>
@@ -2398,7 +2684,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine initialize_type_iapws97_region3(self)  
+    private pure elemental module subroutine initialize_type_iapws97_region3(self)  
     <a href="../proc/initialize_type_iapws97_region3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -2417,7 +2703,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~21"></span>
+              <span class="anchor" id="variable-self~20"></span>
               class(<a href='../type/type_iapws97_region3.html'>type_iapws97_region3</a>),
             </td>
 <td>intent(inout)</td>
@@ -2447,7 +2733,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine initialize_type_iapws97_region4(self)  
+    private pure elemental module subroutine initialize_type_iapws97_region4(self)  
     <a href="../proc/initialize_type_iapws97_region4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -2466,7 +2752,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~23"></span>
+              <span class="anchor" id="variable-self~22"></span>
               class(<a href='../type/type_iapws97_region4.html'>type_iapws97_region4</a>),
             </td>
 <td>intent(inout)</td>
@@ -2496,7 +2782,7 @@ Temperature, T [K].</p>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure elemental module subroutine initialize_type_iapws97_region5(self)  
+    private pure elemental module subroutine initialize_type_iapws97_region5(self)  
     <a href="../proc/initialize_type_iapws97_region5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -2515,7 +2801,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~26"></span>
+              <span class="anchor" id="variable-self~25"></span>
               class(<a href='../type/type_iapws97_region5.html'>type_iapws97_region5</a>),
             </td>
 <td>intent(inout)</td>
@@ -2570,7 +2856,7 @@ Temperature, T [K].</p>
               <span class="anchor" id="variable-auxiliary"></span>
               type(<a href='../type/type_iapws97_auxiliary.html'>type_iapws97_auxiliary</a>),
             </td>
-              <td>public</td>
+              <td>private</td>
             <td>
               
             </td>
@@ -2587,7 +2873,7 @@ Temperature, T [K].</p>
               <span class="anchor" id="variable-region1"></span>
               type(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
             </td>
-              <td>public</td>
+              <td>private</td>
             <td>
               
             </td>
@@ -2604,7 +2890,7 @@ Temperature, T [K].</p>
               <span class="anchor" id="variable-region2"></span>
               type(<a href='../type/type_iapws97_region2.html'>type_iapws97_region2</a>),
             </td>
-              <td>public</td>
+              <td>private</td>
             <td>
               
             </td>
@@ -2621,7 +2907,7 @@ Temperature, T [K].</p>
               <span class="anchor" id="variable-region3"></span>
               type(<a href='../type/type_iapws97_region3.html'>type_iapws97_region3</a>),
             </td>
-              <td>public</td>
+              <td>private</td>
             <td>
               
             </td>
@@ -2638,7 +2924,7 @@ Temperature, T [K].</p>
               <span class="anchor" id="variable-region4"></span>
               type(<a href='../type/type_iapws97_region4.html'>type_iapws97_region4</a>),
             </td>
-              <td>public</td>
+              <td>private</td>
             <td>
               
             </td>
@@ -2655,7 +2941,7 @@ Temperature, T [K].</p>
               <span class="anchor" id="variable-region5"></span>
               type(<a href='../type/type_iapws97_region5.html'>type_iapws97_region5</a>),
             </td>
-              <td>public</td>
+              <td>private</td>
             <td>
               
             </td>
@@ -2688,7 +2974,22 @@ Temperature, T [K].</p>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
+  <strong><a href='../type/type_iapws97.html#boundprocedure-calc_drho_dt'>calc_drho_dT</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_iapws97.html'>calc_drho_dT_iapws97</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public, pass(self) ::
+  <strong><a href='../type/type_iapws97.html#boundprocedure-calc_drho_dp'>calc_drho_dp</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_iapws97.html'>calc_drho_dp_iapws97</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public, pass(self) ::
   <strong><a href='../type/type_iapws97.html#boundprocedure-calc_h'>calc_h</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_h_iapws97.html'>calc_h_iapws97</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public, pass(self) ::
+  <strong><a href='../type/type_iapws97.html#boundprocedure-calc_latent_heat'>calc_latent_heat</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_latent_heat_iapws97.html'>calc_latent_heat_iapws97</a></td>
                   <td></td>
               </tr>
               <tr>
@@ -2740,7 +3041,7 @@ Temperature, T [K].</p>
     <div class="card-header codesum">
       <span class="anchor" id="type-type_iapws97_auxiliary"></span>
       <h3>
-        type, public&nbsp;::&nbsp;
+        type, private&nbsp;::&nbsp;
         <a href='../type/type_iapws97_auxiliary.html'>type_iapws97_auxiliary</a>
         
       </h3>
@@ -2761,7 +3062,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_star"></span>
+              <span class="anchor" id="variable-t_star~2"></span>
               real(kind=real64),
             </td>
               <td>public</td>
@@ -2795,7 +3096,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_star"></span>
+              <span class="anchor" id="variable-p_star~2"></span>
               real(kind=real64),
             </td>
               <td>public</td>
@@ -2843,7 +3144,7 @@ Temperature, T [K].</p>
     <div class="card-header codesum">
       <span class="anchor" id="type-type_iapws97_region1"></span>
       <h3>
-        type, public, extends(<a href='../type/abst_iapws_gibbs.html'>abst_iapws_gibbs</a>)&nbsp;::&nbsp;
+        type, private, extends(<a href='../type/abst_iapws_gibbs.html'>abst_iapws_gibbs</a>)&nbsp;::&nbsp;
         <a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>
         
       </h3>
@@ -2961,12 +3262,12 @@ Temperature, T [K].</p>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
-  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dp'>calc_drho_dP</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_gibbs.html'>calc_drho_dP_gibbs</a></td>
+  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dp~2'>calc_drho_dP</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_gibbs.html'>calc_drho_dP_gibbs</a></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
-  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dt'>calc_drho_dT</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_gibbs.html'>calc_drho_dT_gibbs</a></td>
+  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dt~3'>calc_drho_dT</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_gibbs.html'>calc_drho_dT_gibbs</a></td>
                   <td></td>
               </tr>
               <tr>
@@ -3033,7 +3334,7 @@ Temperature, T [K].</p>
     <div class="card-header codesum">
       <span class="anchor" id="type-type_iapws97_region2"></span>
       <h3>
-        type, public, extends(<a href='../type/abst_iapws_gibbs.html'>abst_iapws_gibbs</a>)&nbsp;::&nbsp;
+        type, private, extends(<a href='../type/abst_iapws_gibbs.html'>abst_iapws_gibbs</a>)&nbsp;::&nbsp;
         <a href='../type/type_iapws97_region2.html'>type_iapws97_region2</a>
         
       </h3>
@@ -3151,12 +3452,12 @@ Temperature, T [K].</p>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
-  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dp'>calc_drho_dP</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_gibbs.html'>calc_drho_dP_gibbs</a></td>
+  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dp~2'>calc_drho_dP</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_gibbs.html'>calc_drho_dP_gibbs</a></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
-  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dt'>calc_drho_dT</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_gibbs.html'>calc_drho_dT_gibbs</a></td>
+  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dt~3'>calc_drho_dT</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_gibbs.html'>calc_drho_dT_gibbs</a></td>
                   <td></td>
               </tr>
               <tr>
@@ -3223,7 +3524,7 @@ Temperature, T [K].</p>
     <div class="card-header codesum">
       <span class="anchor" id="type-type_iapws97_region3"></span>
       <h3>
-        type, public, extends(<a href='../type/abst_iapws_helmholtz.html'>abst_iapws_helmholtz</a>)&nbsp;::&nbsp;
+        type, private, extends(<a href='../type/abst_iapws_helmholtz.html'>abst_iapws_helmholtz</a>)&nbsp;::&nbsp;
         <a href='../type/type_iapws97_region3.html'>type_iapws97_region3</a>
         
       </h3>
@@ -3331,6 +3632,16 @@ Temperature, T [K].</p>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
+  <strong><a href='../type/abst_iapws_helmholtz.html#boundprocedure-calc_drho_dp'>calc_drho_dP</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_helmholtz.html'>calc_drho_dP_helmholtz</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public, pass(self) ::
+  <strong><a href='../type/abst_iapws_helmholtz.html#boundprocedure-calc_drho_dt~2'>calc_drho_dT</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_helmholtz.html'>calc_drho_dT_helmholtz</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public, pass(self) ::
   <strong><a href='../type/abst_iapws_helmholtz.html#boundprocedure-calc_h~2'>calc_h</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_h_helmholtz.html'>calc_h_helmholtz</a></td>
                   <td></td>
               </tr>
@@ -3393,7 +3704,7 @@ Temperature, T [K].</p>
     <div class="card-header codesum">
       <span class="anchor" id="type-type_iapws97_region4"></span>
       <h3>
-        type, public&nbsp;::&nbsp;
+        type, private&nbsp;::&nbsp;
         <a href='../type/type_iapws97_region4.html'>type_iapws97_region4</a>
         
       </h3>
@@ -3414,7 +3725,7 @@ Temperature, T [K].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_star~2"></span>
+              <span class="anchor" id="variable-t_star~3"></span>
               real(kind=real64),
             </td>
               <td>public</td>
@@ -3448,7 +3759,7 @@ Temperature, T [K].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_star~2"></span>
+              <span class="anchor" id="variable-p_star~3"></span>
               real(kind=real64),
             </td>
               <td>public</td>
@@ -3496,7 +3807,7 @@ Temperature, T [K].</p>
     <div class="card-header codesum">
       <span class="anchor" id="type-type_iapws97_region5"></span>
       <h3>
-        type, public, extends(<a href='../type/abst_iapws_gibbs.html'>abst_iapws_gibbs</a>)&nbsp;::&nbsp;
+        type, private, extends(<a href='../type/abst_iapws_gibbs.html'>abst_iapws_gibbs</a>)&nbsp;::&nbsp;
         <a href='../type/type_iapws97_region5.html'>type_iapws97_region5</a>
         
       </h3>
@@ -3614,12 +3925,12 @@ Temperature, T [K].</p>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
-  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dp'>calc_drho_dP</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_gibbs.html'>calc_drho_dP_gibbs</a></td>
+  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dp~2'>calc_drho_dP</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_gibbs.html'>calc_drho_dP_gibbs</a></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
-  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dt'>calc_drho_dT</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_gibbs.html'>calc_drho_dT_gibbs</a></td>
+  <strong><a href='../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dt~3'>calc_drho_dT</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_gibbs.html'>calc_drho_dT_gibbs</a></td>
                   <td></td>
               </tr>
               <tr>
@@ -3707,7 +4018,7 @@ Temperature, T [K].</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-08 02:39 +0000             </p>
+ on 2025-12-08 03:27 +0000             </p>
           </div>
         </div>
         <br>

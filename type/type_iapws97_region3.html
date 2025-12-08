@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 2.7% of total for derived types.</p>Including implementation: 5 statements,  2.7% of total for derived types.">5 statements</a>
+                 title="<p> 2.6% of total for derived types.</p>Including implementation: 5 statements,  2.6% of total for derived types.">5 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -166,6 +166,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/type_iapws97_region3.html#boundprocedure-calc_cp~2">calc_cp</a>
             <a class="list-group-item" href="../type/type_iapws97_region3.html#boundprocedure-calc_cv~2">calc_cv</a>
+            <a class="list-group-item" href="../type/type_iapws97_region3.html#boundprocedure-calc_drho_dp">calc_drho_dP</a>
+            <a class="list-group-item" href="../type/type_iapws97_region3.html#boundprocedure-calc_drho_dt~2">calc_drho_dT</a>
             <a class="list-group-item" href="../type/type_iapws97_region3.html#boundprocedure-calc_h~2">calc_h</a>
             <a class="list-group-item" href="../type/type_iapws97_region3.html#boundprocedure-calc_p">calc_p</a>
             <a class="list-group-item" href="../type/type_iapws97_region3.html#boundprocedure-calc_p_t">calc_p_T</a>
@@ -197,7 +199,7 @@
     
     <div class="col-md-9" id='text'>
       <h2 id="type-def-statement">
-        type, public, extends(<a href='abst_iapws_helmholtz.html'>abst_iapws_helmholtz</a>) :: type_iapws97_region3</h2>
+        type, private, extends(<a href='abst_iapws_helmholtz.html'>abst_iapws_helmholtz</a>) :: type_iapws97_region3</h2>
     
 <br>      <div class="card">
         <div class="card-header">
@@ -486,7 +488,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_cp_helmholtz(self, T_in, rho_in, cp, prop_in)  
+    private pure elemental module subroutine calc_cp_helmholtz(self, T_in, rho_in, cp, prop_in)  
     <a href="../proc/calc_cp_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -601,7 +603,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_cv_helmholtz(self, T_in, rho_in, cv, prop_in)  
+    private pure elemental module subroutine calc_cv_helmholtz(self, T_in, rho_in, cv, prop_in)  
     <a href="../proc/calc_cv_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -705,6 +707,236 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_drho_dp"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_drho_dP</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dp_helmholtz.html'>calc_drho_dP_helmholtz</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    private pure elemental module subroutine calc_drho_dP_helmholtz(self, T_in, rho_in, drho_dP, prop_in)  
+    <a href="../proc/calc_drho_dp_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>密度の圧力微分 (drho/dP)_T</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_helmholtz.html'>abst_iapws_helmholtz</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rho_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dP</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='type_iapws_helmholtz_property.html'>type_iapws_helmholtz_property</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prop_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_drho_dt~2"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_drho_dT</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_drho_dt_helmholtz.html'>calc_drho_dT_helmholtz</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    private pure elemental module subroutine calc_drho_dT_helmholtz(self, T_in, rho_in, drho_dT, prop_in)  
+    <a href="../proc/calc_drho_dt_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>密度の温度微分 (drho/dT)_P</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_helmholtz.html'>abst_iapws_helmholtz</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rho_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dT</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='type_iapws_helmholtz_property.html'>type_iapws_helmholtz_property</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prop_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-calc_h~2"></span>
       <h3>
           procedure, public, pass(self) ::
@@ -716,7 +948,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_h_helmholtz(self, T_in, rho_in, h, prop_in)  
+    private pure elemental module subroutine calc_h_helmholtz(self, T_in, rho_in, h, prop_in)  
     <a href="../proc/calc_h_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -831,7 +1063,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_p_helmholtz(self, T_in, rho_in, p, prop_in)  
+    private pure elemental module subroutine calc_p_helmholtz(self, T_in, rho_in, p, prop_in)  
     <a href="../proc/calc_p_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -946,7 +1178,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_p_T_helmholtz(self, T_in, rho_in, p_T, prop_in)  
+    private pure elemental module subroutine calc_p_T_helmholtz(self, T_in, rho_in, p_T, prop_in)  
     <a href="../proc/calc_p_t_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -1061,7 +1293,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_p_rho_helmholtz(self, T_in, rho_in, p_rho, prop_in)  
+    private pure elemental module subroutine calc_p_rho_helmholtz(self, T_in, rho_in, p_rho, prop_in)  
     <a href="../proc/calc_p_rho_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -1176,7 +1408,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_phi_iapws97_region3(self, tau, delta, property)  
+    private pure elemental module subroutine calc_phi_iapws97_region3(self, tau, delta, property)  
     <a href="../proc/calc_phi_iapws97_region3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -1276,7 +1508,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_properties_helmholtz(self, T_in, rho_in, property)  
+    private pure elemental module subroutine calc_properties_helmholtz(self, T_in, rho_in, property)  
     <a href="../proc/calc_properties_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -1376,7 +1608,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_rho_helmholtz(self, T_in, P_in, rho)  
+    private pure elemental module subroutine calc_rho_helmholtz(self, T_in, P_in, rho)  
     <a href="../proc/calc_rho_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -1476,7 +1708,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_s_helmholtz(self, T_in, rho_in, s, prop_in)  
+    private pure elemental module subroutine calc_s_helmholtz(self, T_in, rho_in, s, prop_in)  
     <a href="../proc/calc_s_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -1591,7 +1823,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_u_helmholtz(self, T_in, rho_in, u, prop_in)  
+    private pure elemental module subroutine calc_u_helmholtz(self, T_in, rho_in, u, prop_in)  
     <a href="../proc/calc_u_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -1706,7 +1938,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine calc_w_helmholtz(self, T_in, rho_in, w, prop_in)  
+    private pure elemental module subroutine calc_w_helmholtz(self, T_in, rho_in, w, prop_in)  
     <a href="../proc/calc_w_helmholtz.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -1821,7 +2053,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    public pure elemental module subroutine initialize_type_iapws97_region3(self)  
+    private pure elemental module subroutine initialize_type_iapws97_region3(self)  
     <a href="../proc/initialize_type_iapws97_region3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -1893,7 +2125,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-08 02:39 +0000             </p>
+ on 2025-12-08 03:27 +0000             </p>
           </div>
         </div>
         <br>

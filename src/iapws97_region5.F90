@@ -235,7 +235,7 @@ contains
         real(real64) :: gammar_p
 
         integer(int32) :: i
-        integer(int32) :: I_val
+        real(real64) :: I_val
         real(real64) :: c_gammar_p
 
         gammar_p = 0.0d0
@@ -257,7 +257,7 @@ contains
         real(real64) :: gammar_pp
 
         integer(int32) :: i
-        integer(int32) :: I_val
+        real(real64) :: I_val
         real(real64) :: c_gammar_pp
 
         gammar_pp = 0.0d0
@@ -279,7 +279,7 @@ contains
         real(real64) :: gammar_t
 
         integer(int32) :: i
-        integer(int32) :: J_val
+        real(real64) :: J_val
         real(real64) :: c_gammar_t
 
         gammar_t = 0.0d0
@@ -302,7 +302,7 @@ contains
         real(real64) :: gammar_tt
 
         integer(int32) :: i
-        integer(int32) :: J_val
+        real(real64) :: J_val
         real(real64) :: c_gammar_tt
 
         gammar_tt = 0.0d0
@@ -325,7 +325,7 @@ contains
         real(real64) :: gammar_pt
 
         integer(int32) :: i
-        integer(int32) :: I_val, J_val
+        real(real64) :: I_val, J_val
         real(real64) :: c_gammar_pt
 
         gammar_pt = 0.0d0

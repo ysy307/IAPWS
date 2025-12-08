@@ -28,6 +28,9 @@ contains
         call self%calc_cv(T_in, rho_in, property%cv, props)
         call self%calc_w(T_in, rho_in, property%w, props)
 
+        call self%calc_drho_dT(T_in, rho_in, property%drho_dT, props)
+        call self%calc_drho_dP(T_in, rho_in, property%drho_dP, props)
+
     end subroutine calc_properties_helmholtz
 
     module pure elemental subroutine calc_rho_helmholtz(self, T_in, P_in, rho)
@@ -93,6 +96,87 @@ contains
 
         end do
     end subroutine calc_rho_helmholtz
+
+    !> 密度の温度微分 (drho/dT)_P
+    module pure elemental subroutine calc_drho_dT_helmholtz(self, T_in, rho_in, drho_dT, prop_in)
+        implicit none
+        class(abst_iapws_helmholtz), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(in) :: rho_in
+        real(real64), intent(inout) :: drho_dT
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
+
+        real(real64) :: tau, delta
+        type(type_iapws_helmholtz_property) :: props
+        real(real64) :: p_rho, p_T
+
+        tau = self%T_c / T_in
+        delta = rho_in / self%rho_c
+
+        if (present(prop_in)) then
+            props = prop_in
+        else
+            call self%calc_phi(tau, delta, props)
+        end if
+
+        ! (dP/drho)_T の比例項: 2*delta*f_d + delta^2*f_dd
+        ! 実際の (dP/drho)_T = R * T * ( ... )
+        ! (dP/dT)_rho の比例項: delta*f_d - delta*tau*f_dt
+        ! 実際の (dP/dT)_rho = R * rho * ( ... )
+
+        ! 分母: (dP/drho)_T に相当する項 (R*Tで割ったもの)
+        p_rho = 2.0d0 * delta * props%f_d + delta**2 * props%f_dd
+
+        ! 分子: (dP/dT)_rho に相当する項 (R*rhoで割ったもの)
+        p_T = delta * props%f_d - delta * tau * props%f_dt
+
+        ! drho_dT = - (dP/dT)_rho / (dP/drho)_T
+        !         = - (R * rho * p_T) / (R * T * p_rho)
+        !         = - (rho / T) * (p_T / p_rho)
+
+        if (abs(p_rho) > tiny(1.0d0)) then
+            drho_dT = -(rho_in / T_in) * (p_T / p_rho)
+        else
+            ! 臨界点近傍など p_rho ~ 0 の場合 (圧縮率無限大)
+            drho_dT = sign(huge(1.0d0), -p_T)
+        end if
+
+    end subroutine calc_drho_dT_helmholtz
+
+    !> 密度の圧力微分 (drho/dP)_T
+    module pure elemental subroutine calc_drho_dP_helmholtz(self, T_in, rho_in, drho_dP, prop_in)
+        implicit none
+        class(abst_iapws_helmholtz), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(in) :: rho_in
+        real(real64), intent(inout) :: drho_dP
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
+
+        real(real64) :: tau, delta
+        type(type_iapws_helmholtz_property) :: props
+        real(real64) :: p_rho_term
+
+        tau = self%T_c / T_in
+        delta = rho_in / self%rho_c
+
+        if (present(prop_in)) then
+            props = prop_in
+        else
+            call self%calc_phi(tau, delta, props)
+        end if
+
+        ! (dP/drho)_T = R * T * (2*delta*f_d + delta^2*f_dd)
+        p_rho_term = 2.0d0 * delta * props%f_d + delta**2 * props%f_dd
+
+        ! drho_dP = 1 / (dP/drho)_T
+        if (abs(p_rho_term) > tiny(1.0d0)) then
+            drho_dP = 1.0d0 / (self%R * T_in * p_rho_term)
+        else
+            ! 臨界点近傍など
+            drho_dP = huge(1.0d0)
+        end if
+
+    end subroutine calc_drho_dP_helmholtz
 
     module pure elemental subroutine calc_p_helmholtz(self, T_in, rho_in, p, prop_in)
         implicit none

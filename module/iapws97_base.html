@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 9.3% of total for modules and submodules.">247 statements</a>
+                 title="10.9% of total for modules and submodules.">307 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -178,7 +178,10 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/iapws97_base.html#proc-calc_cp_iapws97">calc_cp_iapws97</a>
             <a class="list-group-item" href="../module/iapws97_base.html#proc-calc_cv_iapws97">calc_cv_iapws97</a>
+            <a class="list-group-item" href="../module/iapws97_base.html#proc-calc_drho_dt_iapws97">calc_drho_dT_iapws97</a>
+            <a class="list-group-item" href="../module/iapws97_base.html#proc-calc_drho_dp_iapws97">calc_drho_dp_iapws97</a>
             <a class="list-group-item" href="../module/iapws97_base.html#proc-calc_h_iapws97">calc_h_iapws97</a>
+            <a class="list-group-item" href="../module/iapws97_base.html#proc-calc_latent_heat_iapws97">calc_latent_heat_iapws97</a>
             <a class="list-group-item" href="../module/iapws97_base.html#proc-calc_nu_iapws97">calc_nu_iapws97</a>
             <a class="list-group-item" href="../module/iapws97_base.html#proc-calc_properties_iapws97">calc_properties_iapws97</a>
             <a class="list-group-item" href="../module/iapws97_base.html#proc-calc_rho_iapws97">calc_rho_iapws97</a>
@@ -587,7 +590,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~2"></span>
+              <span class="anchor" id="variable-self~63"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -602,7 +605,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in"></span>
+              <span class="anchor" id="variable-t_in~31"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -617,7 +620,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in"></span>
+              <span class="anchor" id="variable-p_in~14"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -668,7 +671,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~9"></span>
+              <span class="anchor" id="variable-self~72"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -683,7 +686,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~8"></span>
+              <span class="anchor" id="variable-t_in~40"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -698,7 +701,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~8"></span>
+              <span class="anchor" id="variable-p_in~23"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -713,7 +716,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cp"></span>
+              <span class="anchor" id="variable-cp~3"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -754,7 +757,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~10"></span>
+              <span class="anchor" id="variable-self~73"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -769,7 +772,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~9"></span>
+              <span class="anchor" id="variable-t_in~41"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -784,7 +787,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~9"></span>
+              <span class="anchor" id="variable-p_in~24"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -799,7 +802,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cv"></span>
+              <span class="anchor" id="variable-cv~3"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -810,6 +813,178 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
             <td><strong>cv</strong></td>
             <td>
 <p>Specific isochoric heat capacity [J/(kg K)]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_drho_dt_iapws97"></span> <h3>pure elemental module subroutine <a href='../proc/calc_drho_dt_iapws97.html'>calc_drho_dT_iapws97</a>(self, T_in, p_in, drho_dT)  
+    <a href="../interface/calc_drho_dt_iapws97.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~67"></span>
+              class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~35"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~18"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-drho_dt~3"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dT</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_drho_dp_iapws97"></span> <h3>pure elemental module subroutine <a href='../proc/calc_drho_dp_iapws97.html'>calc_drho_dp_iapws97</a>(self, T_in, p_in, drho_dp)  
+    <a href="../interface/calc_drho_dp_iapws97.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~68"></span>
+              class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~36"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~19"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-drho_dp~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dp</strong></td>
+            <td>
+
             </td>
         </tr>
     </tbody>
@@ -840,7 +1015,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~7"></span>
+              <span class="anchor" id="variable-self~70"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -855,7 +1030,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~6"></span>
+              <span class="anchor" id="variable-t_in~38"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -870,7 +1045,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~6"></span>
+              <span class="anchor" id="variable-p_in~21"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -885,7 +1060,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-h"></span>
+              <span class="anchor" id="variable-h~3"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -896,6 +1071,92 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
             <td><strong>h</strong></td>
             <td>
 <p>Specific enthalpy [J/kg]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_latent_heat_iapws97"></span> <h3>pure elemental module subroutine <a href='../proc/calc_latent_heat_iapws97.html'>calc_latent_heat_iapws97</a>(self, latent_heat, T_in, p_in)  
+    <a href="../interface/calc_latent_heat_iapws97.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>蒸発潜熱の計算 (Implementation)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~75"></span>
+              class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-latent_heat~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>latent_heat</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~43"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~26"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p_in</strong></td>
+            <td>
+
             </td>
         </tr>
     </tbody>
@@ -926,7 +1187,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~4"></span>
+              <span class="anchor" id="variable-self~65"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -941,7 +1202,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~3"></span>
+              <span class="anchor" id="variable-t_in~33"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -956,7 +1217,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~3"></span>
+              <span class="anchor" id="variable-p_in~16"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -971,7 +1232,7 @@ Checks validity limits and boundaries between regions (Saturation, B23).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nu"></span>
+              <span class="anchor" id="variable-nu~2"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1013,7 +1274,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~3"></span>
+              <span class="anchor" id="variable-self~64"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1028,7 +1289,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~2"></span>
+              <span class="anchor" id="variable-t_in~32"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1043,7 +1304,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~2"></span>
+              <span class="anchor" id="variable-p_in~15"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1058,7 +1319,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-property"></span>
+              <span class="anchor" id="variable-property~11"></span>
               type(<a href='../type/type_iapws_property.html'>type_iapws_property</a>),
             </td>
 <td>intent(inout)</td>
@@ -1099,7 +1360,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~5"></span>
+              <span class="anchor" id="variable-self~66"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1114,7 +1375,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~4"></span>
+              <span class="anchor" id="variable-t_in~34"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1129,7 +1390,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~4"></span>
+              <span class="anchor" id="variable-p_in~17"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1144,7 +1405,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rho~2"></span>
+              <span class="anchor" id="variable-rho~4"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1185,7 +1446,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~8"></span>
+              <span class="anchor" id="variable-self~71"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1200,7 +1461,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~7"></span>
+              <span class="anchor" id="variable-t_in~39"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1215,7 +1476,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~7"></span>
+              <span class="anchor" id="variable-p_in~22"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1230,7 +1491,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s"></span>
+              <span class="anchor" id="variable-s~3"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1271,7 +1532,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~6"></span>
+              <span class="anchor" id="variable-self~69"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1286,7 +1547,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~5"></span>
+              <span class="anchor" id="variable-t_in~37"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1301,7 +1562,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~5"></span>
+              <span class="anchor" id="variable-p_in~20"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1316,7 +1577,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-u"></span>
+              <span class="anchor" id="variable-u~3"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1357,7 +1618,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~11"></span>
+              <span class="anchor" id="variable-self~74"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(in)</td>
@@ -1372,7 +1633,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~10"></span>
+              <span class="anchor" id="variable-t_in~42"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1387,7 +1648,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~10"></span>
+              <span class="anchor" id="variable-p_in~25"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1402,7 +1663,7 @@ Dispatches calculation to the appropriate region based on <script type="math/tex
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-w"></span>
+              <span class="anchor" id="variable-w~3"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -1444,7 +1705,7 @@ Initializes all sub-region handlers and auxiliary equations.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self"></span>
+              <span class="anchor" id="variable-self~62"></span>
               class(<a href='../type/type_iapws97.html'>type_iapws97</a>),
             </td>
 <td>intent(inout)</td>
@@ -1485,7 +1746,7 @@ Initializes all sub-region handlers and auxiliary equations.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-08 02:39 +0000             </p>
+ on 2025-12-08 03:27 +0000             </p>
           </div>
         </div>
         <br>
