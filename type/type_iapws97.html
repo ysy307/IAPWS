@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>13.5% of total for derived types.</p>Including implementation: 26 statements, 13.5% of total for derived types.">26 statements</a>
+                 title="<p>14.4% of total for derived types.</p>Including implementation: 28 statements, 14.4% of total for derived types.">28 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -178,6 +178,8 @@
             <a class="list-group-item" href="../type/type_iapws97.html#boundprocedure-calc_s">calc_s</a>
             <a class="list-group-item" href="../type/type_iapws97.html#boundprocedure-calc_saturation_cp">calc_saturation_cp</a>
             <a class="list-group-item" href="../type/type_iapws97.html#boundprocedure-calc_saturation_density">calc_saturation_density</a>
+            <a class="list-group-item" href="../type/type_iapws97.html#boundprocedure-calc_saturation_drho_dp">calc_saturation_drho_dP</a>
+            <a class="list-group-item" href="../type/type_iapws97.html#boundprocedure-calc_saturation_drho_dt">calc_saturation_drho_dT</a>
             <a class="list-group-item" href="../type/type_iapws97.html#boundprocedure-calc_u">calc_u</a>
             <a class="list-group-item" href="../type/type_iapws97.html#boundprocedure-calc_w">calc_w</a>
             <a class="list-group-item" href="../type/type_iapws97.html#boundprocedure-get_region">get_region</a>
@@ -1746,6 +1748,206 @@ User must provide EITHER T_in [K] OR p_in [Pa].</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_saturation_drho_dp"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_saturation_drho_dP</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_saturation_drho_dp_iapws97.html'>calc_saturation_drho_dP_iapws97</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    private pure elemental module subroutine calc_saturation_drho_dP_iapws97(self, T_in, drho_dP_vap, drho_dP_liq)  
+    <a href="../proc/calc_saturation_drho_dp_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='type_iapws97.html'>type_iapws97</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dP_vap</strong></td>
+            <td>
+                <p>飽和蒸気 (Region 2) の (d_rho/d_P)_T</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dP_liq</strong></td>
+            <td>
+                <p>飽和液体 (Region 1) の (d_rho/d_P)_T</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_saturation_drho_dt"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_saturation_drho_dT</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_saturation_drho_dt_iapws97.html'>calc_saturation_drho_dT_iapws97</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    private pure elemental module subroutine calc_saturation_drho_dT_iapws97(self, T_in, drho_dT_vap, drho_dT_liq)  
+    <a href="../proc/calc_saturation_drho_dt_iapws97.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='type_iapws97.html'>type_iapws97</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dT_vap</strong></td>
+            <td>
+                <p>飽和蒸気 (Region 2) の (d_rho/d_T)_P</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dT_liq</strong></td>
+            <td>
+                <p>飽和液体 (Region 1) の (d_rho/d_T)_P</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-calc_u"></span>
       <h3>
           procedure, public, pass(self) ::
@@ -2117,6 +2319,8 @@ User must provide EITHER T_in [K] OR p_in [Pa].</p>
 <span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_latent_heat</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_latent_heat_iapws97</span>
 <span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_saturation_density</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_saturation_density_iapws97</span>
 <span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_saturation_cp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_saturation_cp_iapws97</span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_saturation_drho_dT</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_saturation_drho_dT_iapws97</span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_saturation_drho_dP</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_saturation_drho_dP_iapws97</span>
 <span class="w">    </span><span class="k">end type </span><span class="n">type_iapws97</span>
 </pre></div>
 
@@ -2140,7 +2344,7 @@ User must provide EITHER T_in [K] OR p_in [Pa].</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-08 08:11 +0000             </p>
+ on 2025-12-13 06:33 +0000             </p>
           </div>
         </div>
         <br>
