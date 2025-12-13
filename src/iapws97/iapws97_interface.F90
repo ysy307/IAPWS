@@ -209,6 +209,8 @@ module module_iapws97
         procedure, pass(self), public :: calc_latent_heat => calc_latent_heat_iapws97
         procedure, pass(self), public :: calc_saturation_density => calc_saturation_density_iapws97
         procedure, pass(self), public :: calc_saturation_cp => calc_saturation_cp_iapws97
+        procedure, pass(self), public :: calc_saturation_drho_dT => calc_saturation_drho_dT_iapws97
+        procedure, pass(self), public :: calc_saturation_drho_dP => calc_saturation_drho_dP_iapws97
     end type type_iapws97
 
     interface
@@ -353,6 +355,28 @@ module module_iapws97
             real(real64), intent(inout), optional :: cp_liq ! 飽和液体比熱 cp'
 
         end subroutine calc_saturation_cp_iapws97
+
+        ! --- [追加] 飽和状態の密度温度微分 (drho/dT)_P ---
+        module pure elemental subroutine calc_saturation_drho_dT_iapws97(self, T_in, drho_dT_vap, drho_dT_liq)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            !> 飽和蒸気 (Region 2) の (d_rho/d_T)_P
+            real(real64), intent(inout), optional :: drho_dT_vap
+            !> 飽和液体 (Region 1) の (d_rho/d_T)_P
+            real(real64), intent(inout), optional :: drho_dT_liq
+        end subroutine calc_saturation_drho_dT_iapws97
+
+        ! --- [追加] 飽和状態の密度圧力微分 (drho/dP)_T ---
+        module pure elemental subroutine calc_saturation_drho_dP_iapws97(self, T_in, drho_dP_vap, drho_dP_liq)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T_in
+            !> 飽和蒸気 (Region 2) の (d_rho/d_P)_T
+            real(real64), intent(inout), optional :: drho_dP_vap
+            !> 飽和液体 (Region 1) の (d_rho/d_P)_T
+            real(real64), intent(inout), optional :: drho_dP_liq
+        end subroutine calc_saturation_drho_dP_iapws97
 
     end interface
 

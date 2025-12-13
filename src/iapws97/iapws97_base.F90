@@ -523,4 +523,60 @@ contains
 
     end subroutine calc_saturation_cp_iapws97
 
+    !> 飽和状態における密度の温度微分 (drho/dT)_P を計算
+    !! T_in: 温度 [K]
+    !! drho_dT_vap: 飽和蒸気の微分値 [kg/(m^3 K)] (Optional)
+    !! drho_dT_liq: 飽和液体の微分値 [kg/(m^3 K)] (Optional)
+    module pure elemental subroutine calc_saturation_drho_dT_iapws97(self, T_in, drho_dT_vap, drho_dT_liq)
+        implicit none
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(inout), optional :: drho_dT_vap
+        real(real64), intent(inout), optional :: drho_dT_liq
+
+        real(real64) :: P_sat
+
+        ! 1. 飽和圧力 P_sat を計算 (Region 4)
+        P_sat = self%region4%calc_psat(T_in)
+
+        ! 2. 飽和蒸気 (Region 2) の温度微分
+        if (present(drho_dT_vap)) then
+            call self%region2%calc_drho_dT(T_in, P_sat, drho_dT_vap)
+        end if
+
+        ! 3. 飽和液体 (Region 1) の温度微分
+        if (present(drho_dT_liq)) then
+            call self%region1%calc_drho_dT(T_in, P_sat, drho_dT_liq)
+        end if
+
+    end subroutine calc_saturation_drho_dT_iapws97
+
+    !> 飽和状態における密度の圧力微分 (drho/dP)_T を計算
+    !! T_in: 温度 [K]
+    !! drho_dP_vap: 飽和蒸気の微分値 [kg/(m^3 Pa)] (Optional)
+    !! drho_dP_liq: 飽和液体の微分値 [kg/(m^3 Pa)] (Optional)
+    module pure elemental subroutine calc_saturation_drho_dP_iapws97(self, T_in, drho_dP_vap, drho_dP_liq)
+        implicit none
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(inout), optional :: drho_dP_vap
+        real(real64), intent(inout), optional :: drho_dP_liq
+
+        real(real64) :: P_sat
+
+        ! 1. 飽和圧力 P_sat を計算 (Region 4)
+        P_sat = self%region4%calc_psat(T_in)
+
+        ! 2. 飽和蒸気 (Region 2) の圧力微分
+        if (present(drho_dP_vap)) then
+            call self%region2%calc_drho_dP(T_in, P_sat, drho_dP_vap)
+        end if
+
+        ! 3. 飽和液体 (Region 1) の圧力微分
+        if (present(drho_dP_liq)) then
+            call self%region1%calc_drho_dP(T_in, P_sat, drho_dP_liq)
+        end if
+
+    end subroutine calc_saturation_drho_dP_iapws97
+
 end submodule iapws97_base
