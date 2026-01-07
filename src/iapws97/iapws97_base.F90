@@ -136,6 +136,8 @@ contains
             call self%region3%calc_properties(T_in, property%rho, property)
         case (IAPWS97_REGION_5)
             call self%region5%calc_properties(T_in, p_in, property)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_properties_iapws97."
         end select
 
     end subroutine calc_properties_iapws97
@@ -167,6 +169,8 @@ contains
             nu = 1.0d0 / rho
         case (IAPWS97_REGION_5)
             call self%region5%calc_nu(T_in, p_in, nu)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_nu_iapws97."
         end select
     end subroutine calc_nu_iapws97
 
@@ -194,6 +198,8 @@ contains
             call self%region3%calc_rho(T_in, p_in, rho)
         case (IAPWS97_REGION_5)
             call self%region5%calc_rho(T_in, p_in, rho)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_rho_iapws97."
         end select
 
     end subroutine calc_rho_iapws97
@@ -217,6 +223,8 @@ contains
             call self%region3%calc_drho_dT(T_in, p_in, drho_dT)
         case (IAPWS97_REGION_5)
             call self%region5%calc_drho_dT(T_in, p_in, drho_dT)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_drho_dT_iapws97."
         end select
 
     end subroutine calc_drho_dT_iapws97
@@ -240,6 +248,8 @@ contains
             call self%region3%calc_drho_dp(T_in, p_in, drho_dp)
         case (IAPWS97_REGION_5)
             call self%region5%calc_drho_dp(T_in, p_in, drho_dp)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_drho_dp_iapws97."
         end select
 
     end subroutine calc_drho_dp_iapws97
@@ -271,6 +281,8 @@ contains
             call self%region3%calc_u(T_in, rho, u)
         case (IAPWS97_REGION_5)
             call self%region5%calc_u(T_in, p_in, u)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_u_iapws97."
         end select
 
     end subroutine calc_u_iapws97
@@ -302,6 +314,8 @@ contains
             call self%region3%calc_h(T_in, rho, h)
         case (IAPWS97_REGION_5)
             call self%region5%calc_h(T_in, p_in, h)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_h_iapws97."
         end select
 
     end subroutine calc_h_iapws97
@@ -333,6 +347,8 @@ contains
             call self%region3%calc_s(T_in, rho, s)
         case (IAPWS97_REGION_5)
             call self%region5%calc_s(T_in, p_in, s)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_s_iapws97."
         end select
 
     end subroutine calc_s_iapws97
@@ -363,6 +379,8 @@ contains
             call self%region3%calc_cp(T_in, rho, cp)
         case (IAPWS97_REGION_5)
             call self%region5%calc_cp(T_in, p_in, cp)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_cp_iapws97."
         end select
 
     end subroutine calc_cp_iapws97
@@ -393,6 +411,8 @@ contains
             call self%region3%calc_cv(T_in, rho, cv)
         case (IAPWS97_REGION_5)
             call self%region5%calc_cv(T_in, p_in, cv)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_cv_iapws97."
         end select
 
     end subroutine calc_cv_iapws97
@@ -424,6 +444,8 @@ contains
             call self%region3%calc_w(T_in, rho, w)
         case (IAPWS97_REGION_5)
             call self%region5%calc_w(T_in, p_in, w)
+        case default
+            error stop "IAPWS97: State out of bounds (T or P invalid) in calc_w_iapws97."
         end select
 
     end subroutine calc_w_iapws97

@@ -27,16 +27,16 @@
             "inherits": "gcc-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_Fortran_FLAGS_DEBUG": "-g -O0 -fcheck=all -fbacktrace"
+                "CMAKE_Fortran_FLAGS_DEBUG": "-g -O0 -fcheck=all -fbacktrace -ffpe-trap=invalid,zero,overflow -finit-real=snan"
             }
         },
         {
             "name": "gcc-release",
-            "displayName": "GCC Release",
+            "displayName": "GCC Release (Traceable)",
             "inherits": "gcc-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_Fortran_FLAGS_RELEASE": "-O3 -march=native -ffast-math"
+                "CMAKE_Fortran_FLAGS_RELEASE": "-g -O3 -march=native -fbacktrace -ffpe-trap=invalid,zero,overflow -finit-real=snan"
             }
         },
         {
@@ -45,7 +45,7 @@
             "inherits": "base",
             "cacheVariables": {
                 "CMAKE_Fortran_COMPILER": "ifx",
-                "CMAKE_Fortran_FLAGS": "-fpp -traceback -warn all -qopenmp"
+                "CMAKE_Fortran_FLAGS": "-fpp -warn all -qopenmp"
             }
         },
         {
@@ -54,16 +54,16 @@
             "inherits": "intel-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_Fortran_FLAGS_DEBUG": "-g -O0 -check all -fpe0"
+                "CMAKE_Fortran_FLAGS_DEBUG": "-g -O0 -traceback -check all -fpe0 -ftrapuv"
             }
         },
         {
             "name": "intel-release",
-            "displayName": "Intel Release",
+            "displayName": "Intel Release (Traceable)",
             "inherits": "intel-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_Fortran_FLAGS_RELEASE": "-O3 -xHost"
+                "CMAKE_Fortran_FLAGS_RELEASE": "-g -O3 -xHost -traceback -fpe0 -ftrapuv"
             }
         },
         {
@@ -86,11 +86,11 @@
         },
         {
             "name": "nvidia-release",
-            "displayName": "NVIDIA Release",
+            "displayName": "NVIDIA Release (Traceable)",
             "inherits": "nvidia-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_Fortran_FLAGS_RELEASE": "-O3 -fast"
+                "CMAKE_Fortran_FLAGS_RELEASE": "-g -O3 -fast -traceback -Ktrap=fp"
             }
         },
         {
@@ -119,7 +119,7 @@
             "inherits": "windows-msvc-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_Fortran_FLAGS_RELEASE": "/O2"
+                "CMAKE_Fortran_FLAGS_RELEASE": "/O2 /Zi /Traceback"
             }
         }
     ],
