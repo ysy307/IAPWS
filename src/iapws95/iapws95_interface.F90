@@ -1,7 +1,6 @@
 module module_iapws95
     use, intrinsic :: iso_fortran_env, only: int32, real64
     use :: module_iapws, only:abst_iapws_helmholtz, type_iapws_helmholtz_property
-    use :: utils_kahan, only:kahan_add
     use :: iapws95_constants
     implicit none
     private

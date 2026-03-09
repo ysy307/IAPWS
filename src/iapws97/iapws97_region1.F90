@@ -91,16 +91,13 @@ contains
         real(real64) :: gamma
 
         integer(int32) :: i
-        real(real64) :: c_gamma
 
         gamma = 0.0d0
-        c_gamma = 0.0d0
 
         do i = 1, N1_terms
-            call kahan_add(gamma, c_gamma, &
-                           n_r1(i) * (7.1d0 - pi)**I_r1(i) * (tau - 1.222d0)**J_r1(i))
+            gamma = gamma + &
+                           n_r1(i) * (7.1d0 - pi)**I_r1(i) * (tau - 1.222d0)**J_r1(i)
         end do
-
     end function calc_gamma_region1
 
     !> Calculate the first derivative of \(\gamma\) with respect to \(\pi\).
@@ -116,17 +113,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val
-        real(real64) :: c_gamma_p
 
         gamma_p = 0.0d0
-        c_gamma_p = 0.0d0
 
         do i = 1, N1_terms
             I_val = real(I_r1(i), real64)
-            call kahan_add(gamma_p, c_gamma_p, &
-                           -n_r1(i) * I_val * (7.1d0 - pi)**(I_r1(i) - 1) * (tau - 1.222d0)**J_r1(i))
+            gamma_p = gamma_p + &
+                           -n_r1(i) * I_val * (7.1d0 - pi)**(I_r1(i) - 1) * (tau - 1.222d0)**J_r1(i)
         end do
-
     end function calc_gamma_p_region1
 
     !> Calculate the first derivative of \(\gamma\) with respect to \(\tau\).
@@ -142,17 +136,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gamma_t
 
         gamma_t = 0.0d0
-        c_gamma_t = 0.0d0
 
         do i = 1, N1_terms
             J_val = real(J_r1(i), real64)
-            call kahan_add(gamma_t, c_gamma_t, &
-                           n_r1(i) * (7.1d0 - pi)**I_r1(i) * J_val * (tau - 1.222d0)**(J_r1(i) - 1))
+            gamma_t = gamma_t + &
+                           n_r1(i) * (7.1d0 - pi)**I_r1(i) * J_val * (tau - 1.222d0)**(J_r1(i) - 1)
         end do
-
     end function calc_gamma_t_region1
 
     !> Calculate the second derivative of \(\gamma\) with respect to \(\pi\).
@@ -168,17 +159,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val
-        real(real64) :: c_gamma_pp
 
         gamma_pp = 0.0d0
-        c_gamma_pp = 0.0d0
 
         do i = 1, N1_terms
             I_val = real(I_r1(i), real64)
-            call kahan_add(gamma_pp, c_gamma_pp, &
-                           n_r1(i) * I_val * (I_val - 1.0d0) * (7.1d0 - pi)**(I_r1(i) - 2) * (tau - 1.222d0)**J_r1(i))
+            gamma_pp = gamma_pp + &
+                           n_r1(i) * I_val * (I_val - 1.0d0) * (7.1d0 - pi)**(I_r1(i) - 2) * (tau - 1.222d0)**J_r1(i)
         end do
-
     end function calc_gamma_pp_region1
 
     !> Calculate the second derivative of \(\gamma\) with respect to \(\tau\).
@@ -194,17 +182,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gamma_tt
 
         gamma_tt = 0.0d0
-        c_gamma_tt = 0.0d0
 
         do i = 1, N1_terms
             J_val = real(J_r1(i), real64)
-            call kahan_add(gamma_tt, c_gamma_tt, &
-                           n_r1(i) * (7.1d0 - pi)**I_r1(i) * J_val * (J_val - 1.0d0) * (tau - 1.222d0)**(J_r1(i) - 2))
+            gamma_tt = gamma_tt + &
+                           n_r1(i) * (7.1d0 - pi)**I_r1(i) * J_val * (J_val - 1.0d0) * (tau - 1.222d0)**(J_r1(i) - 2)
         end do
-
     end function calc_gamma_tt_region1
 
     !> Calculate the mixed second derivative of \(\gamma\).
@@ -220,16 +205,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val, J_val
-        real(real64) :: c_gamma_pt
 
         gamma_pt = 0.0d0
-        c_gamma_pt = 0.0d0
 
         do i = 1, N1_terms
             I_val = real(I_r1(i), real64)
             J_val = real(J_r1(i), real64)
-            call kahan_add(gamma_pt, c_gamma_pt, &
-                           -n_r1(i) * I_val * (7.1d0 - pi)**(I_r1(i) - 1) * J_val * (tau - 1.222d0)**(J_r1(i) - 1))
+            gamma_pt = gamma_pt + &
+                           -n_r1(i) * I_val * (7.1d0 - pi)**(I_r1(i) - 1) * J_val * (tau - 1.222d0)**(J_r1(i) - 1)
         end do
     end function calc_gamma_pt_region1
 

@@ -36,7 +36,7 @@
             "inherits": "gcc-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_Fortran_FLAGS_RELEASE": "-g -O3 -march=native -fbacktrace -ffpe-trap=invalid,zero,overflow -finit-real=snan"
+                "CMAKE_Fortran_FLAGS_RELEASE": "-Ofast -march=native -ffast-math -funroll-loops"
             }
         },
         {
@@ -63,7 +63,7 @@
             "inherits": "intel-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_Fortran_FLAGS_RELEASE": "-g -O3 -xHost -traceback -fpe0 -ftrapuv"
+                "CMAKE_Fortran_FLAGS_RELEASE": "-Ofast -xHost -fp-model fast=2"
             }
         },
         {
@@ -90,7 +90,7 @@
             "inherits": "nvidia-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_Fortran_FLAGS_RELEASE": "-g -O3 -fast -traceback -Ktrap=fp"
+                "CMAKE_Fortran_FLAGS_RELEASE": "-fast"
             }
         },
         {
@@ -127,7 +127,7 @@
         {
             "name": "build-base",
             "hidden": true,
-            "jobs": 4
+            "jobs": 16
         },
         {
             "name": "build-gcc-debug",

@@ -134,16 +134,13 @@ contains
         real(real64) :: gamma0
 
         integer(int32) :: i
-        real(real64) :: c_gamma0
 
         gamma0 = log(pi)
-        c_gamma0 = 0.0d0
 
         do i = 1, N02_terms
-            call kahan_add(gamma0, c_gamma0, &
-                           n0_r2(i) * tau**J0_r2(i))
+            gamma0 = gamma0 + &
+                           n0_r2(i) * tau**J0_r2(i)
         end do
-
     end function calc_gamma0_region2
 
     pure elemental function calc_gamma0_p_region2(tau, pi) result(gamma0_p)
@@ -183,17 +180,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gamma0_t
 
         gamma0_t = 0.0d0
-        c_gamma0_t = 0.0d0
 
         do i = 1, N02_terms
             J_val = real(J0_r2(i), real64)
-            call kahan_add(gamma0_t, c_gamma0_t, &
-                           n0_r2(i) * J_val * tau**(J0_r2(i) - 1))
+            gamma0_t = gamma0_t + &
+                           n0_r2(i) * J_val * tau**(J0_r2(i) - 1)
         end do
-
     end function calc_gamma0_t_region2
 
     pure elemental function calc_gamma0_tt_region2(tau, pi) result(gamma0_tt)
@@ -207,17 +201,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gamma_tt
 
         gamma0_tt = 0.0d0
-        c_gamma_tt = 0.0d0
 
         do i = 1, N02_terms
             J_val = real(J0_r2(i), real64)
-            call kahan_add(gamma0_tt, c_gamma_tt, &
-                           n0_r2(i) * J_val * (J_val - 1.0d0) * tau**(J0_r2(i) - 2))
+            gamma0_tt = gamma0_tt + &
+                           n0_r2(i) * J_val * (J_val - 1.0d0) * tau**(J0_r2(i) - 2)
         end do
-
     end function calc_gamma0_tt_region2
 
     pure elemental function calc_gamma0_pt_region2(tau, pi) result(gamma0_pt)
@@ -243,16 +234,13 @@ contains
         real(real64) :: gammar
 
         integer(int32) :: i
-        real(real64) :: c_gammar
 
         gammar = 0.0d0
-        c_gammar = 0.0d0
 
         do i = 1, Nr2_terms
-            call kahan_add(gammar, c_gammar, &
-                           nr_r2(i) * pi**Ir_r2(i) * (tau - 0.5d0)**Jr_r2(i))
+            gammar = gammar + &
+                           nr_r2(i) * pi**Ir_r2(i) * (tau - 0.5d0)**Jr_r2(i)
         end do
-
     end function calc_gammar_region2
 
     pure elemental function calc_gammar_p_region2(tau, pi) result(gammar_p)
@@ -266,17 +254,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val
-        real(real64) :: c_gammar_p
 
         gammar_p = 0.0d0
-        c_gammar_p = 0.0d0
 
         do i = 1, Nr2_terms
             I_val = real(Ir_r2(i), real64)
-            call kahan_add(gammar_p, c_gammar_p, &
-                           nr_r2(i) * I_val * pi**(Ir_r2(i) - 1) * (tau - 0.5d0)**Jr_r2(i))
+            gammar_p = gammar_p + &
+                           nr_r2(i) * I_val * pi**(Ir_r2(i) - 1) * (tau - 0.5d0)**Jr_r2(i)
         end do
-
     end function calc_gammar_p_region2
 
     pure elemental function calc_gammar_pp_region2(tau, pi) result(gammar_pp)
@@ -290,17 +275,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val
-        real(real64) :: c_gammar_pp
 
         gammar_pp = 0.0d0
-        c_gammar_pp = 0.0d0
 
         do i = 1, Nr2_terms
             I_val = real(Ir_r2(i), real64)
-            call kahan_add(gammar_pp, c_gammar_pp, &
-                           nr_r2(i) * I_val * (I_val - 1.0d0) * pi**(Ir_r2(i) - 2) * (tau - 0.5d0)**Jr_r2(i))
+            gammar_pp = gammar_pp + &
+                           nr_r2(i) * I_val * (I_val - 1.0d0) * pi**(Ir_r2(i) - 2) * (tau - 0.5d0)**Jr_r2(i)
         end do
-
     end function calc_gammar_pp_region2
 
     pure elemental function calc_gammar_t_region2(tau, pi) result(gammar_t)
@@ -314,17 +296,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gammar_t
 
         gammar_t = 0.0d0
-        c_gammar_t = 0.0d0
 
         do i = 1, Nr2_terms
             J_val = real(Jr_r2(i), real64)
-            call kahan_add(gammar_t, c_gammar_t, &
-                           nr_r2(i) * pi**Ir_r2(i) * J_val * (tau - 0.5d0)**(Jr_r2(i) - 1))
+            gammar_t = gammar_t + &
+                           nr_r2(i) * pi**Ir_r2(i) * J_val * (tau - 0.5d0)**(Jr_r2(i) - 1)
         end do
-
     end function calc_gammar_t_region2
 
     pure elemental function calc_gammar_tt_region2(tau, pi) result(gammar_tt)
@@ -338,17 +317,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gammar_tt
 
         gammar_tt = 0.0d0
-        c_gammar_tt = 0.0d0
 
         do i = 1, Nr2_terms
             J_val = real(Jr_r2(i), real64)
-            call kahan_add(gammar_tt, c_gammar_tt, &
-                           nr_r2(i) * pi**Ir_r2(i) * J_val * (J_val - 1.0d0) * (tau - 0.5d0)**(Jr_r2(i) - 2))
+            gammar_tt = gammar_tt + &
+                           nr_r2(i) * pi**Ir_r2(i) * J_val * (J_val - 1.0d0) * (tau - 0.5d0)**(Jr_r2(i) - 2)
         end do
-
     end function calc_gammar_tt_region2
 
     pure elemental function calc_gammar_pt_region2(tau, pi) result(gammar_pt)
@@ -362,18 +338,15 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val, J_val
-        real(real64) :: c_gammar_pt
 
         gammar_pt = 0.0d0
-        c_gammar_pt = 0.0d0
 
         do i = 1, Nr2_terms
             I_val = real(Ir_r2(i), real64)
             J_val = real(Jr_r2(i), real64)
-            call kahan_add(gammar_pt, c_gammar_pt, &
-                           nr_r2(i) * I_val * pi**(Ir_r2(i) - 1) * J_val * (tau - 0.5d0)**(Jr_r2(i) - 1))
+            gammar_pt = gammar_pt + &
+                           nr_r2(i) * I_val * pi**(Ir_r2(i) - 1) * J_val * (tau - 0.5d0)**(Jr_r2(i) - 1)
         end do
-
     end function calc_gammar_pt_region2
 
 end submodule iapws97_region2
