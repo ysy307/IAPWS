@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.1% of total for procedures.">143 statements</a>
+                 title=" 2.4% of total for procedures.">155 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -179,7 +179,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~46"></span>
+              <span class="anchor" id="variable-self~92"></span>
               class(<a href='../type/type_iapws95.html'>type_iapws95</a>),
             </td>
 <td>intent(in)</td>
@@ -194,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~27"></span>
+              <span class="anchor" id="variable-tau~8"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -209,7 +209,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delta~7"></span>
+              <span class="anchor" id="variable-delta~5"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -421,7 +421,11 @@ large graphs.</div>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_iapws_helmholtz_property</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">property</span>
 
 <span class="w">        </span><span class="c">! --- Loop variables ---</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">k</span>
+
+<span class="w">        </span><span class="c">! --- Pre-computed power tables ---</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">powers_delta</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">DELTA_POW_MAX</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">powers_tau_int</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">TAU_INT_POW_MAX</span><span class="p">)</span>
 
 <span class="w">        </span><span class="c">! --- Helper variables for optimization ---</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">inv_delta</span><span class="p">,</span><span class="w"> </span><span class="n">inv_tau</span><span class="p">,</span><span class="w"> </span><span class="n">inv_delta_sq</span><span class="p">,</span><span class="w"> </span><span class="n">inv_tau_sq</span>
@@ -466,17 +470,33 @@ large graphs.</div>
 <span class="w">        </span><span class="n">delta_sq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta</span>
 <span class="w">        </span><span class="n">tau_sq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tau</span>
 
+<span class="w">        </span><span class="c">! Build power table for delta: indices 0..15</span>
+<span class="w">        </span><span class="n">powers_delta</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d0</span>
+<span class="w">        </span><span class="n">powers_delta</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delta</span>
+<span class="w">        </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">DELTA_POW_MAX</span>
+<span class="w">            </span><span class="n">powers_delta</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">powers_delta</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta</span>
+<span class="w">        </span><span class="k">end do</span>
+
+<span class="w">        </span><span class="c">! Build power table for tau (integer exponents): indices 0..50</span>
+<span class="w">        </span><span class="n">powers_tau_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d0</span>
+<span class="w">        </span><span class="n">powers_tau_int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tau</span>
+<span class="w">        </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TAU_INT_POW_MAX</span>
+<span class="w">            </span><span class="n">powers_tau_int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">powers_tau_int</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tau</span>
+<span class="w">        </span><span class="k">end do</span>
+
 <span class="w">        </span><span class="c">! ==================================================================</span>
 <span class="w">        </span><span class="c">! 1. Polynomial Terms (Terms 1-7)</span>
 <span class="w">        </span><span class="c">!    phi = n * delta^d * tau^t</span>
+<span class="w">        </span><span class="c">!    Note: t1 contains non-integer exponents, so tau**t_val</span>
+<span class="w">        </span><span class="c">!    cannot use the integer power table.</span>
 <span class="w">        </span><span class="c">! ==================================================================</span>
 <span class="w">        </span><span class="n">Polynomial</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">nr1</span><span class="p">)</span>
 <span class="w">            </span><span class="n">nr_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">            </span><span class="n">d_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">d1</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
 <span class="w">            </span><span class="n">t_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
-<span class="w">            </span><span class="c">! Base term</span>
-<span class="w">            </span><span class="n">bi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">delta</span><span class="o">**</span><span class="n">d1</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="n">t_val</span><span class="p">)</span>
+<span class="w">            </span><span class="c">! Base term: use power table for delta, keep tau**t_val as-is</span>
+<span class="w">            </span><span class="n">bi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_delta</span><span class="p">(</span><span class="n">d1</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="n">t_val</span><span class="p">)</span>
 
 <span class="w">            </span><span class="n">property</span><span class="p">%</span><span class="n">fr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">property</span><span class="p">%</span><span class="n">fr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bi</span>
 
@@ -492,18 +512,19 @@ large graphs.</div>
 <span class="w">        </span><span class="c">! ==================================================================</span>
 <span class="w">        </span><span class="c">! 2. Exponential Terms (Terms 8-51)</span>
 <span class="w">        </span><span class="c">!    phi = n * delta^d * tau^t * exp(-g * delta^c)</span>
+<span class="w">        </span><span class="c">!    All exponents d2, t2, c2 are integer =&gt; use power tables.</span>
 <span class="w">        </span><span class="c">! ==================================================================</span>
 <span class="w">        </span><span class="n">Exponential</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">nr2</span><span class="p">)</span>
 <span class="w">            </span><span class="n">nr_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">            </span><span class="n">d_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">d2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
-<span class="w">            </span><span class="n">t_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">            </span><span class="n">t_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">t2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
 <span class="w">            </span><span class="n">c_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">c2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
-<span class="w">            </span><span class="n">g_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gamma2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">            </span><span class="n">g_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">gamma2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
 
-<span class="w">            </span><span class="c">! Common subexpressions</span>
-<span class="w">            </span><span class="n">delta_pow_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delta</span><span class="o">**</span><span class="n">c2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">            </span><span class="c">! Common subexpressions using power tables</span>
+<span class="w">            </span><span class="n">delta_pow_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">powers_delta</span><span class="p">(</span><span class="n">c2</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 <span class="w">            </span><span class="n">exp_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="n">g_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta_pow_c</span><span class="p">)</span>
-<span class="w">            </span><span class="n">bi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">delta</span><span class="o">**</span><span class="n">d2</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="n">t_val</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">exp_val</span>
+<span class="w">            </span><span class="n">bi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_delta</span><span class="p">(</span><span class="n">d2</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_tau_int</span><span class="p">(</span><span class="n">t2</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">exp_val</span>
 
 <span class="w">            </span><span class="c">! Derivative helpers</span>
 <span class="w">            </span><span class="n">Q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d_val</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">c_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">g_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta_pow_c</span>
@@ -522,6 +543,7 @@ large graphs.</div>
 <span class="w">        </span><span class="c">! ==================================================================</span>
 <span class="w">        </span><span class="c">! 3. Gaussian Terms (Terms 52-54)</span>
 <span class="w">        </span><span class="c">!    phi = n * delta^d * tau^t * exp[ -alpha*(delta-epsilon)^2 - beta*(tau-gamma)^2 ]</span>
+<span class="w">        </span><span class="c">!    d3 and t3 are integer =&gt; use power tables.</span>
 <span class="w">        </span><span class="c">! ==================================================================</span>
 <span class="w">        </span><span class="n">Gaussian</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">nr3</span><span class="p">)</span>
 <span class="w">            </span><span class="n">nr_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr3</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -539,7 +561,7 @@ large graphs.</div>
 
 <span class="w">            </span><span class="n">exp_arg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">alfa_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sq_delta_diff</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">beta_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sq_tau_diff</span>
 <span class="w">            </span><span class="n">exp_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span><span class="n">exp_arg</span><span class="p">)</span>
-<span class="w">            </span><span class="n">bi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">delta</span><span class="o">**</span><span class="n">d3</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="n">t3</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">exp_val</span>
+<span class="w">            </span><span class="n">bi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_delta</span><span class="p">(</span><span class="n">d3</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_tau_int</span><span class="p">(</span><span class="n">t3</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">exp_val</span>
 
 <span class="w">            </span><span class="c">! Derivative helpers</span>
 <span class="w">            </span><span class="n">term_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">d_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">inv_delta</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2.0d0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">alfa_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta_diff</span>
@@ -558,6 +580,7 @@ large graphs.</div>
 <span class="w">        </span><span class="c">! ==================================================================</span>
 <span class="w">        </span><span class="c">! 4. Non-Analytic Terms (Terms 55-56)</span>
 <span class="w">        </span><span class="c">!    phi = n * delta * Delta^b * Psi</span>
+<span class="w">        </span><span class="c">!    Uses real-valued exponents =&gt; cannot use integer power tables.</span>
 <span class="w">        </span><span class="c">! ==================================================================</span>
 <span class="w">        </span><span class="n">NonAnalitic</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">nr4</span><span class="p">)</span>
 <span class="w">            </span><span class="n">nr_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nr4</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -708,7 +731,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-09 12:30 +0000             </p>
+ on 2026-03-09 13:09 +0000             </p>
           </div>
         </div>
         <br>

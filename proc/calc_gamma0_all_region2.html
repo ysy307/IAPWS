@@ -10,7 +10,7 @@
     <meta name="author" content="Kikuchi Shun" >
     <link rel="icon" href="../favicon.png">
 
-    <title>calc_gammar_tt_region2 &ndash; IAPWS</title>
+    <title>calc_gamma0_all_region2 &ndash; IAPWS</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -81,8 +81,8 @@
 
     <div class="container">
   <div class="row">
-    <h1>calc_gammar_tt_region2
-      <small>Function</small>
+    <h1>calc_gamma0_all_region2
+      <small>Subroutine</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for procedures.">13 statements</a>
+                 title=" 0.4% of total for procedures.">27 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -106,7 +106,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/iapws97_region2.f90.html'>iapws97_region2.F90</a></li>
                 <li class="breadcrumb-item"><a href='../module/iapws97_region2.html'>iapws97_region2</a></li>
-            <li class="breadcrumb-item active" aria-current="page">calc_gammar_tt_region2</li>
+            <li class="breadcrumb-item active" aria-current="page">calc_gamma0_all_region2</li>
           </ol>
         </nav>
       </div>
@@ -149,7 +149,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/calc_gammar_tt_region2.html#src">calc_gammar_tt_region2</a>
+        <a class="list-group-item" href="../proc/calc_gamma0_all_region2.html#src">calc_gamma0_all_region2</a>
       </div>
     </div>
 
@@ -159,10 +159,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure elemental function calc_gammar_tt_region2(tau, pi) result(gammar_tt)  
+    <h2>pure subroutine calc_gamma0_all_region2(tau, pi, g0, g0_t, g0_tt)  
 </h2>
     
 
+    <p>Calculate all ideal-gas (gamma0) derivatives for Region 2
+using a pre-computed power table for tau.</p>
 
 
     <h3>Arguments</h3>
@@ -178,7 +180,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~58"></span>
+              <span class="anchor" id="variable-tau~29"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -188,13 +190,12 @@
             <td>::</td>
             <td><strong>tau</strong></td>
             <td>
-                <p>Dimensionless temperature <script type="math/tex">\tau</script>
-</p>
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pi~38"></span>
+              <span class="anchor" id="variable-pi~11"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -204,21 +205,57 @@
             <td>::</td>
             <td><strong>pi</strong></td>
             <td>
-                <p>Dimensionless pressure <script type="math/tex">\pi</script>
-</p>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g0~5"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>g0</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g0_t~5"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>g0_t</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g0_tt~5"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>g0_tt</strong></td>
+            <td>
+                
             </td>
         </tr>
     </tbody>
   </table>
 
-      <h3>Return Value
-        <small>
-          <span class="anchor" id="variable-gammar_tt~2"></span>
-          real(kind=real64)
-        </small>
-      </h3>
-      <p>Derivative <script type="math/tex">\gamma^r_{\tau\tau}</script>
-</p>
     <br>
     <div class="card">
       <div class="card-header">
@@ -230,44 +267,44 @@
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~calc_gammar_tt_region2~~CalledByGraph Pages: 1 -->
-<svg id="proccalc_gammar_tt_region2CalledByGraph" width="641pt" height="29pt"
- viewBox="0.00 0.00 641.00 29.22" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~calc_gammar_tt_region2~~CalledByGraph" class="graph" transform="scale(0.91 0.91) rotate(0) translate(4 28)">
-<title>proc~~calc_gammar_tt_region2~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 698,-28 698,4 -4,4"/>
-<!-- proc~calc_gammar_tt_region2 -->
-<g id="proc~~calc_gammar_tt_region2~~CalledByGraph_node1" class="node">
-<title>proc~calc_gammar_tt_region2</title>
-<polygon fill="none" stroke="black" points="694,-24 550,-24 550,0 694,0 694,-24"/>
-<text text-anchor="middle" x="622" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_gammar_tt_region2</text>
+<!-- Title: proc~~calc_gamma0_all_region2~~CalledByGraph Pages: 1 -->
+<svg id="proccalc_gamma0_all_region2CalledByGraph" width="641pt" height="29pt"
+ viewBox="0.00 0.00 641.00 28.93" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~calc_gamma0_all_region2~~CalledByGraph" class="graph" transform="scale(0.9 0.9) rotate(0) translate(4 28)">
+<title>proc~~calc_gamma0_all_region2~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 705,-28 705,4 -4,4"/>
+<!-- proc~calc_gamma0_all_region2 -->
+<g id="proc~~calc_gamma0_all_region2~~CalledByGraph_node1" class="node">
+<title>proc~calc_gamma0_all_region2</title>
+<polygon fill="none" stroke="black" points="701,-24 550,-24 550,0 701,0 701,-24"/>
+<text text-anchor="middle" x="625.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calc_gamma0_all_region2</text>
 </g>
 <!-- proc~calc_gamma_iapws97_region2 -->
-<g id="proc~~calc_gammar_tt_region2~~CalledByGraph_node2" class="node">
+<g id="proc~~calc_gamma0_all_region2~~CalledByGraph_node2" class="node">
 <title>proc~calc_gamma_iapws97_region2</title>
-<g id="a_proc~~calc_gammar_tt_region2~~CalledByGraph_node2"><a xlink:href="../proc/calc_gamma_iapws97_region2.html" xlink:title="calc_gamma_iapws97_region2">
+<g id="a_proc~~calc_gamma0_all_region2~~CalledByGraph_node2"><a xlink:href="../proc/calc_gamma_iapws97_region2.html" xlink:title="calc_gamma_iapws97_region2">
 <polygon fill="#d9534f" stroke="#d9534f" points="514,-24 339,-24 339,0 514,0 514,-24"/>
 <text text-anchor="middle" x="426.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_gamma_iapws97_region2</text>
 </a>
 </g>
 </g>
-<!-- proc~calc_gamma_iapws97_region2&#45;&gt;proc~calc_gammar_tt_region2 -->
-<g id="proc~~calc_gammar_tt_region2~~CalledByGraph_edge1" class="edge">
-<title>proc~calc_gamma_iapws97_region2&#45;&gt;proc~calc_gammar_tt_region2</title>
-<path fill="none" stroke="#ff0000" d="M514.06,-12C522.58,-12 531.2,-12 539.65,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="539.87,-15.5 549.87,-12 539.87,-8.5 539.87,-15.5"/>
+<!-- proc~calc_gamma_iapws97_region2&#45;&gt;proc~calc_gamma0_all_region2 -->
+<g id="proc~~calc_gamma0_all_region2~~CalledByGraph_edge1" class="edge">
+<title>proc~calc_gamma_iapws97_region2&#45;&gt;proc~calc_gamma0_all_region2</title>
+<path fill="none" stroke="#ff0000" d="M514.19,-12C522.63,-12 531.19,-12 539.61,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="539.8,-15.5 549.8,-12 539.8,-8.5 539.8,-15.5"/>
 </g>
 <!-- interface~calc_gamma_iapws97_region2 -->
-<g id="proc~~calc_gammar_tt_region2~~CalledByGraph_node3" class="node">
+<g id="proc~~calc_gamma0_all_region2~~CalledByGraph_node3" class="node">
 <title>interface~calc_gamma_iapws97_region2</title>
-<g id="a_proc~~calc_gammar_tt_region2~~CalledByGraph_node3"><a xlink:href="../interface/calc_gamma_iapws97_region2.html" xlink:title="type_iapws97_region2%calc_gamma_iapws97_region2">
+<g id="a_proc~~calc_gamma0_all_region2~~CalledByGraph_node3"><a xlink:href="../interface/calc_gamma_iapws97_region2.html" xlink:title="type_iapws97_region2%calc_gamma_iapws97_region2">
 <polygon fill="#a7506f" stroke="#a7506f" points="303,-24 0,-24 0,0 303,0 303,-24"/>
 <text text-anchor="middle" x="151.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_iapws97_region2%calc_gamma_iapws97_region2</text>
 </a>
 </g>
 </g>
 <!-- interface~calc_gamma_iapws97_region2&#45;&gt;proc~calc_gamma_iapws97_region2 -->
-<g id="proc~~calc_gammar_tt_region2~~CalledByGraph_edge2" class="edge">
+<g id="proc~~calc_gamma0_all_region2~~CalledByGraph_edge2" class="edge">
 <title>interface~calc_gamma_iapws97_region2&#45;&gt;proc~calc_gamma_iapws97_region2</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M303.37,-12C311.96,-12 320.48,-12 328.78,-12"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="328.79,-15.5 338.79,-12 328.79,-8.5 328.79,-15.5"/>
@@ -275,7 +312,7 @@
 </g>
 </svg>
 </div>                <script>
-                  var panproccalc_gammar_tt_region2CalledByGraph = svgPanZoom('#proccalc_gammar_tt_region2CalledByGraph',
+                  var panproccalc_gamma0_all_region2CalledByGraph = svgPanZoom('#proccalc_gamma0_all_region2CalledByGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
                 </script>          <div>
@@ -373,26 +410,38 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure elemental function </span><span class="n">calc_gammar_tt_region2</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">gammar_tt</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure subroutine </span><span class="n">calc_gamma0_all_region2</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="n">g0</span><span class="p">,</span><span class="w"> </span><span class="n">g0_t</span><span class="p">,</span><span class="w"> </span><span class="n">g0_tt</span><span class="p">)</span>
 <span class="w">        </span><span class="k">implicit none</span>
-<span class="w">        </span><span class="c">!&gt; Dimensionless temperature \(\tau\)</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tau</span>
-<span class="w">        </span><span class="c">!&gt; Dimensionless pressure \(\pi\)</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pi</span>
-<span class="w">        </span><span class="c">!&gt; Derivative \(\gamma^r_{\tau\tau}\)</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gammar_tt</span>
+<span class="k">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g0</span><span class="p">,</span><span class="w"> </span><span class="n">g0_t</span><span class="p">,</span><span class="w"> </span><span class="n">g0_tt</span>
 
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">J_val</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">k</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">TAU0_EXP_LO</span><span class="p">:</span><span class="n">TAU0_EXP_HI</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">inv_tau</span><span class="p">,</span><span class="w"> </span><span class="n">J_val</span>
 
-<span class="w">        </span><span class="n">gammar_tt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0d0</span>
-
-<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nr2_terms</span>
-<span class="w">            </span><span class="n">J_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">Jr_r2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
-<span class="w">            </span><span class="n">gammar_tt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gammar_tt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                           </span><span class="n">nr_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="o">**</span><span class="n">Ir_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">J_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">J_val</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0d0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5d0</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">Jr_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="c">! Build power table for tau: indices -7..3</span>
+<span class="w">        </span><span class="n">powers_tau</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d0</span>
+<span class="w">        </span><span class="n">powers_tau</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tau</span>
+<span class="w">        </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TAU0_EXP_HI</span>
+<span class="w">            </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tau</span>
 <span class="w">        </span><span class="k">end do</span>
-<span class="k">    end function </span><span class="n">calc_gammar_tt_region2</span>
+<span class="k">        </span><span class="n">inv_tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">tau</span>
+<span class="w">        </span><span class="n">powers_tau</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inv_tau</span>
+<span class="w">        </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TAU0_EXP_LO</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">            </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">inv_tau</span>
+<span class="w">        </span><span class="k">end do</span>
+
+<span class="k">        </span><span class="n">g0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">log</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
+<span class="w">        </span><span class="n">g0_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0d0</span>
+<span class="w">        </span><span class="n">g0_tt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0d0</span>
+
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N02_terms</span>
+<span class="w">            </span><span class="n">J_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
+<span class="w">            </span><span class="n">g0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="w">            </span><span class="n">g0_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g0_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">J_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">g0_tt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g0_tt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">J_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">J_val</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0d0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">    end subroutine </span><span class="n">calc_gamma0_all_region2</span>
 </pre></div>
 
     </section>
@@ -416,7 +465,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-09 12:30 +0000             </p>
+ on 2026-03-09 13:09 +0000             </p>
           </div>
         </div>
         <br>

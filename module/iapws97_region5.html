@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 6.4% of total for modules and submodules.">182 statements</a>
+                 title=" 4.5% of total for modules and submodules.">121 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -138,6 +138,12 @@
             <a class="list-group-item" href="../module/iapws97_region5.html#variable-jr_r5">Jr_r5</a>
             <a class="list-group-item" href="../module/iapws97_region5.html#variable-n05_terms">N05_terms</a>
             <a class="list-group-item" href="../module/iapws97_region5.html#variable-nr5_terms">Nr5_terms</a>
+            <a class="list-group-item" href="../module/iapws97_region5.html#variable-pir_exp_hi">PIR_EXP_HI</a>
+            <a class="list-group-item" href="../module/iapws97_region5.html#variable-pir_exp_lo">PIR_EXP_LO</a>
+            <a class="list-group-item" href="../module/iapws97_region5.html#variable-tau0_exp_hi">TAU0_EXP_HI</a>
+            <a class="list-group-item" href="../module/iapws97_region5.html#variable-tau0_exp_lo">TAU0_EXP_LO</a>
+            <a class="list-group-item" href="../module/iapws97_region5.html#variable-taur_exp_hi">TAUR_EXP_HI</a>
+            <a class="list-group-item" href="../module/iapws97_region5.html#variable-taur_exp_lo">TAUR_EXP_LO</a>
             <a class="list-group-item" href="../module/iapws97_region5.html#variable-n0_r5">n0_r5</a>
             <a class="list-group-item" href="../module/iapws97_region5.html#variable-nr_r5">nr_r5</a>
         </div>
@@ -153,30 +159,20 @@
   
   
   
+  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#funcs-0"
-         aria-expanded="false" aria-controls="funcs-0">
-         <h4 class="card-header bg-primary text-white">Functions</h4>
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
       </a>
-      <div id="funcs-0" class="collapse">
+      <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gamma0_p_region5">calc_gamma0_p_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gamma0_pp_region5">calc_gamma0_pp_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gamma0_pt_region5">calc_gamma0_pt_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gamma0_region5">calc_gamma0_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gamma0_t_region5">calc_gamma0_t_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gamma0_tt_region5">calc_gamma0_tt_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gammar_p_region5">calc_gammar_p_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gammar_pp_region5">calc_gammar_pp_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gammar_pt_region5">calc_gammar_pt_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gammar_region5">calc_gammar_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gammar_t_region5">calc_gammar_t_region5</a>
-            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gammar_tt_region5">calc_gammar_tt_region5</a>
+            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gamma0_all_region5">calc_gamma0_all_region5</a>
+            <a class="list-group-item" href="../module/iapws97_region5.html#proc-calc_gammar_all_region5">calc_gammar_all_region5</a>
         </div>
       </div>
     </div>
 
-  
   
       <div class="card mb-4">
       <a data-bs-toggle="collapse" href="#modsubs-0"
@@ -465,6 +461,108 @@ parameter
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-pir_exp_hi"></span>
+              integer(kind=int32),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>PIR_EXP_HI</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pir_exp_lo"></span>
+              integer(kind=int32),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>PIR_EXP_LO</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tau0_exp_hi"></span>
+              integer(kind=int32),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>TAU0_EXP_HI</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tau0_exp_lo"></span>
+              integer(kind=int32),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>TAU0_EXP_LO</strong></td>
+<td> =</td>
+                <td>-5</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-taur_exp_hi"></span>
+              integer(kind=int32),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>TAUR_EXP_HI</strong></td>
+<td> =</td>
+                <td>9</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-taur_exp_lo"></span>
+              integer(kind=int32),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>TAUR_EXP_LO</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-n0_r5"></span>
               real(kind=real64),
             </td>
@@ -507,14 +605,16 @@ parameter
 
 
 
+
         <section>
-          <h2>Functions</h2>
+          <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma0_p_region5"></span> <h3>pure elemental function <a href='../proc/calc_gamma0_p_region5.html'>calc_gamma0_p_region5</a>(tau, pi) result(gamma0_p)  
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma0_all_region5"></span> <h3>pure subroutine <a href='../proc/calc_gamma0_all_region5.html'>calc_gamma0_all_region5</a>(tau, pi, g0, g0_t, g0_tt)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate all ideal-gas (gamma0) derivatives for Region 5
+using a pre-computed power table for tau.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -529,7 +629,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~11"></span>
+              <span class="anchor" id="variable-tau~3"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -539,13 +639,12 @@ parameter
             <td>::</td>
             <td><strong>tau</strong></td>
             <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pi~10"></span>
+              <span class="anchor" id="variable-pi~2"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -555,29 +654,68 @@ parameter
             <td>::</td>
             <td><strong>pi</strong></td>
             <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g0~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>g0</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g0_t~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>g0_t</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g0_tt~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>g0_tt</strong></td>
+            <td>
+
             </td>
         </tr>
     </tbody>
   </table>
 
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>First derivative <script type="math/tex">\gamma^0_{\pi}</script>
-</p>
 
     </div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma0_pp_region5"></span> <h3>pure elemental function <a href='../proc/calc_gamma0_pp_region5.html'>calc_gamma0_pp_region5</a>(tau, pi) result(gamma0_pp)  
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_gammar_all_region5"></span> <h3>pure subroutine <a href='../proc/calc_gammar_all_region5.html'>calc_gammar_all_region5</a>(tau, pi, gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Calculate all residual (gammar) derivatives for Region 5
+using pre-computed power tables for pi and tau.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -592,7 +730,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~12"></span>
+              <span class="anchor" id="variable-tau~4"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -602,13 +740,12 @@ parameter
             <td>::</td>
             <td><strong>tau</strong></td>
             <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pi~11"></span>
+              <span class="anchor" id="variable-pi~3"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -618,655 +755,108 @@ parameter
             <td>::</td>
             <td><strong>pi</strong></td>
             <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gr~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gr</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gr_p~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gr_p</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gr_t~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gr_t</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gr_pp~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gr_pp</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gr_tt~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gr_tt</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gr_pt~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gr_pt</strong></td>
+            <td>
+
             </td>
         </tr>
     </tbody>
   </table>
 
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>Second derivative <script type="math/tex">\gamma^0_{\pi \pi}</script>
-</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma0_pt_region5"></span> <h3>pure elemental function <a href='../proc/calc_gamma0_pt_region5.html'>calc_gamma0_pt_region5</a>(tau, pi) result(gamma0_pt)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~15"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~14"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>Mixed derivative <script type="math/tex">\gamma^0_{p t}</script>
-</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma0_region5"></span> <h3>pure elemental function <a href='../proc/calc_gamma0_region5.html'>calc_gamma0_region5</a>(tau, pi) result(gamma0)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~10"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~9"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>Ideal gas part of reduced Gibbs free energy, <script type="math/tex">\gamma_0</script>
-</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma0_t_region5"></span> <h3>pure elemental function <a href='../proc/calc_gamma0_t_region5.html'>calc_gamma0_t_region5</a>(tau, pi) result(gamma0_t)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~13"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~12"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>First derivative <script type="math/tex">\gamma^0_{t}</script>
-</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma0_tt_region5"></span> <h3>pure elemental function <a href='../proc/calc_gamma0_tt_region5.html'>calc_gamma0_tt_region5</a>(tau, pi) result(gamma0_tt)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~14"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~13"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>Second derivative <script type="math/tex">\gamma^0_{tt}</script>
-</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gammar_p_region5"></span> <h3>pure elemental function <a href='../proc/calc_gammar_p_region5.html'>calc_gammar_p_region5</a>(tau, pi) result(gammar_p)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~17"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~16"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>First derivative <script type="math/tex">\gamma^r_{\pi}</script>
-</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gammar_pp_region5"></span> <h3>pure elemental function <a href='../proc/calc_gammar_pp_region5.html'>calc_gammar_pp_region5</a>(tau, pi) result(gammar_pp)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~18"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~17"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>Second derivative <script type="math/tex">\gamma^r_{\pi \pi}</script>
-</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gammar_pt_region5"></span> <h3>pure elemental function <a href='../proc/calc_gammar_pt_region5.html'>calc_gammar_pt_region5</a>(tau, pi) result(gammar_pt)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~21"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~20"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>Mixed derivative <script type="math/tex">\gamma^r_{p t}</script>
-</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gammar_region5"></span> <h3>pure elemental function <a href='../proc/calc_gammar_region5.html'>calc_gammar_region5</a>(tau, pi) result(gammar)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~16"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~15"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>Helmholtz free energy residual part <script type="math/tex">\gamma^r</script>
-</p>
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gammar_t_region5"></span> <h3>pure elemental function <a href='../proc/calc_gammar_t_region5.html'>calc_gammar_t_region5</a>(tau, pi) result(gammar_t)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~19"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~18"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gammar_tt_region5"></span> <h3>pure elemental function <a href='../proc/calc_gammar_tt_region5.html'>calc_gammar_tt_region5</a>(tau, pi) result(gammar_tt)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~20"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong></td>
-            <td>
-<p>Reduced temperature, <script type="math/tex">\tau</script>
-</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-pi~19"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pi</strong></td>
-            <td>
-<p>Reduced pressure, <script type="math/tex">\pi</script>
-</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real64)</small>
-    </h4>
-    <p>Second derivative <script type="math/tex">\gamma^r_{tt}</script>
-</p>
 
     </div>
   </div>
 
         </section>
         <br>
-
 
 
         <section>
@@ -1292,7 +882,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~38"></span>
+              <span class="anchor" id="variable-self~52"></span>
               class(<a href='../type/type_iapws97_region5.html'>type_iapws97_region5</a>),
             </td>
 <td>intent(in)</td>
@@ -1307,7 +897,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~31"></span>
+              <span class="anchor" id="variable-t_in~38"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1322,7 +912,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~10"></span>
+              <span class="anchor" id="variable-p_in~4"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1337,7 +927,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coef~3"></span>
+              <span class="anchor" id="variable-coef~4"></span>
               type(<a href='../type/type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(inout)</td>
@@ -1378,7 +968,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~37"></span>
+              <span class="anchor" id="variable-self~51"></span>
               class(<a href='../type/type_iapws97_region5.html'>type_iapws97_region5</a>),
             </td>
 <td>intent(inout)</td>
@@ -1419,7 +1009,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-09 12:30 +0000             </p>
+ on 2026-03-09 13:09 +0000             </p>
           </div>
         </div>
         <br>

@@ -38,6 +38,17 @@ submodule(module_iapws97) iapws97_region2
                                -0.42002467698208d-05, -0.59056029685639d-25, 0.37826947613457d-05, &
                                -0.12768608934681d-14, 0.73087610595061d-28, 0.55414715350778d-16, &
                                -0.94369707241210d-06]
+
+    ! Exponent range bounds for ideal-gas power table
+    ! J0_r2: min=-5, max=3; derivatives need J-2 => lower bound = -7
+    integer(int32), parameter :: TAU0_EXP_LO = -7, TAU0_EXP_HI = 3
+
+    ! Exponent range bounds for residual power tables
+    ! Ir_r2: min=1, max=24; derivatives need I-2 => lower bound = -1
+    ! Jr_r2: min=0, max=58; derivatives need J-2 => lower bound = -2
+    integer(int32), parameter :: PIR_EXP_LO = -1, PIR_EXP_HI = 24
+    integer(int32), parameter :: TAUR_EXP_LO = -2, TAUR_EXP_HI = 58
+
 contains
 
     !> Initialize the IAPWS-97 Region 2 object.
@@ -71,32 +82,37 @@ contains
         real(real64) :: val_gpp, val_gtt, val_gpt
         real(real64) :: RT, R_pstar
 
+        ! Ideal-gas and residual contributions
+        real(real64) :: g0, g0_t, g0_tt
+        real(real64) :: gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt
+
         call coef%reset()
 
         ! 1. Dimensionless variables (Region 2 definition)
         tau = self%T_star / T_in
         pi = P_in / self%p_star
 
-        ! 2. Summing Ideal-gas part (0) and Residual part (r)
-        !    Region 2: gamma = gamma0 + gammar
+        ! 2. Calculate ideal-gas and residual parts with pre-computed power tables
+        call calc_gamma0_all_region2(tau, pi, g0, g0_t, g0_tt)
+        call calc_gammar_all_region2(tau, pi, gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt)
 
         ! gamma
-        val_g = calc_gamma0_region2(tau, pi) + calc_gammar_region2(tau, pi)
+        val_g = g0 + gr
 
-        ! gamma_pi
-        val_gp = calc_gamma0_p_region2(tau, pi) + calc_gammar_p_region2(tau, pi)
+        ! gamma_pi (ideal-gas: 1/pi)
+        val_gp = 1.0d0 / pi + gr_p
 
         ! gamma_tau
-        val_gt = calc_gamma0_t_region2(tau, pi) + calc_gammar_t_region2(tau, pi)
+        val_gt = g0_t + gr_t
 
-        ! gamma_pi_pi
-        val_gpp = calc_gamma0_pp_region2(tau, pi) + calc_gammar_pp_region2(tau, pi)
+        ! gamma_pi_pi (ideal-gas: -1/pi^2)
+        val_gpp = -1.0d0 / (pi * pi) + gr_pp
 
         ! gamma_tau_tau
-        val_gtt = calc_gamma0_tt_region2(tau, pi) + calc_gammar_tt_region2(tau, pi)
+        val_gtt = g0_tt + gr_tt
 
-        ! gamma_pi_tau
-        val_gpt = calc_gamma0_pt_region2(tau, pi) + calc_gammar_pt_region2(tau, pi)
+        ! gamma_pi_tau (ideal-gas: 0)
+        val_gpt = gr_pt
 
         ! 3. Convert to DIMENSIONAL quantities (The Adapter Logic)
         !    Using chain rules for tau = T*/T and pi = P/p*
@@ -124,229 +140,105 @@ contains
 
     end subroutine calc_gamma_iapws97_region2
 
-    pure elemental function calc_gamma0_region2(tau, pi) result(gamma0)
+    !> Calculate all ideal-gas (gamma0) derivatives for Region 2
+    !> using a pre-computed power table for tau.
+    pure subroutine calc_gamma0_all_region2(tau, pi, g0, g0_t, g0_tt)
         implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Resulting \(\gamma^o\) value
-        real(real64) :: gamma0
+        real(real64), intent(in) :: tau, pi
+        real(real64), intent(inout) :: g0, g0_t, g0_tt
 
-        integer(int32) :: i
+        integer(int32) :: i, k
+        real(real64) :: powers_tau(TAU0_EXP_LO:TAU0_EXP_HI)
+        real(real64) :: inv_tau, J_val
 
-        gamma0 = log(pi)
-
-        do i = 1, N02_terms
-            gamma0 = gamma0 + &
-                           n0_r2(i) * tau**J0_r2(i)
+        ! Build power table for tau: indices -7..3
+        powers_tau(0) = 1.0d0
+        powers_tau(1) = tau
+        do k = 2, TAU0_EXP_HI
+            powers_tau(k) = powers_tau(k - 1) * tau
         end do
-    end function calc_gamma0_region2
+        inv_tau = 1.0d0 / tau
+        powers_tau(-1) = inv_tau
+        do k = -2, TAU0_EXP_LO, -1
+            powers_tau(k) = powers_tau(k + 1) * inv_tau
+        end do
 
-    pure elemental function calc_gamma0_p_region2(tau, pi) result(gamma0_p)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^o_{\pi}\)
-        real(real64) :: gamma0_p
-
-        gamma0_p = 1.0d0 / pi
-
-    end function calc_gamma0_p_region2
-
-    pure elemental function calc_gamma0_pp_region2(tau, pi) result(gamma0_pp)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^o_{\pi}\)
-        real(real64) :: gamma0_pp
-
-        gamma0_pp = -1.0d0 / (pi * pi)
-
-    end function calc_gamma0_pp_region2
-
-    pure elemental function calc_gamma0_t_region2(tau, pi) result(gamma0_t)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^r_{\pi}\)
-        real(real64) :: gamma0_t
-
-        integer(int32) :: i
-        real(real64) :: J_val
-
-        gamma0_t = 0.0d0
+        g0 = log(pi)
+        g0_t = 0.0d0
+        g0_tt = 0.0d0
 
         do i = 1, N02_terms
             J_val = real(J0_r2(i), real64)
-            gamma0_t = gamma0_t + &
-                           n0_r2(i) * J_val * tau**(J0_r2(i) - 1)
+            g0 = g0 + n0_r2(i) * powers_tau(J0_r2(i))
+            g0_t = g0_t + n0_r2(i) * J_val * powers_tau(J0_r2(i) - 1)
+            g0_tt = g0_tt + n0_r2(i) * J_val * (J_val - 1.0d0) * powers_tau(J0_r2(i) - 2)
         end do
-    end function calc_gamma0_t_region2
+    end subroutine calc_gamma0_all_region2
 
-    pure elemental function calc_gamma0_tt_region2(tau, pi) result(gamma0_tt)
+    !> Calculate all residual (gammar) derivatives for Region 2
+    !> using pre-computed power tables for pi and (tau - 0.5).
+    pure subroutine calc_gammar_all_region2(tau, pi, gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt)
         implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^r_{\pi}\)
-        real(real64) :: gamma0_tt
+        real(real64), intent(in) :: tau, pi
+        real(real64), intent(inout) :: gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt
 
-        integer(int32) :: i
-        real(real64) :: J_val
+        integer(int32) :: i, k
+        real(real64) :: base_tau, inv_pi, inv_tau
+        real(real64) :: powers_pi(PIR_EXP_LO:PIR_EXP_HI)
+        real(real64) :: powers_tau(TAUR_EXP_LO:TAUR_EXP_HI)
+        real(real64) :: I_val, J_val, pp, pt
 
-        gamma0_tt = 0.0d0
+        base_tau = tau - 0.5d0
 
-        do i = 1, N02_terms
-            J_val = real(J0_r2(i), real64)
-            gamma0_tt = gamma0_tt + &
-                           n0_r2(i) * J_val * (J_val - 1.0d0) * tau**(J0_r2(i) - 2)
+        ! Build power table for pi: indices -1..24
+        powers_pi(0) = 1.0d0
+        powers_pi(1) = pi
+        do k = 2, PIR_EXP_HI
+            powers_pi(k) = powers_pi(k - 1) * pi
         end do
-    end function calc_gamma0_tt_region2
+        inv_pi = 1.0d0 / pi
+        powers_pi(-1) = inv_pi
 
-    pure elemental function calc_gamma0_pt_region2(tau, pi) result(gamma0_pt)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^r_{\pi}\)
-        real(real64) :: gamma0_pt
-
-        gamma0_pt = 0.0d0
-
-    end function calc_gamma0_pt_region2
-
-    pure elemental function calc_gammar_region2(tau, pi) result(gammar)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Resulting \(\gamma^r\) value
-        real(real64) :: gammar
-
-        integer(int32) :: i
-
-        gammar = 0.0d0
-
-        do i = 1, Nr2_terms
-            gammar = gammar + &
-                           nr_r2(i) * pi**Ir_r2(i) * (tau - 0.5d0)**Jr_r2(i)
+        ! Build power table for base_tau: indices -2..58
+        powers_tau(0) = 1.0d0
+        powers_tau(1) = base_tau
+        do k = 2, TAUR_EXP_HI
+            powers_tau(k) = powers_tau(k - 1) * base_tau
         end do
-    end function calc_gammar_region2
+        inv_tau = 1.0d0 / base_tau
+        powers_tau(-1) = inv_tau
+        powers_tau(-2) = inv_tau * inv_tau
 
-    pure elemental function calc_gammar_p_region2(tau, pi) result(gammar_p)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^r_{\pi}\)
-        real(real64) :: gammar_p
-
-        integer(int32) :: i
-        real(real64) :: I_val
-
-        gammar_p = 0.0d0
-
-        do i = 1, Nr2_terms
-            I_val = real(Ir_r2(i), real64)
-            gammar_p = gammar_p + &
-                           nr_r2(i) * I_val * pi**(Ir_r2(i) - 1) * (tau - 0.5d0)**Jr_r2(i)
-        end do
-    end function calc_gammar_p_region2
-
-    pure elemental function calc_gammar_pp_region2(tau, pi) result(gammar_pp)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^r_{\pi\pi}\)
-        real(real64) :: gammar_pp
-
-        integer(int32) :: i
-        real(real64) :: I_val
-
-        gammar_pp = 0.0d0
-
-        do i = 1, Nr2_terms
-            I_val = real(Ir_r2(i), real64)
-            gammar_pp = gammar_pp + &
-                           nr_r2(i) * I_val * (I_val - 1.0d0) * pi**(Ir_r2(i) - 2) * (tau - 0.5d0)**Jr_r2(i)
-        end do
-    end function calc_gammar_pp_region2
-
-    pure elemental function calc_gammar_t_region2(tau, pi) result(gammar_t)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^r_{\tau}\)
-        real(real64) :: gammar_t
-
-        integer(int32) :: i
-        real(real64) :: J_val
-
-        gammar_t = 0.0d0
-
-        do i = 1, Nr2_terms
-            J_val = real(Jr_r2(i), real64)
-            gammar_t = gammar_t + &
-                           nr_r2(i) * pi**Ir_r2(i) * J_val * (tau - 0.5d0)**(Jr_r2(i) - 1)
-        end do
-    end function calc_gammar_t_region2
-
-    pure elemental function calc_gammar_tt_region2(tau, pi) result(gammar_tt)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^r_{\tau\tau}\)
-        real(real64) :: gammar_tt
-
-        integer(int32) :: i
-        real(real64) :: J_val
-
-        gammar_tt = 0.0d0
-
-        do i = 1, Nr2_terms
-            J_val = real(Jr_r2(i), real64)
-            gammar_tt = gammar_tt + &
-                           nr_r2(i) * pi**Ir_r2(i) * J_val * (J_val - 1.0d0) * (tau - 0.5d0)**(Jr_r2(i) - 2)
-        end do
-    end function calc_gammar_tt_region2
-
-    pure elemental function calc_gammar_pt_region2(tau, pi) result(gammar_pt)
-        implicit none
-        !> Dimensionless temperature \(\tau\)
-        real(real64), intent(in) :: tau
-        !> Dimensionless pressure \(\pi\)
-        real(real64), intent(in) :: pi
-        !> Derivative \(\gamma^r_{\pi\tau}\)
-        real(real64) :: gammar_pt
-
-        integer(int32) :: i
-        real(real64) :: I_val, J_val
-
-        gammar_pt = 0.0d0
+        gr = 0.0d0
+        gr_p = 0.0d0
+        gr_t = 0.0d0
+        gr_pp = 0.0d0
+        gr_tt = 0.0d0
+        gr_pt = 0.0d0
 
         do i = 1, Nr2_terms
             I_val = real(Ir_r2(i), real64)
             J_val = real(Jr_r2(i), real64)
-            gammar_pt = gammar_pt + &
-                           nr_r2(i) * I_val * pi**(Ir_r2(i) - 1) * J_val * (tau - 0.5d0)**(Jr_r2(i) - 1)
+            pp = powers_pi(Ir_r2(i))
+            pt = powers_tau(Jr_r2(i))
+
+            gr = gr + nr_r2(i) * pp * pt
+
+            gr_p = gr_p + &
+                   nr_r2(i) * I_val * powers_pi(Ir_r2(i) - 1) * pt
+
+            gr_t = gr_t + &
+                   nr_r2(i) * pp * J_val * powers_tau(Jr_r2(i) - 1)
+
+            gr_pp = gr_pp + &
+                    nr_r2(i) * I_val * (I_val - 1.0d0) * powers_pi(Ir_r2(i) - 2) * pt
+
+            gr_tt = gr_tt + &
+                    nr_r2(i) * pp * J_val * (J_val - 1.0d0) * powers_tau(Jr_r2(i) - 2)
+
+            gr_pt = gr_pt + &
+                    nr_r2(i) * I_val * powers_pi(Ir_r2(i) - 1) * J_val * powers_tau(Jr_r2(i) - 1)
         end do
-    end function calc_gammar_pt_region2
+    end subroutine calc_gammar_all_region2
 
 end submodule iapws97_region2

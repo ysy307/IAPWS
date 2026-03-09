@@ -1,5 +1,12 @@
 submodule(module_iapws95) iapws95_base
     implicit none
+
+    ! Pre-computed exponent range bounds for residual power tables
+    ! delta: d1 max=4, d2 max=15, d3 max=3, c2 max=6 => overall max=15
+    ! tau (integer): t2 max=50, t3 max=4 => overall max=50
+    integer(int32), parameter :: DELTA_POW_MAX = 15
+    integer(int32), parameter :: TAU_INT_POW_MAX = 50
+
 contains
 
     module pure elemental subroutine initialize_type_iapws95(self)
@@ -116,7 +123,11 @@ contains
         type(type_iapws_helmholtz_property), intent(inout) :: property
 
         ! --- Loop variables ---
-        integer(int32) :: i
+        integer(int32) :: i, k
+
+        ! --- Pre-computed power tables ---
+        real(real64) :: powers_delta(0:DELTA_POW_MAX)
+        real(real64) :: powers_tau_int(0:TAU_INT_POW_MAX)
 
         ! --- Helper variables for optimization ---
         real(real64) :: inv_delta, inv_tau, inv_delta_sq, inv_tau_sq
@@ -161,17 +172,33 @@ contains
         delta_sq = delta * delta
         tau_sq = tau * tau
 
+        ! Build power table for delta: indices 0..15
+        powers_delta(0) = 1.0d0
+        powers_delta(1) = delta
+        do k = 2, DELTA_POW_MAX
+            powers_delta(k) = powers_delta(k - 1) * delta
+        end do
+
+        ! Build power table for tau (integer exponents): indices 0..50
+        powers_tau_int(0) = 1.0d0
+        powers_tau_int(1) = tau
+        do k = 2, TAU_INT_POW_MAX
+            powers_tau_int(k) = powers_tau_int(k - 1) * tau
+        end do
+
         ! ==================================================================
         ! 1. Polynomial Terms (Terms 1-7)
         !    phi = n * delta^d * tau^t
+        !    Note: t1 contains non-integer exponents, so tau**t_val
+        !    cannot use the integer power table.
         ! ==================================================================
         Polynomial: do i = 1, size(nr1)
             nr_val = nr1(i)
             d_val = real(d1(i), real64)
             t_val = t1(i)
 
-            ! Base term
-            bi = nr_val * (delta**d1(i)) * (tau**t_val)
+            ! Base term: use power table for delta, keep tau**t_val as-is
+            bi = nr_val * powers_delta(d1(i)) * (tau**t_val)
 
             property%fr = property%fr + bi
 
@@ -187,18 +214,19 @@ contains
         ! ==================================================================
         ! 2. Exponential Terms (Terms 8-51)
         !    phi = n * delta^d * tau^t * exp(-g * delta^c)
+        !    All exponents d2, t2, c2 are integer => use power tables.
         ! ==================================================================
         Exponential: do i = 1, size(nr2)
             nr_val = nr2(i)
             d_val = real(d2(i), real64)
-            t_val = t2(i)
+            t_val = real(t2(i), real64)
             c_val = real(c2(i), real64)
-            g_val = gamma2(i)
+            g_val = real(gamma2(i), real64)
 
-            ! Common subexpressions
-            delta_pow_c = delta**c2(i)
+            ! Common subexpressions using power tables
+            delta_pow_c = powers_delta(c2(i))
             exp_val = exp(-g_val * delta_pow_c)
-            bi = nr_val * (delta**d2(i)) * (tau**t_val) * exp_val
+            bi = nr_val * powers_delta(d2(i)) * powers_tau_int(t2(i)) * exp_val
 
             ! Derivative helpers
             Q = d_val - c_val * g_val * delta_pow_c
@@ -217,6 +245,7 @@ contains
         ! ==================================================================
         ! 3. Gaussian Terms (Terms 52-54)
         !    phi = n * delta^d * tau^t * exp[ -alpha*(delta-epsilon)^2 - beta*(tau-gamma)^2 ]
+        !    d3 and t3 are integer => use power tables.
         ! ==================================================================
         Gaussian: do i = 1, size(nr3)
             nr_val = nr3(i)
@@ -234,7 +263,7 @@ contains
 
             exp_arg = -alfa_val * sq_delta_diff - beta_val * sq_tau_diff
             exp_val = exp(exp_arg)
-            bi = nr_val * (delta**d3(i)) * (tau**t3(i)) * exp_val
+            bi = nr_val * powers_delta(d3(i)) * powers_tau_int(t3(i)) * exp_val
 
             ! Derivative helpers
             term_d = (d_val * inv_delta) - 2.0d0 * alfa_val * delta_diff
@@ -253,6 +282,7 @@ contains
         ! ==================================================================
         ! 4. Non-Analytic Terms (Terms 55-56)
         !    phi = n * delta * Delta^b * Psi
+        !    Uses real-valued exponents => cannot use integer power tables.
         ! ==================================================================
         NonAnalitic: do i = 1, size(nr4)
             nr_val = nr4(i)
