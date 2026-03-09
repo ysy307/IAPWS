@@ -54,8 +54,6 @@ contains
         real(real64) :: t_val, n_val, g_val
         real(real64) :: exp_gtau, one_minus_exp, inv_one_minus_exp
 
-        ! Kahan compensation variables
-
         ! Initialize properties
         property%f0 = 0.0d0
         property%f0_t = 0.0d0
@@ -63,8 +61,6 @@ contains
         property%f0_d = 0.0d0
         property%f0_dd = 0.0d0
         property%f0_dt = 0.0d0
-
-        ! Initialize compensation variables
 
         ! Base ideal gas terms (using direct assignment for initial values)
         property%f0 = n0_log(1) * log(delta) + n0_log(2) * log(tau)
@@ -75,7 +71,7 @@ contains
         property%f0_dd = -1.0d0 / delta**2
         property%f0_dt = 0.0d0
 
-        ! Loop 1: Power terms (Apply Kahan)
+        ! Loop 1: Power terms
         do i = 1, size(pow)
             pow_i = pow(i)
             t_val = real(pow_i, real64)
@@ -91,7 +87,7 @@ contains
             end if
         end do
 
-        ! Loop 2: Exponential terms (Apply Kahan)
+        ! Loop 2: Exponential terms
         do i = 1, size(n0_exp)
             n_val = n0_exp(i)
             g_val = g0(i)
@@ -148,8 +144,6 @@ contains
         real(real64) :: d_Delta_d, d_Delta_t, d2_Delta_dd, d2_Delta_tt, d2_Delta_dt
         real(real64) :: d_Delta_pow_b_d, d_Delta_pow_b_t
         real(real64) :: d2_Delta_pow_b_dd, d2_Delta_pow_b_tt, d2_Delta_pow_b_dt
-
-        ! --- Kahan Compensation Variables ---
 
         ! --- Initialization ---
         property%fr = 0.0d0
