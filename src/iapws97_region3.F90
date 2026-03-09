@@ -75,16 +75,14 @@ contains
         real(real64) :: phi
 
         integer(int32) :: i
-        real(real64) :: c_phi
 
         ! Term i=1: n1 * ln(delta)
         phi = n_r3(1) * log(delta)
-        c_phi = 0.0d0
 
         ! Terms i=2 to 40
         do i = 2, N3_terms
-            call kahan_add(phi, c_phi, &
-                           n_r3(i) * (delta**I_r3(i)) * (tau**J_r3(i)))
+            phi = phi + &
+                           n_r3(i) * (delta**I_r3(i)) * (tau**J_r3(i))
         end do
     end function calc_phi_region3
 
@@ -97,16 +95,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val
-        real(real64) :: c_phi_d
 
         ! i=1: n1 / delta
         phi_d = n_r3(1) / delta
-        c_phi_d = 0.0d0
         do i = 2, N3_terms
             I_val = real(I_r3(i), real64)
             ! n_i * I_i * delta^(I_i-1) * tau^J_i
-            call kahan_add(phi_d, c_phi_d, &
-                           n_r3(i) * I_val * (delta**(I_r3(i) - 1)) * (tau**J_r3(i)))
+            phi_d = phi_d + &
+                           n_r3(i) * I_val * (delta**(I_r3(i) - 1)) * (tau**J_r3(i))
         end do
     end function calc_phi_d_region3
 
@@ -119,17 +115,15 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val
-        real(real64) :: c_phi_dd
 
         ! i=1: -n1 / delta^2
         phi_dd = -n_r3(1) / (delta**2)
-        c_phi_dd = 0.0d0
 
         do i = 2, N3_terms
             I_val = real(I_r3(i), real64)
             ! n_i * I_i * (I_i-1) * delta^(I_i-2) * tau^J_i
-            call kahan_add(phi_dd, c_phi_dd, &
-                           n_r3(i) * I_val * (I_val - 1.0d0) * (delta**(I_r3(i) - 2)) * (tau**J_r3(i)))
+            phi_dd = phi_dd + &
+                           n_r3(i) * I_val * (I_val - 1.0d0) * (delta**(I_r3(i) - 2)) * (tau**J_r3(i))
         end do
     end function calc_phi_dd_region3
 
@@ -142,17 +136,15 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_phi_t
 
         ! i=1 term depends only on delta, so derivative w.r.t tau is 0
         phi_t = 0.0d0
-        c_phi_t = 0.0d0
 
         do i = 2, N3_terms
             J_val = real(J_r3(i), real64)
             ! n_i * J_i * delta^I_i * tau^(J_i-1)
-            call kahan_add(phi_t, c_phi_t, &
-                           n_r3(i) * J_val * (delta**I_r3(i)) * (tau**(J_r3(i) - 1)))
+            phi_t = phi_t + &
+                           n_r3(i) * J_val * (delta**I_r3(i)) * (tau**(J_r3(i) - 1))
         end do
     end function calc_phi_t_region3
 
@@ -165,16 +157,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_phi_tt
 
         phi_tt = 0.0d0
-        c_phi_tt = 0.0d0
 
         do i = 2, N3_terms
             J_val = real(J_r3(i), real64)
             ! n_i * J_i * (J_i-1) * delta^I_i * tau^(J_i-2)
-            call kahan_add(phi_tt, c_phi_tt, &
-                           n_r3(i) * J_val * (J_val - 1.0d0) * (delta**I_r3(i)) * (tau**(J_r3(i) - 2)))
+            phi_tt = phi_tt + &
+                           n_r3(i) * J_val * (J_val - 1.0d0) * (delta**I_r3(i)) * (tau**(J_r3(i) - 2))
         end do
     end function calc_phi_tt_region3
 
@@ -188,18 +178,16 @@ contains
         integer(int32) :: i
         real(real64) :: I_val
         real(real64) :: J_val
-        real(real64) :: c_phi_dt
 
         ! i=1 term is 0 for mixed derivative
         phi_dt = 0.0d0
-        c_phi_dt = 0.0d0
 
         do i = 2, N3_terms
             I_val = real(I_r3(i), real64)
             J_val = real(J_r3(i), real64)
             ! n_i * I_i * J_i * delta^(I_i-1) * tau^(J_i-1)
-            call kahan_add(phi_dt, c_phi_dt, &
-                           n_r3(i) * I_val * J_val * (delta**(I_r3(i) - 1)) * (tau**(J_r3(i) - 1)))
+            phi_dt = phi_dt + &
+                           n_r3(i) * I_val * J_val * (delta**(I_r3(i) - 1)) * (tau**(J_r3(i) - 1))
         end do
     end function calc_phi_dt_region3
 

@@ -111,14 +111,12 @@ contains
         real(real64) :: gamma0
 
         integer(int32) :: i
-        real(real64) :: c_gamma
 
         gamma0 = log(pi)
-        c_gamma = 0.0d0
 
         do i = 1, N05_terms
-            call kahan_add(gamma0, c_gamma, &
-                           n0_r5(i) * (tau**J0_r5(i)))
+            gamma0 = gamma0 + &
+                           n0_r5(i) * (tau**J0_r5(i))
         end do
     end function calc_gamma0_region5
 
@@ -158,14 +156,12 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gamma0_t
 
         gamma0_t = 0.0d0
-        c_gamma0_t = 0.0d0
         do i = 1, N05_terms
             J_val = real(J0_r5(i), real64)
-            call kahan_add(gamma0_t, c_gamma0_t, &
-                           n0_r5(i) * J_val * (tau**(J0_r5(i) - 1)))
+            gamma0_t = gamma0_t + &
+                           n0_r5(i) * J_val * (tau**(J0_r5(i) - 1))
         end do
     end function calc_gamma0_t_region5
 
@@ -180,15 +176,13 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gamma0_tt
 
         gamma0_tt = 0.0d0
-        c_gamma0_tt = 0.0d0
 
         do i = 1, N05_terms
             J_val = real(J0_r5(i), real64)
-            call kahan_add(gamma0_tt, c_gamma0_tt, &
-                           n0_r5(i) * J_val * (J_val - 1.0d0) * (tau**(J0_r5(i) - 2)))
+            gamma0_tt = gamma0_tt + &
+                           n0_r5(i) * J_val * (J_val - 1.0d0) * (tau**(J0_r5(i) - 2))
         end do
     end function calc_gamma0_tt_region5
 
@@ -214,14 +208,12 @@ contains
         real(real64) :: gammar
 
         integer(int32) :: i
-        real(real64) :: c_gammar
 
         gammar = 0.0d0
-        c_gammar = 0.0d0
 
         do i = 1, Nr5_terms
-            call kahan_add(gammar, c_gammar, &
-                           nr_r5(i) * (pi**Ir_r5(i)) * (tau**Jr_r5(i)))
+            gammar = gammar + &
+                           nr_r5(i) * (pi**Ir_r5(i)) * (tau**Jr_r5(i))
         end do
     end function calc_gammar_region5
 
@@ -236,14 +228,12 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val
-        real(real64) :: c_gammar_p
 
         gammar_p = 0.0d0
-        c_gammar_p = 0.0d0
         do i = 1, Nr5_terms
             I_val = real(Ir_r5(i), real64)
-            call kahan_add(gammar_p, c_gammar_p, &
-                           nr_r5(i) * I_val * (pi**(Ir_r5(i) - 1)) * (tau**Jr_r5(i)))
+            gammar_p = gammar_p + &
+                           nr_r5(i) * I_val * (pi**(Ir_r5(i) - 1)) * (tau**Jr_r5(i))
         end do
     end function calc_gammar_p_region5
 
@@ -258,15 +248,13 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val
-        real(real64) :: c_gammar_pp
 
         gammar_pp = 0.0d0
-        c_gammar_pp = 0.0d0
 
         do i = 1, Nr5_terms
             I_val = real(Ir_r5(i), real64)
-            call kahan_add(gammar_pp, c_gammar_pp, &
-                           nr_r5(i) * I_val * (I_val - 1.0d0) * (pi**(Ir_r5(i) - 2)) * (tau**Jr_r5(i)))
+            gammar_pp = gammar_pp + &
+                           nr_r5(i) * I_val * (I_val - 1.0d0) * (pi**(Ir_r5(i) - 2)) * (tau**Jr_r5(i))
         end do
     end function calc_gammar_pp_region5
 
@@ -280,15 +268,13 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gammar_t
 
         gammar_t = 0.0d0
-        c_gammar_t = 0.0d0
 
         do i = 1, Nr5_terms
             J_val = real(Jr_r5(i), real64)
-            call kahan_add(gammar_t, c_gammar_t, &
-                           nr_r5(i) * J_val * (pi**Ir_r5(i)) * (tau**(Jr_r5(i) - 1)))
+            gammar_t = gammar_t + &
+                           nr_r5(i) * J_val * (pi**Ir_r5(i)) * (tau**(Jr_r5(i) - 1))
         end do
     end function calc_gammar_t_region5
 
@@ -303,15 +289,13 @@ contains
 
         integer(int32) :: i
         real(real64) :: J_val
-        real(real64) :: c_gammar_tt
 
         gammar_tt = 0.0d0
-        c_gammar_tt = 0.0d0
 
         do i = 1, Nr5_terms
             J_val = real(Jr_r5(i), real64)
-            call kahan_add(gammar_tt, c_gammar_tt, &
-                           nr_r5(i) * J_val * (J_val - 1.0d0) * (pi**Ir_r5(i)) * (tau**(Jr_r5(i) - 2)))
+            gammar_tt = gammar_tt + &
+                           nr_r5(i) * J_val * (J_val - 1.0d0) * (pi**Ir_r5(i)) * (tau**(Jr_r5(i) - 2))
         end do
     end function calc_gammar_tt_region5
 
@@ -326,16 +310,14 @@ contains
 
         integer(int32) :: i
         real(real64) :: I_val, J_val
-        real(real64) :: c_gammar_pt
 
         gammar_pt = 0.0d0
-        c_gammar_pt = 0.0d0
 
         do i = 1, Nr5_terms
             I_val = real(Ir_r5(i), real64)
             J_val = real(Jr_r5(i), real64)
-            call kahan_add(gammar_pt, c_gammar_pt, &
-                           nr_r5(i) * I_val * J_val * (pi**(Ir_r5(i) - 1)) * (tau**(Jr_r5(i) - 1)))
+            gammar_pt = gammar_pt + &
+                           nr_r5(i) * I_val * J_val * (pi**(Ir_r5(i) - 1)) * (tau**(Jr_r5(i) - 1))
         end do
     end function calc_gammar_pt_region5
 end submodule iapws97_region5
