@@ -13,7 +13,7 @@
             "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "gcc-base",
+            "name": "gnu-base",
             "hidden": true,
             "inherits": "base",
             "cacheVariables": {
@@ -22,18 +22,18 @@
             }
         },
         {
-            "name": "gcc-debug",
-            "displayName": "GCC Debug",
-            "inherits": "gcc-base",
+            "name": "gnu-debug",
+            "displayName": "gnu Debug",
+            "inherits": "gnu-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_Fortran_FLAGS_DEBUG": "-g -O0 -fcheck=all -fbacktrace -ffpe-trap=invalid,zero,overflow -finit-real=snan"
             }
         },
         {
-            "name": "gcc-release",
-            "displayName": "GCC Release (Traceable)",
-            "inherits": "gcc-base",
+            "name": "gnu-release",
+            "displayName": "gnu Release (Traceable)",
+            "inherits": "gnu-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_Fortran_FLAGS_RELEASE": "-Ofast -march=native -ffast-math -funroll-loops"
@@ -130,14 +130,14 @@
             "jobs": 16
         },
         {
-            "name": "build-gcc-debug",
+            "name": "build-gnu-debug",
             "inherits": "build-base",
-            "configurePreset": "gcc-debug"
+            "configurePreset": "gnu-debug"
         },
         {
-            "name": "build-gcc-release",
+            "name": "build-gnu-release",
             "inherits": "build-base",
-            "configurePreset": "gcc-release"
+            "configurePreset": "gnu-release"
         },
         {
             "name": "build-intel-debug",
@@ -184,14 +184,14 @@
             }
         },
         {
-            "name": "test-gcc-debug",
+            "name": "test-gnu-debug",
             "inherits": "test-base",
-            "configurePreset": "gcc-debug"
+            "configurePreset": "gnu-debug"
         },
         {
-            "name": "test-gcc-release",
+            "name": "test-gnu-release",
             "inherits": "test-base",
-            "configurePreset": "gcc-release"
+            "configurePreset": "gnu-release"
         },
         {
             "name": "test-intel-debug",
@@ -216,38 +216,38 @@
     ],
     "workflowPresets": [
         {
-            "name": "workflow-gcc-debug",
-            "displayName": "GCC Debug (Config > Build > Test)",
+            "name": "workflow-gnu-debug",
+            "displayName": "gnu Debug (Config > Build > Test)",
             "steps": [
                 {
                     "type": "configure",
-                    "name": "gcc-debug"
+                    "name": "gnu-debug"
                 },
                 {
                     "type": "build",
-                    "name": "build-gcc-debug"
+                    "name": "build-gnu-debug"
                 },
                 {
                     "type": "test",
-                    "name": "test-gcc-debug"
+                    "name": "test-gnu-debug"
                 }
             ]
         },
         {
-            "name": "workflow-gcc-release",
-            "displayName": "GCC Release (Config > Build > Test)",
+            "name": "workflow-gnu-release",
+            "displayName": "gnu Release (Config > Build > Test)",
             "steps": [
                 {
                     "type": "configure",
-                    "name": "gcc-release"
+                    "name": "gnu-release"
                 },
                 {
                     "type": "build",
-                    "name": "build-gcc-release"
+                    "name": "build-gnu-release"
                 },
                 {
                     "type": "test",
-                    "name": "test-gcc-release"
+                    "name": "test-gnu-release"
                 }
             ]
         },
