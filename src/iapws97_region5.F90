@@ -265,4 +265,6 @@ contains
         dcp_dp = -self%R * tau**2 / self%p_star * gttp
     end subroutine calc_cp_derivatives_iapws97_region5
 
+#include "iapws97_region5_batch.fi"
+
 end submodule iapws97_region5

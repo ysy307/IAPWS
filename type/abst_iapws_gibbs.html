@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>11.4% of total for derived types.</p>Including implementation: 24 statements, 11.4% of total for derived types.">24 statements</a>
+                 title="<p>11.7% of total for derived types.</p>Including implementation: 26 statements, 11.7% of total for derived types.">26 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -171,11 +171,13 @@
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dp~2">calc_drho_dP</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_drho_dt~3">calc_drho_dT</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_gamma~5">calc_gamma</a>
+            <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_gamma_batch~4">calc_gamma_batch</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_h~3">calc_h</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_kappa_t">calc_kappa_T</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_kappa_s">calc_kappa_s</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_nu~2">calc_nu</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_properties~3">calc_properties</a>
+            <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_properties_batch~3">calc_properties_batch</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_rho~3">calc_rho</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_s~3">calc_s</a>
             <a class="list-group-item" href="../type/abst_iapws_gibbs.html#boundprocedure-calc_u~3">calc_u</a>
@@ -235,7 +237,7 @@
 </g>
 </g>
 <!-- type~type_iapws06&#45;&gt;type~abst_iapws_gibbs -->
-<g id="type~~abst_iapws_gibbs~~InheritedByGraph_edge1" class="edge">
+<g id="type~~abst_iapws_gibbs~~InheritedByGraph_edge4" class="edge">
 <title>type~type_iapws06&#45;&gt;type~abst_iapws_gibbs</title>
 <path fill="none" stroke="#ff0000" d="M163.18,-127.94C155.45,-125.08 147.71,-121.49 141,-117 130.78,-110.16 135.2,-94.49 123,-96"/>
 </g>
@@ -249,7 +251,7 @@
 </g>
 </g>
 <!-- type~type_iapws97_region1&#45;&gt;type~abst_iapws_gibbs -->
-<g id="type~~abst_iapws_gibbs~~InheritedByGraph_edge2" class="edge">
+<g id="type~~abst_iapws_gibbs~~InheritedByGraph_edge1" class="edge">
 <title>type~type_iapws97_region1&#45;&gt;type~abst_iapws_gibbs</title>
 <path fill="none" stroke="#ff0000" d="M140.89,-94.48C134.83,-94.8 128.79,-95.28 123,-96"/>
 </g>
@@ -277,7 +279,7 @@
 </g>
 </g>
 <!-- type~type_iapws97_region5&#45;&gt;type~abst_iapws_gibbs -->
-<g id="type~~abst_iapws_gibbs~~InheritedByGraph_edge4" class="edge">
+<g id="type~~abst_iapws_gibbs~~InheritedByGraph_edge2" class="edge">
 <title>type~type_iapws97_region5&#45;&gt;type~abst_iapws_gibbs</title>
 <path fill="none" stroke="#ff0000" d="M152.74,-24.07C148.42,-26.52 144.4,-29.46 141,-33 120.81,-53.99 151.9,-92.42 123,-96"/>
 <path fill="none" stroke="#ff0000" d="M122,-96C119.5,-96.31 116.95,-96.57 114.37,-96.78"/>
@@ -1249,6 +1251,106 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_gamma_batch~4"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_gamma_batch</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_gamma_batch_gibbs.html'>calc_gamma_batch_gibbs</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    private pure recursive module subroutine calc_gamma_batch_gibbs(self, T_in, P_in, coef)  
+    <a href="../proc/calc_gamma_batch_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>coef</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-calc_h~3"></span>
       <h3>
           procedure, public, pass(self) ::
@@ -1809,6 +1911,286 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calc_properties_batch~3"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>calc_properties_batch</strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_properties_batch_gibbs.html'>calc_properties_batch_gibbs</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    private pure recursive module subroutine calc_properties_batch_gibbs(self, T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p, status, region_id)  
+    <a href="../proc/calc_properties_batch_gibbs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='abst_iapws_gibbs.html'>abst_iapws_gibbs</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rho</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dT</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>drho_dP</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cp</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cv</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>w</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>u</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>h</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nu</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>region_id</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-calc_rho~3"></span>
       <h3>
           procedure, public, pass(self) ::
@@ -2335,6 +2717,8 @@ large graphs.</div>
 <span class="w">    </span><span class="k">contains</span>
 <span class="k">        procedure</span><span class="p">(</span><span class="n">abst_initialize_iapws_gibbs</span><span class="p">),</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initialize</span>
 <span class="w">        </span><span class="k">procedure</span><span class="p">(</span><span class="n">abst_calc_gibbs_iapws</span><span class="p">),</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_gamma</span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_properties_batch</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_properties_batch_gibbs</span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_gamma_batch</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_gamma_batch_gibbs</span>
 <span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_properties</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_properties_gibbs</span>
 <span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_nu</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_nu_gibbs</span>
 <span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">pass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_rho</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">calc_rho_gibbs</span>
@@ -2373,7 +2757,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-04 06:34 +0000             </p>
+ on 2026-11-04 17:31 +0000             </p>
           </div>
         </div>
         <br>

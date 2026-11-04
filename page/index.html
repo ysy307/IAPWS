@@ -290,9 +290,79 @@ values and writes logs under the build directory. Run it directly with
 <code>build/gnu-debug/bin/iapws_test /absolute/path/to/validations</code> from a scratch
 working directory. Python 3, when available, enables an additional validator
 regression test; the library has no Python dependency.</p>
+<h2 id="exact-cpu-kernel-optimizations">Exact CPU kernel optimizations</h2>
+<p>Existing IF97 APIs also benefit without caller changes. Region-3 density solves
+compute pressure and its density derivative together, using only the required
+Helmholtz sums. NVHPC shares one original full coefficient evaluation to retain
+bitwise compatibility. The bracketing, Newton safeguards, stopping criteria,
+and EOS coefficients are unchanged. Saturation cp derivatives share Gibbs
+traversals in regions 1 and 2; region 3 reuses already evaluated coefficients.
+There are no lookup approximations, shared mutable caches, or MPI dependencies.</p>
+<p>The same-API before/after benchmark is independent of any downstream application:</p>
+<div class="codehilite"><pre><span></span><code>cmake<span class="w"> </span>--build<span class="w"> </span>build/gnu-release<span class="w"> </span>--target<span class="w"> </span>kernel_benchmark
+<span class="c1"># Build this same driver against the earlier library as well, then compare:</span>
+python3<span class="w"> </span>benchmarks/compare_kernels.py<span class="w"> </span>--before<span class="w"> </span>/path/to/before/kernel_benchmark<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--after<span class="w"> </span>build/gnu-release/bin/kernel_benchmark<span class="w"> </span>--repeats<span class="w"> </span><span class="m">7</span><span class="w"> </span>--json<span class="w"> </span>results.json
+</code></pre></div>
+
+<p>It rejects differing per-sample output bits before timing, alternates build
+execution order, and records medians/ranges. The optional CMake/OpenMP check
+compares serial results with four workers sharing a model; its source lives
+outside fpm's automatic test directory. See <a href="docs/hpc-kernel-results.md">the HPC kernel results</a>
+for measured gains, compiler-specific behavior, and reproduction details.</p>
 <h1 id="api-document">API Document</h1>
 <p>Full API documentation is available here:
 <a href="https://ysy307.github.io/IAPWS/">IAPWS FORD Document</a></p>
+<h2 id="batched-if97-evaluation">Batched IF97 evaluation</h2>
+<p>Use <code>calc_saturation_properties</code> when several quantities are needed at the same
+saturation temperature. It evaluates the phase pair once, sharing saturation
+pressure and Gibbs coefficients (or region-3 density solves). Requested cp
+partials share the coefficient traversal in regions 1 and 2; density and
+latent-heat derivatives reuse second-order coefficients. Unrequested phase cp
+partials do not trigger third-order work. NVHPC retains separate Gibbs/cp
+traversals to preserve the ordinary evaluator's vector-reduction rounding.
+All outputs are optional; the procedure is pure elemental and accepts arrays.
+Existing scalar APIs remain available with the same results.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">call </span><span class="n">water</span><span class="p">%</span><span class="n">calc_saturation_properties</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">rho_vap</span><span class="o">=</span><span class="n">rho_v</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">    </span><span class="n">density_dT_vap</span><span class="o">=</span><span class="n">drho_v_dT</span><span class="p">,</span><span class="w"> </span><span class="n">cp_vap</span><span class="o">=</span><span class="n">cp_v</span><span class="p">,</span><span class="w"> </span><span class="n">dcp_dT_vap</span><span class="o">=</span><span class="n">dcp_v_dT</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">    </span><span class="n">latent_heat</span><span class="o">=</span><span class="n">Lv</span><span class="p">,</span><span class="w"> </span><span class="n">dlatent_heat_dT</span><span class="o">=</span><span class="n">dLv_dT</span><span class="p">)</span>
+<span class="k">call </span><span class="n">water</span><span class="p">%</span><span class="n">calc_cp_derivatives</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">dcp_dT</span><span class="p">,</span><span class="w"> </span><span class="n">dcp_dp</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>density_dT_vap/liq</code> and <code>dcp_dT_vap/liq</code> are <strong>total derivatives along
+saturation</strong>. <code>drho_dT_vap/liq</code> and <code>drho_dP_vap/liq</code> are fixed-pressure and
+fixed-temperature <strong>partials</strong>. Additional outputs are <code>rho_liq</code>, <code>cp_liq</code>, and
+the liquid counterparts of the derivative outputs above. Units, validity limits,
+critical-point values, and NaN behavior match the individual methods. No saved
+state or shared mutable cache is introduced.</p>
+<p><code>calc_cp_derivatives(T_in, p_in, dcp_dT, dcp_dp)</code> returns both ordinary partials
+with one region dispatch and derivative evaluation (including one density solve
+in region 3), rather than repeating the work through two individual methods.</p>
+<p>The manual benchmark in <code>benchmarks/bulk_benchmark.F90</code> compares the six-output
+saturation call and ordinary cp partials in regions 1, 2, 3, and 5. It checks each
+sampled output, warms both paths, alternates execution order over seven repeats,
+and reports median/min/max CPU times and matching checksums. It lives outside
+<code>test/</code> so fpm auto-test discovery does not include timing runs.</p>
+<div class="codehilite"><pre><span></span><code>cmake<span class="w"> </span>--build<span class="w"> </span>build/gnu-release<span class="w"> </span>--target<span class="w"> </span>bulk_benchmark
+build/gnu-release/bin/bulk_benchmark
+</code></pre></div>
+
+<p>Timing is not a CTest pass criterion. These measurements compare the scalar and
+bulk APIs of the same build; they do not measure an application or MPI run.
+Application speedup requires adopting the new calls at consuming call sites and
+measuring the full application again. For review findings, verification scope,
+and measured results, see <a href="docs/bulk-api-review.md">the bulk API review</a>.</p>
+<h2 id="state-array-apis">State-array APIs</h2>
+<p><code>calc_properties_batch</code> accepts state arrays and writes selected properties into
+caller-owned arrays. IF97 regions 1, 2 and 5 use state-lane SIMD; IAPWS95 and ice
+also expose the API through conservative evaluators. IF97 additionally provides
+<code>calc_saturation_properties_batch</code>. Existing scalar APIs remain available.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">call </span><span class="n">water</span><span class="p">%</span><span class="n">calc_properties_batch</span><span class="p">(</span><span class="n">temperatures</span><span class="p">,</span><span class="w"> </span><span class="n">pressures</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="o">=</span><span class="n">densities</span><span class="p">,</span><span class="w"> </span><span class="n">cp</span><span class="o">=</span><span class="n">heat_capacities</span><span class="p">)</span>
+<span class="k">call </span><span class="n">water</span><span class="p">%</span><span class="n">calc_saturation_properties_batch</span><span class="p">(</span><span class="n">temperatures</span><span class="p">,</span><span class="w"> </span><span class="n">latent_heat</span><span class="o">=</span><span class="n">latent_heats</span><span class="p">)</span>
+</code></pre></div>
+
+<p>See the <a href="docs/batch-api.md">API contract</a> and <a href="docs/batch-performance.md">measured performance and validation</a>.
+Single-state calls should continue using the scalar API; speedups depend on the model and compiler.</p>
 <h1 id="license">License</h1>
 <p>This project is licensed under the MIT License - see the LICENSE file for details.</p>
     </div>
@@ -312,7 +382,7 @@ regression test; the library has no Python dependency.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-04 06:34 +0000             </p>
+ on 2026-11-04 17:31 +0000             </p>
           </div>
         </div>
         <br>

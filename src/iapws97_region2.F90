@@ -140,106 +140,117 @@ contains
 
     end subroutine calc_gamma_iapws97_region2
 
+    !> Gibbs coefficients and cp partials share powers and coefficient traversal.
+    !> Keep independent cp accumulators: their original operation order differs
+    !> from the ordinary Gibbs sums and is part of numerical compatibility.
+    module pure elemental subroutine calc_gamma_cp_iapws97_region2(self, T_in, P_in, coef, dcp_dT, dcp_dp)
+        class(type_iapws97_region2), intent(in) :: self
+        real(real64), intent(in) :: T_in, P_in
+        type(type_iapws_gibbs_coefficient), intent(inout) :: coef
+        real(real64), intent(out) :: dcp_dT, dcp_dp
+#if defined(__NVCOMPILER)
+        ! NVHPC vectorizes the fused reductions with a different summation
+        ! order. Retain bitwise compatibility with its ordinary Gibbs path.
+        call self%calc_gamma(T_in,P_in,coef)
+        call self%calc_cp_derivatives(T_in,P_in,dcp_dT,dcp_dp)
+#else
+        call evaluate_gamma_region2(self,T_in,P_in,coef,dcp_dT,dcp_dp)
+#endif
+    end subroutine calc_gamma_cp_iapws97_region2
+
+    pure elemental subroutine evaluate_gamma_region2(self, T_in, P_in, coef, dcp_dT, dcp_dp)
+        implicit none
+        !> IAPWS-97 Region 2 object.
+        class(type_iapws97_region2), intent(in) :: self
+        !> temperature T, [K]
+        real(real64), intent(in) :: T_in
+        !> pressure P, [Pa]
+        real(real64), intent(in) :: P_in
+        !> IAPWS Gibbs coefficients (Dimensional)
+        type(type_iapws_gibbs_coefficient), intent(inout) :: coef
+        real(real64), intent(out) :: dcp_dT, dcp_dp
+        real(real64) :: cp_tt, cp_ttt, cp_ttp
+
+        real(real64) :: tau, pi
+        ! Local variables for dimensionless sums
+        real(real64) :: val_g, val_gp, val_gt
+        real(real64) :: val_gpp, val_gtt, val_gpt
+        real(real64) :: RT, R_pstar
+
+        ! Ideal-gas and residual contributions
+        real(real64) :: g0, g0_t, g0_tt
+        real(real64) :: gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt
+
+        call coef%reset()
+
+        ! 1. Dimensionless variables (Region 2 definition)
+        tau = self%T_star / T_in
+        pi = P_in / self%p_star
+
+        ! 2. Calculate ideal-gas and residual parts with pre-computed power tables
+        cp_ttp=0d0
+        call calc_gamma0_all_cp_region2(tau, pi, g0, g0_t, g0_tt, cp_tt, cp_ttt)
+        call calc_gammar_all_cp_region2(tau, pi, gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt, cp_tt, cp_ttt, cp_ttp)
+
+        ! gamma
+        val_g = g0 + gr
+
+        ! gamma_pi (ideal-gas: 1/pi)
+        val_gp = 1.0d0 / pi + gr_p
+
+        ! gamma_tau
+        val_gt = g0_t + gr_t
+
+        ! gamma_pi_pi (ideal-gas: -1/pi^2)
+        val_gpp = -1.0d0 / (pi * pi) + gr_pp
+
+        ! gamma_tau_tau
+        val_gtt = g0_tt + gr_tt
+
+        ! gamma_pi_tau (ideal-gas: 0)
+        val_gpt = gr_pt
+
+        ! 3. Convert to DIMENSIONAL quantities (The Adapter Logic)
+        !    Using chain rules for tau = T*/T and pi = P/p*
+
+        RT = self%R * T_in
+        R_pstar = self%R / self%p_star ! Pre-calc R/p*
+
+        ! g [J/kg] = R * T * gamma
+        coef%g = RT * val_g
+
+        ! g_p [m^3/kg] = (RT / p*) * gamma_pi
+        coef%g_p = (RT / self%p_star) * val_gp
+
+        ! g_t [J/(kg K)] = R * (gamma - tau * gamma_tau)  <-- Entropy term (-s)
+        coef%g_t = self%R * (val_g - tau * val_gt)
+
+        ! g_pp [m^3/(kg Pa)] = (RT / p*^2) * gamma_pi_pi
+        coef%g_pp = (RT / (self%p_star**2)) * val_gpp
+
+        ! g_tt [J/(kg K^2)] = (R * tau^2 / T) * gamma_tau_tau <-- Relates to -Cp/T
+        coef%g_tt = (self%R * tau**2 / T_in) * val_gtt
+
+        ! g_pt [m^3/(kg K)] = (R / p*) * (gamma_pi - tau * gamma_pi_tau)
+        coef%g_pt = R_pstar * (val_gp - tau * val_gpt)
+
+        dcp_dT=self%R*tau**2/T_in*(2d0*cp_tt+tau*cp_ttt)
+        dcp_dp=-self%R*tau**2/self%p_star*cp_ttp
+    end subroutine evaluate_gamma_region2
+
     !> Calculate all ideal-gas (gamma0) derivatives for Region 2
     !> using a pre-computed power table for tau.
-    pure subroutine calc_gamma0_all_region2(tau, pi, g0, g0_t, g0_tt)
-        implicit none
-        real(real64), intent(in) :: tau, pi
-        real(real64), intent(inout) :: g0, g0_t, g0_tt
-
-        integer(int32) :: i, k
-        real(real64) :: powers_tau(TAU0_EXP_LO:TAU0_EXP_HI)
-        real(real64) :: inv_tau, J_val
-
-        ! Build power table for tau: indices -7..3
-        powers_tau(0) = 1.0d0
-        powers_tau(1) = tau
-        do k = 2, TAU0_EXP_HI
-            powers_tau(k) = powers_tau(k - 1) * tau
-        end do
-        inv_tau = 1.0d0 / tau
-        powers_tau(-1) = inv_tau
-        do k = -2, TAU0_EXP_LO, -1
-            powers_tau(k) = powers_tau(k + 1) * inv_tau
-        end do
-
-        g0 = log(pi)
-        g0_t = 0.0d0
-        g0_tt = 0.0d0
-
-        do i = 1, N02_terms
-            J_val = real(J0_r2(i), real64)
-            g0 = g0 + n0_r2(i) * powers_tau(J0_r2(i))
-            g0_t = g0_t + n0_r2(i) * J_val * powers_tau(J0_r2(i) - 1)
-            g0_tt = g0_tt + n0_r2(i) * J_val * (J_val - 1.0d0) * powers_tau(J0_r2(i) - 2)
-        end do
-    end subroutine calc_gamma0_all_region2
+#include "calc_gamma0_all_region2.fi"
+#define IAPWS_FUSED_CP
+#include "calc_gamma0_all_region2.fi"
+#undef IAPWS_FUSED_CP
 
     !> Calculate all residual (gammar) derivatives for Region 2
     !> using pre-computed power tables for pi and (tau - 0.5).
-    pure subroutine calc_gammar_all_region2(tau, pi, gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt)
-        implicit none
-        real(real64), intent(in) :: tau, pi
-        real(real64), intent(inout) :: gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt
-
-        integer(int32) :: i, k
-        real(real64) :: base_tau, inv_pi, inv_tau
-        real(real64) :: powers_pi(PIR_EXP_LO:PIR_EXP_HI)
-        real(real64) :: powers_tau(TAUR_EXP_LO:TAUR_EXP_HI)
-        real(real64) :: I_val, J_val, pp, pt
-
-        base_tau = tau - 0.5d0
-
-        ! Build power table for pi: indices -1..24
-        powers_pi(0) = 1.0d0
-        powers_pi(1) = pi
-        do k = 2, PIR_EXP_HI
-            powers_pi(k) = powers_pi(k - 1) * pi
-        end do
-        inv_pi = 1.0d0 / pi
-        powers_pi(-1) = inv_pi
-
-        ! Build power table for base_tau: indices -2..58
-        powers_tau(0) = 1.0d0
-        powers_tau(1) = base_tau
-        do k = 2, TAUR_EXP_HI
-            powers_tau(k) = powers_tau(k - 1) * base_tau
-        end do
-        inv_tau = 1.0d0 / base_tau
-        powers_tau(-1) = inv_tau
-        powers_tau(-2) = inv_tau * inv_tau
-
-        gr = 0.0d0
-        gr_p = 0.0d0
-        gr_t = 0.0d0
-        gr_pp = 0.0d0
-        gr_tt = 0.0d0
-        gr_pt = 0.0d0
-
-        do i = 1, Nr2_terms
-            I_val = real(Ir_r2(i), real64)
-            J_val = real(Jr_r2(i), real64)
-            pp = powers_pi(Ir_r2(i))
-            pt = powers_tau(Jr_r2(i))
-
-            gr = gr + nr_r2(i) * pp * pt
-
-            gr_p = gr_p + &
-                   nr_r2(i) * I_val * powers_pi(Ir_r2(i) - 1) * pt
-
-            gr_t = gr_t + &
-                   nr_r2(i) * pp * J_val * powers_tau(Jr_r2(i) - 1)
-
-            gr_pp = gr_pp + &
-                    nr_r2(i) * I_val * (I_val - 1.0d0) * powers_pi(Ir_r2(i) - 2) * pt
-
-            gr_tt = gr_tt + &
-                    nr_r2(i) * pp * J_val * (J_val - 1.0d0) * powers_tau(Jr_r2(i) - 2)
-
-            gr_pt = gr_pt + &
-                    nr_r2(i) * I_val * powers_pi(Ir_r2(i) - 1) * J_val * powers_tau(Jr_r2(i) - 1)
-        end do
-    end subroutine calc_gammar_all_region2
+#include "calc_gammar_all_region2.fi"
+#define IAPWS_FUSED_CP
+#include "calc_gammar_all_region2.fi"
+#undef IAPWS_FUSED_CP
 
     !> Analytic cp derivatives, evaluated only when requested.
     module pure elemental subroutine calc_cp_derivatives_iapws97_region2(self, T_in, p_in, dcp_dT, dcp_dp)
@@ -293,5 +304,7 @@ contains
         dcp_dT = self%R * tau**2 / T_in * (2.d0*gtt + tau*gttt)
         dcp_dp = -self%R * tau**2 / self%p_star * gttp
     end subroutine calc_cp_derivatives_iapws97_region2
+
+#include "iapws97_region2_batch.fi"
 
 end submodule iapws97_region2
