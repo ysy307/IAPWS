@@ -69,8 +69,8 @@ contains
         real(real64), intent(in) :: T_in, P_in
         valid = .false.
         if (.not. ieee_is_finite(T_in) .or. .not. ieee_is_finite(P_in)) return
-        valid = T_in > 0.0_real64 .and. T_in <= 273.16_real64 .and. &
-                P_in >= 0.0_real64 .and. P_in <= 210.e6_real64
+        ! Match calc_cp: evaluate the same Gibbs expression outside the physical domain.
+        valid = .true.
     end function valid_derivative_state
 
     !> Initialize the IAPWS-06 object.

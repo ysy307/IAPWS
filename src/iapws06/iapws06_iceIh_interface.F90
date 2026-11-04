@@ -21,7 +21,8 @@ module module_iapws06_iceIh
 
     interface
         !> Isobaric heat-capacity temperature derivative, [J/(kg K^2)].
-        !> Returns quiet NaN outside 0 < T <= 273.16 K, 0 <= P <= 210 MPa.
+        !> Extrapolates the same Gibbs expression as calc_cp for finite T and P.
+        !> Returns quiet NaN for nonfinite inputs; extrapolation has no accuracy guarantee.
         module pure elemental subroutine calc_dcp_dT_iapws06(self, T_in, P_in, dcp_dT)
             class(type_iapws06), intent(in) :: self
             real(real64), intent(in) :: T_in, P_in
@@ -29,7 +30,8 @@ module module_iapws06_iceIh
         end subroutine calc_dcp_dT_iapws06
 
         !> Isothermal heat-capacity pressure derivative, [J/(kg K Pa)].
-        !> Returns quiet NaN outside 0 < T <= 273.16 K, 0 <= P <= 210 MPa.
+        !> Extrapolates the same Gibbs expression as calc_cp for finite T and P.
+        !> Returns quiet NaN for nonfinite inputs; extrapolation has no accuracy guarantee.
         module pure elemental subroutine calc_dcp_dP_iapws06(self, T_in, P_in, dcp_dP)
             class(type_iapws06), intent(in) :: self
             real(real64), intent(in) :: T_in, P_in

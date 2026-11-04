@@ -132,8 +132,11 @@ include the analytic pressure slope `dp_sat/dT`. The existing
 
 IF97 ordinary derivatives follow the existing region dispatcher: 243.15–2273.15 K,
 0 < p ≤ 100 MPa, with p ≤ 50 MPa above 1073.15 K. The sub-273.15 K range preserves
-the library's existing extrapolation convention. Ice derivatives accept
-0 < T ≤ 273.16 K and 0 ≤ p ≤ 210 MPa. Saturation derivatives accept
+the library's existing extrapolation convention. Ice heat-capacity derivatives
+evaluate the same Gibbs expression as `calc_cp` for finite T and p, including
+extrapolation outside 0 < T ≤ 273.16 K and 0 ≤ p ≤ 210 MPa (also at T ≤ 0
+and p < 0). Extrapolation does not imply physical validity or guaranteed accuracy;
+nonfinite inputs return quiet NaN. Saturation derivatives accept
 273.15 ≤ T < 647.096 K, selecting regions 1/2 through 623.15 K and distinct stable
 region-3 vapor/liquid roots above it. At region joins the derivative belongs to
 the selected branch; the piecewise fits need not have matching derivatives.
