@@ -26,6 +26,6 @@ name = "iapws_test"
 source-dir = "test"
 main = "iapws_test.F90"
 
-# Process conditional kernels and their quoted includes during dependency scans.
+# Process compiler-specific conditional kernels during dependency scans.
 [preprocess.cpp]
 suffixes = ["F90"]

@@ -144,6 +144,9 @@ program bulk_properties
         call same(ct(i),ref_ct(i),'broadcast cp temperature',300d0)
         call same(cp(i),ref_cp(i),'broadcast cp pressure',300d0)
     end do
+#ifdef _OPENMP
+    call check_parallel_properties()
+#endif
 contains
     subroutine same_columns(columns)
         integer,intent(in)::columns(:)
@@ -174,3 +177,63 @@ contains
         end if
     end subroutine
 end program
+
+#ifdef _OPENMP
+! One immutable model can be shared by independent workers. Check pointwise
+! results against serial evaluation, with reversed scheduling and mixed regions.
+subroutine check_parallel_properties
+    use iso_fortran_env, only: real64, int64
+    use omp_lib, only: omp_get_num_threads
+    use ieee_arithmetic, only: ieee_is_finite
+    use iapws, only: type_iapws97, type_iapws_property
+    implicit none
+    integer,parameter :: n=256, outputs=25
+    type(type_iapws97) :: water
+    real(real64) :: expected(outputs,n),actual(outputs,n)
+    integer :: i,threads
+    call water%initialize()
+    do i=1,n
+        call evaluate(i,expected(:,i))
+    end do
+    threads=0
+    !$omp parallel default(none) shared(water,actual,threads) private(i) num_threads(4)
+    !$omp single
+    threads=omp_get_num_threads()
+    !$omp end single
+    !$omp do schedule(dynamic,1)
+    do i=n,1,-1
+        call evaluate(i,actual(:,i))
+    end do
+    !$omp end do
+    !$omp end parallel
+    if(threads<2) error stop 'parallel test needs multiple workers'
+    if(any(transfer(expected,[0_int64])/=transfer(actual,[0_int64]))) error stop 'parallel property mismatch'
+    print *, 'Mixed-region properties match serial results with workers:',threads
+contains
+    subroutine evaluate(index,v)
+        integer,intent(in)::index
+        real(real64),intent(out)::v(outputs)
+        type(type_iapws_property)::props
+        real(real64)::t,p,ts
+        select case(mod(index,4))
+        case(0)
+            t=280d0+mod(index,100)*3d0; p=30d6
+        case(1)
+            t=700d0+mod(index,100)*3d0; p=1d5
+        case(2)
+            t=650d0+mod(index,100)*0.4d0; p=30d6
+        case(3)
+            t=1200d0+mod(index,100)*9d0; p=10d6
+        end select
+        call water%calc_properties(t,p,props)
+        v(:9)=[props%rho,props%cp,props%cv,props%h,props%u,props%s,props%w,props%drho_dT,props%drho_dP]
+        call water%calc_cp_derivatives(t,p,v(10),v(11))
+        ts=273.15d0+mod(index,256)*1.46d0
+        call water%calc_saturation_properties(ts,rho_vap=v(12),rho_liq=v(13),cp_vap=v(14),cp_liq=v(15), &
+            drho_dT_vap=v(16),drho_dT_liq=v(17),drho_dP_vap=v(18),drho_dP_liq=v(19), &
+            density_dT_vap=v(20),density_dT_liq=v(21),dcp_dT_vap=v(22),dcp_dT_liq=v(23), &
+            latent_heat=v(24),dlatent_heat_dT=v(25))
+        if(.not.all(ieee_is_finite(v))) error stop 'nonfinite parallel property'
+    end subroutine
+end subroutine check_parallel_properties
+#endif

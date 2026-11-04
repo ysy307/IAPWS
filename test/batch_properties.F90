@@ -144,6 +144,9 @@ program batch_properties
         call ice%calc_cp(t(i),p(i),ref%cp)
         call close(cp(i),ref%cp)
     end do
+#ifdef _OPENMP
+    call check_parallel_batch()
+#endif
 contains
     pure subroutine evaluate_pure(model,t,p,rho)
         type(type_iapws97),intent(in)::model
@@ -160,3 +163,57 @@ contains
         end if
     end subroutine
 end program
+
+#ifdef _OPENMP
+subroutine check_parallel_batch
+    use iso_fortran_env,only:real64,int64
+    use omp_lib,only:omp_get_num_threads
+    use iapws,only:type_iapws97
+    implicit none
+    integer,parameter::n=1027,chunk=257
+    type(type_iapws97)::water
+    real(real64)::t(n),p(n),serial(4,n),parallel(4,n),ts(n),sat_serial(4,n),sat_parallel(4,n)
+    integer::i,first,last,workers
+    call water%initialize()
+    do i=1,n
+        select case(mod(i,4))
+        case(0)
+            t(i)=280d0+mod(i,100)*3d0;p(i)=30d6
+        case(1)
+            t(i)=700d0+mod(i,100)*3d0;p(i)=1d5
+        case(2)
+            t(i)=650d0+mod(i,100)*0.4d0;p(i)=30d6
+        case(3)
+            t(i)=1200d0+mod(i,100)*8d0;p(i)=10d6
+        end select
+    end do
+    ts=273.15d0+real(mod([(i,i=1,n)],256),real64)*1.45d0
+    do first=1,n,chunk
+        last=min(n,first+chunk-1)
+        call water%calc_properties_batch(t(first:last),p(first:last),rho=serial(1,first:last), &
+            cp=serial(2,first:last),drho_dT=serial(3,first:last),drho_dP=serial(4,first:last))
+        call water%calc_saturation_properties_batch(ts(first:last),rho_vap=sat_serial(1,first:last), &
+            cp_vap=sat_serial(2,first:last),latent_heat=sat_serial(3,first:last),dlatent_heat_dT=sat_serial(4,first:last))
+    end do
+    workers=0
+    !$omp parallel default(none) shared(water,t,p,parallel,workers,ts,sat_parallel) private(first,last) num_threads(4)
+    !$omp single
+    workers=omp_get_num_threads()
+    !$omp end single
+    !$omp do schedule(dynamic,1)
+    do first=1,n,chunk
+        last=min(n,first+chunk-1)
+        call water%calc_properties_batch(t(first:last),p(first:last),rho=parallel(1,first:last), &
+            cp=parallel(2,first:last),drho_dT=parallel(3,first:last),drho_dP=parallel(4,first:last))
+        call water%calc_saturation_properties_batch(ts(first:last),rho_vap=sat_parallel(1,first:last), &
+            cp_vap=sat_parallel(2,first:last),latent_heat=sat_parallel(3,first:last), &
+            dlatent_heat_dT=sat_parallel(4,first:last))
+    end do
+    !$omp end do
+    !$omp end parallel
+    if(workers<2) error stop 'batch parallel check requires multiple workers'
+    if(any(transfer(serial,[0_int64])/=transfer(parallel,[0_int64]))) error stop 'parallel batch mismatch'
+    if(any(transfer(sat_serial,[0_int64])/=transfer(sat_parallel,[0_int64]))) error stop 'parallel saturation mismatch'
+    print *, 'Region queues and SIMD batches agree across workers:',workers
+end subroutine check_parallel_batch
+#endif

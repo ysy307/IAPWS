@@ -240,17 +240,225 @@ contains
 
     !> Calculate all ideal-gas (gamma0) derivatives for Region 2
     !> using a pre-computed power table for tau.
-#include "calc_gamma0_all_region2.fi"
-#define IAPWS_FUSED_CP
-#include "calc_gamma0_all_region2.fi"
-#undef IAPWS_FUSED_CP
+    pure subroutine calc_gamma0_all_region2(tau, pi, g0, g0_t, g0_tt)
+        implicit none
+        real(real64), intent(in) :: tau, pi
+        real(real64), intent(inout) :: g0, g0_t, g0_tt
+
+        integer(int32) :: i, k
+        real(real64) :: powers_tau(TAU0_EXP_LO:TAU0_EXP_HI)
+        real(real64) :: inv_tau, J_val
+
+        ! Build power table for tau: indices -7..3
+        powers_tau(0) = 1.0d0
+        powers_tau(1) = tau
+        do k = 2, TAU0_EXP_HI
+            powers_tau(k) = powers_tau(k - 1) * tau
+        end do
+        inv_tau = 1.0d0 / tau
+        powers_tau(-1) = inv_tau
+        do k = -2, TAU0_EXP_LO, -1
+            powers_tau(k) = powers_tau(k + 1) * inv_tau
+        end do
+
+
+        g0 = log(pi)
+        g0_t = 0.0d0
+        g0_tt = 0.0d0
+
+        do i = 1, N02_terms
+            J_val = real(J0_r2(i), real64)
+            g0 = g0 + n0_r2(i) * powers_tau(J0_r2(i))
+            g0_t = g0_t + n0_r2(i) * J_val * powers_tau(J0_r2(i) - 1)
+            g0_tt = g0_tt + n0_r2(i) * J_val * (J_val - 1.0d0) * powers_tau(J0_r2(i) - 2)
+        end do
+    end subroutine calc_gamma0_all_region2
+
+    pure subroutine calc_gamma0_all_cp_region2(tau, pi, g0, g0_t, g0_tt, cp_tt, cp_ttt)
+        implicit none
+        real(real64), intent(in) :: tau, pi
+        real(real64), intent(inout) :: g0, g0_t, g0_tt
+        real(real64), intent(inout) :: cp_tt, cp_ttt
+        real(real64) :: cp_tau(-8:3), cp_term
+
+        integer(int32) :: i, k
+        real(real64) :: powers_tau(TAU0_EXP_LO:TAU0_EXP_HI)
+        real(real64) :: inv_tau, J_val
+
+        ! Build power table for tau: indices -7..3
+        powers_tau(0) = 1.0d0
+        powers_tau(1) = tau
+        do k = 2, TAU0_EXP_HI
+            powers_tau(k) = powers_tau(k - 1) * tau
+        end do
+        inv_tau = 1.0d0 / tau
+        powers_tau(-1) = inv_tau
+        do k = -2, TAU0_EXP_LO, -1
+            powers_tau(k) = powers_tau(k + 1) * inv_tau
+        end do
+
+            cp_tau(0:3)=powers_tau(0:3)
+            do k=-1,-8,-1
+                cp_tau(k)=cp_tau(k+1)/tau
+            end do
+            cp_tt=0d0; cp_ttt=0d0
+
+        g0 = log(pi)
+        g0_t = 0.0d0
+        g0_tt = 0.0d0
+
+        do i = 1, N02_terms
+            J_val = real(J0_r2(i), real64)
+            g0 = g0 + n0_r2(i) * powers_tau(J0_r2(i))
+            g0_t = g0_t + n0_r2(i) * J_val * powers_tau(J0_r2(i) - 1)
+            g0_tt = g0_tt + n0_r2(i) * J_val * (J_val - 1.0d0) * powers_tau(J0_r2(i) - 2)
+                if(J0_r2(i)/=0.and.J0_r2(i)/=1) then
+                    cp_term=n0_r2(i)*J_val*(J_val-1d0)
+                    cp_tt=cp_tt+cp_term*cp_tau(J0_r2(i)-2)
+                    if(J0_r2(i)/=2) cp_ttt=cp_ttt+cp_term*(J_val-2d0)*cp_tau(J0_r2(i)-3)
+                end if
+        end do
+    end subroutine calc_gamma0_all_cp_region2
+
 
     !> Calculate all residual (gammar) derivatives for Region 2
     !> using pre-computed power tables for pi and (tau - 0.5).
-#include "calc_gammar_all_region2.fi"
-#define IAPWS_FUSED_CP
-#include "calc_gammar_all_region2.fi"
-#undef IAPWS_FUSED_CP
+    pure subroutine calc_gammar_all_region2(tau, pi, gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt)
+        implicit none
+        real(real64), intent(in) :: tau, pi
+        real(real64), intent(inout) :: gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt
+
+        integer(int32) :: i, k
+        real(real64) :: base_tau, inv_pi, inv_tau
+        real(real64) :: powers_pi(PIR_EXP_LO:PIR_EXP_HI)
+        real(real64) :: powers_tau(TAUR_EXP_LO:TAUR_EXP_HI)
+        real(real64) :: I_val, J_val, pp, pt
+
+        base_tau = tau - 0.5d0
+
+        ! Build power table for pi: indices -1..24
+        powers_pi(0) = 1.0d0
+        powers_pi(1) = pi
+        do k = 2, PIR_EXP_HI
+            powers_pi(k) = powers_pi(k - 1) * pi
+        end do
+        inv_pi = 1.0d0 / pi
+        powers_pi(-1) = inv_pi
+
+        ! Build power table for base_tau: indices -2..58
+        powers_tau(0) = 1.0d0
+        powers_tau(1) = base_tau
+        do k = 2, TAUR_EXP_HI
+            powers_tau(k) = powers_tau(k - 1) * base_tau
+        end do
+        inv_tau = 1.0d0 / base_tau
+        powers_tau(-1) = inv_tau
+        powers_tau(-2) = inv_tau * inv_tau
+
+        gr = 0.0d0
+        gr_p = 0.0d0
+        gr_t = 0.0d0
+        gr_pp = 0.0d0
+        gr_tt = 0.0d0
+        gr_pt = 0.0d0
+
+        do i = 1, Nr2_terms
+            I_val = real(Ir_r2(i), real64)
+            J_val = real(Jr_r2(i), real64)
+            pp = powers_pi(Ir_r2(i))
+            pt = powers_tau(Jr_r2(i))
+
+            gr = gr + nr_r2(i) * pp * pt
+
+            gr_p = gr_p + &
+                   nr_r2(i) * I_val * powers_pi(Ir_r2(i) - 1) * pt
+
+            gr_t = gr_t + &
+                   nr_r2(i) * pp * J_val * powers_tau(Jr_r2(i) - 1)
+
+            gr_pp = gr_pp + &
+                    nr_r2(i) * I_val * (I_val - 1.0d0) * powers_pi(Ir_r2(i) - 2) * pt
+
+            gr_tt = gr_tt + &
+                    nr_r2(i) * pp * J_val * (J_val - 1.0d0) * powers_tau(Jr_r2(i) - 2)
+
+            gr_pt = gr_pt + &
+                    nr_r2(i) * I_val * powers_pi(Ir_r2(i) - 1) * J_val * powers_tau(Jr_r2(i) - 1)
+        end do
+    end subroutine calc_gammar_all_region2
+
+    pure subroutine calc_gammar_all_cp_region2(tau, pi, gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt, cp_tt, cp_ttt, cp_ttp)
+        implicit none
+        real(real64), intent(in) :: tau, pi
+        real(real64), intent(inout) :: gr, gr_p, gr_t, gr_pp, gr_tt, gr_pt
+        real(real64), intent(inout) :: cp_tt, cp_ttt, cp_ttp
+        real(real64) :: cp_term
+
+        integer(int32) :: i, k
+        real(real64) :: base_tau, inv_pi, inv_tau
+        real(real64) :: powers_pi(PIR_EXP_LO:PIR_EXP_HI)
+        real(real64) :: powers_tau(TAUR_EXP_LO:TAUR_EXP_HI)
+        real(real64) :: I_val, J_val, pp, pt
+
+        base_tau = tau - 0.5d0
+
+        ! Build power table for pi: indices -1..24
+        powers_pi(0) = 1.0d0
+        powers_pi(1) = pi
+        do k = 2, PIR_EXP_HI
+            powers_pi(k) = powers_pi(k - 1) * pi
+        end do
+        inv_pi = 1.0d0 / pi
+        powers_pi(-1) = inv_pi
+
+        ! Build power table for base_tau: indices -2..58
+        powers_tau(0) = 1.0d0
+        powers_tau(1) = base_tau
+        do k = 2, TAUR_EXP_HI
+            powers_tau(k) = powers_tau(k - 1) * base_tau
+        end do
+        inv_tau = 1.0d0 / base_tau
+        powers_tau(-1) = inv_tau
+        powers_tau(-2) = inv_tau * inv_tau
+
+        gr = 0.0d0
+        gr_p = 0.0d0
+        gr_t = 0.0d0
+        gr_pp = 0.0d0
+        gr_tt = 0.0d0
+        gr_pt = 0.0d0
+
+        do i = 1, Nr2_terms
+            I_val = real(Ir_r2(i), real64)
+            J_val = real(Jr_r2(i), real64)
+            pp = powers_pi(Ir_r2(i))
+            pt = powers_tau(Jr_r2(i))
+
+            gr = gr + nr_r2(i) * pp * pt
+
+            gr_p = gr_p + &
+                   nr_r2(i) * I_val * powers_pi(Ir_r2(i) - 1) * pt
+
+            gr_t = gr_t + &
+                   nr_r2(i) * pp * J_val * powers_tau(Jr_r2(i) - 1)
+
+            gr_pp = gr_pp + &
+                    nr_r2(i) * I_val * (I_val - 1.0d0) * powers_pi(Ir_r2(i) - 2) * pt
+
+            gr_tt = gr_tt + &
+                    nr_r2(i) * pp * J_val * (J_val - 1.0d0) * powers_tau(Jr_r2(i) - 2)
+
+            gr_pt = gr_pt + &
+                    nr_r2(i) * I_val * powers_pi(Ir_r2(i) - 1) * J_val * powers_tau(Jr_r2(i) - 1)
+                if(Jr_r2(i)>=2) then
+                    cp_term=nr_r2(i)*J_val*(J_val-1d0)
+                    cp_tt=cp_tt+cp_term*powers_pi(Ir_r2(i))*powers_tau(Jr_r2(i)-2)
+                    if(Jr_r2(i)>2) cp_ttt=cp_ttt+cp_term*(J_val-2d0)*powers_pi(Ir_r2(i))*powers_tau(Jr_r2(i)-3)
+                    cp_ttp=cp_ttp+cp_term*I_val*powers_pi(Ir_r2(i)-1)*powers_tau(Jr_r2(i)-2)
+                end if
+        end do
+    end subroutine calc_gammar_all_cp_region2
+
 
     !> Analytic cp derivatives, evaluated only when requested.
     module pure elemental subroutine calc_cp_derivatives_iapws97_region2(self, T_in, p_in, dcp_dT, dcp_dp)
@@ -305,6 +513,120 @@ contains
         dcp_dp = -self%R * tau**2 / self%p_star * gttp
     end subroutine calc_cp_derivatives_iapws97_region2
 
-#include "iapws97_region2_batch.fi"
+! State lanes are contiguous in each power table. The term loop remains
+! ordered independently in every lane; no horizontal floating-point reduction.
+    module pure recursive subroutine calc_gamma_batch_iapws97_region2(self,T_in,P_in,coef)
+        use module_iapws_batch,only:IAPWS_BATCH_TILE
+        class(type_iapws97_region2),intent(in)::self
+        real(real64),intent(in)::T_in(:),P_in(:)
+        real(real64),intent(out)::coef(:,:)
+        type(type_iapws_gibbs_coefficient)::g
+        integer::j
+#if !defined(__NVCOMPILER)
+        integer::base,width,k,term,lane
+        real(real64)::xp(IAPWS_BATCH_TILE,-1:24),yp(IAPWS_BATCH_TILE,-2:58)
+        real(real64)::t0(IAPWS_BATCH_TILE,-7:3),sums(IAPWS_BATCH_TILE,6),ideal(IAPWS_BATCH_TILE,3)
+        real(real64)::tau(IAPWS_BATCH_TILE),pi(IAPWS_BATCH_TILE),y(IAPWS_BATCH_TILE),iy(IAPWS_BATCH_TILE)
+        real(real64)::iv,jv,pp,pt,rt,r_pstar,val_g,val_gp,val_gt,val_gpp,val_gtt,val_gpt
+#endif
+        if(size(P_in)/=size(T_in).or.size(coef,1)/=size(T_in).or.size(coef,2)/=6) &
+            error stop 'IAPWS batch: Gibbs coefficient shape'
+#if defined(__NVCOMPILER)
+        ! Preserve this compiler's existing within-state vector reductions.
+        do j=1,size(T_in)
+            call self%calc_gamma(T_in(j),P_in(j),g)
+            coef(j,:)=[g%g,g%g_p,g%g_t,g%g_pp,g%g_tt,g%g_pt]
+        end do
+#else
+        if(size(T_in)<4) then
+            do j=1,size(T_in)
+                call self%calc_gamma(T_in(j),P_in(j),g)
+                coef(j,:)=[g%g,g%g_p,g%g_t,g%g_pp,g%g_tt,g%g_pt]
+            end do
+            return
+        end if
+        do base=1,size(T_in),IAPWS_BATCH_TILE
+            width=min(IAPWS_BATCH_TILE,size(T_in)-base+1)
+            !$omp simd
+            do lane=1,width
+                tau(lane)=self%T_star/T_in(base+lane-1);pi(lane)=P_in(base+lane-1)/self%p_star
+                y(lane)=tau(lane)-0.5d0;iy(lane)=1d0/tau(lane)
+                xp(lane,0)=1d0;xp(lane,1)=pi(lane);xp(lane,-1)=1d0/pi(lane)
+                yp(lane,0)=1d0;yp(lane,1)=y(lane)
+                yp(lane,-1)=1d0/y(lane)
+                t0(lane,0)=1d0;t0(lane,1)=tau(lane);t0(lane,-1)=iy(lane)
+                ideal(lane,1)=log(pi(lane));ideal(lane,2)=0d0;ideal(lane,3)=0d0
+            end do
+            !$omp simd
+            do lane=1,width
+                yp(lane,-2)=yp(lane,-1)*yp(lane,-1)
+            end do
+            do k=2,24
+                !$omp simd
+                do lane=1,width
+                    xp(lane,k)=xp(lane,k-1)*pi(lane)
+                end do
+            end do
+            do k=2,58
+                !$omp simd
+                do lane=1,width
+                    yp(lane,k)=yp(lane,k-1)*y(lane)
+                end do
+            end do
+            do k=2,3
+                !$omp simd
+                do lane=1,width
+                    t0(lane,k)=t0(lane,k-1)*tau(lane)
+                end do
+            end do
+            do k=-2,-7,-1
+                !$omp simd
+                do lane=1,width
+                    t0(lane,k)=t0(lane,k+1)*iy(lane)
+                end do
+            end do
+            do term=1,N02_terms
+                jv=real(J0_r2(term),real64)
+                !$omp simd
+                do lane=1,width
+                    ideal(lane,1)=ideal(lane,1)+n0_r2(term)*t0(lane,J0_r2(term))
+                    ideal(lane,2)=ideal(lane,2)+n0_r2(term)*jv*t0(lane,J0_r2(term)-1)
+                    ideal(lane,3)=ideal(lane,3)+n0_r2(term)*jv*(jv-1d0)*t0(lane,J0_r2(term)-2)
+                end do
+            end do
+            sums=0d0
+            do term=1,Nr2_terms
+                iv=real(Ir_r2(term),real64);jv=real(Jr_r2(term),real64)
+                !$omp simd private(pp,pt)
+                do lane=1,width
+                    pp=xp(lane,Ir_r2(term));pt=yp(lane,Jr_r2(term))
+                    sums(lane,1)=sums(lane,1)+nr_r2(term)*pp*pt
+                    sums(lane,2)=sums(lane,2)+nr_r2(term)*iv*xp(lane,Ir_r2(term)-1)*pt
+                    sums(lane,3)=sums(lane,3)+nr_r2(term)*pp*jv*yp(lane,Jr_r2(term)-1)
+                    sums(lane,4)=sums(lane,4)+nr_r2(term)*iv*(iv-1d0)*xp(lane,Ir_r2(term)-2)*pt
+                    sums(lane,5)=sums(lane,5)+nr_r2(term)*pp*jv*(jv-1d0)*yp(lane,Jr_r2(term)-2)
+                    sums(lane,6)=sums(lane,6)+nr_r2(term)*iv*xp(lane,Ir_r2(term)-1)*jv*yp(lane,Jr_r2(term)-1)
+                end do
+            end do
+            r_pstar=self%R/self%p_star
+            !$omp simd private(rt,val_g,val_gp,val_gt,val_gpp,val_gtt,val_gpt)
+            do lane=1,width
+                rt=self%R*T_in(base+lane-1)
+                val_g=ideal(lane,1)+sums(lane,1)
+                val_gp=1d0/pi(lane)+sums(lane,2)
+                val_gt=ideal(lane,2)+sums(lane,3)
+                val_gpp=-1d0/(pi(lane)*pi(lane))+sums(lane,4)
+                val_gtt=ideal(lane,3)+sums(lane,5);val_gpt=sums(lane,6)
+                coef(base+lane-1,1)=rt*val_g
+                coef(base+lane-1,2)=(rt/self%p_star)*val_gp
+                coef(base+lane-1,3)=self%R*(val_g-tau(lane)*val_gt)
+                coef(base+lane-1,4)=(rt/(self%p_star**2))*val_gpp
+                coef(base+lane-1,5)=(self%R*tau(lane)**2/T_in(base+lane-1))*val_gtt
+                coef(base+lane-1,6)=r_pstar*(val_gp-tau(lane)*val_gpt)
+            end do
+        end do
+#endif
+    end subroutine calc_gamma_batch_iapws97_region2
+
 
 end submodule iapws97_region2

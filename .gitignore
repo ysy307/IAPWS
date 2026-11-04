@@ -77,9 +77,6 @@ docs/superpowers/
 benchmarks/
 checks/
 *.inc
-*.fi
-
-test_support/
 
 
 # === Python Virtual Environment ===
