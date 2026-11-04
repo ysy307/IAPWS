@@ -1,5 +1,6 @@
 module module_iapws
     use, intrinsic :: iso_fortran_env
+    use module_iapws_batch,only:IAPWS_BATCH_OK,IAPWS_BATCH_INVALID
     implicit none
     private
     public :: abst_iapws_helmholtz
@@ -8,6 +9,7 @@ module module_iapws
     public :: type_iapws_helmholtz_property
     public :: type_iapws_gibbs_coefficient
 
+    public :: IAPWS_BATCH_OK,IAPWS_BATCH_INVALID
     public :: type_iapws_property
 
     type, abstract :: abst_iapws_helmholtz
@@ -22,6 +24,7 @@ module module_iapws
     contains
         procedure(abst_iapws_helmholtz_initialize), pass(self), public, deferred :: initialize
         procedure(abst_calc_phi_iapws), pass(self), public, deferred :: calc_phi
+        procedure, pass(self), public :: calc_properties_batch => calc_properties_batch_helmholtz
         procedure, pass(self), public :: calc_properties => calc_properties_helmholtz
         procedure, pass(self), public :: calc_rho => calc_rho_helmholtz
         procedure, pass(self), public :: calc_drho_dT => calc_drho_dT_helmholtz
@@ -49,6 +52,8 @@ module module_iapws
     contains
         procedure(abst_initialize_iapws_gibbs), pass(self), public, deferred :: initialize
         procedure(abst_calc_gibbs_iapws), pass(self), public, deferred :: calc_gamma
+        procedure, pass(self), public :: calc_properties_batch => calc_properties_batch_gibbs
+        procedure, pass(self), public :: calc_gamma_batch => calc_gamma_batch_gibbs
         procedure, pass(self), public :: calc_properties => calc_properties_gibbs
         procedure, pass(self), public :: calc_nu => calc_nu_gibbs
         procedure, pass(self), public :: calc_rho => calc_rho_gibbs
@@ -602,6 +607,30 @@ module module_iapws
             type(type_iapws_gibbs_coefficient), intent(in), optional :: prop_in
 
         end subroutine calc_kappa_s_gibbs
+    end interface
+
+    interface
+        module pure recursive subroutine calc_properties_batch_helmholtz(self,T_in,rho_in,rho, drho_dT, &
+            drho_dP, cp, cv, w, u, s, h, nu, p, status, region_id)
+            class(abst_iapws_helmholtz),intent(in)::self
+            real(real64),intent(in)::T_in(:),rho_in(:)
+            real(real64),intent(out),optional::rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
+            h(:), nu(:), p(:)
+            integer,intent(out),optional::status(:),region_id(:)
+        end subroutine
+        module pure recursive subroutine calc_properties_batch_gibbs(self,T_in,P_in,rho, drho_dT, drho_dP, cp, &
+            cv, w, u, s, h, nu, p, status, region_id)
+            class(abst_iapws_gibbs),intent(in)::self
+            real(real64),intent(in)::T_in(:),P_in(:)
+            real(real64),intent(out),optional::rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
+            h(:), nu(:), p(:)
+            integer,intent(out),optional::status(:),region_id(:)
+        end subroutine
+        module pure recursive subroutine calc_gamma_batch_gibbs(self,T_in,P_in,coef)
+            class(abst_iapws_gibbs),intent(in)::self
+            real(real64),intent(in)::T_in(:),P_in(:)
+            real(real64),intent(out)::coef(:,:)
+        end subroutine
     end interface
 
 end module module_iapws

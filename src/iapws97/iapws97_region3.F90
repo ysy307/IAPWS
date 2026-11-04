@@ -35,12 +35,58 @@ submodule(module_iapws97) iapws97_region3
     integer(int32), parameter :: TAU_EXP_LO = -2, TAU_EXP_HI = 26
 
 contains
+    !> Pressure and density derivative for safeguarded root solvers.
+    !> Only phi_d and phi_dd are needed. The specialized path preserves their
+    !> recurrences, avoiding four other sums and log(delta). NVHPC instead
+    !> reuses one full evaluation to retain its original vector reductions.
+    module pure elemental subroutine calc_pressure_pair_iapws97_region3(self, T_in, rho_in, p, p_rho)
+        class(type_iapws97_region3), intent(in) :: self
+        real(real64), intent(in) :: T_in, rho_in
+        real(real64), intent(out) :: p, p_rho
+#if defined(__NVCOMPILER)
+        type(type_iapws_helmholtz_property) :: f
+        ! Its six-sum and two-sum vector reductions have different rounding.
+        ! Reuse one original phi evaluation for p and p_rho rather than two;
+        ! keep the root solver's pressure values and decisions bitwise stable.
+        call self%calc_phi(self%T_c/T_in,rho_in/self%rho_c,f)
+        call self%calc_p(T_in,rho_in,p,f)
+        call self%calc_p_rho(T_in,rho_in,p_rho,f)
+#else
+        real(real64) :: tau, delta, inv_delta, fd, fdd, iv, term_tau
+        real(real64) :: pd(DELTA_EXP_LO:DELTA_EXP_HI), pt(0:TAU_EXP_HI)
+        integer :: i,k
+        tau=self%T_c/T_in
+        delta=rho_in/self%rho_c
+        pd(0)=1d0; pd(1)=delta
+        do k=2,DELTA_EXP_HI
+            pd(k)=pd(k-1)*delta
+        end do
+        inv_delta=1d0/delta
+        pd(-1)=inv_delta; pd(-2)=inv_delta*inv_delta
+        pt(0)=1d0; pt(1)=tau
+        do k=2,TAU_EXP_HI
+            pt(k)=pt(k-1)*tau
+        end do
+        fd=n_r3(1)*inv_delta
+        fdd=-n_r3(1)*inv_delta*inv_delta
+        do i=2,N3_terms
+            iv=real(I_r3(i),real64)
+            term_tau=pt(J_r3(i))
+            fd=fd+n_r3(i)*iv*pd(I_r3(i)-1)*term_tau
+            fdd=fdd+n_r3(i)*iv*(iv-1d0)*pd(I_r3(i)-2)*term_tau
+        end do
+        p=rho_in*self%R*T_in*delta*fd
+        p_rho=self%R*T_in*(2d0*delta*fd+delta**2*fdd)
+#endif
+    end subroutine calc_pressure_pair_iapws97_region3
+
     !> Analytic cp derivatives in (T,p), evaluated at the supplied (T,rho) state.
     !> The pressure derivative is per Pa; no density solve is performed here.
-    module pure elemental subroutine calc_cp_derivatives_iapws97_region3(self, T_in, rho_in, dcp_dT, dcp_dp)
+    module pure elemental subroutine calc_cp_derivatives_iapws97_region3(self, T_in, rho_in, dcp_dT, dcp_dp, prop_in)
         class(type_iapws97_region3), intent(in) :: self
         real(real64), intent(in) :: T_in, rho_in
         real(real64), intent(out) :: dcp_dT, dcp_dp
+        type(type_iapws_helmholtz_property), intent(in), optional :: prop_in
         real(real64) :: tau, delta, phi, fd, ft, fdd, ftt, fdt
         real(real64) :: fddd, fddt, fdtt, fttt, a, b, a_d, a_t, b_d, b_t, c_d, c_t
         real(real64) :: pd(0:11), pt(0:26), ni, iv, jv
@@ -53,7 +99,12 @@ contains
         if (T_in == self%T_c .and. rho_in == self%rho_c) return
         tau = self%T_c / T_in
         delta = rho_in / self%rho_c
-        call calc_phi_all_region3(tau, delta, phi, fd, ft, fdd, ftt, fdt)
+        if(present(prop_in)) then
+            fd=prop_in%f_d; fdd=prop_in%f_dd
+            ftt=prop_in%f_tt; fdt=prop_in%f_dt
+        else
+            call calc_phi_all_region3(tau, delta, phi, fd, ft, fdd, ftt, fdt)
+        end if
 
         ! Third derivatives are evaluated only on this derivative path.
         pd(0) = 1.0_real64

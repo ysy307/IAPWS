@@ -165,9 +165,96 @@ values and writes logs under the build directory. Run it directly with
 working directory. Python 3, when available, enables an additional validator
 regression test; the library has no Python dependency.
 
+## Exact CPU kernel optimizations
+
+Existing IF97 APIs also benefit without caller changes. Region-3 density solves
+compute pressure and its density derivative together, using only the required
+Helmholtz sums. NVHPC shares one original full coefficient evaluation to retain
+bitwise compatibility. The bracketing, Newton safeguards, stopping criteria,
+and EOS coefficients are unchanged. Saturation cp derivatives share Gibbs
+traversals in regions 1 and 2; region 3 reuses already evaluated coefficients.
+There are no lookup approximations, shared mutable caches, or MPI dependencies.
+
+The same-API before/after benchmark is independent of any downstream application:
+
+```sh
+cmake --build build/gnu-release --target kernel_benchmark
+# Build this same driver against the earlier library as well, then compare:
+python3 benchmarks/compare_kernels.py --before /path/to/before/kernel_benchmark \
+    --after build/gnu-release/bin/kernel_benchmark --repeats 7 --json results.json
+```
+
+It rejects differing per-sample output bits before timing, alternates build
+execution order, and records medians/ranges. The optional CMake/OpenMP check
+compares serial results with four workers sharing a model; its source lives
+outside fpm's automatic test directory. See [the HPC kernel results](docs/hpc-kernel-results.md)
+for measured gains, compiler-specific behavior, and reproduction details.
+
 # API Document
 Full API documentation is available here:
 [IAPWS FORD Document](https://ysy307.github.io/IAPWS/)
+
+## Batched IF97 evaluation
+
+Use `calc_saturation_properties` when several quantities are needed at the same
+saturation temperature. It evaluates the phase pair once, sharing saturation
+pressure and Gibbs coefficients (or region-3 density solves). Requested cp
+partials share the coefficient traversal in regions 1 and 2; density and
+latent-heat derivatives reuse second-order coefficients. Unrequested phase cp
+partials do not trigger third-order work. NVHPC retains separate Gibbs/cp
+traversals to preserve the ordinary evaluator's vector-reduction rounding.
+All outputs are optional; the procedure is pure elemental and accepts arrays.
+Existing scalar APIs remain available with the same results.
+
+```fortran
+call water%calc_saturation_properties(T, rho_vap=rho_v, &
+    density_dT_vap=drho_v_dT, cp_vap=cp_v, dcp_dT_vap=dcp_v_dT, &
+    latent_heat=Lv, dlatent_heat_dT=dLv_dT)
+call water%calc_cp_derivatives(T, p, dcp_dT, dcp_dp)
+```
+
+`density_dT_vap/liq` and `dcp_dT_vap/liq` are **total derivatives along
+saturation**. `drho_dT_vap/liq` and `drho_dP_vap/liq` are fixed-pressure and
+fixed-temperature **partials**. Additional outputs are `rho_liq`, `cp_liq`, and
+the liquid counterparts of the derivative outputs above. Units, validity limits,
+critical-point values, and NaN behavior match the individual methods. No saved
+state or shared mutable cache is introduced.
+
+`calc_cp_derivatives(T_in, p_in, dcp_dT, dcp_dp)` returns both ordinary partials
+with one region dispatch and derivative evaluation (including one density solve
+in region 3), rather than repeating the work through two individual methods.
+
+The manual benchmark in `benchmarks/bulk_benchmark.F90` compares the six-output
+saturation call and ordinary cp partials in regions 1, 2, 3, and 5. It checks each
+sampled output, warms both paths, alternates execution order over seven repeats,
+and reports median/min/max CPU times and matching checksums. It lives outside
+`test/` so fpm auto-test discovery does not include timing runs.
+
+```sh
+cmake --build build/gnu-release --target bulk_benchmark
+build/gnu-release/bin/bulk_benchmark
+```
+
+Timing is not a CTest pass criterion. These measurements compare the scalar and
+bulk APIs of the same build; they do not measure an application or MPI run.
+Application speedup requires adopting the new calls at consuming call sites and
+measuring the full application again. For review findings, verification scope,
+and measured results, see [the bulk API review](docs/bulk-api-review.md).
+
+## State-array APIs
+
+`calc_properties_batch` accepts state arrays and writes selected properties into
+caller-owned arrays. IF97 regions 1, 2 and 5 use state-lane SIMD; IAPWS95 and ice
+also expose the API through conservative evaluators. IF97 additionally provides
+`calc_saturation_properties_batch`. Existing scalar APIs remain available.
+
+```fortran
+call water%calc_properties_batch(temperatures, pressures, rho=densities, cp=heat_capacities)
+call water%calc_saturation_properties_batch(temperatures, latent_heat=latent_heats)
+```
+
+See the [API contract](docs/batch-api.md) and [measured performance and validation](docs/batch-performance.md).
+Single-state calls should continue using the scalar API; speedups depend on the model and compiler.
 
 # License
 This project is licensed under the MIT License - see the LICENSE file for details.

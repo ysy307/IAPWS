@@ -27,6 +27,44 @@ submodule(module_iapws97) iapws97_base
     end type
 contains
 
+    !> Batched saturation values and derivatives. density_dT is the total
+    !> derivative along saturation; drho_dT and drho_dP are partials.
+    module pure elemental subroutine calc_saturation_properties_iapws97(self, T_in, rho_vap, rho_liq, cp_vap, &
+            cp_liq, drho_dT_vap, drho_dT_liq, drho_dP_vap, drho_dP_liq, density_dT_vap, density_dT_liq, dcp_dT_vap, &
+            dcp_dT_liq, latent_heat, dlatent_heat_dT)
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(in) :: T_in
+        real(real64), intent(out), optional :: rho_vap, rho_liq, cp_vap, cp_liq, drho_dT_vap, drho_dT_liq, &
+            drho_dP_vap, drho_dP_liq, density_dT_vap, density_dT_liq, dcp_dT_vap, dcp_dT_liq, latent_heat, &
+            dlatent_heat_dT
+        type(saturation_phase) :: vap, liq
+        real(real64) :: slope
+        ! Only heat-capacity derivatives require third-order EOS terms.
+        call saturation_state(self,T_in,vap,liq,slope, &
+            present(dcp_dT_vap),present(dcp_dT_liq))
+        if(present(rho_vap)) rho_vap=vap%rho
+        if(present(rho_liq)) rho_liq=liq%rho
+        if(present(cp_vap)) cp_vap=vap%cp
+        if(present(cp_liq)) cp_liq=liq%cp
+        if(present(drho_dT_vap)) drho_dT_vap=vap%rho_T
+        if(present(drho_dT_liq)) drho_dT_liq=liq%rho_T
+        if(present(drho_dP_vap)) drho_dP_vap=vap%rho_p
+        if(present(drho_dP_liq)) drho_dP_liq=liq%rho_p
+        if(present(density_dT_vap)) density_dT_vap=vap%rho_T+vap%rho_p*slope
+        if(present(density_dT_liq)) density_dT_liq=liq%rho_T+liq%rho_p*slope
+        if(present(dcp_dT_vap)) dcp_dT_vap=vap%cp_T+vap%cp_p*slope
+        if(present(dcp_dT_liq)) dcp_dT_liq=liq%cp_T+liq%cp_p*slope
+        if(present(latent_heat)) latent_heat=vap%h-liq%h
+        if(present(dlatent_heat_dT)) dlatent_heat_dT=(vap%cp-liq%cp)+(vap%h_p-liq%h_p)*slope
+    end subroutine
+
+    module pure elemental subroutine calc_cp_derivatives_iapws97(self, T_in, p_in, dcp_dT, dcp_dp)
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(in) :: T_in, p_in
+        real(real64), intent(out) :: dcp_dT, dcp_dp
+        call cp_derivatives(self,T_in,p_in,dcp_dT,dcp_dp)
+    end subroutine
+
     !> Initialize the IAPWS-97 model instance.
     !> Initializes all sub-region handlers and auxiliary equations.
     module pure elemental subroutine initialize_type_iapws97(self)
@@ -513,14 +551,13 @@ contains
         end if
         lo=1d0; hi=800d0; mid=(lo+hi)/2d0
         do i=1,100
-            call self%region3%calc_p(T,mid,pm)
+            call self%region3%calc_pressure_pair(T,mid,pm,slope)
             if(pm>p) then
                 hi=mid
             else
                 lo=mid
             end if
             if(hi-lo<2d-11) exit
-            call self%region3%calc_p_rho(T,mid,slope)
             trial=(lo+hi)/2d0
             if(slope>0d0) then
                 if(mid-(pm-p)/slope>lo.and.mid-(pm-p)/slope<hi) trial=mid-(pm-p)/slope
@@ -528,7 +565,7 @@ contains
             mid=trial
         end do
         rho=(lo+hi)/2d0
-        call self%region3%calc_p(T,rho,pm)
+        call self%region3%calc_pressure_pair(T,rho,pm,slope)
         if(abs(pm-p)>0.01d0) rho=ieee_value(0d0,ieee_quiet_nan)
     end subroutine
 
@@ -549,7 +586,7 @@ contains
         end if
         do i=1,70
             mid=(lo+hi)/2d0
-            call self%region3%calc_p_rho(T,mid,slope)
+            call self%region3%calc_pressure_pair(T,mid,pm,slope)
             if ((slope>0d0).eqv.vapor) then
                 lo=mid
             else
@@ -561,19 +598,18 @@ contains
         else
             lo=(lo+hi)/2d0; hi=800d0
         end if
-        call self%region3%calc_p(T,lo,plo)
-        call self%region3%calc_p(T,hi,phi)
+        call self%region3%calc_pressure_pair(T,lo,plo,slope)
+        call self%region3%calc_pressure_pair(T,hi,phi,slope)
         if(p<plo.or.p>phi) return
         mid=(lo+hi)/2d0
         do i=1,100
-            call self%region3%calc_p(T,mid,pm)
+            call self%region3%calc_pressure_pair(T,mid,pm,slope)
             if(pm>p) then
                 hi=mid
             else
                 lo=mid
             end if
             if(hi-lo<2d-11) exit
-            call self%region3%calc_p_rho(T,mid,slope)
             trial=(lo+hi)/2d0
             if(slope>0d0) then
                 if(mid-(pm-p)/slope>lo.and.mid-(pm-p)/slope<hi) trial=mid-(pm-p)/slope
@@ -581,39 +617,43 @@ contains
             mid=trial
         end do
         rho=(lo+hi)/2d0
-        call self%region3%calc_p(T,rho,pm)
-        call self%region3%calc_p_rho(T,rho,slope)
+        call self%region3%calc_pressure_pair(T,rho,pm,slope)
         if(abs(pm-p)>0.01d0.or.slope<=0d0) rho=ieee_value(0d0,ieee_quiet_nan)
     end subroutine
 
-    pure elemental subroutine saturation_state(self,T,vap,liq,slope,derivatives)
+    pure elemental subroutine saturation_state(self,T,vap,liq,slope,need_cp_derivatives_vap,need_cp_derivatives_liq)
         class(type_iapws97),intent(in)::self
         real(real64),intent(in)::T
         type(saturation_phase),intent(out)::vap,liq
         real(real64),intent(out)::slope
-        logical,intent(in)::derivatives
+        logical,intent(in)::need_cp_derivatives_vap,need_cp_derivatives_liq
+        type(type_iapws_gibbs_coefficient) :: g
         real(real64)::p,nan
         nan=ieee_value(0d0,ieee_quiet_nan)
         vap=saturation_phase(nan,nan,nan,nan,nan,nan,nan,nan); liq=vap; slope=nan
         if(.not.ieee_is_finite(T)) return
         if(T<273.15d0.or.T>647.096d0) return
         if(T==647.096d0) then
-            if(.not.derivatives) then
-                vap%rho=322d0; liq%rho=322d0
-                call self%region3%calc_h(T,322d0,vap%h)
-                liq%h=vap%h
-            end if
+            vap%rho=322d0; liq%rho=322d0
+            call self%region3%calc_h(T,322d0,vap%h)
+            liq%h=vap%h
             return
         end if
         p=self%region4%calc_psat(T)
         slope=self%region4%calc_dpsat_dT(T)
         if(T<=623.15d0) then
-            call saturation_gibbs(self%region2,T,p,vap)
-            call saturation_gibbs(self%region1,T,p,liq)
-            if(derivatives) then
-                call self%region2%calc_cp_derivatives(T,p,vap%cp_T,vap%cp_p)
-                call self%region1%calc_cp_derivatives(T,p,liq%cp_T,liq%cp_p)
+            if(need_cp_derivatives_vap) then
+                call self%region2%calc_gamma_cp(T,p,g,vap%cp_T,vap%cp_p)
+            else
+                call self%region2%calc_gamma(T,p,g)
             end if
+            call saturation_gibbs(T,g,vap)
+            if(need_cp_derivatives_liq) then
+                call self%region1%calc_gamma_cp(T,p,g,liq%cp_T,liq%cp_p)
+            else
+                call self%region1%calc_gamma(T,p,g)
+            end if
+            call saturation_gibbs(T,g,liq)
         else
             call saturation_root(self,T,p,.true.,vap%rho)
             call saturation_root(self,T,p,.false.,liq%rho)
@@ -624,17 +664,15 @@ contains
                 liq%rho=nan
                 return
             end if
-            call saturation_helmholtz(self%region3,T,vap,derivatives)
-            call saturation_helmholtz(self%region3,T,liq,derivatives)
+            call saturation_helmholtz(self%region3,T,vap,need_cp_derivatives_vap)
+            call saturation_helmholtz(self%region3,T,liq,need_cp_derivatives_liq)
         end if
     end subroutine
 
-    pure elemental subroutine saturation_gibbs(region,T,p,phase)
-        class(abst_iapws_gibbs),intent(in)::region
-        real(real64),intent(in)::T,p
+    pure elemental subroutine saturation_gibbs(T,g,phase)
+        real(real64),intent(in)::T
         type(saturation_phase),intent(inout)::phase
-        type(type_iapws_gibbs_coefficient)::g
-        call region%calc_gamma(T,p,g)
+        type(type_iapws_gibbs_coefficient),intent(in)::g
         phase%rho=1d0/g%g_p
         phase%cp=-T*g%g_tt
         phase%h=g%g-T*g%g_t
@@ -643,11 +681,11 @@ contains
         phase%h_p=g%g_p-T*g%g_pt
     end subroutine
 
-    pure elemental subroutine saturation_helmholtz(region,T,phase,derivatives)
+    pure elemental subroutine saturation_helmholtz(region,T,phase,need_cp_derivatives)
         class(type_iapws97_region3),intent(in)::region
         real(real64),intent(in)::T
         type(saturation_phase),intent(inout)::phase
-        logical,intent(in)::derivatives
+        logical,intent(in)::need_cp_derivatives
         type(type_iapws_helmholtz_property)::f
         real(real64)::pt,pr
         call region%calc_phi(region%T_c/T,phase%rho/region%rho_c,f)
@@ -659,7 +697,7 @@ contains
         phase%rho_p=1d0/pr
         ! h_p|T = v - T*v_T|p, valid also for the Helmholtz EOS.
         phase%h_p=1d0/phase%rho+T*phase%rho_T/phase%rho**2
-        if(derivatives) call region%calc_cp_derivatives(T,phase%rho,phase%cp_T,phase%cp_p)
+        if(need_cp_derivatives) call region%calc_cp_derivatives(T,phase%rho,phase%cp_T,phase%cp_p,f)
     end subroutine
 
     module pure elemental subroutine calc_latent_heat_iapws97(self, latent_heat, T_in, p_in)
@@ -678,7 +716,7 @@ contains
             T=self%region4%calc_tsat(p_in)
             if(p_in==22.064d6) T=647.096d0
         end if
-        call saturation_state(self,T,vap,liq,slope,.false.)
+        call saturation_state(self,T,vap,liq,slope,.false.,.false.)
         latent_heat=vap%h-liq%h
     end subroutine
 
@@ -688,7 +726,7 @@ contains
         real(real64),intent(out)::dlatent_heat_dT
         type(saturation_phase)::vap,liq
         real(real64)::slope
-        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        call saturation_state(self,T_in,vap,liq,slope,.false.,.false.)
         dlatent_heat_dT=(vap%cp-liq%cp)+(vap%h_p-liq%h_p)*slope
     end subroutine
 
@@ -698,7 +736,7 @@ contains
         real(real64),intent(inout),optional::rho_vap,rho_liq
         type(saturation_phase)::vap,liq
         real(real64)::slope
-        call saturation_state(self,T_in,vap,liq,slope,.false.)
+        call saturation_state(self,T_in,vap,liq,slope,.false.,.false.)
         if(present(rho_vap)) rho_vap=vap%rho
         if(present(rho_liq)) rho_liq=liq%rho
     end subroutine
@@ -709,7 +747,7 @@ contains
         real(real64),intent(inout),optional::cp_vap,cp_liq
         type(saturation_phase)::vap,liq
         real(real64)::slope
-        call saturation_state(self,T_in,vap,liq,slope,.false.)
+        call saturation_state(self,T_in,vap,liq,slope,.false.,.false.)
         if(present(cp_vap)) cp_vap=vap%cp
         if(present(cp_liq)) cp_liq=liq%cp
     end subroutine
@@ -720,7 +758,7 @@ contains
         real(real64),intent(inout),optional::drho_dT_vap,drho_dT_liq
         type(saturation_phase)::vap,liq
         real(real64)::slope
-        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        call saturation_state(self,T_in,vap,liq,slope,.false.,.false.)
         if(present(drho_dT_vap)) drho_dT_vap=vap%rho_T
         if(present(drho_dT_liq)) drho_dT_liq=liq%rho_T
     end subroutine
@@ -731,7 +769,7 @@ contains
         real(real64),intent(inout),optional::drho_dP_vap,drho_dP_liq
         type(saturation_phase)::vap,liq
         real(real64)::slope
-        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        call saturation_state(self,T_in,vap,liq,slope,.false.,.false.)
         if(present(drho_dP_vap)) drho_dP_vap=vap%rho_p
         if(present(drho_dP_liq)) drho_dP_liq=liq%rho_p
     end subroutine
@@ -742,7 +780,7 @@ contains
         real(real64),intent(out),optional::dcp_dT_vap,dcp_dT_liq
         type(saturation_phase)::vap,liq
         real(real64)::slope
-        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        call saturation_state(self,T_in,vap,liq,slope,present(dcp_dT_vap),present(dcp_dT_liq))
         if(present(dcp_dT_vap)) dcp_dT_vap=vap%cp_T+vap%cp_p*slope
         if(present(dcp_dT_liq)) dcp_dT_liq=liq%cp_T+liq%cp_p*slope
     end subroutine
@@ -753,7 +791,7 @@ contains
         real(real64),intent(out),optional::drho_dT_vap,drho_dT_liq
         type(saturation_phase)::vap,liq
         real(real64)::slope
-        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        call saturation_state(self,T_in,vap,liq,slope,.false.,.false.)
         if(present(drho_dT_vap)) drho_dT_vap=vap%rho_T+vap%rho_p*slope
         if(present(drho_dT_liq)) drho_dT_liq=liq%rho_T+liq%rho_p*slope
     end subroutine

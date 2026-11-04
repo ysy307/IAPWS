@@ -1,5 +1,5 @@
 program gibbs_derivatives
-    use iso_fortran_env, only: real64
+    use iso_fortran_env, only: real64, int64
     use ieee_arithmetic, only: ieee_is_finite
     use iapws, only: type_iapws97
     implicit none
@@ -9,10 +9,15 @@ program gibbs_derivatives
     real(real64), parameter :: pressures(9) = [3.d6, 10.d6, 30.d6, &
         1.d5, 3.d6, 20.d6, 1.d6, 30.d6, 40.d6]
     real(real64) :: dt(9), dp(9), cp_plus(9), cp_minus(9), ref(9), ht, hp(9)
+    real(real64) :: bulk_dt(9), bulk_dp(9)
     integer :: i, step
     call water%initialize()
     call water%calc_dcp_dT(temperatures, pressures, dt)
     call water%calc_dcp_dp(temperatures, pressures, dp)
+    call water%calc_cp_derivatives(temperatures,pressures,bulk_dt,bulk_dp)
+    if(any(transfer(dt,[0_int64])/=transfer(bulk_dt,[0_int64])).or. &
+       any(transfer(dp,[0_int64])/=transfer(bulk_dp,[0_int64]))) error stop 'bulk cp derivative compatibility'
+    dt=bulk_dt; dp=bulk_dp
     ! Two independent steps catch cancellation and the Pa versus MPa conversion.
     do step = 1, 2
         ht = 0.01d0 / real(step, real64)

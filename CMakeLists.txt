@@ -34,6 +34,12 @@ endif()
 # ---------------------------------------------------------
 # Targets & Aliases
 # ---------------------------------------------------------
+set(IAPWS_BATCH_TILE_SIZE 32 CACHE STRING "States per cache-sized batch tile (4..128)")
+if(NOT IAPWS_BATCH_TILE_SIZE MATCHES "^[1-9][0-9]*$" OR
+   IAPWS_BATCH_TILE_SIZE LESS 4 OR IAPWS_BATCH_TILE_SIZE GREATER 128)
+    message(FATAL_ERROR "IAPWS_BATCH_TILE_SIZE must be an integer between 4 and 128")
+endif()
+
 add_subdirectory(src)
 
 # Create alias for internal usage (e.g. tests or apps)

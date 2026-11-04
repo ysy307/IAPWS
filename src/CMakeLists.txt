@@ -4,6 +4,8 @@
 
 # 1. Bases
 add_library(iapws_bases OBJECT
+    bases/batch_support.F90
+    bases/batch_base.F90
     bases/iapws_interface.F90
     bases/types.F90
     bases/property_helmholtz.F90
@@ -20,6 +22,8 @@ target_link_libraries(iapws_95 PUBLIC iapws_bases)
 
 # 3. IAPWS-97 (Industrial)
 add_library(iapws_97 OBJECT
+    iapws97/iapws97_saturation_batch.F90
+    iapws97/iapws97_batch.F90
     iapws97/iapws97_base.F90
     iapws97/iapws97_auxiliary.F90
     iapws97/iapws97_region1.F90
@@ -86,3 +90,12 @@ install(DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY}/
     PATTERN "*.mod"
     PATTERN "*.smod"
 )
+if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(iapws_bases PRIVATE -fopenmp-simd)
+    target_compile_options(iapws_97 PRIVATE -fopenmp-simd)
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
+    target_compile_options(iapws_bases PRIVATE -qopenmp-simd)
+    target_compile_options(iapws_97 PRIVATE -qopenmp-simd)
+endif()
+
+target_compile_definitions(iapws_bases PRIVATE IAPWS_BATCH_TILE_SIZE=${IAPWS_BATCH_TILE_SIZE})

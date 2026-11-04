@@ -65,6 +65,7 @@ repopt
 *Build*/
 *EXTERNAL*/ 
 docs/api-docs/
+docs/reports/
 Results/*
 *tmp/
 *log/
@@ -73,6 +74,13 @@ project/*/Output/
 fpm/*
 third_party/*
 docs/superpowers/
+benchmarks/
+checks/
+*.inc
+*.fi
+
+test_support/
+
 
 # === Python Virtual Environment ===
 .venv/

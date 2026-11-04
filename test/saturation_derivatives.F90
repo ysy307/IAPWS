@@ -7,11 +7,22 @@ program saturation_derivatives
     real(real64), parameter :: ts(8)=[273.15d0,300d0,500d0,623.15d0,623.16d0,630d0,640d0,647d0]
     real(real64) :: dc_v(8),dc_l(8),dr_v(8),dr_l(8),dh(8),rv,rl,cv,cl,vp,lp,vm,lm,hp,hm,h
     real(real64) :: bad(6),pv(6),pl(6),dt,dp,rp,rm,actual
+    real(real64) :: bulk(8,5)
     integer :: i,j
     call water%initialize()
     call water%calc_saturation_dcp_dT(ts,dc_v,dc_l)
     call water%calc_saturation_density_dT(ts,dr_v,dr_l)
     call water%calc_latent_heat_dT(ts,dh)
+    call water%calc_saturation_properties(ts,dcp_dT_vap=bulk(:,1),dcp_dT_liq=bulk(:,2), &
+        density_dT_vap=bulk(:,3),density_dT_liq=bulk(:,4),dlatent_heat_dT=bulk(:,5))
+    do i=1,size(ts)
+        call check(bulk(i,1),dc_v(i),1d-12,'bulk vapor cp compatibility')
+        call check(bulk(i,2),dc_l(i),1d-12,'bulk liquid cp compatibility')
+        call check(bulk(i,3),dr_v(i),1d-12,'bulk vapor density compatibility')
+        call check(bulk(i,4),dr_l(i),1d-12,'bulk liquid density compatibility')
+        call check(bulk(i,5),dh(i),1d-12,'bulk latent heat compatibility')
+    end do
+    dc_v=bulk(:,1); dc_l=bulk(:,2); dr_v=bulk(:,3); dr_l=bulk(:,4); dh=bulk(:,5)
     do i=1,size(ts)
         call water%calc_saturation_density(ts(i),rv,rl)
         if (.not.ieee_is_finite(rv).or..not.ieee_is_finite(rl)) error stop 'nonfinite phase density'
