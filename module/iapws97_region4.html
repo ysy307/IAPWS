@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.9% of total for modules and submodules.">51 statements</a>
+                 title=" 2.2% of total for modules and submodules.">70 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -169,6 +169,7 @@
       </a>
       <div id="modfuncs-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/iapws97_region4.html#proc-calc_dpsat_dt_iapws97_region4">calc_dpsat_dT_iapws97_region4</a>
             <a class="list-group-item" href="../module/iapws97_region4.html#proc-calc_psat_iapws97_region4">calc_psat_iapws97_region4</a>
             <a class="list-group-item" href="../module/iapws97_region4.html#proc-calc_tsat_iapws97_region4">calc_tsat_iapws97_region4</a>
         </div>
@@ -440,7 +441,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-pressure"></span>
+              <span class="anchor" id="variable-pressure~6"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -455,7 +456,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_star"></span>
+              <span class="anchor" id="variable-p_star~4"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -500,7 +501,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-temperature"></span>
+              <span class="anchor" id="variable-temperature~8"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -515,7 +516,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_star"></span>
+              <span class="anchor" id="variable-t_star~4"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -547,6 +548,67 @@ parameter
         <section>
           <h2>Module Functions</h2>
               <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_dpsat_dt_iapws97_region4"></span> <h3>pure elemental module function <a href='../proc/calc_dpsat_dt_iapws97_region4.html'>calc_dpsat_dT_iapws97_region4</a>(self, temperature) result(slope)  
+    <a href="../interface/calc_dpsat_dt_iapws97_region4.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Analytic slope of Eq. 30, in Pa/K.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~177"></span>
+              class(<a href='../type/type_iapws97_region4.html'>type_iapws97_region4</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-temperature~7"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>temperature</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real64)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-calc_psat_iapws97_region4"></span> <h3>pure elemental module function <a href='../proc/calc_psat_iapws97_region4.html'>calc_psat_iapws97_region4</a>(self, temperature) result(P_sat)  
     <a href="../interface/calc_psat_iapws97_region4.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
@@ -567,7 +629,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~2"></span>
+              <span class="anchor" id="variable-self~179"></span>
               class(<a href='../type/type_iapws97_region4.html'>type_iapws97_region4</a>),
             </td>
 <td>intent(in)</td>
@@ -582,7 +644,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-temperature~2"></span>
+              <span class="anchor" id="variable-temperature~9"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -628,7 +690,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~3"></span>
+              <span class="anchor" id="variable-self~180"></span>
               class(<a href='../type/type_iapws97_region4.html'>type_iapws97_region4</a>),
             </td>
 <td>intent(in)</td>
@@ -643,7 +705,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pressure~2"></span>
+              <span class="anchor" id="variable-pressure~7"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -694,7 +756,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self"></span>
+              <span class="anchor" id="variable-self~178"></span>
               class(<a href='../type/type_iapws97_region4.html'>type_iapws97_region4</a>),
             </td>
 <td>intent(inout)</td>
@@ -735,7 +797,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-11 00:50 +0000             </p>
+ on 2026-11-04 05:34 +0000             </p>
           </div>
         </div>
         <br>

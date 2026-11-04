@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 4.7% of total for modules and submodules.">125 statements</a>
+                 title=" 5.4% of total for modules and submodules.">174 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -138,12 +138,12 @@
             <a class="list-group-item" href="../module/iapws97_region2.html#variable-jr_r2">Jr_r2</a>
             <a class="list-group-item" href="../module/iapws97_region2.html#variable-n02_terms">N02_terms</a>
             <a class="list-group-item" href="../module/iapws97_region2.html#variable-nr2_terms">Nr2_terms</a>
-            <a class="list-group-item" href="../module/iapws97_region2.html#variable-pir_exp_hi~2">PIR_EXP_HI</a>
-            <a class="list-group-item" href="../module/iapws97_region2.html#variable-pir_exp_lo~2">PIR_EXP_LO</a>
-            <a class="list-group-item" href="../module/iapws97_region2.html#variable-tau0_exp_hi~2">TAU0_EXP_HI</a>
-            <a class="list-group-item" href="../module/iapws97_region2.html#variable-tau0_exp_lo~2">TAU0_EXP_LO</a>
-            <a class="list-group-item" href="../module/iapws97_region2.html#variable-taur_exp_hi~2">TAUR_EXP_HI</a>
-            <a class="list-group-item" href="../module/iapws97_region2.html#variable-taur_exp_lo~2">TAUR_EXP_LO</a>
+            <a class="list-group-item" href="../module/iapws97_region2.html#variable-pir_exp_hi">PIR_EXP_HI</a>
+            <a class="list-group-item" href="../module/iapws97_region2.html#variable-pir_exp_lo">PIR_EXP_LO</a>
+            <a class="list-group-item" href="../module/iapws97_region2.html#variable-tau0_exp_hi">TAU0_EXP_HI</a>
+            <a class="list-group-item" href="../module/iapws97_region2.html#variable-tau0_exp_lo">TAU0_EXP_LO</a>
+            <a class="list-group-item" href="../module/iapws97_region2.html#variable-taur_exp_hi">TAUR_EXP_HI</a>
+            <a class="list-group-item" href="../module/iapws97_region2.html#variable-taur_exp_lo">TAUR_EXP_LO</a>
             <a class="list-group-item" href="../module/iapws97_region2.html#variable-n0_r2">n0_r2</a>
             <a class="list-group-item" href="../module/iapws97_region2.html#variable-nr_r2">nr_r2</a>
         </div>
@@ -181,6 +181,7 @@
       </a>
       <div id="modsubs-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/iapws97_region2.html#proc-calc_cp_derivatives_iapws97_region2">calc_cp_derivatives_iapws97_region2</a>
             <a class="list-group-item" href="../module/iapws97_region2.html#proc-calc_gamma_iapws97_region2">calc_gamma_iapws97_region2</a>
             <a class="list-group-item" href="../module/iapws97_region2.html#proc-initialize_type_iapws97_region2">initialize_type_iapws97_region2</a>
         </div>
@@ -461,7 +462,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pir_exp_hi~2"></span>
+              <span class="anchor" id="variable-pir_exp_hi"></span>
               integer(kind=int32),
             </td>
               <td>private,</td>
@@ -478,7 +479,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pir_exp_lo~2"></span>
+              <span class="anchor" id="variable-pir_exp_lo"></span>
               integer(kind=int32),
             </td>
               <td>private,</td>
@@ -495,7 +496,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau0_exp_hi~2"></span>
+              <span class="anchor" id="variable-tau0_exp_hi"></span>
               integer(kind=int32),
             </td>
               <td>private,</td>
@@ -512,7 +513,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau0_exp_lo~2"></span>
+              <span class="anchor" id="variable-tau0_exp_lo"></span>
               integer(kind=int32),
             </td>
               <td>private,</td>
@@ -529,7 +530,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-taur_exp_hi~2"></span>
+              <span class="anchor" id="variable-taur_exp_hi"></span>
               integer(kind=int32),
             </td>
               <td>private,</td>
@@ -546,7 +547,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-taur_exp_lo~2"></span>
+              <span class="anchor" id="variable-taur_exp_lo"></span>
               integer(kind=int32),
             </td>
               <td>private,</td>
@@ -629,7 +630,7 @@ using a pre-computed power table for tau.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~43"></span>
+              <span class="anchor" id="variable-tau~34"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -644,7 +645,7 @@ using a pre-computed power table for tau.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pi~26"></span>
+              <span class="anchor" id="variable-pi~11"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -659,7 +660,7 @@ using a pre-computed power table for tau.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g0~5"></span>
+              <span class="anchor" id="variable-g0~3"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -674,7 +675,7 @@ using a pre-computed power table for tau.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g0_t~5"></span>
+              <span class="anchor" id="variable-g0_t~2"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -689,7 +690,7 @@ using a pre-computed power table for tau.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g0_tt~5"></span>
+              <span class="anchor" id="variable-g0_tt~2"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -730,7 +731,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~44"></span>
+              <span class="anchor" id="variable-tau~35"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -745,7 +746,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pi~27"></span>
+              <span class="anchor" id="variable-pi~12"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -760,7 +761,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gr~5"></span>
+              <span class="anchor" id="variable-gr~2"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -775,7 +776,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gr_p~5"></span>
+              <span class="anchor" id="variable-gr_p~2"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -790,7 +791,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gr_t~5"></span>
+              <span class="anchor" id="variable-gr_t~2"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -805,7 +806,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gr_pp~5"></span>
+              <span class="anchor" id="variable-gr_pp~2"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -820,7 +821,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gr_tt~5"></span>
+              <span class="anchor" id="variable-gr_tt~2"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -835,7 +836,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gr_pt~5"></span>
+              <span class="anchor" id="variable-gr_pt~2"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -862,6 +863,107 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         <section>
           <h2>Module Subroutines</h2>
               <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_cp_derivatives_iapws97_region2"></span> <h3>pure elemental module subroutine <a href='../proc/calc_cp_derivatives_iapws97_region2.html'>calc_cp_derivatives_iapws97_region2</a>(self, T_in, p_in, dcp_dT, dcp_dp)  
+    <a href="../interface/calc_cp_derivatives_iapws97_region2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Analytic cp derivatives, evaluated only when requested.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~129"></span>
+              class(<a href='../type/type_iapws97_region2.html'>type_iapws97_region2</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~87"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~35"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dcp_dt~10"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dcp_dT</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dcp_dp~9"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dcp_dp</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma_iapws97_region2"></span> <h3>pure elemental module subroutine <a href='../proc/calc_gamma_iapws97_region2.html'>calc_gamma_iapws97_region2</a>(self, T_in, P_in, coef)  
     <a href="../interface/calc_gamma_iapws97_region2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
@@ -882,7 +984,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~152"></span>
+              <span class="anchor" id="variable-self~128"></span>
               class(<a href='../type/type_iapws97_region2.html'>type_iapws97_region2</a>),
             </td>
 <td>intent(in)</td>
@@ -897,7 +999,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~99"></span>
+              <span class="anchor" id="variable-t_in~86"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -912,7 +1014,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~32"></span>
+              <span class="anchor" id="variable-p_in~24"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -927,7 +1029,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coef~10"></span>
+              <span class="anchor" id="variable-coef~7"></span>
               type(<a href='../type/type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(inout)</td>
@@ -968,7 +1070,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~151"></span>
+              <span class="anchor" id="variable-self~127"></span>
               class(<a href='../type/type_iapws97_region2.html'>type_iapws97_region2</a>),
             </td>
 <td>intent(inout)</td>
@@ -1009,7 +1111,7 @@ using pre-computed power tables for pi and (tau - 0.5).</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-11 00:50 +0000             </p>
+ on 2026-11-04 05:34 +0000             </p>
           </div>
         </div>
         <br>

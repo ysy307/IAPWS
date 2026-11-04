@@ -381,6 +381,7 @@ contains
             property%fr_dd = property%fr_dd + &
                              nr_val * ( &
                              2.0d0 * d_Delta_pow_b_d * psi + &
+                             2.0d0 * (delta_term**b_val) * d_psi_d + &
                              delta * d2_Delta_pow_b_dd * psi + &
                              2.0d0 * delta * d_Delta_pow_b_d * d_psi_d + &
                              delta * (delta_term**b_val) * d2_psi_dd &

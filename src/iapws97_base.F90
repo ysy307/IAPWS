@@ -1,4 +1,5 @@
 submodule(module_iapws97) iapws97_base
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite, ieee_value, ieee_quiet_nan
     implicit none
     !> Invalid region identifier
     integer(int32), parameter :: IAPWS97_INVALID = -1
@@ -20,6 +21,10 @@ submodule(module_iapws97) iapws97_base
     real(real64), parameter :: IAPWS97_R5_T_MIN = 1073.15d0
     !> Region 5 maximum pressure [Pa]
     real(real64), parameter :: IAPWS97_R5_P_MAX = 50.0d6
+    ! Phase data shared by saturation values, partials, and total derivatives.
+    type :: saturation_phase
+        real(real64) :: rho, cp, h, rho_T, rho_p, cp_T, cp_p, h_p
+    end type
 contains
 
     !> Initialize the IAPWS-97 model instance.
@@ -58,6 +63,8 @@ contains
         ! Region 1, 2, 3: p <= 100 MPa
         ! Region 5: p <= 50 MPa -> Checked individually
         ! T >= 243.15 K
+        region_id = IAPWS97_INVALID
+        if (.not.ieee_is_finite(T_in).or..not.ieee_is_finite(p_in)) return
         if (p_in <= 0.0d0 .or. p_in > 100.0d6 .or. &
             T_in < 243.15d0 .or. T_in > 2273.15d0) then
             region_id = IAPWS97_INVALID
@@ -132,7 +139,7 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_properties(T_in, p_in, property)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_rho(T_in, p_in, property%rho)
+            call region3_density(self, T_in, p_in, property%rho)
             call self%region3%calc_properties(T_in, property%rho, property)
         case (IAPWS97_REGION_5)
             call self%region5%calc_properties(T_in, p_in, property)
@@ -165,7 +172,7 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_nu(T_in, p_in, nu)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_rho(T_in, p_in, rho)
+            call region3_density(self, T_in, p_in, rho)
             nu = 1.0d0 / rho
         case (IAPWS97_REGION_5)
             call self%region5%calc_nu(T_in, p_in, nu)
@@ -195,7 +202,7 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_rho(T_in, p_in, rho)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_rho(T_in, p_in, rho)
+            call region3_density(self, T_in, p_in, rho)
         case (IAPWS97_REGION_5)
             call self%region5%calc_rho(T_in, p_in, rho)
         case default
@@ -211,16 +218,18 @@ contains
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: drho_dT
 
+        real(real64) :: rho
         integer(int32) :: region_id
         region_id = self%get_region(T_in, p_in)
 
-        select case (self%get_region(T_in, p_in))
+        select case (region_id)
         case (IAPWS97_REGION_1)
             call self%region1%calc_drho_dT(T_in, p_in, drho_dT)
         case (IAPWS97_REGION_2)
             call self%region2%calc_drho_dT(T_in, p_in, drho_dT)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_drho_dT(T_in, p_in, drho_dT)
+            call region3_density(self, T_in, p_in, rho)
+            call self%region3%calc_drho_dT(T_in, rho, drho_dT)
         case (IAPWS97_REGION_5)
             call self%region5%calc_drho_dT(T_in, p_in, drho_dT)
         case default
@@ -236,16 +245,18 @@ contains
         real(real64), intent(in) :: p_in
         real(real64), intent(inout) :: drho_dp
 
+        real(real64) :: rho
         integer(int32) :: region_id
         region_id = self%get_region(T_in, p_in)
 
-        select case (self%get_region(T_in, p_in))
+        select case (region_id)
         case (IAPWS97_REGION_1)
             call self%region1%calc_drho_dp(T_in, p_in, drho_dp)
         case (IAPWS97_REGION_2)
             call self%region2%calc_drho_dp(T_in, p_in, drho_dp)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_drho_dp(T_in, p_in, drho_dp)
+            call region3_density(self, T_in, p_in, rho)
+            call self%region3%calc_drho_dp(T_in, rho, drho_dp)
         case (IAPWS97_REGION_5)
             call self%region5%calc_drho_dp(T_in, p_in, drho_dp)
         case default
@@ -277,7 +288,7 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_u(T_in, p_in, u)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_rho(T_in, p_in, rho)
+            call region3_density(self, T_in, p_in, rho)
             call self%region3%calc_u(T_in, rho, u)
         case (IAPWS97_REGION_5)
             call self%region5%calc_u(T_in, p_in, u)
@@ -310,7 +321,7 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_h(T_in, p_in, h)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_rho(T_in, p_in, rho)
+            call region3_density(self, T_in, p_in, rho)
             call self%region3%calc_h(T_in, rho, h)
         case (IAPWS97_REGION_5)
             call self%region5%calc_h(T_in, p_in, h)
@@ -343,7 +354,7 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_s(T_in, p_in, s)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_rho(T_in, p_in, rho)
+            call region3_density(self, T_in, p_in, rho)
             call self%region3%calc_s(T_in, rho, s)
         case (IAPWS97_REGION_5)
             call self%region5%calc_s(T_in, p_in, s)
@@ -375,7 +386,7 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_cp(T_in, p_in, cp)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_rho(T_in, p_in, rho)
+            call region3_density(self, T_in, p_in, rho)
             call self%region3%calc_cp(T_in, rho, cp)
         case (IAPWS97_REGION_5)
             call self%region5%calc_cp(T_in, p_in, cp)
@@ -407,7 +418,7 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_cv(T_in, p_in, cv)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_rho(T_in, p_in, rho)
+            call region3_density(self, T_in, p_in, rho)
             call self%region3%calc_cv(T_in, rho, cv)
         case (IAPWS97_REGION_5)
             call self%region5%calc_cv(T_in, p_in, cv)
@@ -440,7 +451,7 @@ contains
         case (IAPWS97_REGION_2)
             call self%region2%calc_w(T_in, p_in, w)
         case (IAPWS97_REGION_3)
-            call self%region3%calc_rho(T_in, p_in, rho)
+            call region3_density(self, T_in, p_in, rho)
             call self%region3%calc_w(T_in, rho, w)
         case (IAPWS97_REGION_5)
             call self%region5%calc_w(T_in, p_in, w)
@@ -450,155 +461,301 @@ contains
 
     end subroutine calc_w_iapws97
 
-    !> 蒸発潜熱の計算 (Implementation)
-    module pure elemental subroutine calc_latent_heat_iapws97(self, latent_heat, T_in, p_in)
-        implicit none
+    !> cp temperature derivative at fixed pressure [J/(kg K^2)].
+    module pure elemental subroutine calc_dcp_dT_iapws97(self, T_in, p_in, dcp_dT)
         class(type_iapws97), intent(in) :: self
-        real(real64), intent(inout) :: latent_heat
-        real(real64), intent(in), optional :: T_in
-        real(real64), intent(in), optional :: p_in
+        real(real64), intent(in) :: T_in, p_in
+        real(real64), intent(out) :: dcp_dT
+        real(real64) :: unused
+        call cp_derivatives(self,T_in,p_in,dcp_dT,unused)
+    end subroutine
 
-        real(real64) :: T_sat, P_sat
-        real(real64) :: h_liq, h_vap
+    !> cp pressure derivative at fixed temperature [J/(kg K Pa)].
+    module pure elemental subroutine calc_dcp_dp_iapws97(self, T_in, p_in, dcp_dp)
+        class(type_iapws97), intent(in) :: self
+        real(real64), intent(in) :: T_in, p_in
+        real(real64), intent(out) :: dcp_dp
+        real(real64) :: unused
+        call cp_derivatives(self,T_in,p_in,unused,dcp_dp)
+    end subroutine
 
-        ! 1. 入力に基づき飽和点 (T, P) を特定
-        if (present(T_in) .and. .not. present(p_in)) then
-            ! 温度指定 -> 飽和圧力を計算 (Region 4)
-            T_sat = T_in
-            P_sat = self%region4%calc_psat(T_sat)
+    pure elemental subroutine cp_derivatives(self,T,p,ct,cp)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T,p
+        real(real64),intent(out)::ct,cp
+        real(real64)::rho
+        ct=ieee_value(0d0,ieee_quiet_nan); cp=ct
+        if (.not.ieee_is_finite(T).or..not.ieee_is_finite(p)) return
+        if (T==647.096d0.and.abs(p-22.064d6)<1d-3) return
+        select case(self%get_region(T,p))
+        case(1)
+            call self%region1%calc_cp_derivatives(T,p,ct,cp)
+        case(2)
+            call self%region2%calc_cp_derivatives(T,p,ct,cp)
+        case(3)
+            call region3_density(self,T,p,rho)
+            call self%region3%calc_cp_derivatives(T,rho,ct,cp)
+        case(5)
+            call self%region5%calc_cp_derivatives(T,p,ct,cp)
+        end select
+    end subroutine
 
-        else if (.not. present(T_in) .and. present(p_in)) then
-            ! 圧力指定 -> 飽和温度を計算 (Region 4)
-            P_sat = p_in
-            T_sat = self%region4%calc_tsat(P_sat)
-
-        else
-            ! エラー: 両方指定、または両方なし
-            ! 必要に応じて error stop 等を入れてください
-            latent_heat = 0.0_real64
+    !> Safeguarded region-3 solve shared by values and ordinary derivatives.
+    pure elemental subroutine region3_density(self,T,p,rho)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T,p
+        real(real64),intent(out)::rho
+        real(real64)::lo,hi,mid,pm,slope,trial
+        integer::i
+        if(T<self%region3%T_c) then
+            call saturation_root(self,T,p,p<=self%region4%calc_psat(T),rho)
             return
         end if
+        lo=1d0; hi=800d0; mid=(lo+hi)/2d0
+        do i=1,100
+            call self%region3%calc_p(T,mid,pm)
+            if(pm>p) then
+                hi=mid
+            else
+                lo=mid
+            end if
+            if(hi-lo<2d-11) exit
+            call self%region3%calc_p_rho(T,mid,slope)
+            trial=(lo+hi)/2d0
+            if(slope>0d0) then
+                if(mid-(pm-p)/slope>lo.and.mid-(pm-p)/slope<hi) trial=mid-(pm-p)/slope
+            end if
+            mid=trial
+        end do
+        rho=(lo+hi)/2d0
+        call self%region3%calc_p(T,rho,pm)
+        if(abs(pm-p)>0.01d0) rho=ieee_value(0d0,ieee_quiet_nan)
+    end subroutine
 
-        ! 2. 飽和液体エンタルピー h' (Region 1)
-        ! Region 1 は abst_iapws_gibbs を継承しているため calc_h が使えます
-        call self%region1%calc_h(T_sat, P_sat, h_liq)
+    !> Stable phase root, bracketed by spinodals to prevent phase switching.
+    pure elemental subroutine saturation_root(self,T,p,vapor,rho)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T,p
+        logical,intent(in)::vapor
+        real(real64),intent(out)::rho
+        real(real64)::lo,hi,mid,slope,plo,phi,pm,trial
+        integer::i
+        rho=ieee_value(0d0,ieee_quiet_nan)
+        ! Locate the spinodal on the requested side of the critical density.
+        if(vapor) then
+            lo=1d0; hi=self%region3%rho_c
+        else
+            lo=self%region3%rho_c; hi=800d0
+        end if
+        do i=1,70
+            mid=(lo+hi)/2d0
+            call self%region3%calc_p_rho(T,mid,slope)
+            if ((slope>0d0).eqv.vapor) then
+                lo=mid
+            else
+                hi=mid
+            end if
+        end do
+        if(vapor) then
+            hi=(lo+hi)/2d0; lo=1d0
+        else
+            lo=(lo+hi)/2d0; hi=800d0
+        end if
+        call self%region3%calc_p(T,lo,plo)
+        call self%region3%calc_p(T,hi,phi)
+        if(p<plo.or.p>phi) return
+        mid=(lo+hi)/2d0
+        do i=1,100
+            call self%region3%calc_p(T,mid,pm)
+            if(pm>p) then
+                hi=mid
+            else
+                lo=mid
+            end if
+            if(hi-lo<2d-11) exit
+            call self%region3%calc_p_rho(T,mid,slope)
+            trial=(lo+hi)/2d0
+            if(slope>0d0) then
+                if(mid-(pm-p)/slope>lo.and.mid-(pm-p)/slope<hi) trial=mid-(pm-p)/slope
+            end if
+            mid=trial
+        end do
+        rho=(lo+hi)/2d0
+        call self%region3%calc_p(T,rho,pm)
+        call self%region3%calc_p_rho(T,rho,slope)
+        if(abs(pm-p)>0.01d0.or.slope<=0d0) rho=ieee_value(0d0,ieee_quiet_nan)
+    end subroutine
 
-        ! 3. 飽和蒸気エンタルピー h'' (Region 2)
-        ! Region 2 も abst_iapws_gibbs を継承しているため calc_h が使えます
-        call self%region2%calc_h(T_sat, P_sat, h_vap)
+    pure elemental subroutine saturation_state(self,T,vap,liq,slope,derivatives)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T
+        type(saturation_phase),intent(out)::vap,liq
+        real(real64),intent(out)::slope
+        logical,intent(in)::derivatives
+        real(real64)::p,nan
+        nan=ieee_value(0d0,ieee_quiet_nan)
+        vap=saturation_phase(nan,nan,nan,nan,nan,nan,nan,nan); liq=vap; slope=nan
+        if(.not.ieee_is_finite(T)) return
+        if(T<273.15d0.or.T>647.096d0) return
+        if(T==647.096d0) then
+            if(.not.derivatives) then
+                vap%rho=322d0; liq%rho=322d0
+                call self%region3%calc_h(T,322d0,vap%h)
+                liq%h=vap%h
+            end if
+            return
+        end if
+        p=self%region4%calc_psat(T)
+        slope=self%region4%calc_dpsat_dT(T)
+        if(T<=623.15d0) then
+            call saturation_gibbs(self%region2,T,p,vap)
+            call saturation_gibbs(self%region1,T,p,liq)
+            if(derivatives) then
+                call self%region2%calc_cp_derivatives(T,p,vap%cp_T,vap%cp_p)
+                call self%region1%calc_cp_derivatives(T,p,liq%cp_T,liq%cp_p)
+            end if
+        else
+            call saturation_root(self,T,p,.true.,vap%rho)
+            call saturation_root(self,T,p,.false.,liq%rho)
+            if(.not.ieee_is_finite(vap%rho).or..not.ieee_is_finite(liq%rho)) then
+                ! The independent IF97 fits can lose a stable root extremely
+                ! close to Tc. Reject the whole pair instead of leaking one phase.
+                vap%rho=nan
+                liq%rho=nan
+                return
+            end if
+            call saturation_helmholtz(self%region3,T,vap,derivatives)
+            call saturation_helmholtz(self%region3,T,liq,derivatives)
+        end if
+    end subroutine
 
-        ! 4. 潜熱 L = h'' - h'
-        latent_heat = h_vap - h_liq
+    pure elemental subroutine saturation_gibbs(region,T,p,phase)
+        class(abst_iapws_gibbs),intent(in)::region
+        real(real64),intent(in)::T,p
+        type(saturation_phase),intent(inout)::phase
+        type(type_iapws_gibbs_coefficient)::g
+        call region%calc_gamma(T,p,g)
+        phase%rho=1d0/g%g_p
+        phase%cp=-T*g%g_tt
+        phase%h=g%g-T*g%g_t
+        phase%rho_T=-g%g_pt/g%g_p**2
+        phase%rho_p=-g%g_pp/g%g_p**2
+        phase%h_p=g%g_p-T*g%g_pt
+    end subroutine
 
-    end subroutine calc_latent_heat_iapws97
+    pure elemental subroutine saturation_helmholtz(region,T,phase,derivatives)
+        class(type_iapws97_region3),intent(in)::region
+        real(real64),intent(in)::T
+        type(saturation_phase),intent(inout)::phase
+        logical,intent(in)::derivatives
+        type(type_iapws_helmholtz_property)::f
+        real(real64)::pt,pr
+        call region%calc_phi(region%T_c/T,phase%rho/region%rho_c,f)
+        call region%calc_cp(T,phase%rho,phase%cp,f)
+        call region%calc_h(T,phase%rho,phase%h,f)
+        call region%calc_p_T(T,phase%rho,pt,f)
+        call region%calc_p_rho(T,phase%rho,pr,f)
+        phase%rho_T=-pt/pr
+        phase%rho_p=1d0/pr
+        ! h_p|T = v - T*v_T|p, valid also for the Helmholtz EOS.
+        phase%h_p=1d0/phase%rho+T*phase%rho_T/phase%rho**2
+        if(derivatives) call region%calc_cp_derivatives(T,phase%rho,phase%cp_T,phase%cp_p)
+    end subroutine
 
-    !> 飽和蒸気密度と飽和液体密度を計算 (T入力)
-    module pure elemental subroutine calc_saturation_density_iapws97(self, T_in, rho_vap, rho_liq)
-        implicit none
+    module pure elemental subroutine calc_latent_heat_iapws97(self, latent_heat, T_in, p_in)
         class(type_iapws97), intent(in) :: self
-        real(real64), intent(in) :: T_in
-        real(real64), intent(inout), optional :: rho_vap ! 飽和蒸気密度 rho''
-        real(real64), intent(inout), optional :: rho_liq ! 飽和液体密度 rho'
-
-        real(real64) :: P_sat
-
-        ! 1. 飽和圧力 P_sat を計算 (Region 4)
-        P_sat = self%region4%calc_psat(T_in)
-
-        ! 2. 飽和蒸気密度 (Region 2)
-        if (present(rho_vap)) then
-            ! Region 2 の calc_rho を呼ぶ
-            call self%region2%calc_rho(T_in, P_sat, rho_vap)
+        real(real64), intent(inout) :: latent_heat
+        real(real64), intent(in), optional :: T_in, p_in
+        type(saturation_phase)::vap,liq
+        real(real64)::T,slope
+        latent_heat=ieee_value(0d0,ieee_quiet_nan)
+        if(present(T_in).eqv.present(p_in)) return
+        if(present(T_in)) then
+            T=T_in
+        else
+            if(.not.ieee_is_finite(p_in)) return
+            if(p_in<self%region4%calc_psat(273.15d0).or.p_in>22.064d6) return
+            T=self%region4%calc_tsat(p_in)
+            if(p_in==22.064d6) T=647.096d0
         end if
+        call saturation_state(self,T,vap,liq,slope,.false.)
+        latent_heat=vap%h-liq%h
+    end subroutine
 
-        ! 3. 飽和液体密度 (Region 1)
-        if (present(rho_liq)) then
-            ! Region 1 の calc_rho を呼ぶ
-            call self%region1%calc_rho(T_in, P_sat, rho_liq)
-        end if
+    module pure elemental subroutine calc_latent_heat_dT_iapws97(self,T_in,dlatent_heat_dT)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T_in
+        real(real64),intent(out)::dlatent_heat_dT
+        type(saturation_phase)::vap,liq
+        real(real64)::slope
+        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        dlatent_heat_dT=(vap%cp-liq%cp)+(vap%h_p-liq%h_p)*slope
+    end subroutine
 
-    end subroutine calc_saturation_density_iapws97
+    module pure elemental subroutine calc_saturation_density_iapws97(self,T_in,rho_vap,rho_liq)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T_in
+        real(real64),intent(inout),optional::rho_vap,rho_liq
+        type(saturation_phase)::vap,liq
+        real(real64)::slope
+        call saturation_state(self,T_in,vap,liq,slope,.false.)
+        if(present(rho_vap)) rho_vap=vap%rho
+        if(present(rho_liq)) rho_liq=liq%rho
+    end subroutine
 
-    module pure elemental subroutine calc_saturation_cp_iapws97(self, T_in, cp_vap, cp_liq)
-        implicit none
-        class(type_iapws97), intent(in) :: self
-        real(real64), intent(in) :: T_in
-        real(real64), intent(inout), optional :: cp_vap ! 飽和蒸気比熱 cp''
-        real(real64), intent(inout), optional :: cp_liq ! 飽和液体比熱 cp'
+    module pure elemental subroutine calc_saturation_cp_iapws97(self,T_in,cp_vap,cp_liq)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T_in
+        real(real64),intent(inout),optional::cp_vap,cp_liq
+        type(saturation_phase)::vap,liq
+        real(real64)::slope
+        call saturation_state(self,T_in,vap,liq,slope,.false.)
+        if(present(cp_vap)) cp_vap=vap%cp
+        if(present(cp_liq)) cp_liq=liq%cp
+    end subroutine
 
-        real(real64) :: P_sat
+    module pure elemental subroutine calc_saturation_drho_dT_iapws97(self,T_in,drho_dT_vap,drho_dT_liq)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T_in
+        real(real64),intent(inout),optional::drho_dT_vap,drho_dT_liq
+        type(saturation_phase)::vap,liq
+        real(real64)::slope
+        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        if(present(drho_dT_vap)) drho_dT_vap=vap%rho_T
+        if(present(drho_dT_liq)) drho_dT_liq=liq%rho_T
+    end subroutine
 
-        ! 1. 飽和圧力 P_sat を計算 (Region 4)
-        P_sat = self%region4%calc_psat(T_in)
+    module pure elemental subroutine calc_saturation_drho_dP_iapws97(self,T_in,drho_dP_vap,drho_dP_liq)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T_in
+        real(real64),intent(inout),optional::drho_dP_vap,drho_dP_liq
+        type(saturation_phase)::vap,liq
+        real(real64)::slope
+        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        if(present(drho_dP_vap)) drho_dP_vap=vap%rho_p
+        if(present(drho_dP_liq)) drho_dP_liq=liq%rho_p
+    end subroutine
 
-        ! 2. 飽和蒸気比熱 (Region 2)
-        if (present(cp_vap)) then
-            ! Region 2 の calc_cp を呼ぶ
-            call self%region2%calc_cp(T_in, P_sat, cp_vap)
-        end if
+    module pure elemental subroutine calc_saturation_dcp_dT_iapws97(self,T_in,dcp_dT_vap,dcp_dT_liq)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T_in
+        real(real64),intent(out),optional::dcp_dT_vap,dcp_dT_liq
+        type(saturation_phase)::vap,liq
+        real(real64)::slope
+        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        if(present(dcp_dT_vap)) dcp_dT_vap=vap%cp_T+vap%cp_p*slope
+        if(present(dcp_dT_liq)) dcp_dT_liq=liq%cp_T+liq%cp_p*slope
+    end subroutine
 
-        ! 3. 飽和液体比熱 (Region 1)
-        if (present(cp_liq)) then
-            ! Region 1 の calc_cp を呼ぶ
-            call self%region1%calc_cp(T_in, P_sat, cp_liq)
-        end if
-
-    end subroutine calc_saturation_cp_iapws97
-
-    !> 飽和状態における密度の温度微分 (drho/dT)_P を計算
-    !! T_in: 温度 [K]
-    !! drho_dT_vap: 飽和蒸気の微分値 [kg/(m^3 K)] (Optional)
-    !! drho_dT_liq: 飽和液体の微分値 [kg/(m^3 K)] (Optional)
-    module pure elemental subroutine calc_saturation_drho_dT_iapws97(self, T_in, drho_dT_vap, drho_dT_liq)
-        implicit none
-        class(type_iapws97), intent(in) :: self
-        real(real64), intent(in) :: T_in
-        real(real64), intent(inout), optional :: drho_dT_vap
-        real(real64), intent(inout), optional :: drho_dT_liq
-
-        real(real64) :: P_sat
-
-        ! 1. 飽和圧力 P_sat を計算 (Region 4)
-        P_sat = self%region4%calc_psat(T_in)
-
-        ! 2. 飽和蒸気 (Region 2) の温度微分
-        if (present(drho_dT_vap)) then
-            call self%region2%calc_drho_dT(T_in, P_sat, drho_dT_vap)
-        end if
-
-        ! 3. 飽和液体 (Region 1) の温度微分
-        if (present(drho_dT_liq)) then
-            call self%region1%calc_drho_dT(T_in, P_sat, drho_dT_liq)
-        end if
-
-    end subroutine calc_saturation_drho_dT_iapws97
-
-    !> 飽和状態における密度の圧力微分 (drho/dP)_T を計算
-    !! T_in: 温度 [K]
-    !! drho_dP_vap: 飽和蒸気の微分値 [kg/(m^3 Pa)] (Optional)
-    !! drho_dP_liq: 飽和液体の微分値 [kg/(m^3 Pa)] (Optional)
-    module pure elemental subroutine calc_saturation_drho_dP_iapws97(self, T_in, drho_dP_vap, drho_dP_liq)
-        implicit none
-        class(type_iapws97), intent(in) :: self
-        real(real64), intent(in) :: T_in
-        real(real64), intent(inout), optional :: drho_dP_vap
-        real(real64), intent(inout), optional :: drho_dP_liq
-
-        real(real64) :: P_sat
-
-        ! 1. 飽和圧力 P_sat を計算 (Region 4)
-        P_sat = self%region4%calc_psat(T_in)
-
-        ! 2. 飽和蒸気 (Region 2) の圧力微分
-        if (present(drho_dP_vap)) then
-            call self%region2%calc_drho_dP(T_in, P_sat, drho_dP_vap)
-        end if
-
-        ! 3. 飽和液体 (Region 1) の圧力微分
-        if (present(drho_dP_liq)) then
-            call self%region1%calc_drho_dP(T_in, P_sat, drho_dP_liq)
-        end if
-
-    end subroutine calc_saturation_drho_dP_iapws97
+    module pure elemental subroutine calc_saturation_density_dT_iapws97(self,T_in,drho_dT_vap,drho_dT_liq)
+        class(type_iapws97),intent(in)::self
+        real(real64),intent(in)::T_in
+        real(real64),intent(out),optional::drho_dT_vap,drho_dT_liq
+        type(saturation_phase)::vap,liq
+        real(real64)::slope
+        call saturation_state(self,T_in,vap,liq,slope,.true.)
+        if(present(drho_dT_vap)) drho_dT_vap=vap%rho_T+vap%rho_p*slope
+        if(present(drho_dT_liq)) drho_dT_liq=liq%rho_T+liq%rho_p*slope
+    end subroutine
 
 end submodule iapws97_base

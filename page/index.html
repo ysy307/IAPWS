@@ -150,18 +150,18 @@
 cmake<span class="w"> </span>--build<span class="w"> </span>build
 </code></pre></div>
 
-<p>Using Presets (Cross-Platform):This project provides CMake presets for different compilers (<code>gcc</code>, <code>intel</code>, <code>nvidia</code>, <code>windows-msvc</code>).</p>
+<p>Using Presets (Cross-Platform):This project provides CMake presets for different compilers (<code>gnu</code>, <code>intel</code>, <code>nvidia</code>, <code>windows-msvc</code>).</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># List available presets</span>
 cmake<span class="w"> </span>--list-presets
 
 <span class="c1"># Configure (e.g., using GCC Release settings)</span>
-cmake<span class="w"> </span>--preset<span class="w"> </span>gcc-release
+cmake<span class="w"> </span>--preset<span class="w"> </span>gnu-release
 
 <span class="c1"># Build</span>
-cmake<span class="w"> </span>--build<span class="w"> </span>--preset<span class="w"> </span>build-gcc-release
+cmake<span class="w"> </span>--build<span class="w"> </span>--preset<span class="w"> </span>build-gnu-release
 
 <span class="c1"># Test</span>
-ctest<span class="w"> </span>--preset<span class="w"> </span>test-gcc-release
+ctest<span class="w"> </span>--preset<span class="w"> </span>test-gnu-release
 </code></pre></div>
 
 <h4 id="installation">Installation:</h4>
@@ -211,9 +211,82 @@ fpm<span class="w"> </span>build<span class="w"> </span>--profile<span class="w"
 <h3 id="using-fpm">Using fpm</h3>
 <p>Add the following dependency to your fpm.toml:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">[dependencies]</span>
-<span class="n">IAPWS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">git</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;https://github.com/ysy307/IAPWS.git&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">IAPWS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">git</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"https://github.com/ysy307/IAPWS.git"</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 
+<h2 id="analytic-derivatives">Analytic derivatives</h2>
+<p>Initialize the model before calling these pure elemental <code>real64</code> methods. Scalar
+and conformable array arguments are supported. Temperatures are in K and
+pressures in Pa.</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Method</th>
+<th>Derivative / output units</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IF97 and Ice Ih</td>
+<td><code>calc_dcp_dT(T_in, p_in, dcp_dT)</code></td>
+<td>At fixed pressure, J/(kg K²)</td>
+</tr>
+<tr>
+<td>IF97 and Ice Ih</td>
+<td><code>calc_dcp_dp(T_in, p_in, dcp_dp)</code></td>
+<td>At fixed temperature, J/(kg K Pa)</td>
+</tr>
+<tr>
+<td>IF97</td>
+<td><code>calc_saturation_dcp_dT(T_in, dcp_dT_vap, dcp_dT_liq)</code></td>
+<td>Along saturation, J/(kg K²)</td>
+</tr>
+<tr>
+<td>IF97</td>
+<td><code>calc_latent_heat_dT(T_in, dlatent_heat_dT)</code></td>
+<td>Along saturation, J/(kg K)</td>
+</tr>
+<tr>
+<td>IF97</td>
+<td><code>calc_saturation_density_dT(T_in, drho_dT_vap, drho_dT_liq)</code></td>
+<td>Along saturation, kg/(m³ K)</td>
+</tr>
+</tbody>
+</table>
+<p>Fortran names are case insensitive; the Ice pressure argument is named <code>P_in</code>.
+Both phase outputs are optional and ordered vapor, liquid. Saturation derivatives
+include the analytic pressure slope <code>dp_sat/dT</code>. The existing
+<code>calc_saturation_drho_dT</code> and <code>calc_saturation_drho_dP</code> methods retain their
+<strong>partial</strong> derivative meanings at fixed pressure and temperature, respectively.</p>
+<p>IF97 ordinary derivatives follow the existing region dispatcher: 243.15–2273.15 K,
+0 &lt; p ≤ 100 MPa, with p ≤ 50 MPa above 1073.15 K. The sub-273.15 K range preserves
+the library's existing extrapolation convention. Ice derivatives accept
+0 &lt; T ≤ 273.16 K and 0 ≤ p ≤ 210 MPa. Saturation derivatives accept
+273.15 ≤ T &lt; 647.096 K, selecting regions 1/2 through 623.15 K and distinct stable
+region-3 vapor/liquid roots above it. At region joins the derivative belongs to
+the selected branch; the piecewise fits need not have matching derivatives.</p>
+<p>Invalid/nonfinite inputs and critical-point singularities return quiet NaN for
+the affected element. Extremely close to the critical point, the independently
+fitted saturation pressure and region-3 equation of state can cease to bracket
+both stable phases; saturation methods then return NaN for both phases rather
+than an unstable root. At the critical point, saturation densities are 322 kg/m³
+and latent heat is zero; saturation heat capacity and derivatives return NaN.
+CMake builds preserve IEEE behavior even with the supplied Release presets;
+other build systems must also avoid fast-math assumptions that erase NaN checks.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">call </span><span class="n">water</span><span class="p">%</span><span class="n">initialize</span><span class="p">()</span>
+<span class="k">call </span><span class="n">water</span><span class="p">%</span><span class="n">calc_dcp_dT</span><span class="p">(</span><span class="mi">50</span><span class="mf">0.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0e6_real64</span><span class="p">,</span><span class="w"> </span><span class="n">cp_temperature_slope</span><span class="p">)</span>
+<span class="k">call </span><span class="n">water</span><span class="p">%</span><span class="n">calc_saturation_density_dT</span><span class="p">(</span><span class="mi">64</span><span class="mf">0.0_real64</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">    </span><span class="n">drho_dT_vap</span><span class="o">=</span><span class="n">vapor_density_slope</span><span class="p">,</span><span class="w"> </span><span class="n">drho_dT_liq</span><span class="o">=</span><span class="n">liquid_density_slope</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The CTest suite checks analytic results against numerical differentiation at
+multiple steps, phase references, region joins, optional outputs, and invalid
+array elements. The reference-data validator fails on mismatches or nonfinite
+values and writes logs under the build directory. Run it directly with
+<code>build/gnu-debug/bin/iapws_test /absolute/path/to/validations</code> from a scratch
+working directory. Python 3, when available, enables an additional validator
+regression test; the library has no Python dependency.</p>
 <h1 id="api-document">API Document</h1>
 <p>Full API documentation is available here:
 <a href="https://ysy307.github.io/IAPWS/">IAPWS FORD Document</a></p>
@@ -236,7 +309,7 @@ fpm<span class="w"> </span>build<span class="w"> </span>--profile<span class="w"
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-11 00:50 +0000             </p>
+ on 2026-11-04 05:34 +0000             </p>
           </div>
         </div>
         <br>
