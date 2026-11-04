@@ -16,7 +16,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # ---------------------------------------------------------
 # GCC: Allow long lines (essential for IAPWS formulas)
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
-    add_compile_options(-ffree-line-length-none)
+    # The public derivative API returns quiet NaN for invalid states. Fast-math
+    # assumptions can erase IEEE predicates and invalidate that contract, even
+    # in callers such as the validation executables.
+    add_compile_options(-ffree-line-length-none -fno-fast-math)
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
+    add_compile_options(-fp-model=precise)
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "NVHPC|PGI")
+    add_compile_options(-Kieee)
 endif()
 
 # MSVC: specific definitions

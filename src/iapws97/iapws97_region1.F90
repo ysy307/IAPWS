@@ -158,4 +158,47 @@ contains
         end do
     end subroutine calc_gamma_all_region1
 
+    !> Analytic cp derivatives at fixed pressure and fixed temperature, respectively.
+    !> This separate evaluator leaves the ordinary Gibbs-property path unchanged.
+    module pure elemental subroutine calc_cp_derivatives_iapws97_region1(self, T_in, p_in, dcp_dT, dcp_dp)
+        class(type_iapws97_region1), intent(in) :: self
+        real(real64), intent(in) :: T_in, p_in
+        real(real64), intent(out) :: dcp_dT, dcp_dp
+        real(real64) :: tau, pi, x, y, jval, term, gtt, gttt, gttp
+        real(real64) :: xp(0:32), yp(-44:17)
+        integer :: k, n, iexp, jexp
+
+        tau = self%T_star / T_in
+        pi = p_in / self%p_star
+        x = 7.1d0 - pi
+        y = tau - 1.222d0
+        xp(0) = 1.d0
+        do k = 1, 32
+            xp(k) = xp(k-1) * x
+        end do
+        yp(0) = 1.d0
+        do k = 1, 17
+            yp(k) = yp(k-1) * y
+        end do
+        do k = -1, -44, -1
+            yp(k) = yp(k+1) / y
+        end do
+        gtt = 0.d0
+        gttt = 0.d0
+        gttp = 0.d0
+        do n = 1, N1_terms
+            iexp = I_r1(n)
+            jexp = J_r1(n)
+            if (jexp == 0 .or. jexp == 1) cycle
+            jval = real(jexp, real64)
+            term = n_r1(n) * jval * (jval-1.d0)
+            gtt = gtt + term * xp(iexp) * yp(jexp-2)
+            if (jexp /= 2) gttt = gttt + term * (jval-2.d0) * xp(iexp) * yp(jexp-3)
+            if (iexp /= 0) gttp = gttp - term * real(iexp, real64) * xp(iexp-1) * yp(jexp-2)
+        end do
+        ! cp = -R*tau**2*gamma_tautau; d(tau)/dT = -tau/T.
+        dcp_dT = self%R * tau**2 / T_in * (2.d0*gtt + tau*gttt)
+        dcp_dp = -self%R * tau**2 / self%p_star * gttp
+    end subroutine calc_cp_derivatives_iapws97_region1
+
 end submodule iapws97_region1

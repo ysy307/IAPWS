@@ -72,6 +72,7 @@ project/*/Output/
 */gdb/
 fpm/*
 third_party/*
+docs/superpowers/
 
 # === Python Virtual Environment ===
 .venv/

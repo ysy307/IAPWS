@@ -1,4 +1,5 @@
 submodule(module_iapws97) iapws97_region3
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite, ieee_value, ieee_quiet_nan
     implicit none
     integer(int32), parameter :: N3_terms = 40
     integer(int32), parameter :: I_r3(2:N3_terms) = [ &
@@ -34,6 +35,73 @@ submodule(module_iapws97) iapws97_region3
     integer(int32), parameter :: TAU_EXP_LO = -2, TAU_EXP_HI = 26
 
 contains
+    !> Analytic cp derivatives in (T,p), evaluated at the supplied (T,rho) state.
+    !> The pressure derivative is per Pa; no density solve is performed here.
+    module pure elemental subroutine calc_cp_derivatives_iapws97_region3(self, T_in, rho_in, dcp_dT, dcp_dp)
+        class(type_iapws97_region3), intent(in) :: self
+        real(real64), intent(in) :: T_in, rho_in
+        real(real64), intent(out) :: dcp_dT, dcp_dp
+        real(real64) :: tau, delta, phi, fd, ft, fdd, ftt, fdt
+        real(real64) :: fddd, fddt, fdtt, fttt, a, b, a_d, a_t, b_d, b_t, c_d, c_t
+        real(real64) :: pd(0:11), pt(0:26), ni, iv, jv
+        integer :: i, k, id, jt
+
+        dcp_dT = ieee_value(0.0_real64, ieee_quiet_nan)
+        dcp_dp = dcp_dT
+        if (.not. ieee_is_finite(T_in) .or. .not. ieee_is_finite(rho_in)) return
+        if (T_in <= 0.0_real64 .or. rho_in <= 0.0_real64) return
+        if (T_in == self%T_c .and. rho_in == self%rho_c) return
+        tau = self%T_c / T_in
+        delta = rho_in / self%rho_c
+        call calc_phi_all_region3(tau, delta, phi, fd, ft, fdd, ftt, fdt)
+
+        ! Third derivatives are evaluated only on this derivative path.
+        pd(0) = 1.0_real64
+        pt(0) = 1.0_real64
+        do k = 1, ubound(pd, 1)
+            pd(k) = pd(k - 1) * delta
+        end do
+        do k = 1, ubound(pt, 1)
+            pt(k) = pt(k - 1) * tau
+        end do
+        fddd = 2.0_real64 * n_r3(1) / delta**3
+        fddt = 0.0_real64
+        fdtt = 0.0_real64
+        fttt = 0.0_real64
+        do i = 2, N3_terms
+            id = I_r3(i)
+            jt = J_r3(i)
+            iv = real(id, real64)
+            jv = real(jt, real64)
+            ni = n_r3(i)
+            if (id >= 3) fddd = fddd + ni * iv * (iv - 1.0_real64) * &
+                (iv - 2.0_real64) * pd(id - 3) * pt(jt)
+            if (id >= 2 .and. jt >= 1) fddt = fddt + ni * iv * (iv - 1.0_real64) * &
+                jv * pd(id - 2) * pt(jt - 1)
+            if (id >= 1 .and. jt >= 2) fdtt = fdtt + ni * iv * jv * &
+                (jv - 1.0_real64) * pd(id - 1) * pt(jt - 2)
+            if (jt >= 3) fttt = fttt + ni * jv * (jv - 1.0_real64) * &
+                (jv - 2.0_real64) * pd(id) * pt(jt - 3)
+        end do
+
+        ! cp/R = -tau**2*phi_tt + A**2/B, p_rho = R*T*B, p_T = R*rho*A.
+        a = delta * (fd - tau * fdt)
+        b = 2.0_real64 * delta * fd + delta**2 * fdd
+        if (.not. ieee_is_finite(b)) return
+        if (b <= 0.0_real64) return
+        a_t = -delta * tau * fdtt
+        a_d = fd + delta * fdd - tau * fdt - delta * tau * fddt
+        b_t = 2.0_real64 * delta * fdt + delta**2 * fddt
+        b_d = 2.0_real64 * fd + 4.0_real64 * delta * fdd + delta**2 * fddd
+        c_t = -2.0_real64 * tau * ftt - tau**2 * fttt + &
+            2.0_real64 * (a / b) * a_t - (a / b)**2 * b_t
+        c_d = -tau**2 * fdtt + 2.0_real64 * (a / b) * a_d - (a / b)**2 * b_d
+
+        ! Transform cp_T|rho and cp_rho|T to cp_T|p and cp_p|T.
+        dcp_dT = -(self%R / T_in) * (tau * c_t + delta * (a / b) * c_d)
+        dcp_dp = c_d / (self%rho_c * T_in * b)
+    end subroutine calc_cp_derivatives_iapws97_region3
+
     !> Initialize the IAPWS-97 Region 3 object.
     module pure elemental subroutine initialize_type_iapws97_region3(self)
         implicit none

@@ -1,11 +1,27 @@
 program main
     use, intrinsic :: iso_fortran_env
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
     use :: iapws
     implicit none
+    character(:), allocatable :: data_root
+    integer :: argument_length
+    integer :: failures = 0
+
+    call get_command_argument(1, length=argument_length)
+    if (argument_length > 0) then
+        allocate(character(argument_length) :: data_root)
+        call get_command_argument(1, data_root)
+    else
+        data_root = 'validations'
+    end if
 
     call test_iapws95()
     call test_iapws97()
     call test_iapws06()
+    if (failures > 0) then
+        write(error_unit, '(a,i0)') 'Validation failures: ', failures
+        error stop 1
+    end if
 
 contains
     subroutine test_iapws95()
@@ -15,27 +31,19 @@ contains
         real(real64) :: T(test_case), rho(test_case)
         real(real64) :: p(test_case), cv(test_case), w(test_case), s(test_case)
         integer(int32) :: i
-        logical :: exists
 
         type(type_iapws95) :: iapws95_model
 
         type(type_iapws_property) :: props(test_case)
 
-        open (unit=10, file="/workspaces/IAPWS/validations/iapws95/Helmholtz.dat", status="old", action="read")
+        open (unit=10, file=data_root//"/iapws95/Helmholtz.dat", status="old", action="read")
         read (10, *)
         do i = 1, test_case
             read (10, *) T(i), rho(i), p(i), cv(i), w(i), s(i)
         end do
         close (10)
 
-        inquire (file="/workspaces/IAPWS/validations/iapws95/test_iapws95.log", exist=exists)
-        if (.not. exists) then
-            open (newunit=unit, file="/workspaces/IAPWS/validations/iapws95/test_iapws95.log", &
-                  status="new", action="write")
-        else
-            open (newunit=unit, file="/workspaces/IAPWS/validations/iapws95/test_iapws95.log", &
-                  status="old", action="write", position="append")
-        end if
+        open (newunit=unit, file="test_iapws95.log", status="replace", action="write")
 
         write (unit, '(a)') "# IAPWS-95 Validation Test Log ("//trim(get_compiler_name())//")"
 
@@ -69,12 +77,11 @@ contains
         real(real64) :: cp_h_exa(test_helmholtz), w_h_exa(test_helmholtz)
         integer(int32) :: region_h(test_helmholtz)
         integer(int32) :: i
-        logical :: exists
 
         type(type_iapws97) :: iapws97_model
         type(type_iapws_property) :: props_g(test_gibbs), props_h(test_helmholtz)
 
-        open (unit=10, file="/workspaces/IAPWS/validations/iapws97/test_iapws97.dat", status="old", action="read")
+        open (unit=10, file=data_root//"/iapws97/test_iapws97.dat", status="old", action="read")
         read (10, *)
         do i = 1, test_gibbs
             read (10, *) region_gibbs(i), T_g(i), p_g(i), nu_g_exa(i), h_g_exa(i), u_g_exa(i), &
@@ -88,14 +95,7 @@ contains
         end do
         close (10)
 
-        inquire (file="/workspaces/IAPWS/validations/iapws97/test_iapws97.log", exist=exists)
-        if (.not. exists) then
-            open (newunit=unit, file="/workspaces/IAPWS/validations/iapws97/test_iapws97.log", &
-                  status="new", action="write")
-        else
-            open (newunit=unit, file="/workspaces/IAPWS/validations/iapws97/test_iapws97.log", &
-                  status="old", action="write", position="append")
-        end if
+        open (newunit=unit, file="test_iapws97.log", status="replace", action="write")
 
         write (unit, '(a)') "# IAPWS-97 Validation Test Log ("//trim(get_compiler_name())//")"
 
@@ -133,6 +133,7 @@ contains
         call check_variables(unit, [(props_h(i)%w, i=1, test_helmholtz)], &
                              w_h_exa, "w", [(i, i=1, test_helmholtz)], 1.0d-7)
 
+        close(unit)
     end subroutine test_iapws97
 
     subroutine test_iapws06()
@@ -146,12 +147,11 @@ contains
         real(real64) :: alpha_exa(test_case), beta_exa(test_case)
         real(real64) :: kappa_T_exa(test_case), kappa_s_exa(test_case)
         integer(int32) :: i
-        logical :: exists
 
         type(type_iapws06) :: iapws06_model
         type(type_iapws_property) :: props(test_case)
 
-        open (unit=10, file="/workspaces/IAPWS/validations/iapws06/test_iapws06.dat", status="old", action="read")
+        open (unit=10, file=data_root//"/iapws06/test_iapws06.dat", status="old", action="read")
         read (10, *)
         do i = 1, test_case
             read (10, *) T_g(i), p_g(i), nu_g_exa(i), h_g_exa(i), u_g_exa(i), s_g_exa(i), &
@@ -159,14 +159,7 @@ contains
         end do
         close (10)
 
-        inquire (file="/workspaces/IAPWS/validations/iapws06/test_iapws06.log", exist=exists)
-        if (.not. exists) then
-            open (newunit=unit, file="/workspaces/IAPWS/validations/iapws06/test_iapws06.log", &
-                  status="new", action="write")
-        else
-            open (newunit=unit, file="/workspaces/IAPWS/validations/iapws06/test_iapws06.log", &
-                  status="old", action="write", position="append")
-        end if
+        open (newunit=unit, file="test_iapws06.log", status="replace", action="write")
 
         write (unit, '(a)') "# IAPWS-06 Validation Test Log ("//trim(get_compiler_name())//")"
         call iapws06_model%initialize()
@@ -191,6 +184,7 @@ contains
         call check_variables(unit, [(props(i)%kappa_s, i=1, test_case)], &
                              kappa_s_exa, "Isentropic Compressibility", [(i, i=1, test_case)])
 
+        close(unit)
     end subroutine test_iapws06
 
     function get_compiler_name() result(name)
@@ -226,14 +220,26 @@ contains
             current_tol = tol
         end if
 
-        if (abs(v_exa) > 0.0d0) then
+        ! Test finiteness before comparisons or arithmetic, including under
+        ! debug builds that trap invalid floating-point operations.
+        if (.not. ieee_is_finite(v) .or. .not. ieee_is_finite(v_exa)) then
+            rel_diff = huge(0.0_real64)
+        else if (abs(v_exa) > 0.0d0) then
             rel_diff = abs(v - v_exa) / abs(v_exa)
         else
             rel_diff = abs(v - v_exa)
         end if
 
         if (rel_diff > current_tol) then
+            failures = failures + 1
             write (unit, '(a)') "- **FAIL**: `"//v_name//"`"
+            ! Some compiler runtimes raise invalid while formatting NaN/Inf
+            ! with a numeric descriptor when floating-point traps are enabled.
+            if (.not. ieee_is_finite(v) .or. .not. ieee_is_finite(v_exa)) then
+                if (present(id)) write (unit, '(a,i0)') '    ID: ', id
+                write (unit, '(a)') '    Nonfinite computed or reference value'
+                return
+            end if
             write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
             write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') &
                 repeat('-', 6), repeat('-', 20), repeat('-', 20), repeat('-', 20)
@@ -246,6 +252,10 @@ contains
             end if
         else
             write (unit, '(a)') "- PASS: `"//v_name//"`"
+            if (present(id)) write (unit, '(a,i0)') '    ID: ', id
+            write (unit, '(a,es24.16,a,es24.16,a,es24.16,a,es24.16)') &
+                '    computed=', v, ' expected=', v_exa, &
+                ' relative_error=', rel_diff, ' tolerance=', current_tol
         end if
     end subroutine check_variable
 
@@ -258,49 +268,15 @@ contains
         integer(int32), intent(in), optional :: ids(:)
         real(real64), intent(in), optional :: tolerance
 
-        real(real64), parameter :: tol = 5.0d-9
+        integer(int32) :: i
 
-        real(real64), allocatable :: rel_diff(:)
-        integer(int32) :: i, n
-        integer(int32) :: fail_count
-        real(real64), allocatable :: current_tol
-
-        n = size(v)
-        allocate (rel_diff(n))
-
-        if (present(tolerance)) then
-            current_tol = tolerance
-        else
-            current_tol = tol
-        end if
-
-        where (abs(v_exa) > 0.0d0)
-            rel_diff = abs(v - v_exa) / abs(v_exa)
-        elsewhere
-            rel_diff = abs(v - v_exa)
-        end where
-
-        if (any(rel_diff > current_tol)) then
-            fail_count = count(rel_diff > current_tol)
-            write (unit, '(a,i0,a)') "- **FAIL**: `"//v_name//"` (Failed count: ", fail_count, ")"
-            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') "ID", "computed", "expected", "rel_diff"
-            write (unit, '("    |",a6,"|",a20,"|",a20,"|",a20,"|")') &
-                repeat('-', 6), repeat('-', 20), repeat('-', 20), repeat('-', 20)
-
-            do i = 1, n
-                if (rel_diff(i) > current_tol) then
-                    if (present(ids)) then
-                        write (unit, '("    |",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
-                            ids(i), v(i), v_exa(i), rel_diff(i)
-                    else
-                        write (unit, '("    |",i6,"|",es20.8,"|",es20.8,"|",es20.8,"|")') &
-                            i, v(i), v_exa(i), rel_diff(i)
-                    end if
-                end if
-            end do
-        else
-            write (unit, '(a)') "- PASS: `"//v_name//"`"
-        end if
+        do i = 1, size(v)
+            if (present(ids)) then
+                call check_variable(unit, v(i), v_exa(i), v_name, ids(i), tolerance)
+            else
+                call check_variable(unit, v(i), v_exa(i), v_name, i, tolerance)
+            end if
+        end do
     end subroutine check_variables
 
 end program main

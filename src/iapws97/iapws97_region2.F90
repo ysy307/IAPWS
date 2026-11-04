@@ -241,4 +241,57 @@ contains
         end do
     end subroutine calc_gammar_all_region2
 
+    !> Analytic cp derivatives, evaluated only when requested.
+    module pure elemental subroutine calc_cp_derivatives_iapws97_region2(self, T_in, p_in, dcp_dT, dcp_dp)
+        class(type_iapws97_region2), intent(in) :: self
+        real(real64), intent(in) :: T_in, p_in
+        real(real64), intent(out) :: dcp_dT, dcp_dp
+        real(real64) :: tau, pi, y, jval, term, gtt, gttt, gttp
+        real(real64) :: xp(0:24), yp(0:58), t0p(-8:3)
+        integer :: k, n, iexp, jexp
+
+        tau = self%T_star / T_in
+        pi = p_in / self%p_star
+        y = tau - 0.5d0
+        xp(0) = 1.d0
+        do k = 1, 24
+            xp(k) = xp(k-1) * pi
+        end do
+        yp(0) = 1.d0
+        do k = 1, 58
+            yp(k) = yp(k-1) * y
+        end do
+        t0p(0) = 1.d0
+        do k = 1, 3
+            t0p(k) = t0p(k-1) * tau
+        end do
+        do k = -1, -8, -1
+            t0p(k) = t0p(k+1) / tau
+        end do
+        gtt = 0.d0
+        gttt = 0.d0
+        gttp = 0.d0
+        do n = 1, N02_terms
+            jexp = J0_r2(n)
+            if (jexp == 0 .or. jexp == 1) cycle
+            jval = real(jexp, real64)
+            term = n0_r2(n) * jval * (jval-1.d0)
+            gtt = gtt + term * t0p(jexp-2)
+            if (jexp /= 2) gttt = gttt + term * (jval-2.d0) * t0p(jexp-3)
+        end do
+        do n = 1, Nr2_terms
+            iexp = Ir_r2(n)
+            jexp = Jr_r2(n)
+            if (jexp < 2) cycle
+            jval = real(jexp, real64)
+            term = nr_r2(n) * jval * (jval-1.d0)
+            gtt = gtt + term * xp(iexp) * yp(jexp-2)
+            if (jexp > 2) gttt = gttt + term * (jval-2.d0) * xp(iexp) * yp(jexp-3)
+            gttp = gttp + term * real(iexp, real64) * xp(iexp-1) * yp(jexp-2)
+        end do
+        ! The ideal log(pi) term has no temperature derivatives.
+        dcp_dT = self%R * tau**2 / T_in * (2.d0*gtt + tau*gttt)
+        dcp_dp = -self%R * tau**2 / self%p_star * gttp
+    end subroutine calc_cp_derivatives_iapws97_region2
+
 end submodule iapws97_region2

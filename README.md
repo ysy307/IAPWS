@@ -39,19 +39,19 @@ Using CMake (Recommended)This method is best for system-wide installation or int
 cmake -S . -B build
 cmake --build build
 ```
-Using Presets (Cross-Platform):This project provides CMake presets for different compilers (`gcc`, `intel`, `nvidia`, `windows-msvc`).
+Using Presets (Cross-Platform):This project provides CMake presets for different compilers (`gnu`, `intel`, `nvidia`, `windows-msvc`).
 ```sh
 # List available presets
 cmake --list-presets
 
 # Configure (e.g., using GCC Release settings)
-cmake --preset gcc-release
+cmake --preset gnu-release
 
 # Build
-cmake --build --preset build-gcc-release
+cmake --build --preset build-gnu-release
 
 # Test
-ctest --preset test-gcc-release
+ctest --preset test-gnu-release
 ```
 #### Installation:
 ```sh
@@ -109,6 +109,58 @@ Add the following dependency to your fpm.toml:
 [dependencies]
 IAPWS = { git = "https://github.com/ysy307/IAPWS.git" }
 ```
+
+## Analytic derivatives
+
+Initialize the model before calling these pure elemental `real64` methods. Scalar
+and conformable array arguments are supported. Temperatures are in K and
+pressures in Pa.
+
+| Model | Method | Derivative / output units |
+| --- | --- | --- |
+| IF97 and Ice Ih | `calc_dcp_dT(T_in, p_in, dcp_dT)` | At fixed pressure, J/(kg K²) |
+| IF97 and Ice Ih | `calc_dcp_dp(T_in, p_in, dcp_dp)` | At fixed temperature, J/(kg K Pa) |
+| IF97 | `calc_saturation_dcp_dT(T_in, dcp_dT_vap, dcp_dT_liq)` | Along saturation, J/(kg K²) |
+| IF97 | `calc_latent_heat_dT(T_in, dlatent_heat_dT)` | Along saturation, J/(kg K) |
+| IF97 | `calc_saturation_density_dT(T_in, drho_dT_vap, drho_dT_liq)` | Along saturation, kg/(m³ K) |
+
+Fortran names are case insensitive; the Ice pressure argument is named `P_in`.
+Both phase outputs are optional and ordered vapor, liquid. Saturation derivatives
+include the analytic pressure slope `dp_sat/dT`. The existing
+`calc_saturation_drho_dT` and `calc_saturation_drho_dP` methods retain their
+**partial** derivative meanings at fixed pressure and temperature, respectively.
+
+IF97 ordinary derivatives follow the existing region dispatcher: 243.15–2273.15 K,
+0 < p ≤ 100 MPa, with p ≤ 50 MPa above 1073.15 K. The sub-273.15 K range preserves
+the library's existing extrapolation convention. Ice derivatives accept
+0 < T ≤ 273.16 K and 0 ≤ p ≤ 210 MPa. Saturation derivatives accept
+273.15 ≤ T < 647.096 K, selecting regions 1/2 through 623.15 K and distinct stable
+region-3 vapor/liquid roots above it. At region joins the derivative belongs to
+the selected branch; the piecewise fits need not have matching derivatives.
+
+Invalid/nonfinite inputs and critical-point singularities return quiet NaN for
+the affected element. Extremely close to the critical point, the independently
+fitted saturation pressure and region-3 equation of state can cease to bracket
+both stable phases; saturation methods then return NaN for both phases rather
+than an unstable root. At the critical point, saturation densities are 322 kg/m³
+and latent heat is zero; saturation heat capacity and derivatives return NaN.
+CMake builds preserve IEEE behavior even with the supplied Release presets;
+other build systems must also avoid fast-math assumptions that erase NaN checks.
+
+```fortran
+call water%initialize()
+call water%calc_dcp_dT(500.0_real64, 3.0e6_real64, cp_temperature_slope)
+call water%calc_saturation_density_dT(640.0_real64, &
+    drho_dT_vap=vapor_density_slope, drho_dT_liq=liquid_density_slope)
+```
+
+The CTest suite checks analytic results against numerical differentiation at
+multiple steps, phase references, region joins, optional outputs, and invalid
+array elements. The reference-data validator fails on mismatches or nonfinite
+values and writes logs under the build directory. Run it directly with
+`build/gnu-debug/bin/iapws_test /absolute/path/to/validations` from a scratch
+working directory. Python 3, when available, enables an additional validator
+regression test; the library has no Python dependency.
 
 # API Document
 Full API documentation is available here:

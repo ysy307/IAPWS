@@ -9,6 +9,8 @@ module module_iapws06_iceIh
     contains
         procedure, pass(self), public :: initialize => initialize_type_iapws06
         procedure, pass(self), public :: calc_gamma => calc_gamma_iapws06
+        procedure, pass(self), public :: calc_dcp_dT => calc_dcp_dT_iapws06
+        procedure, pass(self), public :: calc_dcp_dP => calc_dcp_dP_iapws06
         procedure, pass(self), private :: calc_gamma_Ih => calc_gamma_iapws06_Ih
         procedure, pass(self), private :: calc_gamma_t_Ih => calc_gamma_t_iapws06_Ih
         procedure, pass(self), private :: calc_gamma_p_Ih => calc_gamma_p_iapws06_Ih
@@ -18,6 +20,22 @@ module module_iapws06_iceIh
     end type type_iapws06
 
     interface
+        !> Isobaric heat-capacity temperature derivative, [J/(kg K^2)].
+        !> Returns quiet NaN outside 0 < T <= 273.16 K, 0 <= P <= 210 MPa.
+        module pure elemental subroutine calc_dcp_dT_iapws06(self, T_in, P_in, dcp_dT)
+            class(type_iapws06), intent(in) :: self
+            real(real64), intent(in) :: T_in, P_in
+            real(real64), intent(out) :: dcp_dT
+        end subroutine calc_dcp_dT_iapws06
+
+        !> Isothermal heat-capacity pressure derivative, [J/(kg K Pa)].
+        !> Returns quiet NaN outside 0 < T <= 273.16 K, 0 <= P <= 210 MPa.
+        module pure elemental subroutine calc_dcp_dP_iapws06(self, T_in, P_in, dcp_dP)
+            class(type_iapws06), intent(in) :: self
+            real(real64), intent(in) :: T_in, P_in
+            real(real64), intent(out) :: dcp_dP
+        end subroutine calc_dcp_dP_iapws06
+
         !> Initialize the IAPWS-06 object.
         module pure elemental subroutine initialize_type_iapws06(self)
             implicit none
