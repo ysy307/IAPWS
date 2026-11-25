@@ -41,12 +41,12 @@ contains
         r2 = calc_r2_iapws06_Ih(pi, self%pi_0)
         ! A = 1/(t-tau) + 1/(t+tau) - 2/t, in a form that
         ! avoids cancellation at low temperature. g_TT = Re(sum(r*A))/Tt.
-        a1 = 2.0_real64*tau**2/(t1_Ih*(t1_Ih**2-tau**2))
-        a2 = 2.0_real64*tau**2/(t2_Ih*(t2_Ih**2-tau**2))
-        a1_t = 4.0_real64*t1_Ih*tau/(t1_Ih**2-tau**2)**2
-        a2_t = 4.0_real64*t2_Ih*tau/(t2_Ih**2-tau**2)**2
+        a1 = 2.0_real64 * tau**2 / (t1_Ih * (t1_Ih**2 - tau**2))
+        a2 = 2.0_real64 * tau**2 / (t2_Ih * (t2_Ih**2 - tau**2))
+        a1_t = 4.0_real64 * t1_Ih * tau / (t1_Ih**2 - tau**2)**2
+        a2_t = 4.0_real64 * t2_Ih * tau / (t2_Ih**2 - tau**2)**2
         ! cp = -T*g_TT; this derivative holds pressure constant.
-        dcp_dT = -real(r1_Ih*(a1+tau*a1_t)+r2*(a2+tau*a2_t), real64)/self%T_star
+        dcp_dT = -real(r1_Ih * (a1 + tau * a1_t) + r2 * (a2 + tau * a2_t), real64) / self%T_star
     end subroutine calc_dcp_dT_iapws06
 
     module pure elemental subroutine calc_dcp_dP_iapws06(self, T_in, P_in, dcp_dP)
@@ -60,9 +60,9 @@ contains
         if (.not. valid_derivative_state(T_in, P_in)) return
         tau = T_in / self%T_star
         pi = P_in / self%p_star
-        a2 = 2.0_real64*tau**2/(t2_Ih*(t2_Ih**2-tau**2))
+        a2 = 2.0_real64 * tau**2 / (t2_Ih * (t2_Ih**2 - tau**2))
         ! calc_r2_p already includes the conversion from reduced pressure to Pa.
-        dcp_dP = -tau*real(calc_r2_p_iapws06_Ih(pi, self%pi_0)*a2, real64)
+        dcp_dP = -tau * real(calc_r2_p_iapws06_Ih(pi, self%pi_0) * a2, real64)
     end subroutine calc_dcp_dP_iapws06
 
     pure elemental logical function valid_derivative_state(T_in, P_in) result(valid)

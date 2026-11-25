@@ -226,18 +226,18 @@ contains
         y = tau
         xp(0) = 1.d0
         do k = 1, 3
-            xp(k) = xp(k-1) * pi
+            xp(k) = xp(k - 1) * pi
         end do
         yp(0) = 1.d0
         do k = 1, 9
-            yp(k) = yp(k-1) * y
+            yp(k) = yp(k - 1) * y
         end do
         t0p(0) = 1.d0
         do k = 1, 2
-            t0p(k) = t0p(k-1) * tau
+            t0p(k) = t0p(k - 1) * tau
         end do
         do k = -1, -6, -1
-            t0p(k) = t0p(k+1) / tau
+            t0p(k) = t0p(k + 1) / tau
         end do
         gtt = 0.d0
         gttt = 0.d0
@@ -246,135 +246,134 @@ contains
             jexp = J0_r5(n)
             if (jexp == 0 .or. jexp == 1) cycle
             jval = real(jexp, real64)
-            term = n0_r5(n) * jval * (jval-1.d0)
-            gtt = gtt + term * t0p(jexp-2)
-            if (jexp /= 2) gttt = gttt + term * (jval-2.d0) * t0p(jexp-3)
+            term = n0_r5(n) * jval * (jval - 1.d0)
+            gtt = gtt + term * t0p(jexp - 2)
+            if (jexp /= 2) gttt = gttt + term * (jval - 2.d0) * t0p(jexp - 3)
         end do
         do n = 1, Nr5_terms
             iexp = Ir_r5(n)
             jexp = Jr_r5(n)
             if (jexp < 2) cycle
             jval = real(jexp, real64)
-            term = nr_r5(n) * jval * (jval-1.d0)
-            gtt = gtt + term * xp(iexp) * yp(jexp-2)
-            if (jexp > 2) gttt = gttt + term * (jval-2.d0) * xp(iexp) * yp(jexp-3)
-            gttp = gttp + term * real(iexp, real64) * xp(iexp-1) * yp(jexp-2)
+            term = nr_r5(n) * jval * (jval - 1.d0)
+            gtt = gtt + term * xp(iexp) * yp(jexp - 2)
+            if (jexp > 2) gttt = gttt + term * (jval - 2.d0) * xp(iexp) * yp(jexp - 3)
+            gttp = gttp + term * real(iexp, real64) * xp(iexp - 1) * yp(jexp - 2)
         end do
         ! The ideal log(pi) term has no temperature derivatives.
-        dcp_dT = self%R * tau**2 / T_in * (2.d0*gtt + tau*gttt)
+        dcp_dT = self%R * tau**2 / T_in * (2.d0 * gtt + tau * gttt)
         dcp_dp = -self%R * tau**2 / self%p_star * gttp
     end subroutine calc_cp_derivatives_iapws97_region5
 
 ! State lanes are contiguous in each power table. The term loop remains
 ! ordered independently in every lane; no horizontal floating-point reduction.
-    module pure recursive subroutine calc_gamma_batch_iapws97_region5(self,T_in,P_in,coef)
-        use module_iapws_batch,only:IAPWS_BATCH_TILE
-        class(type_iapws97_region5),intent(in)::self
-        real(real64),intent(in)::T_in(:),P_in(:)
-        real(real64),intent(out)::coef(:,:)
-        type(type_iapws_gibbs_coefficient)::g
-        integer::j
+    module pure recursive subroutine calc_gamma_batch_iapws97_region5(self, T_in, P_in, coef)
+        use module_iapws_batch, only: IAPWS_BATCH_TILE
+        class(type_iapws97_region5), intent(in) :: self
+        real(real64), intent(in) :: T_in(:), P_in(:)
+        real(real64), intent(out) :: coef(:, :)
+        type(type_iapws_gibbs_coefficient) :: g
+        integer :: j
 #if !defined(__NVCOMPILER)
-        integer::base,width,k,term,lane
-        real(real64)::xp(IAPWS_BATCH_TILE,-1:3),yp(IAPWS_BATCH_TILE,-1:9)
-        real(real64)::t0(IAPWS_BATCH_TILE,-5:2),sums(IAPWS_BATCH_TILE,6),ideal(IAPWS_BATCH_TILE,3)
-        real(real64)::tau(IAPWS_BATCH_TILE),pi(IAPWS_BATCH_TILE),y(IAPWS_BATCH_TILE),iy(IAPWS_BATCH_TILE)
-        real(real64)::iv,jv,pp,pt,rt,r_pstar,val_g,val_gp,val_gt,val_gpp,val_gtt,val_gpt
+        integer :: base, width, k, term, lane
+        real(real64) :: xp(IAPWS_BATCH_TILE, -1:3), yp(IAPWS_BATCH_TILE, -1:9)
+        real(real64) :: t0(IAPWS_BATCH_TILE, -5:2), sums(IAPWS_BATCH_TILE, 6), ideal(IAPWS_BATCH_TILE, 3)
+        real(real64) :: tau(IAPWS_BATCH_TILE), pi(IAPWS_BATCH_TILE), y(IAPWS_BATCH_TILE), iy(IAPWS_BATCH_TILE)
+        real(real64) :: iv, jv, pp, pt, rt, r_pstar, val_g, val_gp, val_gt, val_gpp, val_gtt, val_gpt
 #endif
-        if(size(P_in)/=size(T_in).or.size(coef,1)/=size(T_in).or.size(coef,2)/=6) &
+        if (size(P_in) /= size(T_in) .or. size(coef, 1) /= size(T_in) .or. size(coef, 2) /= 6) &
             error stop 'IAPWS batch: Gibbs coefficient shape'
 #if defined(__NVCOMPILER)
         ! Preserve this compiler's existing within-state vector reductions.
-        do j=1,size(T_in)
-            call self%calc_gamma(T_in(j),P_in(j),g)
-            coef(j,:)=[g%g,g%g_p,g%g_t,g%g_pp,g%g_tt,g%g_pt]
+        do j = 1, size(T_in)
+            call self%calc_gamma(T_in(j), P_in(j), g)
+            coef(j, :) = [g%g, g%g_p, g%g_t, g%g_pp, g%g_tt, g%g_pt]
         end do
 #else
-        if(size(T_in)<4) then
-            do j=1,size(T_in)
-                call self%calc_gamma(T_in(j),P_in(j),g)
-                coef(j,:)=[g%g,g%g_p,g%g_t,g%g_pp,g%g_tt,g%g_pt]
+        if (size(T_in) < 4) then
+            do j = 1, size(T_in)
+                call self%calc_gamma(T_in(j), P_in(j), g)
+                coef(j, :) = [g%g, g%g_p, g%g_t, g%g_pp, g%g_tt, g%g_pt]
             end do
             return
         end if
-        do base=1,size(T_in),IAPWS_BATCH_TILE
-            width=min(IAPWS_BATCH_TILE,size(T_in)-base+1)
+        do base = 1, size(T_in), IAPWS_BATCH_TILE
+            width = min(IAPWS_BATCH_TILE, size(T_in) - base + 1)
             !$omp simd
-            do lane=1,width
-                tau(lane)=self%T_star/T_in(base+lane-1);pi(lane)=P_in(base+lane-1)/self%p_star
-                y(lane)=tau(lane);iy(lane)=1d0/tau(lane)
-                xp(lane,0)=1d0;xp(lane,1)=pi(lane);xp(lane,-1)=1d0/pi(lane)
-                yp(lane,0)=1d0;yp(lane,1)=y(lane)
-                yp(lane,-1)=1d0/y(lane)
-                t0(lane,0)=1d0;t0(lane,1)=tau(lane);t0(lane,-1)=iy(lane)
-                ideal(lane,1)=log(pi(lane));ideal(lane,2)=0d0;ideal(lane,3)=0d0
+            do lane = 1, width
+                tau(lane) = self%T_star / T_in(base + lane - 1); pi(lane) = P_in(base + lane - 1) / self%p_star
+                y(lane) = tau(lane); iy(lane) = 1d0 / tau(lane)
+                xp(lane, 0) = 1d0; xp(lane, 1) = pi(lane); xp(lane, -1) = 1d0 / pi(lane)
+                yp(lane, 0) = 1d0; yp(lane, 1) = y(lane)
+                yp(lane, -1) = 1d0 / y(lane)
+                t0(lane, 0) = 1d0; t0(lane, 1) = tau(lane); t0(lane, -1) = iy(lane)
+                ideal(lane, 1) = log(pi(lane)); ideal(lane, 2) = 0d0; ideal(lane, 3) = 0d0
             end do
-            do k=2,3
+            do k = 2, 3
                 !$omp simd
-                do lane=1,width
-                    xp(lane,k)=xp(lane,k-1)*pi(lane)
+                do lane = 1, width
+                    xp(lane, k) = xp(lane, k - 1) * pi(lane)
                 end do
             end do
-            do k=2,9
+            do k = 2, 9
                 !$omp simd
-                do lane=1,width
-                    yp(lane,k)=yp(lane,k-1)*y(lane)
+                do lane = 1, width
+                    yp(lane, k) = yp(lane, k - 1) * y(lane)
                 end do
             end do
-            do k=2,2
+            do k = 2, 2
                 !$omp simd
-                do lane=1,width
-                    t0(lane,k)=t0(lane,k-1)*tau(lane)
+                do lane = 1, width
+                    t0(lane, k) = t0(lane, k - 1) * tau(lane)
                 end do
             end do
-            do k=-2,-5,-1
+            do k = -2, -5, -1
                 !$omp simd
-                do lane=1,width
-                    t0(lane,k)=t0(lane,k+1)*iy(lane)
+                do lane = 1, width
+                    t0(lane, k) = t0(lane, k + 1) * iy(lane)
                 end do
             end do
-            do term=1,N05_terms
-                jv=real(J0_r5(term),real64)
+            do term = 1, N05_terms
+                jv = real(J0_r5(term), real64)
                 !$omp simd
-                do lane=1,width
-                    ideal(lane,1)=ideal(lane,1)+n0_r5(term)*t0(lane,J0_r5(term))
-                    ideal(lane,2)=ideal(lane,2)+n0_r5(term)*jv*t0(lane,J0_r5(term)-1)
-                    ideal(lane,3)=ideal(lane,3)+n0_r5(term)*jv*(jv-1d0)*t0(lane,J0_r5(term)-2)
+                do lane = 1, width
+                    ideal(lane, 1) = ideal(lane, 1) + n0_r5(term) * t0(lane, J0_r5(term))
+                    ideal(lane, 2) = ideal(lane, 2) + n0_r5(term) * jv * t0(lane, J0_r5(term) - 1)
+                    ideal(lane, 3) = ideal(lane, 3) + n0_r5(term) * jv * (jv - 1d0) * t0(lane, J0_r5(term) - 2)
                 end do
             end do
-            sums=0d0
-            do term=1,Nr5_terms
-                iv=real(Ir_r5(term),real64);jv=real(Jr_r5(term),real64)
+            sums = 0d0
+            do term = 1, Nr5_terms
+                iv = real(Ir_r5(term), real64); jv = real(Jr_r5(term), real64)
                 !$omp simd private(pp,pt)
-                do lane=1,width
-                    pp=xp(lane,Ir_r5(term));pt=yp(lane,Jr_r5(term))
-                    sums(lane,1)=sums(lane,1)+nr_r5(term)*pp*pt
-                    sums(lane,2)=sums(lane,2)+nr_r5(term)*iv*xp(lane,Ir_r5(term)-1)*pt
-                    sums(lane,3)=sums(lane,3)+nr_r5(term)*jv*pp*yp(lane,Jr_r5(term)-1)
-                    sums(lane,4)=sums(lane,4)+nr_r5(term)*iv*(iv-1d0)*xp(lane,Ir_r5(term)-2)*pt
-                    sums(lane,5)=sums(lane,5)+nr_r5(term)*jv*(jv-1d0)*pp*yp(lane,Jr_r5(term)-2)
-                    sums(lane,6)=sums(lane,6)+nr_r5(term)*iv*jv*xp(lane,Ir_r5(term)-1)*yp(lane,Jr_r5(term)-1)
+                do lane = 1, width
+                    pp = xp(lane, Ir_r5(term)); pt = yp(lane, Jr_r5(term))
+                    sums(lane, 1) = sums(lane, 1) + nr_r5(term) * pp * pt
+                    sums(lane, 2) = sums(lane, 2) + nr_r5(term) * iv * xp(lane, Ir_r5(term) - 1) * pt
+                    sums(lane, 3) = sums(lane, 3) + nr_r5(term) * jv * pp * yp(lane, Jr_r5(term) - 1)
+                    sums(lane, 4) = sums(lane, 4) + nr_r5(term) * iv * (iv - 1d0) * xp(lane, Ir_r5(term) - 2) * pt
+                    sums(lane, 5) = sums(lane, 5) + nr_r5(term) * jv * (jv - 1d0) * pp * yp(lane, Jr_r5(term) - 2)
+                    sums(lane, 6) = sums(lane, 6) + nr_r5(term) * iv * jv * xp(lane, Ir_r5(term) - 1) * yp(lane, Jr_r5(term) - 1)
                 end do
             end do
-            r_pstar=self%R/self%p_star
+            r_pstar = self%R / self%p_star
             !$omp simd private(rt,val_g,val_gp,val_gt,val_gpp,val_gtt,val_gpt)
-            do lane=1,width
-                rt=self%R*T_in(base+lane-1)
-                val_g=ideal(lane,1)+sums(lane,1)
-                val_gp=1d0/pi(lane)+sums(lane,2)
-                val_gt=ideal(lane,2)+sums(lane,3)
-                val_gpp=-1d0/(pi(lane)*pi(lane))+sums(lane,4)
-                val_gtt=ideal(lane,3)+sums(lane,5);val_gpt=sums(lane,6)
-                coef(base+lane-1,1)=rt*val_g
-                coef(base+lane-1,2)=(rt/self%p_star)*val_gp
-                coef(base+lane-1,3)=self%R*(val_g-tau(lane)*val_gt)
-                coef(base+lane-1,4)=(rt/(self%p_star**2))*val_gpp
-                coef(base+lane-1,5)=(self%R*tau(lane)**2/T_in(base+lane-1))*val_gtt
-                coef(base+lane-1,6)=r_pstar*(val_gp-tau(lane)*val_gpt)
+            do lane = 1, width
+                rt = self%R * T_in(base + lane - 1)
+                val_g = ideal(lane, 1) + sums(lane, 1)
+                val_gp = 1d0 / pi(lane) + sums(lane, 2)
+                val_gt = ideal(lane, 2) + sums(lane, 3)
+                val_gpp = -1d0 / (pi(lane) * pi(lane)) + sums(lane, 4)
+                val_gtt = ideal(lane, 3) + sums(lane, 5); val_gpt = sums(lane, 6)
+                coef(base + lane - 1, 1) = rt * val_g
+                coef(base + lane - 1, 2) = (rt / self%p_star) * val_gp
+                coef(base + lane - 1, 3) = self%R * (val_g - tau(lane) * val_gt)
+                coef(base + lane - 1, 4) = (rt / (self%p_star**2)) * val_gpp
+                coef(base + lane - 1, 5) = (self%R * tau(lane)**2 / T_in(base + lane - 1)) * val_gtt
+                coef(base + lane - 1, 6) = r_pstar * (val_gp - tau(lane) * val_gpt)
             end do
         end do
 #endif
     end subroutine calc_gamma_batch_iapws97_region5
-
 
 end submodule iapws97_region5

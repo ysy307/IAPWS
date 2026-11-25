@@ -1,6 +1,6 @@
 module module_iapws
     use, intrinsic :: iso_fortran_env
-    use module_iapws_batch,only:IAPWS_BATCH_OK,IAPWS_BATCH_INVALID
+    use module_iapws_batch, only: IAPWS_BATCH_OK, IAPWS_BATCH_INVALID
     implicit none
     private
     public :: abst_iapws_helmholtz
@@ -9,7 +9,7 @@ module module_iapws
     public :: type_iapws_helmholtz_property
     public :: type_iapws_gibbs_coefficient
 
-    public :: IAPWS_BATCH_OK,IAPWS_BATCH_INVALID
+    public :: IAPWS_BATCH_OK, IAPWS_BATCH_INVALID
     public :: type_iapws_property
 
     type, abstract :: abst_iapws_helmholtz
@@ -610,26 +610,26 @@ module module_iapws
     end interface
 
     interface
-        module pure recursive subroutine calc_properties_batch_helmholtz(self,T_in,rho_in,rho, drho_dT, &
-            drho_dP, cp, cv, w, u, s, h, nu, p, status, region_id)
-            class(abst_iapws_helmholtz),intent(in)::self
-            real(real64),intent(in)::T_in(:),rho_in(:)
-            real(real64),intent(out),optional::rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
-            h(:), nu(:), p(:)
-            integer,intent(out),optional::status(:),region_id(:)
+        module pure recursive subroutine calc_properties_batch_helmholtz(self, T_in, rho_in, rho, drho_dT, &
+                                                                         drho_dP, cp, cv, w, u, s, h, nu, p, status, region_id)
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in(:), rho_in(:)
+            real(real64), intent(out), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
+                                                   h(:), nu(:), p(:)
+            integer, intent(out), optional :: status(:), region_id(:)
         end subroutine
-        module pure recursive subroutine calc_properties_batch_gibbs(self,T_in,P_in,rho, drho_dT, drho_dP, cp, &
-            cv, w, u, s, h, nu, p, status, region_id)
-            class(abst_iapws_gibbs),intent(in)::self
-            real(real64),intent(in)::T_in(:),P_in(:)
-            real(real64),intent(out),optional::rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
-            h(:), nu(:), p(:)
-            integer,intent(out),optional::status(:),region_id(:)
+        module pure recursive subroutine calc_properties_batch_gibbs(self, T_in, P_in, rho, drho_dT, drho_dP, cp, &
+                                                                     cv, w, u, s, h, nu, p, status, region_id)
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in(:), P_in(:)
+            real(real64), intent(out), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
+                                                   h(:), nu(:), p(:)
+            integer, intent(out), optional :: status(:), region_id(:)
         end subroutine
-        module pure recursive subroutine calc_gamma_batch_gibbs(self,T_in,P_in,coef)
-            class(abst_iapws_gibbs),intent(in)::self
-            real(real64),intent(in)::T_in(:),P_in(:)
-            real(real64),intent(out)::coef(:,:)
+        module pure recursive subroutine calc_gamma_batch_gibbs(self, T_in, P_in, coef)
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in(:), P_in(:)
+            real(real64), intent(out) :: coef(:, :)
         end subroutine
     end interface
 

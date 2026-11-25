@@ -17,18 +17,18 @@ contains
         real(real64) :: slope
         real(real64) :: theta, theta_T, a, b, c, at, bt, ct, disc, denom, denom_T, beta
         theta = calc_vartheta_iapws97_region4(temperature, self%T_star)
-        theta_T = (1d0-n_r4(9)/(temperature/self%T_star-n_r4(10))**2)/self%T_star
-        a=theta**2+n_r4(1)*theta+n_r4(2)
-        b=n_r4(3)*theta**2+n_r4(4)*theta+n_r4(5)
-        c=n_r4(6)*theta**2+n_r4(7)*theta+n_r4(8)
-        at=(2d0*theta+n_r4(1))*theta_T
-        bt=(2d0*n_r4(3)*theta+n_r4(4))*theta_T
-        ct=(2d0*n_r4(6)*theta+n_r4(7))*theta_T
-        disc=sqrt(b*b-4d0*a*c)
-        denom=-b+disc
-        denom_T=-bt+(b*bt-2d0*(at*c+a*ct))/disc
-        beta=2d0*c/denom
-        slope=4d0*self%p_star*beta**3*2d0*(ct*denom-c*denom_T)/denom**2
+        theta_T = (1d0 - n_r4(9) / (temperature / self%T_star - n_r4(10))**2) / self%T_star
+        a = theta**2 + n_r4(1) * theta + n_r4(2)
+        b = n_r4(3) * theta**2 + n_r4(4) * theta + n_r4(5)
+        c = n_r4(6) * theta**2 + n_r4(7) * theta + n_r4(8)
+        at = (2d0 * theta + n_r4(1)) * theta_T
+        bt = (2d0 * n_r4(3) * theta + n_r4(4)) * theta_T
+        ct = (2d0 * n_r4(6) * theta + n_r4(7)) * theta_T
+        disc = sqrt(b * b - 4d0 * a * c)
+        denom = -b + disc
+        denom_T = -bt + (b * bt - 2d0 * (at * c + a * ct)) / disc
+        beta = 2d0 * c / denom
+        slope = 4d0 * self%p_star * beta**3 * 2d0 * (ct * denom - c * denom_T) / denom**2
     end function calc_dpsat_dT_iapws97_region4
 
     module pure elemental subroutine initialize_type_iapws97_region4(self)
