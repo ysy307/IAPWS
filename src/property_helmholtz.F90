@@ -12,14 +12,22 @@ contains
         real(real64) :: tau, delta
         type(type_iapws_helmholtz_property) :: props
 
-        property%T = T_in
-        property%rho = rho_in
-
         tau = self%T_c / T_in
         delta = rho_in / self%rho_c
-
         call self%calc_phi(tau, delta, props)
+        call self%project_properties(T_in, rho_in, property, props)
+    end subroutine calc_properties_helmholtz
 
+    module pure elemental subroutine project_properties_helmholtz(self, T_in, rho_in, property, props)
+        implicit none
+        class(abst_iapws_helmholtz), intent(in) :: self
+        real(real64), intent(in) :: T_in, rho_in
+        type(type_iapws_property), intent(inout) :: property
+        type(type_iapws_helmholtz_property), intent(in) :: props
+
+        property%T = T_in
+        property%rho = rho_in
+        property%nu = 1d0 / rho_in
         call self%calc_p(T_in, rho_in, property%p, props)
         call self%calc_u(T_in, rho_in, property%u, props)
         call self%calc_s(T_in, rho_in, property%s, props)
@@ -30,10 +38,15 @@ contains
 
         call self%calc_drho_dT(T_in, rho_in, property%drho_dT, props)
         call self%calc_drho_dP(T_in, rho_in, property%drho_dP, props)
+        property%alpha = -property%drho_dT * property%nu
+        call self%calc_p_T(T_in, rho_in, property%beta, props)
+        property%kappa_T = property%drho_dP * property%nu
+        property%kappa_s = property%kappa_T * (property%cv / property%cp)
 
-    end subroutine calc_properties_helmholtz
+    end subroutine project_properties_helmholtz
 
     module pure elemental subroutine calc_rho_helmholtz(self, T_in, P_in, rho)
+        implicit none
         class(abst_iapws_helmholtz), intent(in) :: self
         real(real64), intent(in) :: T_in, P_in
         real(real64), intent(inout) :: rho

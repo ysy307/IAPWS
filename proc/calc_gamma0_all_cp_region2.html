@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">40 statements</a>
+                 title=" 0.2% of total for procedures.">40 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -178,7 +178,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~14"></span>
+              <span class="anchor" id="variable-tau~42"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -193,7 +193,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pi~10"></span>
+              <span class="anchor" id="variable-pi~17"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -208,7 +208,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g0~5"></span>
+              <span class="anchor" id="variable-g0~7"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -223,7 +223,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g0_t~4"></span>
+              <span class="anchor" id="variable-g0_t~7"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -238,7 +238,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g0_tt~4"></span>
+              <span class="anchor" id="variable-g0_tt~7"></span>
               real(kind=real64),
             </td>
 <td>intent(inout)</td>
@@ -791,11 +791,11 @@ large graphs.</div>
 <span class="w">            </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">inv_tau</span>
 <span class="w">        </span><span class="k">end do</span>
 
-<span class="k">            </span><span class="n">cp_tau</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="o">=</span><span class="n">powers_tau</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
-<span class="w">            </span><span class="k">do </span><span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
-<span class="w">                </span><span class="n">cp_tau</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">=</span><span class="n">cp_tau</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">tau</span>
-<span class="w">            </span><span class="k">end do</span>
-<span class="k">            </span><span class="n">cp_tt</span><span class="o">=</span><span class="mi">0</span><span class="n">d0</span><span class="p">;</span><span class="w"> </span><span class="n">cp_ttt</span><span class="o">=</span><span class="mi">0</span><span class="n">d0</span>
+<span class="k">        </span><span class="n">cp_tau</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">        </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">            </span><span class="n">cp_tau</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cp_tau</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">tau</span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        </span><span class="n">cp_tt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="n">d0</span><span class="p">;</span><span class="w"> </span><span class="n">cp_ttt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="n">d0</span>
 
 <span class="w">        </span><span class="n">g0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">log</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
 <span class="w">        </span><span class="n">g0_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0d0</span>
@@ -806,11 +806,11 @@ large graphs.</div>
 <span class="w">            </span><span class="n">g0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 <span class="w">            </span><span class="n">g0_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g0_t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">J_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">            </span><span class="n">g0_tt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g0_tt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">J_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">J_val</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0d0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">powers_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
-<span class="w">                </span><span class="k">if</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mf">0.</span><span class="nb">and</span><span class="p">.</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                    </span><span class="n">cp_term</span><span class="o">=</span><span class="n">n0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">J_val</span><span class="o">*</span><span class="p">(</span><span class="n">J_val</span><span class="o">-</span><span class="mi">1</span><span class="n">d0</span><span class="p">)</span>
-<span class="w">                    </span><span class="n">cp_tt</span><span class="o">=</span><span class="n">cp_tt</span><span class="o">+</span><span class="n">cp_term</span><span class="o">*</span><span class="n">cp_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">                    </span><span class="k">if</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">cp_ttt</span><span class="o">=</span><span class="n">cp_ttt</span><span class="o">+</span><span class="n">cp_term</span><span class="o">*</span><span class="p">(</span><span class="n">J_val</span><span class="o">-</span><span class="mi">2</span><span class="n">d0</span><span class="p">)</span><span class="o">*</span><span class="n">cp_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
-<span class="w">                </span><span class="k">end if</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">cp_term</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">J_val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">J_val</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="n">d0</span><span class="p">)</span>
+<span class="w">                </span><span class="n">cp_tt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cp_tt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cp_term</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cp_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">cp_ttt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cp_ttt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cp_term</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">J_val</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="n">d0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cp_tau</span><span class="p">(</span><span class="n">J0_r2</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end if</span>
 <span class="k">        end do</span>
 <span class="k">    end subroutine </span><span class="n">calc_gamma0_all_cp_region2</span>
 </pre></div>
@@ -836,7 +836,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-04 22:35 +0000             </p>
+ on 2026-11-26 11:23 +0000             </p>
           </div>
         </div>
         <br>

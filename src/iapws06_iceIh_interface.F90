@@ -24,6 +24,7 @@ module module_iapws06_iceIh
         !> Extrapolates the same Gibbs expression as calc_cp for finite T and P.
         !> Returns quiet NaN for nonfinite inputs; extrapolation has no accuracy guarantee.
         module pure elemental subroutine calc_dcp_dT_iapws06(self, T_in, P_in, dcp_dT)
+            implicit none
             class(type_iapws06), intent(in) :: self
             real(real64), intent(in) :: T_in, P_in
             real(real64), intent(out) :: dcp_dT
@@ -33,6 +34,7 @@ module module_iapws06_iceIh
         !> Extrapolates the same Gibbs expression as calc_cp for finite T and P.
         !> Returns quiet NaN for nonfinite inputs; extrapolation has no accuracy guarantee.
         module pure elemental subroutine calc_dcp_dP_iapws06(self, T_in, P_in, dcp_dP)
+            implicit none
             class(type_iapws06), intent(in) :: self
             real(real64), intent(in) :: T_in, P_in
             real(real64), intent(out) :: dcp_dP

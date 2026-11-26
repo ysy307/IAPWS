@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.9% of total for modules and submodules.">42 statements</a>
+                 title=" 0.9% of total for modules and submodules.">72 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -143,7 +143,11 @@
             <a class="list-group-item" href="../module/module_iapws95.html#interface-calc_phi0_iapws95">calc_phi0_iapws95</a>
             <a class="list-group-item" href="../module/module_iapws95.html#interface-calc_phi_iapws95">calc_phi_iapws95</a>
             <a class="list-group-item" href="../module/module_iapws95.html#interface-calc_phir_iapws95">calc_phir_iapws95</a>
+            <a class="list-group-item" href="../module/module_iapws95.html#interface-calc_rho_iapws95">calc_rho_iapws95</a>
             <a class="list-group-item" href="../module/module_iapws95.html#interface-initialize_type_iapws95">initialize_type_iapws95</a>
+            <a class="list-group-item" href="../module/module_iapws95.html#interface-saturation_densities_iapws95">saturation_densities_iapws95</a>
+            <a class="list-group-item" href="../module/module_iapws95.html#interface-saturation_estimate_iapws95">saturation_estimate_iapws95</a>
+            <a class="list-group-item" href="../module/module_iapws95.html#interface-solve_density_iapws95">solve_density_iapws95</a>
         </div>
       </div>
     </div>
@@ -552,7 +556,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~134"></span>
+              <span class="anchor" id="variable-self~23"></span>
               class(<a href='../type/type_iapws95.html'>type_iapws95</a>),
             </td>
 <td>intent(in)</td>
@@ -567,7 +571,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~27"></span>
+              <span class="anchor" id="variable-tau~2"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -582,7 +586,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delta~8"></span>
+              <span class="anchor" id="variable-delta~2"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -597,7 +601,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-property~9"></span>
+              <span class="anchor" id="variable-property~4"></span>
               type(<a href='../type/type_iapws_helmholtz_property.html'>type_iapws_helmholtz_property</a>),
             </td>
 <td>intent(inout)</td>
@@ -646,7 +650,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~133"></span>
+              <span class="anchor" id="variable-self~22"></span>
               class(<a href='../type/type_iapws95.html'>type_iapws95</a>),
             </td>
 <td>intent(in)</td>
@@ -661,7 +665,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~26"></span>
+              <span class="anchor" id="variable-tau"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -676,7 +680,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delta~7"></span>
+              <span class="anchor" id="variable-delta"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -691,7 +695,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-property~8"></span>
+              <span class="anchor" id="variable-property~3"></span>
               type(<a href='../type/type_iapws_helmholtz_property.html'>type_iapws_helmholtz_property</a>),
             </td>
 <td>intent(inout)</td>
@@ -740,7 +744,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~135"></span>
+              <span class="anchor" id="variable-self~24"></span>
               class(<a href='../type/type_iapws95.html'>type_iapws95</a>),
             </td>
 <td>intent(in)</td>
@@ -755,7 +759,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~28"></span>
+              <span class="anchor" id="variable-tau~3"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -770,7 +774,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delta~9"></span>
+              <span class="anchor" id="variable-delta~3"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -785,7 +789,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-property~10"></span>
+              <span class="anchor" id="variable-property~5"></span>
               type(<a href='../type/type_iapws_helmholtz_property.html'>type_iapws_helmholtz_property</a>),
             </td>
 <td>intent(inout)</td>
@@ -796,6 +800,100 @@ large graphs.</div>
             <td><strong>property</strong></td>
             <td>
                 <p>IAPWS-95 ideal helmholtz properties</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-calc_rho_iapws95"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure elemental module subroutine calc_rho_iapws95(self, T_in, P_in, rho)  
+    <a href="../proc/calc_rho_iapws95.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~20"></span>
+              class(<a href='../type/type_iapws95.html'>type_iapws95</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~18"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~18"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rho~3"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rho</strong></td>
+            <td>
+                
             </td>
         </tr>
     </tbody>
@@ -834,7 +932,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~132"></span>
+              <span class="anchor" id="variable-self~21"></span>
               class(<a href='../type/type_iapws95.html'>type_iapws95</a>),
             </td>
 <td>intent(inout)</td>
@@ -845,6 +943,323 @@ large graphs.</div>
             <td><strong>self</strong></td>
             <td>
                 <p>IAPWS-95 model instance</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-saturation_densities_iapws95"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure elemental module subroutine saturation_densities_iapws95(self, T, p, liquid, vapor, liquid_state, vapor_state)  
+    <a href="../proc/saturation_densities_iapws95.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~18"></span>
+              class(<a href='../type/type_iapws95.html'>type_iapws95</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t~6"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p~4"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-liquid"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>liquid</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vapor"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vapor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-liquid_state"></span>
+              type(<a href='../type/type_iapws_property.html'>type_iapws_property</a>),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>liquid_state</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vapor_state"></span>
+              type(<a href='../type/type_iapws_property.html'>type_iapws_property</a>),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vapor_state</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-saturation_estimate_iapws95"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure elemental module function saturation_estimate_iapws95(self, T) result(p)  
+    <a href="../proc/saturation_estimate_iapws95.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~17"></span>
+              class(<a href='../type/type_iapws95.html'>type_iapws95</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t~5"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real64)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-solve_density_iapws95"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure elemental module subroutine solve_density_iapws95(self, T_in, P_in, rho, guess_rho)  
+    <a href="../proc/solve_density_iapws95.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~19"></span>
+              class(<a href='../type/type_iapws95.html'>type_iapws95</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~17"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~17"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rho~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rho</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-guess_rho"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>guess_rho</strong></td>
+            <td>
+                
             </td>
         </tr>
     </tbody>
@@ -886,7 +1301,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-r"></span>
+              <span class="anchor" id="variable-r~3"></span>
               real(kind=real64),
             </td>
               <td>public</td>
@@ -1003,7 +1418,7 @@ large graphs.</div>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
-  <strong><a href='../type/type_iapws95.html#boundprocedure-calc_phi~3'>calc_phi</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_phi_iapws95.html'>calc_phi_iapws95</a></td>
+  <strong><a href='../type/type_iapws95.html#boundprocedure-calc_phi'>calc_phi</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_phi_iapws95.html'>calc_phi_iapws95</a></td>
                   <td></td>
               </tr>
               <tr>
@@ -1028,7 +1443,7 @@ large graphs.</div>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
-  <strong><a href='../type/abst_iapws_helmholtz.html#boundprocedure-calc_rho'>calc_rho</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_rho_helmholtz.html'>calc_rho_helmholtz</a></td>
+  <strong><a href='../type/type_iapws95.html#boundprocedure-calc_rho'>calc_rho</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/calc_rho_iapws95.html'>calc_rho_iapws95</a></td>
                   <td></td>
               </tr>
               <tr>
@@ -1048,7 +1463,27 @@ large graphs.</div>
               </tr>
               <tr>
                 <td>  procedure, public, pass(self) ::
-  <strong><a href='../type/type_iapws95.html#boundprocedure-initialize~11'>initialize</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/initialize_type_iapws95.html'>initialize_type_iapws95</a></td>
+  <strong><a href='../type/type_iapws95.html#boundprocedure-initialize'>initialize</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/initialize_type_iapws95.html'>initialize_type_iapws95</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public, pass(self) ::
+  <strong><a href='../type/abst_iapws_helmholtz.html#boundprocedure-project_properties'>project_properties</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/project_properties_helmholtz.html'>project_properties_helmholtz</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public, pass(self) ::
+  <strong><a href='../type/type_iapws95.html#boundprocedure-saturation_densities'>saturation_densities</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/saturation_densities_iapws95.html'>saturation_densities_iapws95</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public, pass(self) ::
+  <strong><a href='../type/type_iapws95.html#boundprocedure-saturation_estimate'>saturation_estimate</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/saturation_estimate_iapws95.html'>saturation_estimate_iapws95</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public, pass(self) ::
+  <strong><a href='../type/type_iapws95.html#boundprocedure-solve_density'>solve_density</a></strong> => <a href='/home/runner/work/IAPWS/IAPWS/docs/api-docs/interface/solve_density_iapws95.html'>solve_density_iapws95</a></td>
                   <td></td>
               </tr>
           </tbody>
@@ -1081,7 +1516,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-04 22:35 +0000             </p>
+ on 2026-11-26 11:23 +0000             </p>
           </div>
         </div>
         <br>

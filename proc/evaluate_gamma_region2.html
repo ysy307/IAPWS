@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">37 statements</a>
+                 title=" 0.2% of total for procedures.">37 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -178,7 +178,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~18"></span>
+              <span class="anchor" id="variable-self~110"></span>
               class(<a href='../type/type_iapws97_region2.html'>type_iapws97_region2</a>),
             </td>
 <td>intent(in)</td>
@@ -193,7 +193,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~8"></span>
+              <span class="anchor" id="variable-t_in~81"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -208,7 +208,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~6"></span>
+              <span class="anchor" id="variable-p_in~42"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -223,7 +223,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coef~4"></span>
+              <span class="anchor" id="variable-coef~13"></span>
               type(<a href='../type/type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(inout)</td>
@@ -937,7 +937,7 @@ large graphs.</div>
 <span class="w">        </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P_in</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">p_star</span>
 
 <span class="w">        </span><span class="c">! 2. Calculate ideal-gas and residual parts with pre-computed power tables</span>
-<span class="w">        </span><span class="n">cp_ttp</span><span class="o">=</span><span class="mi">0</span><span class="n">d0</span>
+<span class="w">        </span><span class="n">cp_ttp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="n">d0</span>
 <span class="w">        </span><span class="k">call </span><span class="n">calc_gamma0_all_cp_region2</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="n">g0</span><span class="p">,</span><span class="w"> </span><span class="n">g0_t</span><span class="p">,</span><span class="w"> </span><span class="n">g0_tt</span><span class="p">,</span><span class="w"> </span><span class="n">cp_tt</span><span class="p">,</span><span class="w"> </span><span class="n">cp_ttt</span><span class="p">)</span>
 <span class="w">        </span><span class="k">call </span><span class="n">calc_gammar_all_cp_region2</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="n">gr</span><span class="p">,</span><span class="w"> </span><span class="n">gr_p</span><span class="p">,</span><span class="w"> </span><span class="n">gr_t</span><span class="p">,</span><span class="w"> </span><span class="n">gr_pp</span><span class="p">,</span><span class="w"> </span><span class="n">gr_tt</span><span class="p">,</span><span class="w"> </span><span class="n">gr_pt</span><span class="p">,</span><span class="w"> </span><span class="n">cp_tt</span><span class="p">,</span><span class="w"> </span><span class="n">cp_ttt</span><span class="p">,</span><span class="w"> </span><span class="n">cp_ttp</span><span class="p">)</span>
 
@@ -983,8 +983,8 @@ large graphs.</div>
 <span class="w">        </span><span class="c">! g_pt [m^3/(kg K)] = (R / p*) * (gamma_pi - tau * gamma_pi_tau)</span>
 <span class="w">        </span><span class="n">coef</span><span class="p">%</span><span class="n">g_pt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R_pstar</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">val_gp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">val_gpt</span><span class="p">)</span>
 
-<span class="w">        </span><span class="n">dcp_dT</span><span class="o">=</span><span class="n">self</span><span class="p">%</span><span class="n">R</span><span class="o">*</span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">T_in</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="n">d0</span><span class="o">*</span><span class="n">cp_tt</span><span class="o">+</span><span class="n">tau</span><span class="o">*</span><span class="n">cp_ttt</span><span class="p">)</span>
-<span class="w">        </span><span class="n">dcp_dp</span><span class="o">=-</span><span class="n">self</span><span class="p">%</span><span class="n">R</span><span class="o">*</span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">self</span><span class="p">%</span><span class="n">p_star</span><span class="o">*</span><span class="n">cp_ttp</span>
+<span class="w">        </span><span class="n">dcp_dT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">T_in</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="n">d0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cp_tt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cp_ttt</span><span class="p">)</span>
+<span class="w">        </span><span class="n">dcp_dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">self</span><span class="p">%</span><span class="n">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">p_star</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cp_ttp</span>
 <span class="w">    </span><span class="k">end subroutine </span><span class="n">evaluate_gamma_region2</span>
 </pre></div>
 
@@ -1009,7 +1009,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-04 22:35 +0000             </p>
+ on 2026-11-26 11:23 +0000             </p>
           </div>
         </div>
         <br>

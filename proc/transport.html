@@ -1,0 +1,593 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="IAPWS.">
+    <meta name="author" content="Kikuchi Shun" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>transport &ndash; IAPWS</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">IAPWS </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Read Me</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>transport
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for procedures.">40 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/iapws.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/iapws.f90.html'>iapws.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/iapws.html'>iapws</a></li>
+            <li class="breadcrumb-item active" aria-current="page">transport</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/transport.html#src">transport</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private pure elemental subroutine transport(self, state, mu, conductivity)  
+</h2>
+    
+
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/type_water.html'>type_water</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~242"></span>
+              class(<a href='../type/type_water.html'>type_water</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-state~2"></span>
+              type(<a href='../type/type_water_state.html'>type_water_state</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>state</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~3"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-conductivity"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>conductivity</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~transport~~CallsGraph Pages: 1 -->
+<svg id="proctransportCallsGraph" width="641pt" height="178pt"
+ viewBox="0.00 0.00 641.00 178.30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~transport~~CallsGraph" class="graph" transform="scale(0.89 0.89) rotate(0) translate(4 196)">
+<title>proc~~transport~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-196 715,-196 715,4 -4,4"/>
+<!-- proc~transport -->
+<g id="proc~~transport~~CallsGraph_node1" class="node">
+<title>proc~transport</title>
+<polygon fill="none" stroke="black" points="130,-129 0,-129 0,-105 130,-105 130,-129"/>
+<text text-anchor="middle" x="65" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">type_water%transport</text>
+</g>
+<!-- interface~calc_drho_dp_helmholtz -->
+<g id="proc~~transport~~CallsGraph_node2" class="node">
+<title>interface~calc_drho_dp_helmholtz</title>
+<g id="a_proc~~transport~~CallsGraph_node2"><a xlink:href="../interface/calc_drho_dp_helmholtz.html" xlink:title="abst_iapws_helmholtz%calc_drho_dP_helmholtz">
+<polygon fill="#a7506f" stroke="#a7506f" points="431,-181 166,-181 166,-157 431,-157 431,-181"/>
+<text text-anchor="middle" x="298.5" y="-166.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abst_iapws_helmholtz%calc_drho_dP_helmholtz</text>
+</a>
+</g>
+</g>
+<!-- proc~transport&#45;&gt;interface~calc_drho_dp_helmholtz -->
+<g id="proc~~transport~~CallsGraph_edge1" class="edge">
+<title>proc~transport&#45;&gt;interface~calc_drho_dp_helmholtz</title>
+<path fill="none" stroke="#ff0000" d="M119.69,-129.06C153.76,-136.71 198,-146.65 233.83,-154.7"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="233.17,-158.14 243.7,-156.91 234.71,-151.31 233.17,-158.14"/>
+</g>
+<!-- proc~thermal_conductivity -->
+<g id="proc~~transport~~CallsGraph_node3" class="node">
+<title>proc~thermal_conductivity</title>
+<g id="a_proc~~transport~~CallsGraph_node3"><a xlink:href="../proc/thermal_conductivity.html" xlink:title="thermal_conductivity">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="360.5,-87 236.5,-87 236.5,-63 360.5,-63 360.5,-87"/>
+<text text-anchor="middle" x="298.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">thermal_conductivity</text>
+</a>
+</g>
+</g>
+<!-- proc~transport&#45;&gt;proc~thermal_conductivity -->
+<g id="proc~~transport~~CallsGraph_edge2" class="edge">
+<title>proc~transport&#45;&gt;proc~thermal_conductivity</title>
+<path fill="none" stroke="#ff0000" d="M120.92,-104.97C135.54,-101.9 151.35,-98.71 166,-96 185.46,-92.41 206.6,-88.87 226.13,-85.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="226.85,-89.18 236.18,-84.16 225.75,-82.27 226.85,-89.18"/>
+</g>
+<!-- proc~viscosity -->
+<g id="proc~~transport~~CallsGraph_node4" class="node">
+<title>proc~viscosity</title>
+<g id="a_proc~~transport~~CallsGraph_node4"><a xlink:href="../proc/viscosity.html" xlink:title="viscosity">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="327.5,-129 269.5,-129 269.5,-105 327.5,-105 327.5,-129"/>
+<text text-anchor="middle" x="298.5" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">viscosity</text>
+</a>
+</g>
+</g>
+<!-- proc~transport&#45;&gt;proc~viscosity -->
+<g id="proc~~transport~~CallsGraph_edge3" class="edge">
+<title>proc~transport&#45;&gt;proc~viscosity</title>
+<path fill="none" stroke="#ff0000" d="M130.18,-117C171.53,-117 223.92,-117 258.96,-117"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="259.24,-120.5 269.24,-117 259.24,-113.5 259.24,-120.5"/>
+</g>
+<!-- proc~calc_drho_dp_helmholtz -->
+<g id="proc~~transport~~CallsGraph_node5" class="node">
+<title>proc~calc_drho_dp_helmholtz</title>
+<g id="a_proc~~transport~~CallsGraph_node5"><a xlink:href="../proc/calc_drho_dp_helmholtz.html" xlink:title="calc_drho_dP_helmholtz">
+<polygon fill="#d9534f" stroke="#d9534f" points="613,-192 473,-192 473,-168 613,-168 613,-192"/>
+<text text-anchor="middle" x="543" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_drho_dP_helmholtz</text>
+</a>
+</g>
+</g>
+<!-- interface~calc_drho_dp_helmholtz&#45;&gt;proc~calc_drho_dp_helmholtz -->
+<g id="proc~~transport~~CallsGraph_edge4" class="edge">
+<title>interface~calc_drho_dp_helmholtz&#45;&gt;proc~calc_drho_dp_helmholtz</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M431.04,-174.97C441.81,-175.46 452.48,-175.94 462.69,-176.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="462.59,-179.9 472.73,-176.86 462.9,-172.91 462.59,-179.9"/>
+</g>
+<!-- proc~correlation_length -->
+<g id="proc~~transport~~CallsGraph_node6" class="node">
+<title>proc~correlation_length</title>
+<g id="a_proc~~transport~~CallsGraph_node6"><a xlink:href="../proc/correlation_length.html" xlink:title="correlation_length">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="597.5,-150 488.5,-150 488.5,-126 597.5,-126 597.5,-150"/>
+<text text-anchor="middle" x="543" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">correlation_length</text>
+</a>
+</g>
+</g>
+<!-- proc~thermal_conductivity&#45;&gt;proc~correlation_length -->
+<g id="proc~~transport~~CallsGraph_edge5" class="edge">
+<title>proc~thermal_conductivity&#45;&gt;proc~correlation_length</title>
+<path fill="none" stroke="#00ff00" d="M360.57,-79.99C383.16,-83.07 408.68,-88.03 431,-96 448.44,-102.23 449.94,-109.78 467,-117 471.98,-119.11 477.24,-121.07 482.56,-122.88"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="481.57,-126.24 492.17,-125.98 483.72,-119.58 481.57,-126.24"/>
+</g>
+<!-- proc~evaluate_polynomial -->
+<g id="proc~~transport~~CallsGraph_node7" class="node">
+<title>proc~evaluate_polynomial</title>
+<g id="a_proc~~transport~~CallsGraph_node7"><a xlink:href="../proc/evaluate_polynomial.html" xlink:title="evaluate_polynomial">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="605,-108 481,-108 481,-84 605,-84 605,-108"/>
+<text text-anchor="middle" x="543" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">evaluate_polynomial</text>
+</a>
+</g>
+</g>
+<!-- proc~thermal_conductivity&#45;&gt;proc~evaluate_polynomial -->
+<g id="proc~~transport~~CallsGraph_edge6" class="edge">
+<title>proc~thermal_conductivity&#45;&gt;proc~evaluate_polynomial</title>
+<path fill="none" stroke="#00ff00" d="M360.69,-80.3C394.15,-83.2 435.77,-86.8 470.69,-89.83"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="470.56,-93.33 480.83,-90.7 471.17,-86.35 470.56,-93.33"/>
+</g>
+<!-- proc~industrial_reference_slope -->
+<g id="proc~~transport~~CallsGraph_node8" class="node">
+<title>proc~industrial_reference_slope</title>
+<g id="a_proc~~transport~~CallsGraph_node8"><a xlink:href="../proc/industrial_reference_slope.html" xlink:title="industrial_reference_slope">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="619,-24 467,-24 467,0 619,0 619,-24"/>
+<text text-anchor="middle" x="543" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">industrial_reference_slope</text>
+</a>
+</g>
+</g>
+<!-- proc~thermal_conductivity&#45;&gt;proc~industrial_reference_slope -->
+<g id="proc~~transport~~CallsGraph_edge7" class="edge">
+<title>proc~thermal_conductivity&#45;&gt;proc~industrial_reference_slope</title>
+<path fill="none" stroke="#00ff00" d="M345.97,-62.93C385.82,-52.57 443.35,-37.63 485.79,-26.6"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="486.89,-29.93 495.69,-24.03 485.13,-23.16 486.89,-29.93"/>
+</g>
+<!-- proc~valid_input -->
+<g id="proc~~transport~~CallsGraph_node9" class="node">
+<title>proc~valid_input</title>
+<g id="a_proc~~transport~~CallsGraph_node9"><a xlink:href="../proc/valid_input.html" xlink:title="valid_input">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="578,-66 508,-66 508,-42 578,-42 578,-66"/>
+<text text-anchor="middle" x="543" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">valid_input</text>
+</a>
+</g>
+</g>
+<!-- proc~thermal_conductivity&#45;&gt;proc~valid_input -->
+<g id="proc~~transport~~CallsGraph_edge8" class="edge">
+<title>proc~thermal_conductivity&#45;&gt;proc~valid_input</title>
+<path fill="none" stroke="#00ff00" d="M360.69,-69.7C403.27,-66.01 459.07,-61.18 497.46,-57.86"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="498.14,-61.31 507.8,-56.96 497.54,-54.34 498.14,-61.31"/>
+</g>
+<!-- proc~viscosity&#45;&gt;proc~correlation_length -->
+<g id="proc~~transport~~CallsGraph_edge9" class="edge">
+<title>proc~viscosity&#45;&gt;proc~correlation_length</title>
+<path fill="none" stroke="#0000ff" d="M327.79,-119.45C364.42,-122.62 429.32,-128.24 478.12,-132.47"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="478.01,-135.97 488.27,-133.35 478.61,-129 478.01,-135.97"/>
+</g>
+<!-- proc~viscosity&#45;&gt;proc~evaluate_polynomial -->
+<g id="proc~~transport~~CallsGraph_edge10" class="edge">
+<title>proc~viscosity&#45;&gt;proc~evaluate_polynomial</title>
+<path fill="none" stroke="#0000ff" d="M327.79,-114.55C362.55,-111.54 422.78,-106.32 470.54,-102.19"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="470.87,-105.67 480.53,-101.32 470.27,-98.7 470.87,-105.67"/>
+</g>
+<!-- proc~viscosity&#45;&gt;proc~valid_input -->
+<g id="proc~~transport~~CallsGraph_edge11" class="edge">
+<title>proc~viscosity&#45;&gt;proc~valid_input</title>
+<path fill="none" stroke="#0000ff" d="M327.69,-115.51C354.84,-113.38 396.71,-108.25 431,-96 448.44,-89.77 449.94,-82.22 467,-75 476.81,-70.84 487.69,-67.26 498.05,-64.28"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="499.05,-67.64 507.77,-61.62 497.2,-60.89 499.05,-67.64"/>
+</g>
+<!-- calc_phi -->
+<g id="proc~~transport~~CallsGraph_node10" class="node">
+<title>calc_phi</title>
+<polygon fill="#777777" stroke="#777777" points="711,-192 655,-192 655,-168 711,-168 711,-192"/>
+<text text-anchor="middle" x="683" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_phi</text>
+</g>
+<!-- proc~calc_drho_dp_helmholtz&#45;&gt;calc_phi -->
+<g id="proc~~transport~~CallsGraph_edge12" class="edge">
+<title>proc~calc_drho_dp_helmholtz&#45;&gt;calc_phi</title>
+<path fill="none" stroke="#ff0000" d="M613.4,-180C624.25,-180 635.08,-180 644.82,-180"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="644.92,-183.5 654.92,-180 644.92,-176.5 644.92,-183.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panproctransportCallsGraph = svgPanZoom('#proctransportCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure elemental subroutine </span><span class="n">transport</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">conductivity</span><span class="p">)</span>
+<span class="w">        </span><span class="k">implicit none</span>
+<span class="k">        class</span><span class="p">(</span><span class="n">type_water</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">type_water_state</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">state</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">conductivity</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">nan</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">reference</span><span class="p">,</span><span class="w"> </span><span class="n">viscosity_max</span><span class="p">,</span><span class="w"> </span><span class="n">conductivity_max</span>
+<span class="w">        </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">need_k</span><span class="p">,</span><span class="w"> </span><span class="n">need_mu</span>
+
+<span class="w">        </span><span class="n">nan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ieee_value</span><span class="p">(</span><span class="mi">0</span><span class="n">d0</span><span class="p">,</span><span class="w"> </span><span class="n">ieee_quiet_nan</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">mu</span><span class="p">))</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nan</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">conductivity</span><span class="p">))</span><span class="w"> </span><span class="n">conductivity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nan</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">%</span><span class="n">status</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">WATER_OK</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">%</span><span class="n">phase</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">LIQUID</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">phase</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">SUPERCRITICAL</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">%</span><span class="n">formulation</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">IAPWS95</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">formulation</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">IF97</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<span class="k">        </span><span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">T</span>
+<span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">p</span>
+<span class="w">        </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">rho</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">triple_p</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">triple_T</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+
+<span class="k">        </span><span class="n">viscosity_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">117</span><span class="mf">3.15d0</span>
+<span class="w">        </span><span class="n">conductivity_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">117</span><span class="mf">3.15d0</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">300</span><span class="n">d6</span><span class="p">)</span><span class="w"> </span><span class="n">viscosity_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">87</span><span class="mf">3.15d0</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">350</span><span class="n">d6</span><span class="p">)</span><span class="w"> </span><span class="n">viscosity_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">43</span><span class="mf">3.15d0</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="n">d6</span><span class="p">)</span><span class="w"> </span><span class="n">viscosity_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">37</span><span class="mf">3.15d0</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="n">d6</span><span class="p">)</span><span class="w"> </span><span class="n">conductivity_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">874</span><span class="n">d0</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">250</span><span class="n">d6</span><span class="p">)</span><span class="w"> </span><span class="n">conductivity_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">573</span><span class="n">d0</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">687</span><span class="n">d6</span><span class="p">)</span><span class="w"> </span><span class="n">conductivity_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">403</span><span class="n">d0</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">785</span><span class="n">d6</span><span class="p">)</span><span class="w"> </span><span class="n">conductivity_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">348</span><span class="n">d0</span>
+<span class="w">        </span><span class="n">need_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">conductivity</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">conductivity_max</span>
+<span class="w">        </span><span class="n">need_mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">viscosity_max</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">need_k</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">need_mu</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">%</span><span class="n">formulation</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IAPWS95</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">scientific</span><span class="p">%</span><span class="n">is_initialized</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<span class="k">            call </span><span class="n">self</span><span class="p">%</span><span class="n">scientific</span><span class="p">%</span><span class="n">calc_drho_dp</span><span class="p">(</span><span class="mf">1.5d0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">critical_T</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">reference</span><span class="p">)</span>
+<span class="w">            </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viscosity</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">drho_dP</span><span class="p">,</span><span class="w"> </span><span class="n">reference</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">need_k</span><span class="p">)</span><span class="w"> </span><span class="n">conductivity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thermal_conductivity</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">cp</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">cv</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                           </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">drho_dP</span><span class="p">,</span><span class="w"> </span><span class="n">reference</span><span class="p">)</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viscosity</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">need_k</span><span class="p">)</span><span class="w"> </span><span class="n">conductivity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thermal_conductivity</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">cp</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">cv</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                           </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">%</span><span class="n">properties</span><span class="p">%</span><span class="n">drho_dP</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">need_mu</span><span class="p">)</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">transport</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              IAPWS
+ was developed by Kikuchi Shun<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-11-26 11:23 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

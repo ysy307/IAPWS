@@ -92,7 +92,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 6.6% of total for modules and submodules.">295 statements</a>
+                 title=" 3.7% of total for modules and submodules.">299 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -582,7 +582,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~57"></span>
+              <span class="anchor" id="variable-tau~67"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -598,7 +598,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pi~38"></span>
+              <span class="anchor" id="variable-pi~40"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -776,7 +776,7 @@ repeated integer exponentiation.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~56"></span>
+              <span class="anchor" id="variable-tau~66"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -792,7 +792,7 @@ repeated integer exponentiation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pi~37"></span>
+              <span class="anchor" id="variable-pi~39"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -923,7 +923,7 @@ repeated integer exponentiation.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~204"></span>
+              <span class="anchor" id="variable-self~202"></span>
               class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
             </td>
 <td>intent(in)</td>
@@ -938,7 +938,7 @@ repeated integer exponentiation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~150"></span>
+              <span class="anchor" id="variable-t_in~136"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -953,7 +953,7 @@ repeated integer exponentiation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~55"></span>
+              <span class="anchor" id="variable-p_in~61"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -968,7 +968,7 @@ repeated integer exponentiation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coef~23"></span>
+              <span class="anchor" id="variable-coef~29"></span>
               type(<a href='../type/type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(inout)</td>
@@ -983,7 +983,7 @@ repeated integer exponentiation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dcp_dt~19"></span>
+              <span class="anchor" id="variable-dcp_dt~17"></span>
               real(kind=real64),
             </td>
 <td>intent(out)</td>
@@ -998,7 +998,7 @@ repeated integer exponentiation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dcp_dp~17"></span>
+              <span class="anchor" id="variable-dcp_dp~15"></span>
               real(kind=real64),
             </td>
 <td>intent(out)</td>
@@ -1046,195 +1046,6 @@ This evaluator preserves the standalone cp derivative operation order.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~205"></span>
-              class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-t_in~151"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>T_in</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-p_in~47"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>p_in</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dcp_dt~20"></span>
-              real(kind=real64),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dcp_dT</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dcp_dp~18"></span>
-              real(kind=real64),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dcp_dp</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma_batch_iapws97_region1"></span> <h3>pure recursive module subroutine <a href='../proc/calc_gamma_batch_iapws97_region1.html'>calc_gamma_batch_iapws97_region1</a>(self, T_in, P_in, coef)  
-    <a href="../interface/calc_gamma_batch_iapws97_region1.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~206"></span>
-              class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-t_in~152"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>T_in</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-p_in~56"></span>
-              real(kind=real64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>P_in</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-coef~24"></span>
-              real(kind=real64),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>coef</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma_cp_iapws97_region1"></span> <h3>pure elemental module subroutine <a href='../proc/calc_gamma_cp_iapws97_region1.html'>calc_gamma_cp_iapws97_region1</a>(self, T_in, P_in, coef, dcp_dT, dcp_dp)  
-    <a href="../interface/calc_gamma_cp_iapws97_region1.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Gibbs coefficients and cp partials share powers and coefficient traversal.
-Keep independent cp accumulators: their original operation order differs
-from the ordinary Gibbs sums and is part of numerical compatibility.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
               <span class="anchor" id="variable-self~203"></span>
               class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
             </td>
@@ -1250,7 +1061,7 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~149"></span>
+              <span class="anchor" id="variable-t_in~137"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1265,7 +1076,7 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~54"></span>
+              <span class="anchor" id="variable-p_in~33"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1273,22 +1084,7 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
               
             </td>
             <td>::</td>
-            <td><strong>P_in</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-coef~22"></span>
-              type(<a href='../type/type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>coef</strong></td>
+            <td><strong>p_in</strong></td>
             <td>
 
             </td>
@@ -1331,6 +1127,210 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
   </div>
 
               <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma_batch_iapws97_region1"></span> <h3>pure recursive module subroutine <a href='../proc/calc_gamma_batch_iapws97_region1.html'>calc_gamma_batch_iapws97_region1</a>(self, T_in, P_in, coef)  
+    <a href="../interface/calc_gamma_batch_iapws97_region1.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~204"></span>
+              class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~138"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~62"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coef~30"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>coef</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma_cp_iapws97_region1"></span> <h3>pure elemental module subroutine <a href='../proc/calc_gamma_cp_iapws97_region1.html'>calc_gamma_cp_iapws97_region1</a>(self, T_in, P_in, coef, dcp_dT, dcp_dp)  
+    <a href="../interface/calc_gamma_cp_iapws97_region1.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Gibbs coefficients and cp partials share powers and coefficient traversal.
+Keep independent cp accumulators: their original operation order differs
+from the ordinary Gibbs sums and is part of numerical compatibility.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~201"></span>
+              class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_in~135"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p_in~60"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>P_in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coef~28"></span>
+              type(<a href='../type/type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>coef</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dcp_dt~16"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dcp_dT</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dcp_dp~14"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dcp_dp</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-calc_gamma_iapws97_region1"></span> <h3>pure elemental module subroutine <a href='../proc/calc_gamma_iapws97_region1.html'>calc_gamma_iapws97_region1</a>(self, T_in, P_in, coef)  
     <a href="../interface/calc_gamma_iapws97_region1.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
@@ -1351,7 +1351,7 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~202"></span>
+              <span class="anchor" id="variable-self~200"></span>
               class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
             </td>
 <td>intent(in)</td>
@@ -1366,7 +1366,7 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-t_in~148"></span>
+              <span class="anchor" id="variable-t_in~134"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1381,7 +1381,7 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_in~53"></span>
+              <span class="anchor" id="variable-p_in~59"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -1396,7 +1396,7 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coef~21"></span>
+              <span class="anchor" id="variable-coef~27"></span>
               type(<a href='../type/type_iapws_gibbs_coefficient.html'>type_iapws_gibbs_coefficient</a>),
             </td>
 <td>intent(inout)</td>
@@ -1437,7 +1437,7 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~201"></span>
+              <span class="anchor" id="variable-self~199"></span>
               class(<a href='../type/type_iapws97_region1.html'>type_iapws97_region1</a>),
             </td>
 <td>intent(inout)</td>
@@ -1478,7 +1478,7 @@ from the ordinary Gibbs sums and is part of numerical compatibility.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-04 22:35 +0000             </p>
+ on 2026-11-26 11:23 +0000             </p>
           </div>
         </div>
         <br>

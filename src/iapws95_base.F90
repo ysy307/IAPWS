@@ -1,4 +1,6 @@
 submodule(module_iapws95) iapws95_base
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite, ieee_value, ieee_quiet_nan
+    use module_water_phase_boundaries, only: sublimation_pressure
     implicit none
 
     ! Pre-computed exponent range bounds for residual power tables
@@ -22,6 +24,236 @@ contains
 
     end subroutine initialize_type_iapws95
 
+    module pure elemental subroutine calc_rho_iapws95(self, T_in, P_in, rho)
+        implicit none
+        class(type_iapws95), intent(in) :: self
+        real(real64), intent(in) :: T_in, P_in
+        real(real64), intent(inout) :: rho
+        call density_attempt(self, T_in, P_in, rho)
+    end subroutine calc_rho_iapws95
+
+    module pure elemental subroutine solve_density_iapws95(self, T_in, P_in, rho, guess_rho)
+        implicit none
+        class(type_iapws95), intent(in) :: self
+        real(real64), intent(in) :: T_in, P_in
+        real(real64), intent(out) :: rho
+        real(real64), intent(in), optional :: guess_rho
+        call density_attempt(self, T_in, P_in, rho, guess_rho)
+        if (present(guess_rho) .and. .not. ieee_is_finite(rho)) call density_attempt(self, T_in, P_in, rho)
+    end subroutine solve_density_iapws95
+
+    pure elemental subroutine density_attempt(self, T_in, P_in, rho, guess_rho)
+        implicit none
+        class(type_iapws95), intent(in) :: self
+        real(real64), intent(in) :: T_in, P_in
+        real(real64), intent(out) :: rho
+        real(real64), intent(in), optional :: guess_rho
+        real(real64) :: tau, theta, rt, ps, x, lo, hi, trial, f, df, best, best_error, scale, best_scale
+        integer :: iteration
+
+        rho = ieee_value(0d0, ieee_quiet_nan)
+        if (.not. self%is_initialized) return
+        if (.not. ieee_is_finite(T_in) .or. .not. ieee_is_finite(P_in)) return
+        if (T_in < 50d0 .or. T_in > 1273d0 .or. P_in <= 0d0 .or. P_in > 1d9) return
+        if (T_in < 251.165d0) then
+            ps = sublimation_pressure(T_in)
+            if (P_in > ps * (1d0 + 32d0 * epsilon(ps))) return
+        end if
+        rt = self%R * T_in
+        tau = self%T_c / T_in
+        lo = 0d0
+        hi = 1800d0
+        x = P_in / rt
+        if (T_in < 251.165d0) then
+            hi = 2d0 * x
+        else if (tau > 1d0) then
+            ! SR1-86 ancillary correlations select and seed the subcritical branch.
+            ! The returned density is refined against the full Helmholtz equation.
+            theta = 1d0 - 1d0 / tau
+            ps = ancillary_pressure(tau, theta)
+            if (T_in >= 273.16d0 .and. abs(P_in - ps) < 0.001d0 * ps) then
+                call self%saturation_densities(T_in, ps, best, best_error)
+                if (.not. ieee_is_finite(ps)) return
+            end if
+            if (P_in > ps) then
+                lo = self%rho_c
+                x = self%rho_c * ancillary_liquid(theta)
+            else
+                hi = self%rho_c
+                if (P_in > 0.5d0 * ps) x = self%rho_c * ancillary_vapor(theta) * (P_in / ps)
+            end if
+        end if
+        if (x <= lo .or. x >= hi) x = (lo + hi) * 0.5d0
+        if (present(guess_rho)) then
+            if (ieee_is_finite(guess_rho)) then
+                ! Stay near the physical seed and avoid singular reciprocal powers.
+                if (guess_rho > max(lo, 1d-120, 0.125d0 * x) .and. guess_rho < min(hi, 8d0 * x)) x = guess_rho
+            end if
+        end if
+        best_error = huge(0d0)
+        best = x
+        best_scale = P_in
+        do iteration = 1, 100
+            call pressure_residual(x, f, df)
+            if (.not. ieee_is_finite(f) .or. .not. ieee_is_finite(df)) return
+            if (df > 0d0 .and. abs(f) < best_error) then
+                best = x
+                best_error = abs(f)
+                scale = max(P_in, x * rt, x * df)
+                best_scale = scale
+                if (best_error <= 16d0 * epsilon(x) * scale) then
+                    rho = x
+                    return
+                end if
+            end if
+            if (df <= 0d0 .and. tau > 1d0) then
+                ! Move away from the unstable interval toward the selected branch.
+                if (hi <= self%rho_c) then
+                    hi = x
+                else
+                    lo = x
+                end if
+            else if (f > 0d0) then
+                hi = x
+            else
+                lo = x
+            end if
+            trial = (lo + hi) * 0.5d0
+            if (df > 0d0) then
+                if (abs(f) < df * (hi - lo)) then
+                    if (x - f / df > lo .and. x - f / df < hi) trial = x - f / df
+                end if
+            end if
+            if (trial == x) exit
+            x = trial
+        end do
+        if (best_error <= 64d0 * epsilon(best) * best_scale) rho = best
+
+    contains
+        pure subroutine pressure_residual(density, residual, slope)
+            implicit none
+            real(real64), intent(in) :: density
+            real(real64), intent(out) :: residual, slope
+            type(type_iapws_helmholtz_property) :: phi
+            real(real64) :: delta, dphir
+            delta = density / self%rho_c
+            call self%calc_phir(tau, delta, phi)
+            dphir = delta * phi%fr_d
+            residual = density * rt * (1d0 + dphir) - P_in
+            slope = rt * (1d0 + 2d0 * dphir + delta**2 * phi%fr_dd)
+        end subroutine pressure_residual
+    end subroutine density_attempt
+
+    module pure elemental function saturation_estimate_iapws95(self, T) result(p)
+        implicit none
+        real(real64) :: p
+        class(type_iapws95), intent(in) :: self
+        real(real64), intent(in) :: T
+        p = ancillary_pressure(self%T_c / T, (self%T_c - T) / self%T_c)
+    end function saturation_estimate_iapws95
+
+    pure elemental function ancillary_pressure(tau, theta) result(p)
+        implicit none
+        real(real64) :: p
+        real(real64), intent(in) :: tau, theta
+        real(real64) :: y
+        y = sqrt(theta)
+        p = 22.064d6 * exp(tau * theta * (-7.85951783d0 + y * 1.84408259d0 + &
+            theta**2 * (-11.7866497d0 + y * 22.6807411d0 - theta * 15.9618719d0 + &
+            theta**4 * y * 1.80122502d0)))
+    end function ancillary_pressure
+
+    pure elemental function ancillary_liquid(theta) result(delta)
+        implicit none
+        real(real64) :: delta
+        real(real64), intent(in) :: theta
+        real(real64) :: x
+        x = theta**(1d0 / 3d0)
+        delta = 1d0 + x * (1.99274064d0 + x * (1.09965342d0 - 0.510839303d0 * x**3)) &
+            - 1.75493479d0 * x**16 - 45.5170352d0 * x**43 - 6.74694450d5 * x**110
+    end function ancillary_liquid
+
+    pure elemental function ancillary_vapor(theta) result(delta)
+        implicit none
+        real(real64) :: delta
+        real(real64), intent(in) :: theta
+        real(real64) :: x
+        x = theta**(1d0 / 6d0)
+        delta = exp(-2.03150240d0 * x**2 - 2.68302940d0 * x**4 - 5.38626492d0 * x**8 &
+            - 17.2991605d0 * x**18 - 44.7586581d0 * x**37 - 63.9201063d0 * x**71)
+    end function ancillary_vapor
+
+    module pure elemental subroutine saturation_densities_iapws95(self, T, p, liquid, vapor, liquid_state, vapor_state)
+        implicit none
+        class(type_iapws95), intent(in) :: self
+        real(real64), intent(in) :: T
+        real(real64), intent(out) :: p, liquid, vapor
+        type(type_iapws_property), intent(inout), optional :: liquid_state, vapor_state
+        type(type_iapws_helmholtz_property) :: l, v
+        real(real64) :: tau, theta, dl, dv, zl, zv, bl, bv, f1, gibbs, mismatch, ul, sl, sv, damping
+        integer :: iteration
+
+        p = ieee_value(0d0, ieee_quiet_nan)
+        liquid = p
+        vapor = p
+        if (.not. self%is_initialized .or. .not. ieee_is_finite(T)) return
+        if (T < 273.16d0 .or. T > self%T_c) return
+        if (T == self%T_c) then
+            p = 22.064d6
+            liquid = self%rho_c
+            vapor = self%rho_c
+            return
+        end if
+        tau = self%T_c / T
+        theta = (self%T_c - T) / self%T_c
+        dl = ancillary_liquid(theta)
+        dv = ancillary_vapor(theta)
+
+        ! Equal reduced pressure and Gibbs energy, using the analytic Jacobian.
+        do iteration = 1, 60
+            call self%calc_phir(tau, dl, l)
+            call self%calc_phir(tau, dv, v)
+            zl = 1d0 + dl * l%fr_d
+            zv = 1d0 + dv * v%fr_d
+            bl = 2d0 * zl - 1d0 + dl**2 * l%fr_dd
+            bv = 2d0 * zv - 1d0 + dv**2 * v%fr_dd
+            f1 = dl * zl - dv * zv
+            gibbs = log(dl / dv) + (l%fr - v%fr)
+            mismatch = gibbs - zv * (1d0 - dv / dl)
+            if (min(bl, bv) <= 0d0) return
+            ! Eliminate the liquid pressure residual from the Gibbs equation.
+            ! This avoids feeding its large cancellation error to the vapor step.
+            sv = dv * mismatch / ((1d0 - dv / dl) * bv)
+            ul = bv * sv - f1
+            sl = ul / bl
+            if (abs(f1) <= 128d0 * epsilon(dl) * dl * max(1d0, bl) .and. &
+                abs(mismatch) <= 32d0 * epsilon(dl) * max(1d0, abs(l%fr), abs(v%fr))) then
+                p = dv * gibbs / (1d0 - dv / dl) * self%rho_c * self%R * T
+                liquid = dl * self%rho_c
+                vapor = dv * self%rho_c
+                if (present(liquid_state)) then
+                    call self%calc_phi0(tau, dl, l)
+                    call combine_phi(l)
+                    call self%project_properties(T, liquid, liquid_state, l)
+                    liquid_state%p = p
+                end if
+                if (present(vapor_state)) then
+                    call self%calc_phi0(tau, dv, v)
+                    call combine_phi(v)
+                    call self%project_properties(T, vapor, vapor_state, v)
+                    vapor_state%p = p
+                end if
+                return
+            end if
+            damping = 1d0
+            if (sl < 0d0) damping = min(damping, 0.5d0 * (dl - 1d0) / (-sl))
+            if (sv > 0d0) damping = min(damping, 0.5d0 * (1d0 - dv) / sv)
+            if (sv < 0d0) damping = min(damping, 0.5d0 * dv / (-sv))
+            dl = dl + damping * sl
+            dv = dv + damping * sv
+        end do
+    end subroutine saturation_densities_iapws95
+
     module pure elemental subroutine calc_phi_iapws95(self, tau, delta, property)
         implicit none
         !> IAPWS-95 model instance
@@ -36,13 +268,19 @@ contains
         call self%calc_phi0(tau, delta, property)
         call self%calc_phir(tau, delta, property)
 
+        call combine_phi(property)
+    end subroutine calc_phi_iapws95
+
+    pure subroutine combine_phi(property)
+        implicit none
+        type(type_iapws_helmholtz_property), intent(inout) :: property
         property%f = property%f0 + property%fr
         property%f_d = property%f0_d + property%fr_d
         property%f_t = property%f0_t + property%fr_t
         property%f_dd = property%f0_dd + property%fr_dd
         property%f_tt = property%f0_tt + property%fr_tt
         property%f_dt = property%f0_dt + property%fr_dt
-    end subroutine calc_phi_iapws95
+    end subroutine combine_phi
 
     module pure elemental subroutine calc_phi0_iapws95(self, tau, delta, property)
         implicit none
@@ -59,7 +297,8 @@ contains
         integer(int32) :: i
         integer(int32) :: pow_i
         real(real64) :: t_val, n_val, g_val
-        real(real64) :: exp_gtau, one_minus_exp, inv_one_minus_exp
+        real(real64) :: exp_gtau, one_minus_exp, inv_one_minus_exp, q, logq
+        real(real64), parameter :: ext = 0.278296458178592d0, tau_e = critical_temperature / 130d0
 
         ! Initialize properties
         property%f0 = 0.0d0
@@ -109,6 +348,16 @@ contains
 
             property%f0_tt = property%f0_tt + -n_val * g_val**2 * exp_gtau * (inv_one_minus_exp**2)
         end do
+        ! G9-12: integrated ideal-part correction, with zero value and slope at 130 K.
+        if (tau > tau_e .and. tau <= critical_temperature / 50d0) then
+            q = tau / tau_e
+            logq = log(q)
+            property%f0 = property%f0 + ext / tau_e * &
+                (0.5d0 * q**2 + 4.5d0 * (q - 1d0) - 3d0 * (q + 1d0) * logq - 0.5d0 / q)
+            property%f0_t = property%f0_t + ext / tau_e**2 * &
+                (q - 3d0 * logq - 3d0 / q + 0.5d0 / q**2 + 1.5d0)
+            property%f0_tt = property%f0_tt + ext * (1d0 / tau_e - 1d0 / tau)**3
+        end if
     end subroutine calc_phi0_iapws95
 
     module pure elemental subroutine calc_phir_iapws95(self, tau, delta, property)
@@ -318,9 +567,9 @@ contains
             d_theta_d = AA_val * (1.0d0 / beta4_val) * diff_d * (sq_diff_d**(pow_theta - 1.0d0))
 
             ! d2(Theta)/d(delta)^2
-            d2_theta_dd = d_theta_d / diff_d + &
-                          AA_val * (1.0d0 / beta4_val) * (pow_theta - 1.0d0) * &
-                          2.0d0 * sq_diff_d * (sq_diff_d**(pow_theta - 2.0d0))
+            ! This combined power has a finite zero limit at the critical density.
+            d2_theta_dd = AA_val / beta4_val * (2.0d0 * pow_theta - 1.0d0) * &
+                          sq_diff_d**(pow_theta - 1.0d0)
 
             ! d(Psi)/d(delta), d(Psi)/d(tau)
             d_psi_d = psi * (-2.0d0 * c_int_val * diff_d)

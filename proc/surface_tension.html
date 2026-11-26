@@ -1,0 +1,618 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="IAPWS.">
+    <meta name="author" content="Kikuchi Shun" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>surface_tension &ndash; IAPWS</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">IAPWS </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Read Me</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>surface_tension
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.1% of total for procedures.">11 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/water_transport.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/water_transport.f90.html'>water_transport.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/module_water_transport.html'>module_water_transport</a></li>
+            <li class="breadcrumb-item active" aria-current="page">surface_tension</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/surface_tension.html#src">surface_tension</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public pure elemental function surface_tension(T) result(sigma)  
+</h2>
+    
+
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t~13"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>T</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-sigma"></span>
+          real(kind=real64)
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~surface_tension~~CalledByGraph Pages: 1 -->
+<svg id="procsurface_tensionCalledByGraph" width="641pt" height="155pt"
+ viewBox="0.00 0.00 641.00 155.48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~surface_tension~~CalledByGraph" class="graph" transform="scale(0.54 0.54) rotate(0) translate(4 285.85)">
+<title>proc~~surface_tension~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-285.85 1191,-285.85 1191,4 -4,4"/>
+<!-- proc~surface_tension -->
+<g id="proc~~surface_tension~~CalledByGraph_node1" class="node">
+<title>proc~surface_tension</title>
+<polygon fill="none" stroke="black" points="1187,-186.4 1090,-186.4 1090,-162.4 1187,-162.4 1187,-186.4"/>
+<text text-anchor="middle" x="1138.5" y="-172" font-family="Helvetica,sans-Serif" font-size="10.50">surface_tension</text>
+</g>
+<!-- proc~saturation_t -->
+<g id="proc~~surface_tension~~CalledByGraph_node2" class="node">
+<title>proc~saturation_t</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node2"><a xlink:href="../proc/saturation_t.html" xlink:title="type_water%saturation_t">
+<polygon fill="#d9534f" stroke="#d9534f" points="1054,-186.4 910,-186.4 910,-162.4 1054,-162.4 1054,-186.4"/>
+<text text-anchor="middle" x="982" y="-172" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_water%saturation_t</text>
+</a>
+</g>
+</g>
+<!-- proc~saturation_t&#45;&gt;proc~surface_tension -->
+<g id="proc~~surface_tension~~CalledByGraph_edge1" class="edge">
+<title>proc~saturation_t&#45;&gt;proc~surface_tension</title>
+<path fill="none" stroke="#ff0000" d="M1054.37,-174.4C1062.82,-174.4 1071.37,-174.4 1079.6,-174.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1079.82,-177.9 1089.82,-174.4 1079.82,-170.9 1079.82,-177.9"/>
+</g>
+<!-- proc~invert_equilibrium -->
+<g id="proc~~surface_tension~~CalledByGraph_node3" class="node">
+<title>proc~invert_equilibrium</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node3"><a xlink:href="../proc/invert_equilibrium.html" xlink:title="invert_equilibrium">
+<polygon fill="#d9534f" stroke="#d9534f" points="483,-137.4 374,-137.4 374,-113.4 483,-113.4 483,-137.4"/>
+<text text-anchor="middle" x="428.5" y="-123" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">invert_equilibrium</text>
+</a>
+</g>
+</g>
+<!-- proc~invert_equilibrium&#45;&gt;proc~saturation_t -->
+<g id="proc~~surface_tension~~CalledByGraph_edge2" class="edge">
+<title>proc~invert_equilibrium&#45;&gt;proc~saturation_t</title>
+<path fill="none" stroke="#ff0000" d="M470.42,-113.35C475,-110.88 479.33,-107.92 483,-104.4 511.7,-76.82 485.68,-44.16 519,-22.4 583.38,19.65 616.44,-8.18 692,-22.4 777.33,-38.45 798.22,-51.01 874,-93.4 906.13,-111.37 939.37,-138.02 960.1,-155.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="957.81,-158.44 967.66,-162.35 962.4,-153.15 957.81,-158.44"/>
+</g>
+<!-- proc~saturation_at_pressure95 -->
+<g id="proc~~surface_tension~~CalledByGraph_node5" class="node">
+<title>proc~saturation_at_pressure95</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node5"><a xlink:href="../proc/saturation_at_pressure95.html" xlink:title="saturation_at_pressure95">
+<polygon fill="#d9534f" stroke="#d9534f" points="874,-186.4 728,-186.4 728,-162.4 874,-162.4 874,-186.4"/>
+<text text-anchor="middle" x="801" y="-172" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturation_at_pressure95</text>
+</a>
+</g>
+</g>
+<!-- proc~invert_equilibrium&#45;&gt;proc~saturation_at_pressure95 -->
+<g id="proc~~surface_tension~~CalledByGraph_edge11" class="edge">
+<title>proc~invert_equilibrium&#45;&gt;proc~saturation_at_pressure95</title>
+<path fill="none" stroke="#00ff66" d="M483.37,-132.52C544.87,-140.66 646.17,-154.05 717.6,-163.5"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="717.54,-167.02 727.92,-164.86 718.46,-160.08 717.54,-167.02"/>
+</g>
+<!-- proc~state_tp -->
+<g id="proc~~surface_tension~~CalledByGraph_node7" class="node">
+<title>proc~state_tp</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node7"><a xlink:href="../proc/state_tp.html" xlink:title="type_water%state_tp">
+<polygon fill="#d9534f" stroke="#d9534f" points="862.5,-126.4 739.5,-126.4 739.5,-102.4 862.5,-102.4 862.5,-126.4"/>
+<text text-anchor="middle" x="801" y="-112" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_water%state_tp</text>
+</a>
+</g>
+</g>
+<!-- proc~invert_equilibrium&#45;&gt;proc~state_tp -->
+<g id="proc~~surface_tension~~CalledByGraph_edge13" class="edge">
+<title>proc~invert_equilibrium&#45;&gt;proc~state_tp</title>
+<path fill="none" stroke="#cc00ff" d="M483.37,-123.8C548.22,-121.87 657.32,-118.63 728.99,-116.51"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="729.39,-120 739.28,-116.2 729.19,-113 729.39,-120"/>
+</g>
+<!-- proc~solve_segment -->
+<g id="proc~~surface_tension~~CalledByGraph_node8" class="node">
+<title>proc~solve_segment</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node8"><a xlink:href="../proc/solve_segment.html" xlink:title="solve_segment">
+<polygon fill="#d9534f" stroke="#d9534f" points="651.5,-55.4 559.5,-55.4 559.5,-31.4 651.5,-31.4 651.5,-55.4"/>
+<text text-anchor="middle" x="605.5" y="-41" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_segment</text>
+</a>
+</g>
+</g>
+<!-- proc~invert_equilibrium&#45;&gt;proc~solve_segment -->
+<g id="proc~~surface_tension~~CalledByGraph_edge18" class="edge">
+<title>proc~invert_equilibrium&#45;&gt;proc~solve_segment</title>
+<path fill="none" stroke="#ff0000" d="M466.91,-113.31C472.53,-110.77 478.08,-107.81 483,-104.4 502.66,-90.77 498.48,-76.68 519,-64.4 528.34,-58.81 539.1,-54.7 549.76,-51.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="550.66,-55.07 559.49,-49.22 548.93,-48.29 550.66,-55.07"/>
+</g>
+<!-- proc~invert_if97 -->
+<g id="proc~~surface_tension~~CalledByGraph_node4" class="node">
+<title>proc~invert_if97</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node4"><a xlink:href="../proc/invert_if97.html" xlink:title="invert_if97">
+<polygon fill="#d9534f" stroke="#d9534f" points="463,-196.4 394,-196.4 394,-172.4 463,-172.4 463,-196.4"/>
+<text text-anchor="middle" x="428.5" y="-182" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">invert_if97</text>
+</a>
+</g>
+</g>
+<!-- proc~invert_if97&#45;&gt;proc~saturation_t -->
+<g id="proc~~surface_tension~~CalledByGraph_edge3" class="edge">
+<title>proc~invert_if97&#45;&gt;proc~saturation_t</title>
+<path fill="none" stroke="#ff0000" d="M438.57,-196.58C453.12,-214.99 483.68,-249.17 519,-262.4 674.82,-320.77 875.32,-230.45 950.63,-191.17"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="952.39,-194.2 959.59,-186.43 949.11,-188.01 952.39,-194.2"/>
+</g>
+<!-- proc~invert_if97&#45;&gt;proc~state_tp -->
+<g id="proc~~surface_tension~~CalledByGraph_edge14" class="edge">
+<title>proc~invert_if97&#45;&gt;proc~state_tp</title>
+<path fill="none" stroke="#cc00ff" d="M463.03,-178.06C522.91,-166.75 649.39,-142.85 729.23,-127.77"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="730.03,-131.18 739.21,-125.88 728.73,-124.3 730.03,-131.18"/>
+</g>
+<!-- proc~saturation_at_pressure95&#45;&gt;proc~saturation_t -->
+<g id="proc~~surface_tension~~CalledByGraph_edge4" class="edge">
+<title>proc~saturation_at_pressure95&#45;&gt;proc~saturation_t</title>
+<path fill="none" stroke="#ff0000" d="M874.03,-174.4C882.55,-174.4 891.29,-174.4 899.92,-174.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="899.99,-177.9 909.99,-174.4 899.99,-170.9 899.99,-177.9"/>
+</g>
+<!-- proc~saturation_p -->
+<g id="proc~~surface_tension~~CalledByGraph_node6" class="node">
+<title>proc~saturation_p</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node6"><a xlink:href="../proc/saturation_p.html" xlink:title="type_water%saturation_p">
+<polygon fill="#d9534f" stroke="#d9534f" points="679,-253.4 532,-253.4 532,-229.4 679,-229.4 679,-253.4"/>
+<text text-anchor="middle" x="605.5" y="-239" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_water%saturation_p</text>
+</a>
+</g>
+</g>
+<!-- proc~saturation_p&#45;&gt;proc~saturation_t -->
+<g id="proc~~surface_tension~~CalledByGraph_edge5" class="edge">
+<title>proc~saturation_p&#45;&gt;proc~saturation_t</title>
+<path fill="none" stroke="#ff0000" d="M679.24,-229.36C733.09,-220.34 808.19,-207.51 874,-195.4 886.05,-193.18 898.84,-190.74 911.23,-188.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="911.92,-191.77 921.06,-186.42 910.58,-184.9 911.92,-191.77"/>
+</g>
+<!-- proc~saturation_p&#45;&gt;proc~saturation_at_pressure95 -->
+<g id="proc~~surface_tension~~CalledByGraph_edge12" class="edge">
+<title>proc~saturation_p&#45;&gt;proc~saturation_at_pressure95</title>
+<path fill="none" stroke="#00ff66" d="M647.99,-229.39C662.03,-225.17 677.76,-220.26 692,-215.4 714.84,-207.6 740.06,-198.08 760.39,-190.17"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="761.9,-193.34 769.94,-186.43 759.35,-186.82 761.9,-193.34"/>
+</g>
+<!-- proc~state_tp&#45;&gt;proc~saturation_t -->
+<g id="proc~~surface_tension~~CalledByGraph_edge6" class="edge">
+<title>proc~state_tp&#45;&gt;proc~saturation_t</title>
+<path fill="none" stroke="#ff0000" d="M838.22,-126.54C866.22,-135.92 905.14,-148.97 935.28,-159.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="934.54,-162.52 945.14,-162.38 936.77,-155.88 934.54,-162.52"/>
+</g>
+<!-- proc~solve_segment&#45;&gt;proc~state_tp -->
+<g id="proc~~surface_tension~~CalledByGraph_edge15" class="edge">
+<title>proc~solve_segment&#45;&gt;proc~state_tp</title>
+<path fill="none" stroke="#cc00ff" d="M651.79,-52.8C664.92,-55.99 679.16,-59.9 692,-64.4 718.38,-73.65 747.04,-87.08 768.2,-97.7"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="766.86,-100.94 777.36,-102.35 770.03,-94.7 766.86,-100.94"/>
+</g>
+<!-- proc~state_ph -->
+<g id="proc~~surface_tension~~CalledByGraph_node9" class="node">
+<title>proc~state_ph</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node9"><a xlink:href="../proc/state_ph.html" xlink:title="type_water%state_ph">
+<polygon fill="#d9534f" stroke="#d9534f" points="338,-158.4 212,-158.4 212,-134.4 338,-134.4 338,-158.4"/>
+<text text-anchor="middle" x="275" y="-144" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_water%state_ph</text>
+</a>
+</g>
+</g>
+<!-- proc~state_ph&#45;&gt;proc~invert_equilibrium -->
+<g id="proc~~surface_tension~~CalledByGraph_edge7" class="edge">
+<title>proc~state_ph&#45;&gt;proc~invert_equilibrium</title>
+<path fill="none" stroke="#ff0000" d="M338.06,-137.8C346.42,-136.64 355.02,-135.44 363.42,-134.28"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="364.12,-137.72 373.54,-132.88 363.15,-130.78 364.12,-137.72"/>
+</g>
+<!-- proc~state_ph&#45;&gt;proc~invert_if97 -->
+<g id="proc~~surface_tension~~CalledByGraph_edge9" class="edge">
+<title>proc~state_ph&#45;&gt;proc~invert_if97</title>
+<path fill="none" stroke="#cbff00" d="M323.94,-158.42C343.19,-163.25 365.22,-168.78 384.01,-173.49"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="383.23,-176.9 393.78,-175.94 384.94,-170.11 383.23,-176.9"/>
+</g>
+<!-- proc~try_warm_inverse -->
+<g id="proc~~surface_tension~~CalledByGraph_node12" class="node">
+<title>proc~try_warm_inverse</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node12"><a xlink:href="../proc/try_warm_inverse.html" xlink:title="try_warm_inverse">
+<polygon fill="#d9534f" stroke="#d9534f" points="481.5,-95.4 375.5,-95.4 375.5,-71.4 481.5,-71.4 481.5,-95.4"/>
+<text text-anchor="middle" x="428.5" y="-81" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">try_warm_inverse</text>
+</a>
+</g>
+</g>
+<!-- proc~state_ph&#45;&gt;proc~try_warm_inverse -->
+<g id="proc~~surface_tension~~CalledByGraph_edge21" class="edge">
+<title>proc~state_ph&#45;&gt;proc~try_warm_inverse</title>
+<path fill="none" stroke="#cc00ff" d="M315.49,-134.35C323.07,-131.67 330.86,-128.65 338,-125.4 354.86,-117.72 357.33,-112.47 374,-104.4 377.54,-102.68 381.25,-101 385,-99.38"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="386.45,-102.57 394.34,-95.49 383.76,-96.11 386.45,-102.57"/>
+</g>
+<!-- proc~state_ps -->
+<g id="proc~~surface_tension~~CalledByGraph_node10" class="node">
+<title>proc~state_ps</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node10"><a xlink:href="../proc/state_ps.html" xlink:title="type_water%state_ps">
+<polygon fill="#d9534f" stroke="#d9534f" points="337,-116.4 213,-116.4 213,-92.4 337,-92.4 337,-116.4"/>
+<text text-anchor="middle" x="275" y="-102" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_water%state_ps</text>
+</a>
+</g>
+</g>
+<!-- proc~state_ps&#45;&gt;proc~invert_equilibrium -->
+<g id="proc~~surface_tension~~CalledByGraph_edge8" class="edge">
+<title>proc~state_ps&#45;&gt;proc~invert_equilibrium</title>
+<path fill="none" stroke="#ff0000" d="M337.18,-112.88C345.92,-114.09 354.92,-115.34 363.71,-116.56"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="363.5,-120.06 373.89,-117.97 364.47,-113.13 363.5,-120.06"/>
+</g>
+<!-- proc~state_ps&#45;&gt;proc~invert_if97 -->
+<g id="proc~~surface_tension~~CalledByGraph_edge10" class="edge">
+<title>proc~state_ps&#45;&gt;proc~invert_if97</title>
+<path fill="none" stroke="#cbff00" d="M316.63,-116.49C323.88,-119.11 331.26,-122.1 338,-125.4 350.78,-131.65 380.23,-151.49 401.88,-166.45"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="400.1,-169.48 410.31,-172.3 404.09,-163.73 400.1,-169.48"/>
+</g>
+<!-- proc~state_ps&#45;&gt;proc~try_warm_inverse -->
+<g id="proc~~surface_tension~~CalledByGraph_edge22" class="edge">
+<title>proc~state_ps&#45;&gt;proc~try_warm_inverse</title>
+<path fill="none" stroke="#cc00ff" d="M337.18,-95.92C346.47,-94.63 356.06,-93.3 365.37,-92.01"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="365.91,-95.47 375.33,-90.63 364.94,-88.54 365.91,-95.47"/>
+</g>
+<!-- proc~state_tp_checked -->
+<g id="proc~~surface_tension~~CalledByGraph_node11" class="node">
+<title>proc~state_tp_checked</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node11"><a xlink:href="../proc/state_tp_checked.html" xlink:title="type_water%state_tp_checked">
+<polygon fill="#d9534f" stroke="#d9534f" points="692,-97.4 519,-97.4 519,-73.4 692,-73.4 692,-97.4"/>
+<text text-anchor="middle" x="605.5" y="-83" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_water%state_tp_checked</text>
+</a>
+</g>
+</g>
+<!-- proc~state_tp_checked&#45;&gt;proc~state_tp -->
+<g id="proc~~surface_tension~~CalledByGraph_edge16" class="edge">
+<title>proc~state_tp_checked&#45;&gt;proc~state_tp</title>
+<path fill="none" stroke="#cc00ff" d="M686.6,-97.4C700.82,-99.53 715.54,-101.74 729.47,-103.83"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="729.05,-107.3 739.46,-105.32 730.09,-100.38 729.05,-107.3"/>
+</g>
+<!-- proc~try_warm_inverse&#45;&gt;proc~state_tp -->
+<g id="proc~~surface_tension~~CalledByGraph_edge17" class="edge">
+<title>proc~try_warm_inverse&#45;&gt;proc~state_tp</title>
+<path fill="none" stroke="#cc00ff" d="M441.82,-71.34C457.97,-56.47 487.91,-31.98 519,-22.4 592.47,0.26 619.85,4.17 692,-22.4 730.74,-36.66 765.04,-71.68 784.11,-94.16"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="781.59,-96.61 790.66,-102.1 787,-92.15 781.59,-96.61"/>
+</g>
+<!-- proc~state_ph_checked -->
+<g id="proc~~surface_tension~~CalledByGraph_node13" class="node">
+<title>proc~state_ph_checked</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node13"><a xlink:href="../proc/state_ph_checked.html" xlink:title="type_water%state_ph_checked">
+<polygon fill="#d9534f" stroke="#d9534f" points="176,-158.4 0,-158.4 0,-134.4 176,-134.4 176,-158.4"/>
+<text text-anchor="middle" x="88" y="-144" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_water%state_ph_checked</text>
+</a>
+</g>
+</g>
+<!-- proc~state_ph_checked&#45;&gt;proc~state_ph -->
+<g id="proc~~surface_tension~~CalledByGraph_edge19" class="edge">
+<title>proc~state_ph_checked&#45;&gt;proc~state_ph</title>
+<path fill="none" stroke="#cbff00" d="M176.08,-146.4C184.68,-146.4 193.34,-146.4 201.76,-146.4"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="201.89,-149.9 211.89,-146.4 201.89,-142.9 201.89,-149.9"/>
+</g>
+<!-- proc~state_ps_checked -->
+<g id="proc~~surface_tension~~CalledByGraph_node14" class="node">
+<title>proc~state_ps_checked</title>
+<g id="a_proc~~surface_tension~~CalledByGraph_node14"><a xlink:href="../proc/state_ps_checked.html" xlink:title="type_water%state_ps_checked">
+<polygon fill="#d9534f" stroke="#d9534f" points="175.5,-116.4 0.5,-116.4 0.5,-92.4 175.5,-92.4 175.5,-116.4"/>
+<text text-anchor="middle" x="88" y="-102" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">type_water%state_ps_checked</text>
+</a>
+</g>
+</g>
+<!-- proc~state_ps_checked&#45;&gt;proc~state_ps -->
+<g id="proc~~surface_tension~~CalledByGraph_edge20" class="edge">
+<title>proc~state_ps_checked&#45;&gt;proc~state_ps</title>
+<path fill="none" stroke="#00ff66" d="M175.54,-104.4C184.6,-104.4 193.73,-104.4 202.59,-104.4"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="202.85,-107.9 212.85,-104.4 202.85,-100.9 202.85,-107.9"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocsurface_tensionCalledByGraph = svgPanZoom('#procsurface_tensionCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure elemental function </span><span class="n">surface_tension</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
+<span class="w">        </span><span class="k">implicit none</span>
+<span class="k">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sigma</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">T</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">theta</span>
+<span class="w">        </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ieee_value</span><span class="p">(</span><span class="mi">0</span><span class="n">d0</span><span class="p">,</span><span class="w"> </span><span class="n">ieee_quiet_nan</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">ieee_is_finite</span><span class="p">(</span><span class="n">T</span><span class="p">))</span><span class="w"> </span><span class="k">return</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">24</span><span class="mf">8.15d0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Tc</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<span class="k">        </span><span class="n">theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="n">d0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">Tc</span>
+<span class="w">        </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2358d0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">theta</span><span class="o">**</span><span class="mf">1.256d0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="n">d0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.625d0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">theta</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end function </span><span class="n">surface_tension</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              IAPWS
+ was developed by Kikuchi Shun<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-11-26 11:23 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

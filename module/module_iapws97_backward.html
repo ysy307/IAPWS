@@ -1,0 +1,1332 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="IAPWS.">
+    <meta name="author" content="Kikuchi Shun" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>module_iapws97_backward &ndash; IAPWS</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">IAPWS </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Read Me</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>module_iapws97_backward
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.7% of total for modules and submodules.">138 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/iapws97_backward.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/iapws97_backward.f90.html'>iapws97_backward.F90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">module_iapws97_backward</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h1_li">h1_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h1_lj">h1_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h1_n">h1_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h2a_li">h2a_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h2a_lj">h2a_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h2a_n">h2a_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h2b_li">h2b_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h2b_lj">h2b_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h2b_n">h2b_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h2c_li">h2c_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h2c_lj">h2c_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h2c_n">h2c_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h3a_li">h3a_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h3a_lj">h3a_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h3a_n">h3a_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h3b_li">h3b_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h3b_lj">h3b_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-h3b_n">h3b_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s1_li">s1_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s1_lj">s1_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s1_n">s1_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s2a_li">s2a_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s2a_lj">s2a_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s2a_n">s2a_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s2b_li">s2b_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s2b_lj">s2b_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s2b_n">s2b_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s2c_li">s2c_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s2c_lj">s2c_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s2c_n">s2c_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s3a_li">s3a_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s3a_lj">s3a_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s3a_n">s3a_n</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s3b_li">s3b_Li</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s3b_lj">s3b_Lj</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#variable-s3b_n">s3b_n</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#proc-backward_temperature">backward_temperature</a>
+            <a class="list-group-item" href="../module/module_iapws97_backward.html#proc-polynomial">polynomial</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/ieee_arithmetic'>ieee_arithmetic</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~module_iapws97_backward~~UsesGraph Pages: 1 -->
+<svg id="modulemodule_iapws97_backwardUsesGraph" width="299pt" height="74pt"
+ viewBox="0.00 0.00 299.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~module_iapws97_backward~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>module~~module_iapws97_backward~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 295,-70 295,4 -4,4"/>
+<!-- module~module_iapws97_backward -->
+<g id="module~~module_iapws97_backward~~UsesGraph_node1" class="node">
+<title>module~module_iapws97_backward</title>
+<polygon fill="none" stroke="black" points="291,-45 132,-45 132,-21 291,-21 291,-45"/>
+<text text-anchor="middle" x="211.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">module_iapws97_backward</text>
+</g>
+<!-- ieee_arithmetic -->
+<g id="module~~module_iapws97_backward~~UsesGraph_node2" class="node">
+<title>ieee_arithmetic</title>
+<g id="a_module~~module_iapws97_backward~~UsesGraph_node2"><a xlink:href="http://fortranwiki.org/fortran/show/ieee_arithmetic" xlink:title="ieee_arithmetic">
+<polygon fill="#337ab7" stroke="#337ab7" points="96,-66 0,-66 0,-42 96,-42 96,-66"/>
+<text text-anchor="middle" x="48" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ieee_arithmetic</text>
+</a>
+</g>
+</g>
+<!-- module~module_iapws97_backward&#45;&gt;ieee_arithmetic -->
+<g id="module~~module_iapws97_backward~~UsesGraph_edge1" class="edge">
+<title>module~module_iapws97_backward&#45;&gt;ieee_arithmetic</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M131.64,-43.25C122.99,-44.38 114.31,-45.51 106,-46.59"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="105.53,-43.12 96.07,-47.88 106.43,-50.06 105.53,-43.12"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~module_iapws97_backward~~UsesGraph_node3" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~module_iapws97_backward~~UsesGraph_node3"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="95,-24 1,-24 1,0 95,0 95,-24"/>
+<text text-anchor="middle" x="48" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~module_iapws97_backward&#45;&gt;iso_fortran_env -->
+<g id="module~~module_iapws97_backward~~UsesGraph_edge2" class="edge">
+<title>module~module_iapws97_backward&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M131.64,-22.75C122.76,-21.59 113.85,-20.43 105.34,-19.33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="105.55,-15.82 95.18,-18.01 104.65,-22.77 105.55,-15.82"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~module_iapws97_backward~~UsedByGraph Pages: 1 -->
+<svg id="modulemodule_iapws97_backwardUsedByGraph" width="290pt" height="32pt"
+ viewBox="0.00 0.00 290.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~module_iapws97_backward~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~module_iapws97_backward~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 286,-28 286,4 -4,4"/>
+<!-- module~module_iapws97_backward -->
+<g id="module~~module_iapws97_backward~~UsedByGraph_node1" class="node">
+<title>module~module_iapws97_backward</title>
+<polygon fill="none" stroke="black" points="159,-24 0,-24 0,0 159,0 159,-24"/>
+<text text-anchor="middle" x="79.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">module_iapws97_backward</text>
+</g>
+<!-- module~iapws97_base -->
+<g id="module~~module_iapws97_backward~~UsedByGraph_node2" class="node">
+<title>module~iapws97_base</title>
+<g id="a_module~~module_iapws97_backward~~UsedByGraph_node2"><a xlink:href="../module/iapws97_base.html" xlink:title="iapws97_base">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="282,-24 195,-24 195,0 282,0 282,-24"/>
+<text text-anchor="middle" x="238.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iapws97_base</text>
+</a>
+</g>
+</g>
+<!-- module~iapws97_base&#45;&gt;module~module_iapws97_backward -->
+<g id="module~~module_iapws97_backward~~UsedByGraph_edge1" class="edge">
+<title>module~iapws97_base&#45;&gt;module~module_iapws97_backward</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M194.6,-12C186.7,-12 178.2,-12 169.52,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="169.27,-8.5 159.27,-12 169.27,-15.5 169.27,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h1_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h1_Li</strong>(20)</td>
+<td> =</td>
+                <td>[0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 5, 6]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h1_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h1_Lj</strong>(20)</td>
+<td> =</td>
+                <td>[0, 1, 2, 6, 22, 32, 0, 1, 2, 3, 4, 10, 32, 10, 32, 10, 32, 32, 32, 32]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h1_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h1_n</strong>(20)</td>
+<td> =</td>
+                <td>[-238.72489924521d0, 404.21188637945d0, 113.49746881718d0, -5.8457616048039d0, -0.0001528548241314d0, -1.0866707695377d-06, -13.391744872602d0, 43.211039183559d0, -54.010067170506d0, 30.535892203916d0, -6.5964749423638d0, 0.0093965400878363d0, 1.157364750534d-07, -2.5858641282073d-05, -4.0644363084799d-09, 6.6456186191635d-08, 8.0670734103027d-11, -9.3477771213947d-13, 5.8265442020601d-15, -1.5020185953503d-17]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h2a_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h2a_Li</strong>(34)</td>
+<td> =</td>
+                <td>[0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h2a_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h2a_Lj</strong>(34)</td>
+<td> =</td>
+                <td>[0, 1, 2, 3, 7, 20, 0, 1, 2, 3, 7, 9, 11, 18, 44, 0, 2, 7, 36, 38, 40, 42, 44, 24, 44, 12, 32, 44, 32, 36, 42, 34, 44, 28]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h2a_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h2a_n</strong>(34)</td>
+<td> =</td>
+                <td>[1089.8952318288d0, 849.51654495535d0, -107.81748091826d0, 33.153654801263d0, -7.4232016790248d0, 11.765048724356d0, 1.844574935579d0, -4.1792700549624d0, 6.2478196935812d0, -17.344563108114d0, -200.58176862096d0, 271.96065473796d0, -455.11318285818d0, 3091.9688604755d0, 252266.40357872d0, -0.0061707422868339d0, -0.31078046629583d0, 11.670873077107d0, 128127984.04046d0, -985549096.23276d0, 2822454697.3002d0, -3594897141.0703d0, 1722734991.3197d0, -13551.334240775d0, 12848734.66465d0, 1.3865724283226d0, 235988.32556514d0, -13105236.545054d0, 7399.9835474766d0, -551966.9703006d0, 3715408.5996233d0, 19127.72923966d0, -415351.64835634d0, -62.459855192507d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h2b_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h2b_Li</strong>(38)</td>
+<td> =</td>
+                <td>[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 6, 7, 7, 9, 9]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h2b_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h2b_Lj</strong>(38)</td>
+<td> =</td>
+                <td>[0, 1, 2, 12, 18, 24, 28, 40, 0, 2, 6, 12, 18, 24, 28, 40, 2, 8, 18, 40, 1, 2, 12, 24, 2, 12, 18, 24, 28, 40, 18, 24, 40, 28, 2, 28, 1, 40]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h2b_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h2b_n</strong>(38)</td>
+<td> =</td>
+                <td>[1489.5041079516d0, 743.07798314034d0, -97.708318797837d0, 2.4742464705674d0, -0.63281320016026d0, 1.1385952129658d0, -0.47811863648625d0, 0.0085208123431544d0, 0.93747147377932d0, 3.3593118604916d0, 3.3809355601454d0, 0.16844539671904d0, 0.73875745236695d0, -0.47128737436186d0, 0.15020273139707d0, -0.002176411421975d0, -0.021810755324761d0, -0.10829784403677d0, -0.046333324635812d0, 7.1280351959551d-05, 0.00011032831789999d0, 0.00018955248387902d0, 0.0030891541160537d0, 0.0013555504554949d0, 2.8640237477456d-07, -1.0779857357512d-05, -7.6462712454814d-05, 1.4052392818316d-05, -3.1083814331434d-05, -1.0302738212103d-06, 2.821728163504d-07, 1.2704902271945d-06, 7.3803353468292d-08, -1.1030139238909d-08, -8.1456365207833d-14, -2.5180545682962d-11, -1.7565233969407d-18, 8.6934156344163d-15]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h2c_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h2c_Li</strong>(23)</td>
+<td> =</td>
+                <td>[-7, -7, -6, -6, -5, -5, -2, -2, -1, -1, 0, 0, 1, 1, 2, 6, 6, 6, 6, 6, 6, 6, 6]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h2c_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h2c_Lj</strong>(23)</td>
+<td> =</td>
+                <td>[0, 4, 0, 2, 0, 2, 0, 1, 0, 2, 0, 1, 4, 8, 4, 0, 1, 4, 10, 12, 16, 20, 22]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h2c_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h2c_n</strong>(23)</td>
+<td> =</td>
+                <td>[-3236839855524.2d0, 7326335090218.1d0, 358250899454.47d0, -583401318515.9d0, -10783068217.47d0, 20825544563.171d0, 610747.83564516d0, 859777.2253558d0, -25745.72360417d0, 31081.088422714d0, 1208.2315865936d0, 482.19755109255d0, 3.7966001272486d0, -10.842984880077d0, -0.04536417267666d0, 1.4559115658698d-13, 1.126159740723d-12, -1.7804982240686d-11, 1.2324579690832d-07, -1.1606921130984d-06, 2.7846367088554d-05, -0.00059270038474176d0, 0.0012918582991878d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h3a_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h3a_Li</strong>(31)</td>
+<td> =</td>
+                <td>[-12, -12, -12, -12, -12, -12, -12, -12, -10, -10, -10, -8, -8, -8, -8, -5, -3, -2, -2, -2, -1, -1, 0, 0, 1, 3, 3, 4, 4, 10, 12]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h3a_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h3a_Lj</strong>(31)</td>
+<td> =</td>
+                <td>[0, 1, 2, 6, 14, 16, 20, 22, 1, 5, 12, 0, 2, 4, 10, 2, 0, 1, 3, 4, 0, 2, 0, 1, 1, 0, 1, 0, 3, 4, 5]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h3a_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h3a_n</strong>(31)</td>
+<td> =</td>
+                <td>[-1.33645667811215d-07, 4.55912656802978d-06, -1.46294640700979d-05, 0.0063934131297008d0, 372.783927268847d0, -7186.54377460447d0, 573494.7521034d0, -2675693.29111439d0, -3.34066283302614d-05, -0.0245479214069597d0, 47.8087847764996d0, 7.64664131818904d-06, 0.00128350627676972d0, 0.0171219081377331d0, -8.51007304583213d0, -0.0136513461629781d0, -3.84460997596657d-06, 0.00337423807911655d0, -0.551624873066791d0, 0.72920227710747d0, -0.00992522757376041d0, -0.119308831407288d0, 0.793929190615421d0, 0.454270731799386d0, 0.20999859125991d0, -0.00642109823904738d0, -0.023515586860454d0, 0.00252233108341612d0, -0.00764885133368119d0, 0.0136176427574291d0, -0.0133027883575669d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h3b_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h3b_Li</strong>(33)</td>
+<td> =</td>
+                <td>[-12, -12, -10, -10, -10, -10, -10, -8, -8, -8, -8, -8, -6, -6, -6, -4, -4, -3, -2, -2, -1, -1, -1, -1, -1, -1, 0, 0, 1, 3, 5, 6, 8]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h3b_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h3b_Lj</strong>(33)</td>
+<td> =</td>
+                <td>[0, 1, 0, 1, 5, 10, 12, 0, 1, 2, 4, 10, 0, 1, 2, 0, 1, 5, 0, 4, 2, 4, 6, 10, 14, 16, 0, 2, 1, 1, 1, 1, 1]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h3b_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>h3b_n</strong>(33)</td>
+<td> =</td>
+                <td>[3.2325457364492d-05, -0.000127575556587181d0, -0.000475851877356068d0, 0.00156183014181602d0, 0.105724860113781d0, -85.8514221132534d0, 724.140095480911d0, 0.00296475810273257d0, -0.00592721983365988d0, -0.0126305422818666d0, -0.115716196364853d0, 84.9000969739595d0, -0.0108602260086615d0, 0.0154304475328851d0, 0.0750455441524466d0, 0.0252520973612982d0, -0.0602507901232996d0, -3.07622221350501d0, -0.0574011959864879d0, 5.03471360939849d0, -0.925081888584834d0, 3.91733882917546d0, -77.314600713019d0, 9493.08762098587d0, -1410437.19679409d0, 8491662.30819026d0, 0.861095729446704d0, 0.32334644281172d0, 0.873281936020439d0, -0.436653048526683d0, 0.286596714529479d0, -0.131778331276228d0, 0.00676682064330275d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s1_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s1_Li</strong>(20)</td>
+<td> =</td>
+                <td>[0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s1_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s1_Lj</strong>(20)</td>
+<td> =</td>
+                <td>[0, 1, 2, 3, 11, 31, 0, 1, 2, 3, 12, 31, 0, 1, 2, 9, 31, 10, 32, 32]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s1_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s1_n</strong>(20)</td>
+<td> =</td>
+                <td>[174.78268058307d0, 34.806930892873d0, 6.5292584978455d0, 0.33039981775489d0, -1.9281382923196d-07, -2.4909197244573d-23, -0.26107636489332d0, 0.22592965981586d0, -0.064256463395226d0, 0.0078876289270526d0, 3.5672110607366d-10, 1.7332496994895d-24, 0.00056608900654837d0, -0.00032635483139717d0, 4.4778286690632d-05, -5.1322156908507d-10, -4.2522657042207d-26, 2.6400441360689d-13, 7.8124600459723d-29, -3.0732199903668d-31]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s2a_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s2a_Li</strong>(46)</td>
+<td> =</td>
+                <td>[-6, -6, -6, -6, -6, -6, -5, -5, -5, -4, -4, -4, -4, -4, -4, -3, -3, -2, -2, -2, -2, -1, -1, -1, -1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 6, 6]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s2a_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s2a_Lj</strong>(46)</td>
+<td> =</td>
+                <td>[-24, -23, -19, -13, -11, -10, -19, -15, -6, -26, -21, -17, -16, -9, -8, -15, -14, -26, -13, -9, -7, -27, -25, -11, -6, 1, 4, 8, 11, 0, 1, 5, 6, 10, 14, 16, 0, 4, 9, 17, 7, 18, 3, 15, 5, 18]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s2a_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s2a_n</strong>(46)</td>
+<td> =</td>
+                <td>[-392359.83861984d0, 515265.7382727d0, 40482.443161048d0, -321.93790923902d0, 96.961424218694d0, -22.867846371773d0, -449429.14124357d0, -5011.8336020166d0, 0.35684463560015d0, 44235.33584819d0, -13673.388811708d0, 421632.60207864d0, 22516.925837475d0, 474.42144865646d0, -149.31130797647d0, -197811.26320452d0, -23554.39947076d0, -19070.616302076d0, 55375.669883164d0, 3829.3691437363d0, -603.91860580567d0, 1936.3102620331d0, 4266.064369861d0, -5978.0638872718d0, -704.01463926862d0, 338.36784107553d0, 20.862786635187d0, 0.033834172656196d0, -4.3124428414893d-05, 166.53791356412d0, -139.86292055898d0, -0.78849547999872d0, 0.072132411753872d0, -0.0059754839398283d0, -1.2141358953904d-05, 2.3227096733871d-07, -10.538463566194d0, 2.0718925496502d0, -0.072193155260427d0, 2.074988708112d-07, -0.018340657911379d0, 2.9036272348696d-07, 0.21037527893619d0, 0.00025681239729999d0, -0.012799002933781d0, -8.2198102652018d-06]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s2b_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s2b_Li</strong>(44)</td>
+<td> =</td>
+                <td>[-6, -6, -5, -5, -4, -4, -4, -3, -3, -3, -3, -2, -2, -2, -2, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s2b_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s2b_Lj</strong>(44)</td>
+<td> =</td>
+                <td>[0, 11, 0, 11, 0, 1, 11, 0, 1, 11, 12, 0, 1, 6, 10, 0, 1, 5, 8, 9, 0, 1, 2, 4, 5, 6, 9, 0, 1, 2, 3, 7, 8, 0, 1, 5, 0, 1, 3, 0, 1, 0, 1, 2]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s2b_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s2b_n</strong>(44)</td>
+<td> =</td>
+                <td>[316876.65083497d0, 20.864175881858d0, -398593.99803599d0, -21.816058518877d0, 223697.85194242d0, -2784.1703445817d0, 9.920743607148d0, -75197.512299157d0, 2970.8605951158d0, -3.4406878548526d0, 0.38815564249115d0, 17511.29508575d0, -1423.7112854449d0, 1.0943803364167d0, 0.89971619308495d0, -3375.9740098958d0, 471.62885818355d0, -1.9188241993679d0, 0.41078580492196d0, -0.33465378172097d0, 1387.0034777505d0, -406.63326195838d0, 41.72734715961d0, 2.1932549434532d0, -1.0320050009077d0, 0.35882943516703d0, 0.0052511453726066d0, 12.838916450705d0, -2.8642437219381d0, 0.56912683664855d0, -0.099962954584931d0, -0.0032632037778459d0, 0.00023320922576723d0, -0.1533480985745d0, 0.029072288239902d0, 0.00037534702741167d0, 0.0017296691702411d0, -0.00038556050844504d0, -3.5017712292608d-05, -1.4566393631492d-05, 5.6420857267269d-06, 4.1286150074605d-08, -2.0684671118824d-08, 1.6409393674725d-09]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s2c_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s2c_Li</strong>(30)</td>
+<td> =</td>
+                <td>[-2, -2, -1, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 7, 7]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s2c_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s2c_Lj</strong>(30)</td>
+<td> =</td>
+                <td>[0, 1, 0, 0, 1, 2, 3, 0, 1, 3, 4, 0, 1, 2, 0, 1, 5, 0, 1, 4, 0, 1, 2, 0, 1, 0, 1, 3, 4, 5]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s2c_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s2c_n</strong>(30)</td>
+<td> =</td>
+                <td>[909.68501005365d0, 2404.566708842d0, -591.6232638713d0, 541.45404128074d0, -270.98308411192d0, 979.76525097926d0, -469.66772959435d0, 14.399274604723d0, -19.104204230429d0, 5.3299167111971d0, -21.252975375934d0, -0.3114733441376d0, 0.60334840894623d0, -0.042764839702509d0, 0.0058185597255259d0, -0.014597008284753d0, 0.0056631175631027d0, -7.6155864584577d-05, 0.00022440342919332d0, -1.2561095013413d-05, 6.3323132660934d-07, -2.0541989675375d-06, 3.6405370390082d-08, -2.9759897789215d-09, 1.0136618529763d-08, 5.9925719692351d-12, -2.0677870105164d-11, -2.0874278181886d-11, 1.0162166825089d-10, -1.6429828281347d-10]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s3a_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s3a_Li</strong>(33)</td>
+<td> =</td>
+                <td>[-12, -12, -10, -10, -10, -10, -8, -8, -8, -8, -6, -6, -6, -5, -5, -5, -4, -4, -4, -2, -2, -1, -1, 0, 0, 0, 1, 2, 2, 3, 8, 8, 10]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s3a_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s3a_Lj</strong>(33)</td>
+<td> =</td>
+                <td>[28, 32, 4, 10, 12, 14, 5, 7, 8, 28, 2, 6, 32, 0, 14, 32, 6, 10, 36, 1, 4, 1, 6, 0, 1, 4, 0, 0, 3, 2, 0, 1, 2]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s3a_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s3a_n</strong>(33)</td>
+<td> =</td>
+                <td>[1500420082.63875d0, -159397258480.424d0, 0.000502181140217975d0, -67.2057767855466d0, 1450.58545404456d0, -8238.8953488889d0, -0.154852214233853d0, 11.2305046746695d0, -29.7000213482822d0, 43856513263.5495d0, 0.00137837838635464d0, -2.97478527157462d0, 9717779473494.13d0, -5.71527767052398d-05, 28830.794977842d0, -74442828926270.3d0, 12.8017324848921d0, -368.275545889071d0, 6.64768904779177d+15, 0.044935925195888d0, -4.22897836099655d0, -0.240614376434179d0, -4.74341365254924d0, 0.72409399912611d0, 0.923874349695897d0, 3.99043655281015d0, 0.0384066651868009d0, -0.00359344365571848d0, -0.735196448821653d0, 0.188367048396131d0, 0.000141064266818704d0, -0.00257418501496337d0, 0.00123220024851555d0]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s3b_li"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s3b_Li</strong>(28)</td>
+<td> =</td>
+                <td>[-12, -12, -12, -12, -8, -8, -8, -6, -6, -6, -5, -5, -5, -5, -5, -4, -3, -3, -2, 0, 2, 3, 4, 5, 6, 8, 12, 14]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s3b_lj"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s3b_Lj</strong>(28)</td>
+<td> =</td>
+                <td>[1, 3, 4, 7, 0, 1, 3, 0, 2, 4, 0, 1, 2, 4, 6, 12, 1, 6, 2, 0, 1, 1, 0, 24, 0, 3, 1, 2]</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s3b_n"></span>
+              real(kind=real64),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s3b_n</strong>(28)</td>
+<td> =</td>
+                <td>[0.52711170160166d0, -40.1317830052742d0, 153.020073134484d0, -2247.99398218827d0, -0.193993484669048d0, -1.40467557893768d0, 42.6799878114024d0, 0.752810643416743d0, 22.6657238616417d0, -622.873556909932d0, -0.660823667935396d0, 0.841267087271658d0, -25.3717501764397d0, 485.708963532948d0, 880.531517490555d0, 2650155.92794626d0, -0.359287150025783d0, -656.991567673753d0, 2.41768149185367d0, 0.856873461222588d0, 0.655143675313458d0, -0.213535213206406d0, 0.00562974957606348d0, -316955725450471d0, -0.000699997000152457d0, 0.0119845803210767d0, 1.93848122022095d-05, -2.15095749182309d-05]</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-backward_temperature"></span> <h3>public pure elemental function <a href='../proc/backward_temperature.html'>backward_temperature</a>(p, input, region, entropy) result(T)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p~59"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input~3"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>input</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-region~14"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>region</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-entropy~7"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>entropy</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real64)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-polynomial"></span> <h3>public pure function <a href='../proc/polynomial.html'>polynomial</a>(x, y, ix, iy, n) result(polynomial_sum)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~39"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~38"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ix~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ix</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iy~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iy</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~7"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real64)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              IAPWS
+ was developed by Kikuchi Shun<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-11-26 11:23 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
