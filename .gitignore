@@ -74,10 +74,15 @@ project/*/Output/
 fpm/*
 third_party/*
 docs/superpowers/
-benchmarks/
+benchmarks/*
 checks/
 *.inc
 
 
 # === Python Virtual Environment ===
 .venv/
+
+# Official computer-program verification fixtures
+!validations/iapws06/test_iapws06.dat
+!validations/iapws95/Helmholtz.dat
+!validations/iapws97/test_iapws97.dat

@@ -21,7 +21,7 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
     # in callers such as the validation executables.
     add_compile_options(-ffree-line-length-none -fno-fast-math)
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
-    add_compile_options(-fp-model=precise)
+    add_compile_options(-fp-model=precise $<$<PLATFORM_ID:Windows>:/recursive> $<$<NOT:$<PLATFORM_ID:Windows>>:-recursive>)
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "NVHPC|PGI")
     add_compile_options(-Kieee)
 endif()

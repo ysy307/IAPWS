@@ -1,4 +1,5 @@
 submodule(module_iapws97) iapws97_region1
+    implicit none
     !------------------------------------------------------------------------------------------
     ! Region1: Saturated liquid water (IAPWS-IF97)
     !------------------------------------------------------------------------------------------
@@ -84,6 +85,7 @@ contains
     !> Keep independent cp accumulators: their original operation order differs
     !> from the ordinary Gibbs sums and is part of numerical compatibility.
     module pure elemental subroutine calc_gamma_cp_iapws97_region1(self, T_in, P_in, coef, dcp_dT, dcp_dp)
+        implicit none
         class(type_iapws97_region1), intent(in) :: self
         real(real64), intent(in) :: T_in, P_in
         type(type_iapws_gibbs_coefficient), intent(inout) :: coef
@@ -91,10 +93,10 @@ contains
 #if defined(__NVCOMPILER)
         ! NVHPC vectorizes the fused reductions with a different summation
         ! order. Retain bitwise compatibility with its ordinary Gibbs path.
-        call self%calc_gamma(T_in,P_in,coef)
-        call self%calc_cp_derivatives(T_in,P_in,dcp_dT,dcp_dp)
+        call self%calc_gamma(T_in, P_in, coef)
+        call self%calc_cp_derivatives(T_in, P_in, dcp_dT, dcp_dp)
 #else
-        call evaluate_gamma_region1(self,T_in,P_in,coef,dcp_dT,dcp_dp)
+        call evaluate_gamma_region1(self, T_in, P_in, coef, dcp_dT, dcp_dp)
 #endif
     end subroutine calc_gamma_cp_iapws97_region1
 
@@ -129,8 +131,8 @@ contains
         coef%g_tt = self%R * (tau**2) * val_gtt / T_in
         coef%g_pt = self%R * (val_gp - tau * val_gpt) / self%p_star
 
-        dcp_dT=self%R*tau**2/T_in*(2d0*cp_tt+tau*cp_ttt)
-        dcp_dp=-self%R*tau**2/self%p_star*cp_ttp
+        dcp_dT = self%R * tau**2 / T_in * (2d0 * cp_tt + tau * cp_ttt)
+        dcp_dp = -self%R * tau**2 / self%p_star * cp_ttp
     end subroutine evaluate_gamma_region1
 
     !> Calculate all dimensionless Gibbs free energy derivatives for Region 1
@@ -178,7 +180,6 @@ contains
             powers_tau(k) = powers_tau(k + 1) * inv_tau
         end do
 
-
         ! Accumulate all 6 sums in a single loop
         gamma = 0.0d0
         gamma_p = 0.0d0
@@ -213,7 +214,7 @@ contains
     end subroutine calc_gamma_all_region1
 
     pure subroutine calc_gamma_all_cp_region1(tau, pi, gamma, gamma_p, gamma_t, &
-                                           gamma_pp, gamma_tt, gamma_pt, cp_tt, cp_ttt, cp_ttp)
+                                              gamma_pp, gamma_tt, gamma_pt, cp_tt, cp_ttt, cp_ttp)
         implicit none
         !> Dimensionless temperature \(\tau\)
         real(real64), intent(in) :: tau
@@ -256,13 +257,13 @@ contains
             powers_tau(k) = powers_tau(k + 1) * inv_tau
         end do
 
-            ! The derivative evaluator historically used division for negative
-            ! powers. Keep it rather than substituting reciprocal products.
-            cp_tau(0:17)=powers_tau(0:17)
-            do k=-1,-44,-1
-                cp_tau(k)=cp_tau(k+1)/base_tau
-            end do
-            cp_tt=0d0; cp_ttt=0d0; cp_ttp=0d0
+        ! The derivative evaluator historically used division for negative
+        ! powers. Keep it rather than substituting reciprocal products.
+        cp_tau(0:17) = powers_tau(0:17)
+        do k = -1, -44, -1
+            cp_tau(k) = cp_tau(k + 1) / base_tau
+        end do
+        cp_tt = 0d0; cp_ttt = 0d0; cp_ttp = 0d0
 
         ! Accumulate all 6 sums in a single loop
         gamma = 0.0d0
@@ -294,19 +295,19 @@ contains
 
             gamma_pt = gamma_pt + &
                        (-n_r1(i)) * I_val * powers_pi(I_r1(i) - 1) * J_val * powers_tau(J_r1(i) - 1)
-                if(J_r1(i)/=0.and.J_r1(i)/=1) then
-                    cp_term=n_r1(i)*J_val*(J_val-1d0)
-                    cp_tt=cp_tt+cp_term*powers_pi(I_r1(i))*cp_tau(J_r1(i)-2)
-                    if(J_r1(i)/=2) cp_ttt=cp_ttt+cp_term*(J_val-2d0)*powers_pi(I_r1(i))*cp_tau(J_r1(i)-3)
-                    if(I_r1(i)/=0) cp_ttp=cp_ttp-cp_term*I_val*powers_pi(I_r1(i)-1)*cp_tau(J_r1(i)-2)
-                end if
+            if (J_r1(i) /= 0 .and. J_r1(i) /= 1) then
+                cp_term = n_r1(i) * J_val * (J_val - 1d0)
+                cp_tt = cp_tt + cp_term * powers_pi(I_r1(i)) * cp_tau(J_r1(i) - 2)
+                if (J_r1(i) /= 2) cp_ttt = cp_ttt + cp_term * (J_val - 2d0) * powers_pi(I_r1(i)) * cp_tau(J_r1(i) - 3)
+                if (I_r1(i) /= 0) cp_ttp = cp_ttp - cp_term * I_val * powers_pi(I_r1(i) - 1) * cp_tau(J_r1(i) - 2)
+            end if
         end do
     end subroutine calc_gamma_all_cp_region1
-
 
     !> Analytic cp derivatives at fixed pressure and fixed temperature, respectively.
     !> This evaluator preserves the standalone cp derivative operation order.
     module pure elemental subroutine calc_cp_derivatives_iapws97_region1(self, T_in, p_in, dcp_dT, dcp_dp)
+        implicit none
         class(type_iapws97_region1), intent(in) :: self
         real(real64), intent(in) :: T_in, p_in
         real(real64), intent(out) :: dcp_dT, dcp_dp
@@ -320,14 +321,14 @@ contains
         y = tau - 1.222d0
         xp(0) = 1.d0
         do k = 1, 32
-            xp(k) = xp(k-1) * x
+            xp(k) = xp(k - 1) * x
         end do
         yp(0) = 1.d0
         do k = 1, 17
-            yp(k) = yp(k-1) * y
+            yp(k) = yp(k - 1) * y
         end do
         do k = -1, -44, -1
-            yp(k) = yp(k+1) / y
+            yp(k) = yp(k + 1) / y
         end do
         gtt = 0.d0
         gttt = 0.d0
@@ -337,104 +338,104 @@ contains
             jexp = J_r1(n)
             if (jexp == 0 .or. jexp == 1) cycle
             jval = real(jexp, real64)
-            term = n_r1(n) * jval * (jval-1.d0)
-            gtt = gtt + term * xp(iexp) * yp(jexp-2)
-            if (jexp /= 2) gttt = gttt + term * (jval-2.d0) * xp(iexp) * yp(jexp-3)
-            if (iexp /= 0) gttp = gttp - term * real(iexp, real64) * xp(iexp-1) * yp(jexp-2)
+            term = n_r1(n) * jval * (jval - 1.d0)
+            gtt = gtt + term * xp(iexp) * yp(jexp - 2)
+            if (jexp /= 2) gttt = gttt + term * (jval - 2.d0) * xp(iexp) * yp(jexp - 3)
+            if (iexp /= 0) gttp = gttp - term * real(iexp, real64) * xp(iexp - 1) * yp(jexp - 2)
         end do
         ! cp = -R*tau**2*gamma_tautau; d(tau)/dT = -tau/T.
-        dcp_dT = self%R * tau**2 / T_in * (2.d0*gtt + tau*gttt)
+        dcp_dT = self%R * tau**2 / T_in * (2.d0 * gtt + tau * gttt)
         dcp_dp = -self%R * tau**2 / self%p_star * gttp
     end subroutine calc_cp_derivatives_iapws97_region1
 
 ! State lanes are contiguous in each power table. The term loop remains
 ! ordered independently in every lane; no horizontal floating-point reduction.
-    module pure recursive subroutine calc_gamma_batch_iapws97_region1(self,T_in,P_in,coef)
-        use module_iapws_batch,only:IAPWS_BATCH_TILE
-        class(type_iapws97_region1),intent(in)::self
-        real(real64),intent(in)::T_in(:),P_in(:)
-        real(real64),intent(out)::coef(:,:)
-        type(type_iapws_gibbs_coefficient)::g
-        integer::j
+    module pure recursive subroutine calc_gamma_batch_iapws97_region1(self, T_in, P_in, coef)
+        use module_iapws_batch, only: IAPWS_BATCH_TILE
+        implicit none
+        class(type_iapws97_region1), intent(in) :: self
+        real(real64), intent(in) :: T_in(:), P_in(:)
+        real(real64), intent(out) :: coef(:, :)
+        type(type_iapws_gibbs_coefficient) :: g
+        integer :: j
 #if !defined(__NVCOMPILER)
-        integer::base,width,k,term,lane
-        real(real64)::xp(IAPWS_BATCH_TILE,-2:32),yp(IAPWS_BATCH_TILE,-43:17)
-        real(real64)::sums(IAPWS_BATCH_TILE,6),tau(IAPWS_BATCH_TILE)
-        real(real64)::x(IAPWS_BATCH_TILE),y(IAPWS_BATCH_TILE),ix(IAPWS_BATCH_TILE),iy(IAPWS_BATCH_TILE)
-        real(real64)::iv,jv,pp,pt
+        integer :: base, width, k, term, lane
+        real(real64) :: xp(IAPWS_BATCH_TILE, -2:32), yp(IAPWS_BATCH_TILE, -43:17)
+        real(real64) :: sums(IAPWS_BATCH_TILE, 6), tau(IAPWS_BATCH_TILE)
+        real(real64) :: x(IAPWS_BATCH_TILE), y(IAPWS_BATCH_TILE), ix(IAPWS_BATCH_TILE), iy(IAPWS_BATCH_TILE)
+        real(real64) :: iv, jv, pp, pt
 #endif
-        if(size(P_in)/=size(T_in).or.size(coef,1)/=size(T_in).or.size(coef,2)/=6) &
+        if (size(P_in) /= size(T_in) .or. size(coef, 1) /= size(T_in) .or. size(coef, 2) /= 6) &
             error stop 'IAPWS batch: Gibbs coefficient shape'
 #if defined(__NVCOMPILER)
         ! Preserve this compiler's existing within-state vector reductions.
-        do j=1,size(T_in)
-            call self%calc_gamma(T_in(j),P_in(j),g)
-            coef(j,:)=[g%g,g%g_p,g%g_t,g%g_pp,g%g_tt,g%g_pt]
+        do j = 1, size(T_in)
+            call self%calc_gamma(T_in(j), P_in(j), g)
+            coef(j, :) = [g%g, g%g_p, g%g_t, g%g_pp, g%g_tt, g%g_pt]
         end do
 #else
-        if(size(T_in)<4) then
-            do j=1,size(T_in)
-                call self%calc_gamma(T_in(j),P_in(j),g)
-                coef(j,:)=[g%g,g%g_p,g%g_t,g%g_pp,g%g_tt,g%g_pt]
+        if (size(T_in) < 4) then
+            do j = 1, size(T_in)
+                call self%calc_gamma(T_in(j), P_in(j), g)
+                coef(j, :) = [g%g, g%g_p, g%g_t, g%g_pp, g%g_tt, g%g_pt]
             end do
             return
         end if
-        do base=1,size(T_in),IAPWS_BATCH_TILE
-            width=min(IAPWS_BATCH_TILE,size(T_in)-base+1)
+        do base = 1, size(T_in), IAPWS_BATCH_TILE
+            width = min(IAPWS_BATCH_TILE, size(T_in) - base + 1)
             !$omp simd
-            do lane=1,width
-                tau(lane)=self%T_star/T_in(base+lane-1)
-                x(lane)=7.1d0-P_in(base+lane-1)/self%p_star
-                y(lane)=tau(lane)-1.222d0
-                ix(lane)=1d0/x(lane);iy(lane)=1d0/y(lane)
-                xp(lane,0)=1d0;xp(lane,1)=x(lane)
-                xp(lane,-1)=ix(lane);xp(lane,-2)=ix(lane)*ix(lane)
-                yp(lane,0)=1d0;yp(lane,1)=y(lane);yp(lane,-1)=iy(lane)
+            do lane = 1, width
+                tau(lane) = self%T_star / T_in(base + lane - 1)
+                x(lane) = 7.1d0 - P_in(base + lane - 1) / self%p_star
+                y(lane) = tau(lane) - 1.222d0
+                ix(lane) = 1d0 / x(lane); iy(lane) = 1d0 / y(lane)
+                xp(lane, 0) = 1d0; xp(lane, 1) = x(lane)
+                xp(lane, -1) = ix(lane); xp(lane, -2) = ix(lane) * ix(lane)
+                yp(lane, 0) = 1d0; yp(lane, 1) = y(lane); yp(lane, -1) = iy(lane)
             end do
-            do k=2,32
+            do k = 2, 32
                 !$omp simd
-                do lane=1,width
-                    xp(lane,k)=xp(lane,k-1)*x(lane)
+                do lane = 1, width
+                    xp(lane, k) = xp(lane, k - 1) * x(lane)
                 end do
             end do
-            do k=2,17
+            do k = 2, 17
                 !$omp simd
-                do lane=1,width
-                    yp(lane,k)=yp(lane,k-1)*y(lane)
+                do lane = 1, width
+                    yp(lane, k) = yp(lane, k - 1) * y(lane)
                 end do
             end do
-            do k=-2,-43,-1
+            do k = -2, -43, -1
                 !$omp simd
-                do lane=1,width
-                    yp(lane,k)=yp(lane,k+1)*iy(lane)
+                do lane = 1, width
+                    yp(lane, k) = yp(lane, k + 1) * iy(lane)
                 end do
             end do
-            sums=0d0
-            do term=1,N1_terms
-                iv=real(I_r1(term),real64);jv=real(J_r1(term),real64)
+            sums = 0d0
+            do term = 1, N1_terms
+                iv = real(I_r1(term), real64); jv = real(J_r1(term), real64)
                 !$omp simd private(pp,pt)
-                do lane=1,width
-                    pp=xp(lane,I_r1(term));pt=yp(lane,J_r1(term))
-                    sums(lane,1)=sums(lane,1)+n_r1(term)*pp*pt
-                    sums(lane,2)=sums(lane,2)+(-n_r1(term))*iv*xp(lane,I_r1(term)-1)*pt
-                    sums(lane,3)=sums(lane,3)+n_r1(term)*pp*jv*yp(lane,J_r1(term)-1)
-                    sums(lane,4)=sums(lane,4)+n_r1(term)*iv*(iv-1d0)*xp(lane,I_r1(term)-2)*pt
-                    sums(lane,5)=sums(lane,5)+n_r1(term)*pp*jv*(jv-1d0)*yp(lane,J_r1(term)-2)
-                    sums(lane,6)=sums(lane,6)+(-n_r1(term))*iv*xp(lane,I_r1(term)-1)*jv*yp(lane,J_r1(term)-1)
+                do lane = 1, width
+                    pp = xp(lane, I_r1(term)); pt = yp(lane, J_r1(term))
+                    sums(lane, 1) = sums(lane, 1) + n_r1(term) * pp * pt
+                    sums(lane, 2) = sums(lane, 2) + (-n_r1(term)) * iv * xp(lane, I_r1(term) - 1) * pt
+                    sums(lane, 3) = sums(lane, 3) + n_r1(term) * pp * jv * yp(lane, J_r1(term) - 1)
+                    sums(lane, 4) = sums(lane, 4) + n_r1(term) * iv * (iv - 1d0) * xp(lane, I_r1(term) - 2) * pt
+                    sums(lane, 5) = sums(lane, 5) + n_r1(term) * pp * jv * (jv - 1d0) * yp(lane, J_r1(term) - 2)
+                    sums(lane, 6) = sums(lane, 6) + (-n_r1(term)) * iv * xp(lane, I_r1(term) - 1) * jv * yp(lane, J_r1(term) - 1)
                 end do
             end do
             !$omp simd
-            do lane=1,width
-                coef(base+lane-1,1)=self%R*T_in(base+lane-1)*sums(lane,1)
-                coef(base+lane-1,2)=self%R*T_in(base+lane-1)*sums(lane,2)/self%p_star
-                coef(base+lane-1,3)=self%R*(sums(lane,1)-tau(lane)*sums(lane,3))
-                coef(base+lane-1,4)=self%R*T_in(base+lane-1)*sums(lane,4)/(self%p_star*self%p_star)
-                coef(base+lane-1,5)=self%R*(tau(lane)**2)*sums(lane,5)/T_in(base+lane-1)
-                coef(base+lane-1,6)=self%R*(sums(lane,2)-tau(lane)*sums(lane,6))/self%p_star
+            do lane = 1, width
+                coef(base + lane - 1, 1) = self%R * T_in(base + lane - 1) * sums(lane, 1)
+                coef(base + lane - 1, 2) = self%R * T_in(base + lane - 1) * sums(lane, 2) / self%p_star
+                coef(base + lane - 1, 3) = self%R * (sums(lane, 1) - tau(lane) * sums(lane, 3))
+                coef(base + lane - 1, 4) = self%R * T_in(base + lane - 1) * sums(lane, 4) / (self%p_star * self%p_star)
+                coef(base + lane - 1, 5) = self%R * (tau(lane)**2) * sums(lane, 5) / T_in(base + lane - 1)
+                coef(base + lane - 1, 6) = self%R * (sums(lane, 2) - tau(lane) * sums(lane, 6)) / self%p_star
             end do
         end do
 #endif
     end subroutine calc_gamma_batch_iapws97_region1
-
 
 end submodule iapws97_region1

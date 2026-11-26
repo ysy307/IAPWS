@@ -10,6 +10,9 @@ add_library(iapws_bases OBJECT
     bases/types.F90
     bases/property_helmholtz.F90
     bases/property_gibbs.F90
+    bases/supercooled_water.F90
+    bases/water_transport.F90
+    bases/water_phase_boundaries.F90
 )
 
 # 2. IAPWS-95 (General Water/Steam)
@@ -22,6 +25,8 @@ target_link_libraries(iapws_95 PUBLIC iapws_bases)
 
 # 3. IAPWS-97 (Industrial)
 add_library(iapws_97 OBJECT
+    iapws97/iapws97_backward.F90
+    iapws97/iapws97_volume.F90
     iapws97/iapws97_saturation_batch.F90
     iapws97/iapws97_batch.F90
     iapws97/iapws97_base.F90

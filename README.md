@@ -63,7 +63,7 @@ A helper script FPMBuild.sh is provided to simplify the build and test process u
 
 #### Usage:
 ```sh
-./FPMBuild.sh [compiler] [build_type]
+./scripts/FPMBuild.sh [compiler] [build_type]
 ```
 Arguments:
 - `compiler`: `gcc`, `intel`, `nvidia`, or `clean`
@@ -72,13 +72,13 @@ Arguments:
 #### Examples:
 ```sh
 # Build and test using gfortran in debug mode
-./FPMBuild.sh gcc debug
+./scripts/FPMBuild.sh gcc debug
 
 # Build and test using Intel ifx in release mode
-./FPMBuild.sh intel release
+./scripts/FPMBuild.sh intel release
 
 # Clean build artifacts
-./FPMBuild.sh clean
+./scripts/FPMBuild.sh clean
 ```
 
 ### Method 3: Using Fortran Package Manager (fpm)
@@ -109,6 +109,189 @@ Add the following dependency to your fpm.toml:
 [dependencies]
 IAPWS = { git = "https://github.com/ysy307/IAPWS.git" }
 ```
+
+## Unified pure-water API
+
+Construct a `type_water` with `new_water(fluid=IF97)` for industrial fluid
+properties or `new_water(fluid=IAPWS95)` for scientific fluid and ice equilibrium
+calculations. Inputs and outputs use SI units.
+
+```fortran
+use iso_fortran_env, only: real64
+use iapws, only: type_water, type_water_state, type_water_saturation, &
+                 new_water, IF97, IAPWS95, LIQUID, WATER_OK, WATER_METASTABLE
+
+type(type_water) :: water, equilibrium
+type(type_water_state) :: state
+type(type_water_saturation) :: sat
+real(real64) :: mu, k
+
+water = new_water(fluid=IF97)
+call water%state_tp(400.0_real64, 1.0e5_real64, state)
+if (state%status == WATER_OK) call water%transport(state, mu=mu, conductivity=k)
+call water%saturation_p(1.0e5_real64, sat)
+
+equilibrium = new_water(fluid=IAPWS95)
+call equilibrium%state_ph(1.0e5_real64, -150000.0_real64, state)
+! For a successful ice-liquid mixture, state%solid_fraction is its ice mass fraction.
+call equilibrium%state_tp(250.0_real64, 1.0e5_real64, state, phase=LIQUID, allow_metastable=.true.)
+! G12-15 return values have WATER_METASTABLE status.
+```
+
+- `state_tp`, `state_ph`, `state_ps`, `saturation_t` and `saturation_p` are
+  pure elemental procedures and accept conformable arrays. A state reports its
+  `phase`, actual `formulation`, `status` and `properties`. Coexisting phases are
+  marked in `coexistence`, with bit positions given by the phase constants.
+  A `T,p` coexistence query can select one endpoint with `phase=`.
+- R14-08 supplies the melting and sublimation boundaries. `state_tp` returns
+  Ice Ih from IAPWS-06 even when the selected fluid equation is IF97. Higher
+  pressure ice can be detected, with its thermodynamic properties reported as
+  unsupported. `melting_pressure(T, solid)` also provides the individual R14-08
+  melting curves through ice VII.
+- Solid-phase `p,h` and `p,s` evaluations use the IAPWS-95 constructor. They
+  combine IAPWS-95 (or G9-12 for low-temperature vapor) with IAPWS-06 at the
+  R14-08 boundary. Phase fractions at the triple point require additional
+  information. IF97's optional `extend_cold_liquid=.true.` applies to
+  `state_tp` and uses IAPWS-95 below the IF97 lower temperature limit in
+  stable liquid states.
+- Explicit phase and metastable requests enable G12-15 supercooled liquid
+  and the IF97 equation for metastable steam through 10 MPa. They report
+  failure outside each equation's recommended range. G9-12 extends scientific
+  vapor calculations down to 50 K in the stable vapor region.
+- Wet IF97 or IAPWS-95 states return vapor mass fraction in `quality`. Mixture
+  density follows from the mass-weighted specific volume. Single-phase
+  response functions such as `cp` and sound speed are NaN for mixtures.
+- `transport` returns dynamic viscosity in Pa·s and thermal conductivity
+  in W/(m·K) for supported fluid states. Saturation results include
+  `sigma` in N/m. When using the standalone transport functions with
+  only temperature and density, the result contains the dilute-gas
+  and finite-density terms.
+- Near a join where two IF97 regions produce the same enthalpy or entropy
+  at a fixed pressure, the inverse API can return `WATER_AMBIGUOUS`. Pass
+  `region=` to select the required IF97 branch.
+- At the exact critical point the common API returns `WATER_SINGULAR`
+  with critical coordinates and density. A failed saturation solve very
+  close to the critical point returns `WATER_NO_CONVERGENCE`.
+
+### CFD and thermal-hydraulic solver interface
+
+```fortran
+use iso_fortran_env, only: real64
+use iapws, only: type_water, type_water_state, type_water_jacobian, &
+                 new_water, IAPWS95, WATER_OK, JAC_RHO, JAC_T
+
+type(type_water) :: water
+type(type_water_state) :: state
+type(type_water_jacobian) :: jac
+real(real64) :: p, h, previous_T, drho_dp, drho_dh, dT_dh
+
+water = new_water(fluid=IAPWS95)
+p = 3.0e6_real64
+h = 5.3e5_real64
+previous_T = 400.0_real64
+call water%state_ph_checked(p, h, state, guess_T=previous_T, jac=jac)
+if (state%status == WATER_OK .and. jac%ph_available) then
+    drho_dp = jac%ph(JAC_RHO, 1)
+    drho_dh = jac%ph(JAC_RHO, 2)
+    dT_dh = jac%ph(JAC_T, 2)
+end if
+```
+
+- `state_tp_checked`, `state_ph_checked`, and `state_ps_checked` return
+  `WATER_OK` for successful equilibrium states and `WATER_METASTABLE` for
+  successful explicit metastable queries. On failure the property record
+  contains finite zero placeholders and the status indicates the reason.
+  Check the status before using any property.
+- `jac%tp`, `jac%ph`, and `jac%ps` have columns ordered as their respective
+  input pairs, with the other input held fixed. Rows are `JAC_T`, `JAC_P`,
+  `JAC_RHO`, `JAC_V`, `JAC_H`, `JAC_S`, and `JAC_U`. Check the
+  corresponding availability flag. The matrices use SI units.
+- For equilibrium two-phase states the `ph` and `ps` matrices differentiate
+  the same boundary and mass-weighted properties used by the inverse.
+  Temperature and pressure alone leave the phase fraction undetermined.
+  The checked API fills undefined single-phase quantities such as `cp` and
+  sound speed with zeros in these states. Use the phase and availability flags
+  to interpret the outputs. At a phase endpoint `phase_endpoint` indicates
+  that the derivative follows the returned branch. IF97 region joins retain the
+  published piecewise equations and the returned `properties%region_id`
+  identifies the derivative's region.
+- Pass the previous cell iterate as `guess_T=` for `ph` and `ps`, and
+  `guess_rho=` for `tp` with IAPWS-95 or IF97 region 3. Hints are optional.
+  A rejected hint falls back to the bracketed solver. A known IF97 region
+  can also be passed with `region=` to specify the inverse branch.
+- The checked APIs and Jacobian procedure are pure elemental. They can be
+  called with conformable arrays or inside an OpenMP loop sharing the
+  constructed `type_water`. The caller supplies the guesses independently
+  for each cell. The façade owns the exact EOS evaluators privately, and the
+  public state and Jacobian types carry the solver results.
+
+The verification fixtures include IAPWS R6-95(2018) Table 7, R7-97(2012)
+region check values, R10-06(2009) Table 6 states, R14-08 Table 3,
+G12-15 Table 5, G9-12 Table 3, R12-08 and R15-11 Tables 4 and 5, and
+SR5-05 Tables 5 and 12. The published values are rounded. The tests also compare unrounded
+results with Python `iapws==1.5.5` if installed. IEEE arithmetic is required.
+[Official Releases and Guidelines](https://iapws.org/technical-guidance/release)
+
+```sh
+python3 -m pip install iapws==1.5.5
+cmake --workflow --preset workflow-gnu-release
+cmake --build --preset build-gnu-release --target water_performance
+build/gnu-release/bin/water_performance
+OMP_NUM_THREADS=4 OMP_PROC_BIND=close build/gnu-release/bin/water_performance --parallel
+```
+
+The performance driver reports twelve IF97 region-3 densities and the time
+for 120,000 density evaluations in seconds and ns/point. Compile the same driver against an earlier
+revision with the same compiler and flags for a comparison. The accelerated
+solver uses SR5-05 as a seed, refines against the forward pressure equation,
+and retains the bracketed solver near the critical point and as a fallback.
+The refinement groups the pressure coefficients at the fixed temperature,
+then evaluates pressure and its density derivative with Horner's method.
+The SR5-05 subregion fits evaluate only their required exponents. The first
+refinement uses a guarded Halley step and subsequent steps use Newton updates.
+The benchmark checks every timed result against its scalar density. Its
+explicit parallel mode uses OpenMP across independent evaluations.
+
+## External water comparison
+
+The optional CoolProp test compares like formulations in SI units.
+`HEOS::Water` is used for IAPWS-95 and `IF97::Water` for IF97. It checks
+single-phase density, heat capacity, enthalpy, saturation pressure and
+endpoint densities. The HEOS comparison also checks three analytic
+`(p,h)` Jacobian entries. Each native single-phase state is inverted back
+to temperature with a tolerance of `1e-8 K`. The exact critical point must
+return `WATER_SINGULAR`. Ice Ih is covered by the existing IAPWS-06
+reference fixtures and Python `iapws` comparison.
+
+```sh
+python3 -m pip install CoolProp==8.1.0
+cmake --build --preset build-gnu-release --target edge_states
+ctest --test-dir build/gnu-release -R coolprop_reference -V
+# Also compare REFPROP when the native library and water data are installed.
+python3 validations/compare_water.py build/gnu-release/bin/edge_states --refprop
+```
+
+Observed on GNU Release with CoolProp 8.1.0. Values are maximum relative
+differences across the sampled grid. The test reports enthalpy separately
+in J/kg because it approaches zero near the triple point.
+
+| Comparison | Triple vicinity saturation density | Critical saturation density, 0.01–1 K below | Critical saturation density, 0.0001–0.001 K below |
+|---|---:|---:|---:|
+| IAPWS-95 / HEOS | 1.08e-14 | 8.78e-10 | 1.97e-7 |
+| IF97 / CoolProp IF97 | 2.13e-15 | 3.65e-7 | 4.72e-4 |
+
+The sampled-grid relative tolerances for ordinary, triple vicinity, critical
+and inner critical cases are respectively `5e-12`, `5e-9`, `5e-8` and
+`5e-6` for HEOS, and `5e-12`, `5e-12`, `5e-6` and `5e-3` for IF97.
+These are regression limits for this grid. Three IF97 vapor-side `T,p`
+points at 605.54 Pa fall below the CoolProp IF97 pressure limit. The test
+still requires successful native evaluation and inverse at those points.
+See the [CoolProp IF97 backend documentation](https://coolprop.org/fluid_properties/IF97.html).
+
+The native serial density benchmark on an Intel Core i7-14700 with GNU Release
+took **0.0146 s for 120,000 points (122 ns/point)**, the median of five runs
+(range 116–126 ns/point). The grid repeats twelve fixed points. This measures
+the native density call plus the benchmark's checksum and verification work.
 
 ## Analytic derivatives
 
@@ -170,8 +353,7 @@ regression test; the library has no Python dependency.
 Existing IF97 APIs also benefit without caller changes. Region-3 density solves
 compute pressure and its density derivative together, using only the required
 Helmholtz sums. NVHPC shares one original full coefficient evaluation to retain
-bitwise compatibility. The bracketing, Newton safeguards, stopping criteria,
-and EOS coefficients are unchanged. Saturation cp derivatives share Gibbs
+bitwise compatibility. The EOS coefficients are unchanged. Saturation cp derivatives share Gibbs
 traversals in regions 1 and 2; region 3 reuses already evaluated coefficients.
 There are no lookup approximations, shared mutable caches, or MPI dependencies.
 

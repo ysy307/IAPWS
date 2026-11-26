@@ -57,14 +57,14 @@ case "$COMPILER" in
     gcc)
         FC="gfortran"
         # base: -Wall -Wextra -fopenmp
-        BASE_FLAGS="-Wall -Wextra -fopenmp"
+        BASE_FLAGS="-Wall -Wextra -fopenmp -ffree-line-length-none"
         
         if [ "$BUILD_TYPE" == "debug" ]; then
             # gcc-debug
             FLAGS="$BASE_FLAGS -g -O0 -fcheck=all -fbacktrace"
         elif [ "$BUILD_TYPE" == "release" ]; then
             # gcc-release
-            FLAGS="$BASE_FLAGS -O3 -march=native -ffast-math"
+            FLAGS="$BASE_FLAGS -O3 -march=native -fno-fast-math"
         else
             echo "Error: Unknown build type '$BUILD_TYPE'"
             usage
@@ -81,7 +81,7 @@ case "$COMPILER" in
             FLAGS="$BASE_FLAGS -g -O0 -check all -fpe0"
         elif [ "$BUILD_TYPE" == "release" ]; then
             # intel-release
-            FLAGS="$BASE_FLAGS -O3 -xHost"
+            FLAGS="$BASE_FLAGS -O3 -xHost -fp-model=precise"
         else
             echo "Error: Unknown build type '$BUILD_TYPE'"
             usage
@@ -98,7 +98,7 @@ case "$COMPILER" in
             FLAGS="$BASE_FLAGS -g -O0 -Mbounds -Mchkptr -traceback -Ktrap=fp"
         elif [ "$BUILD_TYPE" == "release" ]; then
             # nvidia-release
-            FLAGS="$BASE_FLAGS -O3 -fast"
+            FLAGS="$BASE_FLAGS -O3 -fast -Kieee"
         else
             echo "Error: Unknown build type '$BUILD_TYPE'"
             usage

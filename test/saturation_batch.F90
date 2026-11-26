@@ -26,7 +26,7 @@ program saturation_batch
             call check(v(i,j),ref(j))
         end do
     end do
-    if(any(status(7:8)/=-1).or.any(status(:6)/=0)) error stop 'saturation batch status'
+    if(any(status(6:8)/=-1).or.any(status(:5)/=0)) error stop 'saturation batch status'
     call water%calc_saturation_properties_batch(t,rho_vap=single)
     do i=1,n
         call check(single(i),v(i,1))
