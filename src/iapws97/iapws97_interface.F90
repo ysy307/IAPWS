@@ -51,6 +51,7 @@ module module_iapws97
     interface
         !> Initialize the IAPWS-97 Region 1 object.
         module pure elemental subroutine calc_gamma_cp_iapws97_region1(self, T_in, P_in, coef, dcp_dT, dcp_dp)
+            implicit none
             class(type_iapws97_region1), intent(in) :: self
             real(real64), intent(in) :: T_in, P_in
             type(type_iapws_gibbs_coefficient), intent(inout) :: coef
@@ -58,12 +59,14 @@ module module_iapws97
         end subroutine calc_gamma_cp_iapws97_region1
 
         module pure recursive subroutine calc_gamma_batch_iapws97_region1(self, T_in, P_in, coef)
+            implicit none
             class(type_iapws97_region1), intent(in) :: self
             real(real64), intent(in) :: T_in(:), P_in(:)
             real(real64), intent(out) :: coef(:, :)
         end subroutine
 
         module pure elemental subroutine calc_cp_derivatives_iapws97_region1(self, T_in, p_in, dcp_dT, dcp_dp)
+            implicit none
             class(type_iapws97_region1), intent(in) :: self
             real(real64), intent(in) :: T_in, p_in
             real(real64), intent(out) :: dcp_dT, dcp_dp
@@ -93,6 +96,7 @@ module module_iapws97
     contains
         procedure, pass(self), public :: initialize => initialize_type_iapws97_region2
         procedure, pass(self), public :: calc_gamma => calc_gamma_iapws97_region2
+        procedure, pass(self), public :: calc_gamma_metastable => calc_gamma_metastable_region2
         procedure, pass(self), public :: calc_gamma_batch => calc_gamma_batch_iapws97_region2
         procedure, pass(self), public :: calc_cp_derivatives => calc_cp_derivatives_iapws97_region2
         procedure, pass(self), public :: calc_gamma_cp => calc_gamma_cp_iapws97_region2
@@ -100,7 +104,15 @@ module module_iapws97
 
     interface
         !> Initialize the IAPWS-97 Region 2 object.
+        module pure elemental subroutine calc_gamma_metastable_region2(self, T, p, coef)
+            implicit none
+            class(type_iapws97_region2), intent(in) :: self
+            real(real64), intent(in) :: T, p
+            type(type_iapws_gibbs_coefficient), intent(out) :: coef
+        end subroutine calc_gamma_metastable_region2
+
         module pure elemental subroutine calc_gamma_cp_iapws97_region2(self, T_in, P_in, coef, dcp_dT, dcp_dp)
+            implicit none
             class(type_iapws97_region2), intent(in) :: self
             real(real64), intent(in) :: T_in, P_in
             type(type_iapws_gibbs_coefficient), intent(inout) :: coef
@@ -108,12 +120,14 @@ module module_iapws97
         end subroutine calc_gamma_cp_iapws97_region2
 
         module pure recursive subroutine calc_gamma_batch_iapws97_region2(self, T_in, P_in, coef)
+            implicit none
             class(type_iapws97_region2), intent(in) :: self
             real(real64), intent(in) :: T_in(:), P_in(:)
             real(real64), intent(out) :: coef(:, :)
         end subroutine
 
         module pure elemental subroutine calc_cp_derivatives_iapws97_region2(self, T_in, p_in, dcp_dT, dcp_dp)
+            implicit none
             class(type_iapws97_region2), intent(in) :: self
             real(real64), intent(in) :: T_in, p_in
             real(real64), intent(out) :: dcp_dT, dcp_dp
@@ -148,13 +162,21 @@ module module_iapws97
     end type type_iapws97_region3
 
     interface
+        pure module subroutine prepare_region3_pressure(tau, coef)
+            implicit none
+            real(real64), intent(in) :: tau
+            real(real64), intent(out) :: coef(0:11)
+        end subroutine prepare_region3_pressure
+
         module pure elemental subroutine calc_pressure_pair_iapws97_region3(self, T_in, rho_in, p, p_rho)
+            implicit none
             class(type_iapws97_region3), intent(in) :: self
             real(real64), intent(in) :: T_in, rho_in
             real(real64), intent(out) :: p, p_rho
         end subroutine calc_pressure_pair_iapws97_region3
 
         module pure elemental subroutine calc_cp_derivatives_iapws97_region3(self, T_in, rho_in, dcp_dT, dcp_dp, prop_in)
+            implicit none
             class(type_iapws97_region3), intent(in) :: self
             real(real64), intent(in) :: T_in, rho_in
             real(real64), intent(out) :: dcp_dT, dcp_dp
@@ -193,6 +215,7 @@ module module_iapws97
 
     interface
         module pure elemental function calc_dpsat_dT_iapws97_region4(self, temperature) result(slope)
+            implicit none
             class(type_iapws97_region4), intent(in) :: self
             real(real64), intent(in) :: temperature
             real(real64) :: slope
@@ -232,12 +255,14 @@ module module_iapws97
     interface
         !> Initialize the IAPWS-97 Region 5 object.
         module pure recursive subroutine calc_gamma_batch_iapws97_region5(self, T_in, P_in, coef)
+            implicit none
             class(type_iapws97_region5), intent(in) :: self
             real(real64), intent(in) :: T_in(:), P_in(:)
             real(real64), intent(out) :: coef(:, :)
         end subroutine
 
         module pure elemental subroutine calc_cp_derivatives_iapws97_region5(self, T_in, p_in, dcp_dT, dcp_dp)
+            implicit none
             class(type_iapws97_region5), intent(in) :: self
             real(real64), intent(in) :: T_in, p_in
             real(real64), intent(out) :: dcp_dT, dcp_dp
@@ -273,9 +298,17 @@ module module_iapws97
         type(type_iapws97_region5) :: region5
     contains
         procedure, pass(self), public :: initialize => initialize_type_iapws97
+        procedure, pass(self), public :: metastable_vapor => metastable_vapor_iapws97
+        procedure, pass(self), public :: backward_volume => backward_volume_iapws97
+        procedure, pass(self), public :: backward_temperature => backward_temperature_iapws97
+        procedure, pass(self), public :: saturation_endpoints => saturation_endpoints_iapws97
+        procedure, pass(self), public :: saturation_slope => saturation_slope_iapws97
+        procedure, pass(self), public :: saturation_pressure => saturation_pressure_iapws97
+        procedure, pass(self), public :: saturation_temperature => saturation_temperature_iapws97
         procedure, pass(self), public :: get_region => get_region_iapws97
         procedure, pass(self), public :: calc_properties_batch => calc_properties_batch_iapws97
         procedure, pass(self), public :: calc_properties => calc_properties_iapws97
+        procedure, pass(self), public :: evaluate_state => evaluate_state_iapws97
         procedure, pass(self), public :: calc_nu => calc_nu_iapws97
         procedure, pass(self), public :: calc_rho => calc_rho_iapws97
         procedure, pass(self), public :: calc_drho_dT => calc_drho_dT_iapws97
@@ -302,9 +335,63 @@ module module_iapws97
     end type type_iapws97
 
     interface
+        module pure elemental subroutine metastable_vapor_iapws97(self, T, p, property, valid)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T, p
+            type(type_iapws_property), intent(inout) :: property
+            logical, intent(out) :: valid
+        end subroutine metastable_vapor_iapws97
+
+        module pure elemental function backward_volume_iapws97(self, T, p) result(v)
+            implicit none
+            real(real64) :: v
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T, p
+        end function backward_volume_iapws97
+
+        module pure elemental function backward_temperature_iapws97(self, p, input, region, entropy) result(T)
+            implicit none
+            real(real64) :: T
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: p, input
+            integer, intent(in) :: region
+            logical, intent(in), optional :: entropy
+        end function backward_temperature_iapws97
+
+        module pure elemental subroutine saturation_endpoints_iapws97(self, T, liquid, vapor, valid)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T
+            type(type_iapws_property), intent(out) :: liquid, vapor
+            logical, intent(out) :: valid
+        end subroutine saturation_endpoints_iapws97
+
+        module pure elemental function saturation_slope_iapws97(self, T) result(slope)
+            implicit none
+            real(real64) :: slope
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T
+        end function saturation_slope_iapws97
+
+        module pure elemental function saturation_pressure_iapws97(self, T) result(p_sat)
+            implicit none
+            real(real64) :: p_sat
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T
+        end function saturation_pressure_iapws97
+
+        module pure elemental function saturation_temperature_iapws97(self, p) result(T_sat)
+            implicit none
+            real(real64) :: T_sat
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: p
+        end function saturation_temperature_iapws97
+
         module pure elemental subroutine calc_saturation_properties_iapws97(self, T_in, rho_vap, rho_liq, cp_vap, &
                                                                             cp_liq, drho_dT_vap, drho_dT_liq, drho_dP_vap, drho_dP_liq, density_dT_vap, density_dT_liq, dcp_dT_vap, &
                                                                             dcp_dT_liq, latent_heat, dlatent_heat_dT)
+            implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(out), optional :: rho_vap, rho_liq, cp_vap, cp_liq, drho_dT_vap, drho_dT_liq, &
@@ -313,36 +400,42 @@ module module_iapws97
         end subroutine
 
         module pure elemental subroutine calc_cp_derivatives_iapws97(self, T_in, p_in, dcp_dT, dcp_dp)
+            implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in, p_in
             real(real64), intent(out) :: dcp_dT, dcp_dp
         end subroutine
 
         module pure elemental subroutine calc_dcp_dT_iapws97(self, T_in, p_in, dcp_dT)
+            implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in, p_in
             real(real64), intent(out) :: dcp_dT
         end subroutine calc_dcp_dT_iapws97
 
         module pure elemental subroutine calc_dcp_dp_iapws97(self, T_in, p_in, dcp_dp)
+            implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in, p_in
             real(real64), intent(out) :: dcp_dp
         end subroutine calc_dcp_dp_iapws97
 
         module pure elemental subroutine calc_saturation_dcp_dT_iapws97(self, T_in, dcp_dT_vap, dcp_dT_liq)
+            implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(out), optional :: dcp_dT_vap, dcp_dT_liq
         end subroutine calc_saturation_dcp_dT_iapws97
 
         module pure elemental subroutine calc_saturation_density_dT_iapws97(self, T_in, drho_dT_vap, drho_dT_liq)
+            implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(out), optional :: drho_dT_vap, drho_dT_liq
         end subroutine calc_saturation_density_dT_iapws97
 
         module pure elemental subroutine calc_latent_heat_dT_iapws97(self, T_in, dlatent_heat_dT)
+            implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(out) :: dlatent_heat_dT
@@ -361,6 +454,14 @@ module module_iapws97
             integer(int32) :: region_id
 
         end function get_region_iapws97
+
+        module pure elemental subroutine evaluate_state_iapws97(self, T_in, p_in, property, guess_rho)
+            implicit none
+            class(type_iapws97), intent(in) :: self
+            real(real64), intent(in) :: T_in, p_in
+            type(type_iapws_property), intent(inout) :: property
+            real(real64), intent(in), optional :: guess_rho
+        end subroutine evaluate_state_iapws97
 
         module pure elemental subroutine calc_properties_iapws97(self, T_in, p_in, property)
             implicit none
@@ -517,6 +618,7 @@ module module_iapws97
     interface
         module pure recursive subroutine calc_properties_batch_iapws97(self, T_in, P_in, rho, drho_dT, drho_dP, &
                                                                        cp, cv, w, u, s, h, nu, p, status, region_id)
+            implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in(:), P_in(:)
             real(real64), intent(out), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
@@ -529,6 +631,7 @@ module module_iapws97
         module pure recursive subroutine calc_saturation_properties_batch_iapws97(self, T_in, rho_vap, rho_liq, &
                                                                                   cp_vap, cp_liq, drho_dT_vap, drho_dT_liq, drho_dP_vap, drho_dP_liq, density_dT_vap, &
                                                                                   density_dT_liq, dcp_dT_vap, dcp_dT_liq, latent_heat, dlatent_heat_dT, status)
+            implicit none
             class(type_iapws97), intent(in) :: self
             real(real64), intent(in) :: T_in(:)
             real(real64), intent(out), optional :: rho_vap(:), rho_liq(:), cp_vap(:), cp_liq(:), drho_dT_vap(:), &

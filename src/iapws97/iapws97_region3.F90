@@ -35,11 +35,34 @@ submodule(module_iapws97) iapws97_region3
     integer(int32), parameter :: TAU_EXP_LO = -2, TAU_EXP_HI = 26
 
 contains
+    ! IF97 Eq. 28: p/(rho_c R T) = delta * sum(c_i delta**i).
+    ! The temperature powers and c_i stay fixed through a density solve.
+    pure module subroutine prepare_region3_pressure(tau, coef)
+        implicit none
+        real(real64), intent(in) :: tau
+        real(real64), intent(out) :: coef(0:11)
+        real(real64) :: power(0:26)
+        integer :: j, i
+
+        power(0) = 1d0
+        do j = 1, 26
+            power(j) = power(j - 1) * tau
+        end do
+        coef = 0d0
+        coef(0) = n_r3(1)
+        do j = 2, N3_terms
+            i = I_r3(j)
+            if (i == 0) cycle
+            coef(i) = coef(i) + i * n_r3(j) * power(J_r3(j))
+        end do
+    end subroutine prepare_region3_pressure
+
     !> Pressure and density derivative for safeguarded root solvers.
     !> Only phi_d and phi_dd are needed. The specialized path preserves their
     !> recurrences, avoiding four other sums and log(delta). NVHPC instead
     !> reuses one full evaluation to retain its original vector reductions.
     module pure elemental subroutine calc_pressure_pair_iapws97_region3(self, T_in, rho_in, p, p_rho)
+        implicit none
         class(type_iapws97_region3), intent(in) :: self
         real(real64), intent(in) :: T_in, rho_in
         real(real64), intent(out) :: p, p_rho
@@ -83,6 +106,7 @@ contains
     !> Analytic cp derivatives in (T,p), evaluated at the supplied (T,rho) state.
     !> The pressure derivative is per Pa; no density solve is performed here.
     module pure elemental subroutine calc_cp_derivatives_iapws97_region3(self, T_in, rho_in, dcp_dT, dcp_dp, prop_in)
+        implicit none
         class(type_iapws97_region3), intent(in) :: self
         real(real64), intent(in) :: T_in, rho_in
         real(real64), intent(out) :: dcp_dT, dcp_dp

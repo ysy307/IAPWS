@@ -1,9 +1,11 @@
 submodule(module_iapws97) iapws97_batch
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
     use module_iapws_batch
     implicit none
 contains
     module pure recursive subroutine calc_properties_batch_iapws97(self, T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, &
                                                                    s, h, nu, p, status, region_id)
+        implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in(:), P_in(:)
         real(real64), intent(out), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
@@ -33,32 +35,34 @@ contains
                 cycle
             end if
             if (present(status)) status(j) = IAPWS_BATCH_OK
-            if (.not. want_values) cycle
+            if (.not. want_values .and. .not. (present(status) .and. r == 3)) cycle
             if (scalar_model) then
                 ! A subtype may override calc_properties. Preserve that
                 ! behavior rather than bypassing it through private kernels.
-                call evaluate_region(self, 3, [j], T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p)
+                call evaluate_region(self, 3, [j], T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p, status)
                 cycle
             end if
             counts(r) = counts(r) + 1; indices(counts(r), r) = j
             if (counts(r) == IAPWS_BATCH_TILE) then
-                call evaluate_region(self, r, indices(:, r), T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p)
+                call evaluate_region(self, r, indices(:, r), T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p, status)
                 counts(r) = 0
             end if
         end do
         do r = 1, 5
             if (counts(r) == 0) cycle
             call evaluate_region(self, r, indices(:counts(r), r), T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, &
-                                 s, h, nu, p)
+                                 s, h, nu, p, status)
         end do
     end subroutine
 
-    pure recursive subroutine evaluate_region(self, region, indices, T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p)
+    pure recursive subroutine evaluate_region(self, region, indices, T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p, status)
+        implicit none
         class(type_iapws97), intent(in) :: self
         integer, intent(in) :: region, indices(:)
         real(real64), intent(in) :: T_in(:), P_in(:)
         real(real64), intent(inout), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
                                                  h(:), nu(:), p(:)
+        integer, intent(inout), optional :: status(:)
         real(real64) :: t(IAPWS_BATCH_TILE), pressure(IAPWS_BATCH_TILE), g(IAPWS_BATCH_TILE, 6), values(1, 11)
         type(type_iapws_property) :: props
         integer :: k, id, count
@@ -78,6 +82,11 @@ contains
             do k = 1, count
                 id = indices(k)
                 call self%calc_properties(t(k), pressure(k), props)
+                if (.not. ieee_is_finite(props%rho)) then
+                    if (present(status)) status(id) = IAPWS_BATCH_INVALID
+                    call batch_invalid(id, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p)
+                    cycle
+                end if
                 values(1, :) = [props%rho, props%drho_dT, props%drho_dP, props%cp, props%cv, &
                                 props%w, props%u, props%s, props%h, 1d0 / props%rho, pressure(k)]
                 call batch_values_outputs([id], values, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p)

@@ -26,6 +26,7 @@ module module_iapws
         procedure(abst_calc_phi_iapws), pass(self), public, deferred :: calc_phi
         procedure, pass(self), public :: calc_properties_batch => calc_properties_batch_helmholtz
         procedure, pass(self), public :: calc_properties => calc_properties_helmholtz
+        procedure, pass(self), public :: project_properties => project_properties_helmholtz
         procedure, pass(self), public :: calc_rho => calc_rho_helmholtz
         procedure, pass(self), public :: calc_drho_dT => calc_drho_dT_helmholtz
         procedure, pass(self), public :: calc_drho_dP => calc_drho_dP_helmholtz
@@ -55,6 +56,7 @@ module module_iapws
         procedure, pass(self), public :: calc_properties_batch => calc_properties_batch_gibbs
         procedure, pass(self), public :: calc_gamma_batch => calc_gamma_batch_gibbs
         procedure, pass(self), public :: calc_properties => calc_properties_gibbs
+        procedure, pass(self), public :: project_properties => project_properties_gibbs
         procedure, pass(self), public :: calc_nu => calc_nu_gibbs
         procedure, pass(self), public :: calc_rho => calc_rho_gibbs
         procedure, pass(self), public :: calc_drho_dT => calc_drho_dT_gibbs
@@ -201,9 +203,9 @@ module module_iapws
         real(real64) :: alpha = 0.0d0
         !> Pressure coefficient [Pa/K]
         real(real64) :: beta = 0.0d0
-        !> Isothermal compressibility [1/Pa]
-        real(real64) :: kappa_s = 0.0d0
         !> Isentropic compressibility [1/Pa]
+        real(real64) :: kappa_s = 0.0d0
+        !> Isothermal compressibility [1/Pa]
         real(real64) :: kappa_T = 0.0d0
     end type type_iapws_property
 
@@ -264,7 +266,16 @@ module module_iapws
 
         end subroutine calc_properties_helmholtz
 
+        module pure elemental subroutine project_properties_helmholtz(self, T_in, rho_in, property, props)
+            implicit none
+            class(abst_iapws_helmholtz), intent(in) :: self
+            real(real64), intent(in) :: T_in, rho_in
+            type(type_iapws_property), intent(inout) :: property
+            type(type_iapws_helmholtz_property), intent(in) :: props
+        end subroutine project_properties_helmholtz
+
         module pure elemental subroutine calc_rho_helmholtz(self, T_in, P_in, rho)
+            implicit none
             class(abst_iapws_helmholtz), intent(in) :: self
             real(real64), intent(in) :: T_in
             real(real64), intent(in) :: P_in
@@ -394,6 +405,14 @@ module module_iapws
             type(type_iapws_property), intent(inout) :: property
 
         end subroutine calc_properties_gibbs
+
+        module pure elemental subroutine project_properties_gibbs(self, T_in, p_in, property, coef)
+            implicit none
+            class(abst_iapws_gibbs), intent(in) :: self
+            real(real64), intent(in) :: T_in, p_in
+            type(type_iapws_property), intent(inout) :: property
+            type(type_iapws_gibbs_coefficient), intent(in) :: coef
+        end subroutine project_properties_gibbs
 
         !> Calculate specific volume using Gibbs formulation
         module pure elemental subroutine calc_nu_gibbs(self, T_in, p_in, nu, prop_in)
@@ -612,6 +631,7 @@ module module_iapws
     interface
         module pure recursive subroutine calc_properties_batch_helmholtz(self, T_in, rho_in, rho, drho_dT, &
                                                                          drho_dP, cp, cv, w, u, s, h, nu, p, status, region_id)
+            implicit none
             class(abst_iapws_helmholtz), intent(in) :: self
             real(real64), intent(in) :: T_in(:), rho_in(:)
             real(real64), intent(out), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
@@ -620,6 +640,7 @@ module module_iapws
         end subroutine
         module pure recursive subroutine calc_properties_batch_gibbs(self, T_in, P_in, rho, drho_dT, drho_dP, cp, &
                                                                      cv, w, u, s, h, nu, p, status, region_id)
+            implicit none
             class(abst_iapws_gibbs), intent(in) :: self
             real(real64), intent(in) :: T_in(:), P_in(:)
             real(real64), intent(out), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
@@ -627,6 +648,7 @@ module module_iapws
             integer, intent(out), optional :: status(:), region_id(:)
         end subroutine
         module pure recursive subroutine calc_gamma_batch_gibbs(self, T_in, P_in, coef)
+            implicit none
             class(abst_iapws_gibbs), intent(in) :: self
             real(real64), intent(in) :: T_in(:), P_in(:)
             real(real64), intent(out) :: coef(:, :)

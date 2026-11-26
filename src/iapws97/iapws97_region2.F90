@@ -51,6 +51,51 @@ submodule(module_iapws97) iapws97_region2
 
 contains
 
+    ! R7-97 section 6.2, Tables 10 and 16.
+    module pure elemental subroutine calc_gamma_metastable_region2(self, T, p, coef)
+        implicit none
+        class(type_iapws97_region2), intent(in) :: self
+        real(real64), intent(in) :: T, p
+        type(type_iapws_gibbs_coefficient), intent(out) :: coef
+        integer, parameter :: ip(13) = [1,1,1,1,2,2,2,3,3,4,4,5,5], it(13) = [0,2,5,11,1,7,16,4,16,7,10,9,10]
+        real(real64), parameter :: n(13) = [ &
+            -0.73362260186506d-2, -0.88223831943146d-1, -0.72334555213245d-1, -0.40813178534455d-2, &
+             0.20097803380207d-2, -0.53045921898642d-1, -0.76190409086970d-2, -0.63498037657313d-2, &
+            -0.86043093028588d-1, 0.75321581522770d-2, -0.79238375446139d-2, -0.22888160778447d-3, &
+            -0.26456501482810d-2]
+        real(real64), parameter :: c0 = -0.96937268393049d1 - n0_r2(1), c1 = 0.10087275970006d2 - n0_r2(2)
+        real(real64) :: tau, pi, q, rt, g, gt, gtt, gp, gpp, gpt, term
+        integer :: k, i, j
+
+        tau = self%T_star / T
+        pi = p / self%p_star
+        q = tau - 0.5d0
+        rt = self%R * T
+        call calc_gamma0_all_region2(tau, pi, g, gt, gtt)
+        g = g + c0 + c1 * tau
+        gt = gt + c1
+        gp = 1d0 / pi
+        gpp = -gp * gp
+        gpt = 0d0
+        do k = 1, size(n)
+            i = ip(k)
+            j = it(k)
+            term = n(k) * pi**i * q**j
+            g = g + term
+            gt = gt + term * j / q
+            gtt = gtt + term * j * (j - 1) / (q * q)
+            gp = gp + term * i / pi
+            gpp = gpp + term * i * (i - 1) / (pi * pi)
+            gpt = gpt + term * i * j / (pi * q)
+        end do
+        coef%g = rt * g
+        coef%g_t = self%R * (g - tau * gt)
+        coef%g_tt = self%R * tau**2 / T * gtt
+        coef%g_p = rt / self%p_star * gp
+        coef%g_pp = rt / self%p_star**2 * gpp
+        coef%g_pt = self%R / self%p_star * (gp - tau * gpt)
+    end subroutine calc_gamma_metastable_region2
+
     !> Initialize the IAPWS-97 Region 2 object.
     module pure elemental subroutine initialize_type_iapws97_region2(self)
         implicit none
@@ -144,6 +189,7 @@ contains
     !> Keep independent cp accumulators: their original operation order differs
     !> from the ordinary Gibbs sums and is part of numerical compatibility.
     module pure elemental subroutine calc_gamma_cp_iapws97_region2(self, T_in, P_in, coef, dcp_dT, dcp_dp)
+        implicit none
         class(type_iapws97_region2), intent(in) :: self
         real(real64), intent(in) :: T_in, P_in
         type(type_iapws_gibbs_coefficient), intent(inout) :: coef
@@ -459,6 +505,7 @@ contains
 
     !> Analytic cp derivatives, evaluated only when requested.
     module pure elemental subroutine calc_cp_derivatives_iapws97_region2(self, T_in, p_in, dcp_dT, dcp_dp)
+        implicit none
         class(type_iapws97_region2), intent(in) :: self
         real(real64), intent(in) :: T_in, p_in
         real(real64), intent(out) :: dcp_dT, dcp_dp
@@ -514,6 +561,7 @@ contains
 ! ordered independently in every lane; no horizontal floating-point reduction.
     module pure recursive subroutine calc_gamma_batch_iapws97_region2(self, T_in, P_in, coef)
         use module_iapws_batch, only: IAPWS_BATCH_TILE
+        implicit none
         class(type_iapws97_region2), intent(in) :: self
         real(real64), intent(in) :: T_in(:), P_in(:)
         real(real64), intent(out) :: coef(:, :)

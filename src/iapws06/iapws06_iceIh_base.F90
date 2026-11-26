@@ -28,6 +28,7 @@ submodule(module_iapws06_iceIh) iapws06_iceIh_base
 contains
 
     module pure elemental subroutine calc_dcp_dT_iapws06(self, T_in, P_in, dcp_dT)
+        implicit none
         class(type_iapws06), intent(in) :: self
         real(real64), intent(in) :: T_in, P_in
         real(real64), intent(out) :: dcp_dT
@@ -50,6 +51,7 @@ contains
     end subroutine calc_dcp_dT_iapws06
 
     module pure elemental subroutine calc_dcp_dP_iapws06(self, T_in, P_in, dcp_dP)
+        implicit none
         class(type_iapws06), intent(in) :: self
         real(real64), intent(in) :: T_in, P_in
         real(real64), intent(out) :: dcp_dP
@@ -65,7 +67,9 @@ contains
         dcp_dP = -tau * real(calc_r2_p_iapws06_Ih(pi, self%pi_0) * a2, real64)
     end subroutine calc_dcp_dP_iapws06
 
-    pure elemental logical function valid_derivative_state(T_in, P_in) result(valid)
+    pure elemental function valid_derivative_state(T_in, P_in) result(valid)
+        implicit none
+        logical :: valid
         real(real64), intent(in) :: T_in, P_in
         valid = .false.
         if (.not. ieee_is_finite(T_in) .or. .not. ieee_is_finite(P_in)) return

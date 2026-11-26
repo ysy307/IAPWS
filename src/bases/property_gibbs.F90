@@ -12,7 +12,18 @@ contains
         type(type_iapws_gibbs_coefficient) :: coef
 
         call self%calc_gamma(T_in, P_in, coef)
+        call self%project_properties(T_in, P_in, property, coef)
+    end subroutine calc_properties_gibbs
 
+    module pure elemental subroutine project_properties_gibbs(self, T_in, P_in, property, coef)
+        implicit none
+        class(abst_iapws_gibbs), intent(in) :: self
+        real(real64), intent(in) :: T_in, P_in
+        type(type_iapws_property), intent(inout) :: property
+        type(type_iapws_gibbs_coefficient), intent(in) :: coef
+
+        property%T = T_in
+        property%p = P_in
         call self%calc_nu(T_in, P_in, property%nu, coef)
         call self%calc_rho(T_in, P_in, property%rho, coef)
         call self%calc_drho_dT(T_in, P_in, property%drho_dT, coef)
@@ -28,7 +39,7 @@ contains
         call self%calc_kappa_T(T_in, P_in, property%kappa_T, coef)
         call self%calc_kappa_s(T_in, P_in, property%kappa_s, coef)
 
-    end subroutine calc_properties_gibbs
+    end subroutine project_properties_gibbs
 
     module pure elemental subroutine calc_nu_gibbs(self, T_in, P_in, nu, prop_in)
         implicit none

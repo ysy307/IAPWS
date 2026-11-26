@@ -1,4 +1,5 @@
 submodule(module_iapws97) iapws97_region1
+    implicit none
     !------------------------------------------------------------------------------------------
     ! Region1: Saturated liquid water (IAPWS-IF97)
     !------------------------------------------------------------------------------------------
@@ -84,6 +85,7 @@ contains
     !> Keep independent cp accumulators: their original operation order differs
     !> from the ordinary Gibbs sums and is part of numerical compatibility.
     module pure elemental subroutine calc_gamma_cp_iapws97_region1(self, T_in, P_in, coef, dcp_dT, dcp_dp)
+        implicit none
         class(type_iapws97_region1), intent(in) :: self
         real(real64), intent(in) :: T_in, P_in
         type(type_iapws_gibbs_coefficient), intent(inout) :: coef
@@ -305,6 +307,7 @@ contains
     !> Analytic cp derivatives at fixed pressure and fixed temperature, respectively.
     !> This evaluator preserves the standalone cp derivative operation order.
     module pure elemental subroutine calc_cp_derivatives_iapws97_region1(self, T_in, p_in, dcp_dT, dcp_dp)
+        implicit none
         class(type_iapws97_region1), intent(in) :: self
         real(real64), intent(in) :: T_in, p_in
         real(real64), intent(out) :: dcp_dT, dcp_dp
@@ -349,6 +352,7 @@ contains
 ! ordered independently in every lane; no horizontal floating-point reduction.
     module pure recursive subroutine calc_gamma_batch_iapws97_region1(self, T_in, P_in, coef)
         use module_iapws_batch, only: IAPWS_BATCH_TILE
+        implicit none
         class(type_iapws97_region1), intent(in) :: self
         real(real64), intent(in) :: T_in(:), P_in(:)
         real(real64), intent(out) :: coef(:, :)

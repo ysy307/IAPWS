@@ -12,6 +12,7 @@ submodule(module_iapws97) iapws97_region4
 contains
     !> Analytic slope of Eq. 30, in Pa/K.
     module pure elemental function calc_dpsat_dT_iapws97_region4(self, temperature) result(slope)
+        implicit none
         class(type_iapws97_region4), intent(in) :: self
         real(real64), intent(in) :: temperature
         real(real64) :: slope

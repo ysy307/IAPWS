@@ -214,6 +214,7 @@ contains
     end subroutine calc_gammar_all_region5
     !> Analytic cp derivatives, evaluated only when requested.
     module pure elemental subroutine calc_cp_derivatives_iapws97_region5(self, T_in, p_in, dcp_dT, dcp_dp)
+        implicit none
         class(type_iapws97_region5), intent(in) :: self
         real(real64), intent(in) :: T_in, p_in
         real(real64), intent(out) :: dcp_dT, dcp_dp
@@ -269,6 +270,7 @@ contains
 ! ordered independently in every lane; no horizontal floating-point reduction.
     module pure recursive subroutine calc_gamma_batch_iapws97_region5(self, T_in, P_in, coef)
         use module_iapws_batch, only: IAPWS_BATCH_TILE
+        implicit none
         class(type_iapws97_region5), intent(in) :: self
         real(real64), intent(in) :: T_in(:), P_in(:)
         real(real64), intent(out) :: coef(:, :)

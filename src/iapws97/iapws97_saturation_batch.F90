@@ -9,6 +9,7 @@ contains
                                                                               drho_dP_liq, density_dT_vap, &
                                                                               density_dT_liq, dcp_dT_vap, &
                                                                               dcp_dT_liq, latent_heat, dlatent_heat_dT, status)
+        implicit none
         class(type_iapws97), intent(in) :: self
         real(real64), intent(in) :: T_in(:)
         real(real64), intent(out), optional :: rho_vap(:), rho_liq(:), cp_vap(:), cp_liq(:), drho_dT_vap(:), &
@@ -98,7 +99,7 @@ contains
                 cycle
             end if
             if (present(status)) status(j) = IAPWS_BATCH_OK
-            if (.not. want_values) cycle
+            if (.not. want_values .and. .not. (present(status) .and. T_in(j) > 623.15d0)) cycle
             if (scalar_model .or. T_in(j) > 623.15d0) then
                 ! Keep critical values, failed-pair NaNs, and independent
                 ! region-3 root histories exactly as the scalar evaluator.
@@ -128,6 +129,9 @@ contains
                                                          drho_dP_vap=values(1, 7), drho_dP_liq=values(1, 8), density_dT_vap=values(1, 9), &
                                                          density_dT_liq=values(1, 10), latent_heat=values(1, 13), dlatent_heat_dT=values(1, 14))
                 end if
+                if (present(status)) then
+                    if (.not. all(ieee_is_finite(values(1, :2)))) status(j) = IAPWS_BATCH_INVALID
+                end if
                 call store_saturation([j], values, rho_vap, rho_liq, cp_vap, cp_liq, drho_dT_vap, drho_dT_liq, &
                                       drho_dP_vap, drho_dP_liq, density_dT_vap, density_dT_liq, dcp_dT_vap, dcp_dT_liq, latent_heat, &
                                       dlatent_heat_dT)
@@ -149,6 +153,7 @@ contains
     pure recursive subroutine saturation_low(self, indices, T_in, rho_vap, rho_liq, cp_vap, cp_liq, drho_dT_vap, &
                                              drho_dT_liq, drho_dP_vap, drho_dP_liq, density_dT_vap, density_dT_liq, dcp_dT_vap, dcp_dT_liq, &
                                              latent_heat, dlatent_heat_dT)
+        implicit none
         class(type_iapws97), intent(in) :: self
         integer, intent(in) :: indices(:)
         real(real64), intent(in) :: T_in(:)
@@ -201,6 +206,7 @@ contains
     pure recursive subroutine store_saturation(indices, values, rho_vap, rho_liq, cp_vap, cp_liq, drho_dT_vap, &
                                                drho_dT_liq, drho_dP_vap, drho_dP_liq, density_dT_vap, density_dT_liq, dcp_dT_vap, dcp_dT_liq, &
                                                latent_heat, dlatent_heat_dT)
+        implicit none
         integer, intent(in) :: indices(:)
         real(real64), intent(in) :: values(:, :)
         real(real64), intent(inout), optional :: rho_vap(:), rho_liq(:), cp_vap(:), cp_liq(:), drho_dT_vap(:), &

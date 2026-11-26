@@ -12,6 +12,11 @@ program ordinary_properties_regression
         639.15d0,640d0,646.15d0,650d0,650d0,675d0,700d0,750d0]
     real(real64),parameter :: pressures(12)=[20d6,17d6,18d6,19d6,20d6,20d6, &
         22d6,25d6,30d6,30d6,30d6,80d6]
+    ! Densities from the bracketed forward solve at 9b0dfef.
+    real(real64), parameter :: density_ref(12) = [ &
+        600.6170143181862d0, 114.93549968338114d0, 129.41312747278178d0, 146.60623318331273d0, &
+        167.90922446153317d0, 160.57788700157562d0, 433.57024154875256d0, 488.87505207909874d0, &
+        549.58058941471359d0, 332.81815541638588d0, 184.18016875974061d0, 506.66424785058132d0]
     real(real64)::rho,cp,rho_T,rho_p,ct,cp_p,ht,hp,plus,minus
     integer::i
     call water%initialize()
@@ -20,6 +25,8 @@ program ordinary_properties_regression
         call water%calc_rho(temperatures(i),pressures(i),rho)
         call water%calc_cp(temperatures(i),pressures(i),cp)
         call same(rho,props%rho)
+        call close(rho,density_ref(i),2048d0*epsilon(rho))
+        call close(props%p,pressures(i),2048d0*epsilon(rho))
         call same(cp,props%cp)
         call water%calc_drho_dT(temperatures(i),pressures(i),rho_T)
         call water%calc_drho_dp(temperatures(i),pressures(i),rho_p)

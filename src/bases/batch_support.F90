@@ -14,6 +14,7 @@ module module_iapws_batch
     public :: batch_check_shapes, batch_invalid, batch_gibbs_outputs, batch_values_outputs
 contains
     pure recursive subroutine batch_check_shapes(n, second, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p, status, region_id)
+        implicit none
         integer, intent(in) :: n, second
         real(real64), intent(in), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
                                               h(:), nu(:), p(:)
@@ -61,6 +62,7 @@ contains
     end subroutine
 
     pure recursive subroutine batch_invalid(index, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p)
+        implicit none
         integer, intent(in) :: index
         real(real64), intent(inout), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
                                                  h(:), nu(:), p(:)
@@ -80,6 +82,7 @@ contains
     end subroutine
 
     pure recursive subroutine batch_gibbs_outputs(indices, t, pressure, g, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p)
+        implicit none
         integer, intent(in) :: indices(:)
         real(real64), intent(in) :: t(:), pressure(:), g(:, :)
         real(real64), intent(inout), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
@@ -178,6 +181,7 @@ contains
     end subroutine
 
     pure recursive subroutine batch_values_outputs(indices, values, rho, drho_dT, drho_dP, cp, cv, w, u, s, h, nu, p)
+        implicit none
         integer, intent(in) :: indices(:)
         real(real64), intent(in) :: values(:, :)
         real(real64), intent(inout), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &

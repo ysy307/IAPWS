@@ -4,6 +4,7 @@ submodule(module_iapws) iapws_batch_base
     implicit none
 contains
     module pure recursive subroutine calc_gamma_batch_gibbs(self, T_in, P_in, coef)
+        implicit none
         class(abst_iapws_gibbs), intent(in) :: self
         real(real64), intent(in) :: T_in(:), P_in(:)
         real(real64), intent(out) :: coef(:, :)
@@ -19,6 +20,7 @@ contains
 
     module pure recursive subroutine calc_properties_batch_gibbs(self, T_in, P_in, rho, drho_dT, drho_dP, cp, cv, &
                                                                  w, u, s, h, nu, p, status, region_id)
+        implicit none
         class(abst_iapws_gibbs), intent(in) :: self
         real(real64), intent(in) :: T_in(:), P_in(:)
         real(real64), intent(out), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
@@ -62,6 +64,7 @@ contains
     module pure recursive subroutine calc_properties_batch_helmholtz(self, T_in, rho_in, rho, drho_dT, drho_dP, &
                                                                      cp, cv, w, &
                                                                      u, s, h, nu, p, status, region_id)
+        implicit none
         class(abst_iapws_helmholtz), intent(in) :: self
         real(real64), intent(in) :: T_in(:), rho_in(:)
         real(real64), intent(out), optional :: rho(:), drho_dT(:), drho_dP(:), cp(:), cv(:), w(:), u(:), s(:), &
