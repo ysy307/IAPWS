@@ -1,6 +1,6 @@
 # IAPWS: Fortran Library for Water and Steam Properties
 
-[![CI Status](https://github.com/ysy307/IAPWS/actions/workflows/documentation.yml/badge.svg)](https://github.com/ysy307/IAPWS/actions)
+[![CI Status](https://github.com/ysy307/IAPWS/actions/workflows/verification.yml/badge.svg)](https://github.com/ysy307/IAPWS/actions)
 [![License](https://img.shields.io/github/license/ysy307/IAPWS)](LICENSE)
 
 This library provides a modern Fortran implementation of the thermodynamic properties of water and steam, based on the formulations released by the International Association for the Properties of Water and Steam (IAPWS).
@@ -93,6 +93,22 @@ fpm test
 # Build with release optimizations
 fpm build --profile release
 ```
+
+## Fortran static analysis
+
+IAPWS includes the FortranCheck tool developed in FTCMS. Build it with Rust 1.88 or later, Cargo, and a C compiler. The CMake integration supports single-configuration Ninja or Makefiles with `gfortran` or `ifx`. [FortranCheck documentation](tools/fortran-check/README.md)
+
+```sh
+cargo install --path tools/fortran-check --locked
+cmake --preset gnu-debug -B build/gnu-check -DIAPWS_ENABLE_FORTRAN_CHECK=ON
+cmake --build build/gnu-check --target fortran_check
+```
+
+Set `FORTRAN_CHECK_EXECUTABLE` at configure time to select an executable outside `PATH`. In this build directory, CMake runs the check before compiling and uses the flags and definitions from its compilation database to analyze `src/`.
+
+The policy permits `INTENT(OUT)` for result arguments and preserves published data fields and procedure names. Explicit complexity ceilings cover existing numerical kernels and public model types. Dependency errors and incomplete analysis fail the check. [IAPWS policy](fortran-check.toml)
+
+The reports in `build/gnu-check/fortran-check/` include `diagnostics.sarif`, `metrics.json`, and `dependencies.dot`. The GitHub Actions verification workflow uploads these reports. Documentation publishes from `main` after the static check, GNU Debug and Release tests, and documentation build succeed.
 
 ## Usage in Your Project
 ### Using CMake

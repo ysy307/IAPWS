@@ -1,5 +1,5 @@
 module module_iapws
-    use, intrinsic :: iso_fortran_env
+    use, intrinsic :: iso_fortran_env, only: int32, real64
     use module_iapws_batch, only: IAPWS_BATCH_OK, IAPWS_BATCH_INVALID
     implicit none
     private

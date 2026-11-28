@@ -1,0 +1,26 @@
+[fortitude]
+enabled = false
+
+[externals.mpi]
+layers = ["*"]
+compiler = true
+
+[externals.mpi_f08]
+layers = ["*"]
+compiler = true
+
+[externals.petscsys]
+layers = ["*"]
+compiler = true
+
+[externals.petscdmplex]
+layers = ["*"]
+compiler = true
+
+[externals.petscsnes]
+layers = ["*"]
+compiler = true
+
+[externals.petscvec]
+layers = ["*"]
+compiler = true

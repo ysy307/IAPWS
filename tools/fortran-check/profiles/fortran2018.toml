@@ -1,0 +1,70 @@
+[externals.iso_fortran_env]
+intrinsic = true
+layers = ["*"]
+symbols = [
+    "atomic_int_kind", "atomic_logical_kind", "character_kinds", "character_storage_size",
+    "compiler_options", "compiler_version", "current_team", "error_unit", "file_storage_size",
+    "initial_team", "input_unit", "int8", "int16", "int32", "int64", "integer_kinds",
+    "iostat_end", "iostat_eor", "iostat_inquire_internal_unit", "logical_kinds", "numeric_storage_size",
+    "output_unit", "parent_team", "real32", "real64", "real128", "real_kinds",
+    "stat_failed_image", "stat_locked", "stat_locked_other_image",
+    "stat_stopped_image", "stat_unlocked", "event_type", "lock_type", "team_type",
+]
+
+[externals.iso_c_binding]
+intrinsic = true
+layers = ["*"]
+symbols = [
+    "c_associated", "c_bool", "c_char", "c_double", "c_double_complex", "c_f_pointer",
+    "c_f_procpointer", "c_float", "c_float_complex", "c_funloc", "c_funptr", "c_int",
+    "c_int8_t", "c_int16_t", "c_int32_t", "c_int64_t", "c_int_fast8_t", "c_int_fast16_t",
+    "c_int_fast32_t", "c_int_fast64_t", "c_int_least8_t", "c_int_least16_t", "c_int_least32_t",
+    "c_int_least64_t", "c_intmax_t", "c_intptr_t", "c_loc", "c_long", "c_long_double",
+    "c_long_double_complex", "c_long_long", "c_new_line", "c_null_char", "c_null_funptr",
+    "c_null_ptr", "c_ptr", "c_ptrdiff_t", "c_short", "c_signed_char", "c_size_t", "c_sizeof",
+    "c_alert", "c_backspace", "c_carriage_return", "c_form_feed", "c_horizontal_tab", "c_vertical_tab",
+]
+
+[externals.ieee_arithmetic]
+intrinsic = true
+layers = ["*"]
+symbols = [
+    "ieee_class", "ieee_class_type", "ieee_copy_sign", "ieee_fma", "ieee_get_flag",
+    "ieee_get_halting_mode", "ieee_get_modes", "ieee_get_rounding_mode", "ieee_get_status",
+    "ieee_get_underflow_mode", "ieee_int", "ieee_is_finite", "ieee_is_nan", "ieee_is_negative", "ieee_is_normal",
+    "ieee_logb", "ieee_max_num", "ieee_max_num_mag", "ieee_min_num", "ieee_min_num_mag",
+    "ieee_negative_denormal", "ieee_negative_inf", "ieee_negative_normal", "ieee_negative_subnormal",
+    "ieee_negative_zero", "ieee_next_after", "ieee_next_down", "ieee_next_up", "ieee_other_value",
+    "ieee_positive_denormal", "ieee_positive_inf", "ieee_positive_normal", "ieee_positive_subnormal",
+    "ieee_positive_zero", "ieee_quiet_eq", "ieee_quiet_ge", "ieee_quiet_gt", "ieee_quiet_le", "ieee_quiet_lt",
+    "ieee_quiet_nan", "ieee_quiet_ne", "ieee_real", "ieee_rem", "ieee_rint", "ieee_round_type", "ieee_scalb",
+    "ieee_selected_real_kind", "ieee_set_flag", "ieee_set_halting_mode", "ieee_set_modes",
+    "ieee_set_rounding_mode", "ieee_set_status", "ieee_set_underflow_mode", "ieee_signaling_eq", "ieee_signaling_ge",
+    "ieee_signaling_gt", "ieee_signaling_le", "ieee_signaling_lt", "ieee_signaling_nan", "ieee_signaling_ne", "ieee_signbit",
+    "ieee_support_datatype", "ieee_support_denormal", "ieee_support_divide", "ieee_support_flag",
+    "ieee_support_halting", "ieee_support_inf", "ieee_support_io", "ieee_support_nan", "ieee_support_rounding",
+    "ieee_support_sqrt", "ieee_support_standard", "ieee_support_subnormal", "ieee_support_underflow_control",
+    "ieee_unordered", "ieee_value", "ieee_all", "ieee_usual", "ieee_flag_type", "ieee_modes_type",
+    "ieee_status_type", "ieee_divide_by_zero", "ieee_inexact", "ieee_invalid", "ieee_overflow",
+    "ieee_underflow", "ieee_away", "ieee_down", "ieee_nearest", "ieee_other", "ieee_to_zero", "ieee_up",
+    "operator(==)", "operator(/=)",
+]
+
+[externals.ieee_exceptions]
+intrinsic = true
+layers = ["*"]
+symbols = [
+    "ieee_all", "ieee_divide_by_zero", "ieee_flag_type", "ieee_get_flag", "ieee_get_halting_mode",
+    "ieee_get_modes", "ieee_get_status", "ieee_inexact", "ieee_invalid", "ieee_modes_type",
+    "ieee_overflow", "ieee_set_flag", "ieee_set_halting_mode", "ieee_set_modes", "ieee_set_status",
+    "ieee_status_type", "ieee_support_flag", "ieee_support_halting", "ieee_underflow", "ieee_usual",
+]
+
+[externals.ieee_features]
+intrinsic = true
+layers = ["*"]
+symbols = [
+    "ieee_datatype", "ieee_denormal", "ieee_divide", "ieee_features_type", "ieee_halting", "ieee_inf",
+    "ieee_inexact_flag", "ieee_invalid_flag", "ieee_nan", "ieee_rounding", "ieee_sqrt", "ieee_subnormal",
+    "ieee_underflow_flag",
+]

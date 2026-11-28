@@ -52,7 +52,7 @@ module iapws
         integer :: coexistence = 0
         real(real64) :: quality = -1d0, solid_fraction = -1d0
     contains
-        procedure :: jacobian => state_jacobian
+        procedure, public :: jacobian => state_jacobian
     end type type_water_state
 
     type, public :: type_water_saturation
@@ -70,15 +70,15 @@ module iapws
         type(type_iapws97) :: industrial
         type(type_iapws06) :: ice
     contains
-        procedure :: state_tp
-        procedure :: state_tp_checked
-        procedure :: state_ph_checked
-        procedure :: state_ps_checked
-        procedure :: saturation_t
-        procedure :: saturation_p
-        procedure :: state_ph
-        procedure :: state_ps
-        procedure :: transport
+        procedure, public :: state_tp
+        procedure, public :: state_tp_checked
+        procedure, public :: state_ph_checked
+        procedure, public :: state_ps_checked
+        procedure, public :: saturation_t
+        procedure, public :: saturation_p
+        procedure, public :: state_ph
+        procedure, public :: state_ps
+        procedure, public :: transport
     end type type_water
 
 contains

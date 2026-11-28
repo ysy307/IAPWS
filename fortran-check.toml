@@ -1,0 +1,248 @@
+[inputs]
+include = ["src/**"]
+
+[language]
+# Module defaults apply to contained procedures. D-exponent literals are used
+# throughout the library alongside named kinds.
+implicit_scopes = ["module", "submodule"]
+# NVIDIA Fortran 25.3 accepts IMPLICIT NONE for typing.
+require_implicit_external = false
+named_kinds = []
+
+[compiler]
+# Use the compiler flags selected by the CMake build.
+gnu_flags = []
+ifx_flags = []
+ifx_windows_flags = []
+
+[rules.STD002]
+# The public API uses INTENT(OUT) for result arguments.
+severity = "off"
+
+[rules.OOP002]
+# Clients read the data fields directly. Extensions initialize the base model
+# parameters. Both are part of their Fortran type interfaces.
+exclude_subjects = [
+    "iapws::type_water_jacobian::*",
+    "iapws::type_water_saturation::*",
+    "iapws::type_water_state::*",
+    "module_iapws::abst_iapws_gibbs::*",
+    "module_iapws::abst_iapws_helmholtz::*",
+    "module_iapws::type_iapws_gibbs_coefficient::*",
+    "module_iapws::type_iapws_helmholtz_property::*",
+    "module_iapws::type_iapws_property::*",
+]
+
+[[overrides]]
+# Preserve the ice module's historical re-exports, including the intrinsic
+# symbols provided by the selected compiler.
+rules = ["OOP001", "C121"]
+subjects = ["module_iapws06_iceih"]
+paths = ["src/iapws06/iapws06_iceIh_interface.F90"]
+severity = "off"
+
+[rules.OOP005]
+# These standalone procedures provide stateless numerical operations or construction.
+exclude_subjects = [
+    "iapws::melting_pressure",
+    "iapws::new_water",
+    "iapws::sublimation_pressure",
+    "iapws::surface_tension",
+    "iapws::thermal_conductivity",
+    "iapws::viscosity",
+    "module_iapws97_backward::backward_temperature",
+    "module_iapws97_backward::polynomial",
+    "module_iapws97_volume::volume_region3",
+    "module_iapws_batch::batch_check_shapes",
+    "module_iapws_batch::batch_gibbs_outputs",
+    "module_iapws_batch::batch_invalid",
+    "module_iapws_batch::batch_values_outputs",
+    "module_supercooled_water::evaluate_supercooled",
+    "module_supercooled_water::in_supercooled_domain",
+    "module_water_phase_boundaries::ice_ih_melting_slope",
+    "module_water_phase_boundaries::melting_pressure",
+    "module_water_phase_boundaries::sublimation_pressure",
+    "module_water_phase_boundaries::sublimation_slope",
+    "module_water_transport::industrial_reference_slope",
+    "module_water_transport::surface_tension",
+    "module_water_transport::thermal_conductivity",
+    "module_water_transport::viscosity",
+]
+
+[rules.OOP006]
+# Existing callers can import these Ice Ih procedures directly.
+exclude_subjects = [
+    "module_iapws06_iceih::calc_dcp_dp_iapws06",
+    "module_iapws06_iceih::calc_dcp_dt_iapws06",
+    "module_iapws06_iceih::calc_gamma_iapws06",
+    "module_iapws06_iceih::calc_gamma_iapws06_ih",
+    "module_iapws06_iceih::calc_gamma_p_iapws06_ih",
+    "module_iapws06_iceih::calc_gamma_pp_iapws06_ih",
+    "module_iapws06_iceih::calc_gamma_t_iapws06_ih",
+    "module_iapws06_iceih::calc_gamma_tp_iapws06_ih",
+    "module_iapws06_iceih::calc_gamma_tt_iapws06_ih",
+    "module_iapws06_iceih::initialize_type_iapws06",
+]
+
+[limits.subjects."iapws::invert_equilibrium"]
+complexity = 32
+reason = "The state facade dispatches supported phases and models and guards physical and solver boundaries."
+
+[limits.subjects."iapws::invert_if97"]
+complexity = 53
+reason = "The state facade dispatches supported phases and models and guards physical and solver boundaries."
+
+[limits.subjects."iapws::try_warm_inverse"]
+complexity = 20
+reason = "The state facade dispatches supported phases and models and guards physical and solver boundaries."
+
+[limits.subjects."iapws::type_water"]
+cbo = 9
+wmc = 123
+reason = "The public facade composes three models and exposes scalar, coexistence and inverse state operations."
+
+[limits.subjects."iapws::type_water::saturation_p"]
+complexity = 15
+reason = "The state facade dispatches supported phases and models and guards physical and solver boundaries."
+
+[limits.subjects."iapws::type_water::state_tp"]
+complexity = 62
+reason = "The state facade dispatches supported phases and models and guards physical and solver boundaries."
+
+[limits.subjects."iapws::type_water::transport"]
+complexity = 20
+reason = "The state facade dispatches supported phases and models and guards physical and solver boundaries."
+
+[limits.subjects."module_iapws95::type_iapws95"]
+lcom4 = 3
+reason = "Density bindings share the private density solver, which owns the EOS access."
+
+[limits.subjects."module_iapws95::type_iapws95::saturation_densities"]
+complexity = 12
+reason = "Density and coexistence solves use phase-specific guards and safeguarded iterations."
+
+[limits.subjects."module_iapws95:iapws95_base::density_attempt"]
+complexity = 28
+reason = "Density and coexistence solves use phase-specific guards and safeguarded iterations."
+
+[limits.subjects."module_iapws97::type_iapws97"]
+cbo = 11
+lcom4 = 13
+wmc = 210
+reason = "The IF97 facade composes region models and delegates derivatives and saturation to shared helpers."
+
+[limits.subjects."module_iapws97::type_iapws97::calc_properties_batch"]
+complexity = 12
+reason = "The batch dispatcher guards optional output stores and groups evaluations by region."
+
+[limits.subjects."module_iapws97::type_iapws97::calc_saturation_properties"]
+complexity = 15
+reason = "The state and saturation solvers guard IF97 region and convergence boundaries."
+
+[limits.subjects."module_iapws97::type_iapws97::calc_saturation_properties_batch"]
+complexity = 60
+reason = "Saturation dispatch and stores are guarded by domain, phase and requested output."
+
+[limits.subjects."module_iapws97::type_iapws97_region1"]
+lcom4 = 2
+reason = "The analytic derivative and Gibbs bindings share the private region evaluator."
+
+[limits.subjects."module_iapws97::type_iapws97_region1::calc_gamma_batch"]
+complexity = 15
+reason = "Independent SIMD reductions evaluate the analytic Gibbs terms."
+
+[limits.subjects."module_iapws97::type_iapws97_region2"]
+lcom4 = 2
+reason = "The analytic derivative and Gibbs bindings share the private region evaluator."
+
+[limits.subjects."module_iapws97::type_iapws97_region2::calc_cp_derivatives"]
+complexity = 11
+reason = "Gibbs derivative recurrences and SIMD reductions guard distinct terms."
+
+[limits.subjects."module_iapws97::type_iapws97_region2::calc_gamma_batch"]
+complexity = 20
+reason = "Gibbs derivative recurrences and SIMD reductions guard distinct terms."
+
+[limits.subjects."module_iapws97::type_iapws97_region3"]
+lcom4 = 2
+reason = "The bindings share the Helmholtz kernel. The reduced-input binding is stateless."
+
+[limits.subjects."module_iapws97::type_iapws97_region3::calc_cp_derivatives"]
+complexity = 14
+reason = "Analytic Helmholtz derivatives guard the reduced state and singular terms."
+
+[limits.subjects."module_iapws97::type_iapws97_region5::calc_cp_derivatives"]
+complexity = 11
+reason = "Gibbs derivative recurrences and SIMD reductions guard distinct terms."
+
+[limits.subjects."module_iapws97::type_iapws97_region5::calc_gamma_batch"]
+complexity = 19
+reason = "Gibbs derivative recurrences and SIMD reductions guard distinct terms."
+
+[limits.subjects."module_iapws97:iapws97_base::region3_density"]
+complexity = 29
+reason = "The state and saturation solvers guard IF97 region and convergence boundaries."
+
+[limits.subjects."module_iapws97:iapws97_base::saturation_root"]
+complexity = 12
+reason = "The state and saturation solvers guard IF97 region and convergence boundaries."
+
+[limits.subjects."module_iapws97:iapws97_saturation_batch::store_saturation"]
+complexity = 29
+reason = "Saturation dispatch and stores are guarded by domain, phase and requested output."
+
+[limits.subjects."module_iapws97_backward::backward_temperature"]
+complexity = 18
+reason = "The IF97 standard specifies separate backward relations and validity regions."
+
+[limits.subjects."module_iapws97_volume::subregion"]
+complexity = 26
+reason = "The backward volume standard specifies distinct subregions and boundary relations."
+
+[limits.subjects."module_iapws97_volume::volume_region3"]
+complexity = 27
+reason = "The backward volume standard specifies distinct subregions and boundary relations."
+
+[limits.subjects."module_iapws::abst_iapws_gibbs"]
+wmc = 52
+reason = "Derived Gibbs models share the published property and batch bindings."
+
+[limits.subjects."module_iapws::abst_iapws_gibbs::calc_properties_batch"]
+complexity = 19
+reason = "Separate guards validate and dispatch optional batch outputs."
+
+[limits.subjects."module_iapws::abst_iapws_helmholtz"]
+wmc = 57
+reason = "Derived Helmholtz models share the published property and batch bindings."
+
+[limits.subjects."module_iapws::abst_iapws_helmholtz::calc_properties_batch"]
+complexity = 20
+reason = "Separate guards validate and dispatch optional batch outputs."
+
+[limits.subjects."module_iapws::abst_iapws_helmholtz::calc_rho"]
+complexity = 11
+reason = "Pressure inversion uses a bracket and safeguarded density updates."
+
+[limits.subjects."module_iapws_batch::batch_check_shapes"]
+complexity = 28
+reason = "Optional output arrays require separate presence, shape and store guards."
+
+[limits.subjects."module_iapws_batch::batch_gibbs_outputs"]
+complexity = 23
+reason = "Optional output arrays require separate presence, shape and store guards."
+
+[limits.subjects."module_iapws_batch::batch_invalid"]
+complexity = 12
+reason = "Optional output arrays require separate presence, shape and store guards."
+
+[limits.subjects."module_iapws_batch::batch_values_outputs"]
+complexity = 23
+reason = "Optional output arrays require separate presence, shape and store guards."
+
+[limits.subjects."module_supercooled_water::evaluate_supercooled"]
+complexity = 13
+reason = "The G12-15 evaluator guards its formulation domain and iterative solve."
+
+[limits.subjects."module_water_phase_boundaries::melting_pressure"]
+complexity = 13
+reason = "The ice phases have distinct pressure formula domains."
