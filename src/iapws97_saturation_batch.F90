@@ -1,5 +1,5 @@
 submodule(module_iapws97) iapws97_saturation_batch
-    use module_iapws_batch
+    use module_iapws_batch, only: IAPWS_BATCH_OK, IAPWS_BATCH_INVALID, IAPWS_BATCH_TILE
     use ieee_arithmetic, only: ieee_is_finite, ieee_value, ieee_quiet_nan
     implicit none
 contains

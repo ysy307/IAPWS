@@ -1,6 +1,7 @@
 submodule(module_iapws97) iapws97_batch
     use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
-    use module_iapws_batch
+    use module_iapws_batch, only: IAPWS_BATCH_OK, IAPWS_BATCH_INVALID, IAPWS_BATCH_TILE, &
+                                 batch_check_shapes, batch_invalid, batch_gibbs_outputs, batch_values_outputs
     implicit none
 contains
     module pure recursive subroutine calc_properties_batch_iapws97(self, T_in, P_in, rho, drho_dT, drho_dP, cp, cv, w, u, &

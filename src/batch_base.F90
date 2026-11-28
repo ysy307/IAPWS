@@ -1,6 +1,6 @@
 submodule(module_iapws) iapws_batch_base
     use ieee_arithmetic, only: ieee_is_finite
-    use module_iapws_batch
+    use module_iapws_batch, only: batch_check_shapes, batch_invalid
     implicit none
 contains
     module pure recursive subroutine calc_gamma_batch_gibbs(self, T_in, P_in, coef)

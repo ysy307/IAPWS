@@ -1,12 +1,14 @@
 module module_iapws97
-    use, intrinsic :: iso_fortran_env
-    use :: module_iapws
+    use, intrinsic :: iso_fortran_env, only: int32, real64
+    use :: module_iapws, only: abst_iapws_gibbs, abst_iapws_helmholtz, &
+                              type_iapws_gibbs_coefficient, type_iapws_helmholtz_property, type_iapws_property
     implicit none
     private
 
     public :: type_iapws97
 
     type :: type_iapws97_auxiliary
+        private
         real(real64) :: T_star
         real(real64) :: p_star
         logical :: is_initialized = .false.
@@ -203,6 +205,7 @@ module module_iapws97
     end interface
 
     type :: type_iapws97_region4
+        private
         real(real64) :: T_star
         real(real64) :: p_star
         logical :: is_initialized = .false.
