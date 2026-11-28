@@ -1,0 +1,190 @@
+version = 1
+
+[limits]
+dit = 3
+lcom4 = 1
+cbo = 5
+wmc = 50
+complexity = 10
+
+[fypp]
+args = ["-n", "--line-numbering-mode=full", "--line-marker-format=std", "--line-length={line_length}", "-I{root}/include"]
+
+[[fypp.overrides]]
+paths = ["src/core/memory/*.fypp"]
+args = ["-D", "MAX_RANK=3"]
+
+[[fypp.overrides]]
+paths = ["src/physics/constitutive/laws/constitutive_laws.fypp"]
+args = ["-m", "sympy.printing.fortran", "-m", "textwrap", "-m", "re"]
+
+[numerical]
+kernels = [
+    "numerical_special_functions::evaluate",
+    "numerical_special_functions::beta_continued_fraction",
+    "constitutive_laws::evaluate_*",
+    "app_ftcms_kernels*::[fg][0-3]_*",
+]
+# PETSc callbacks can record a numerical failure for reporting after the solve.
+purity_warnings = ["app_ftcms_kernels*::[fg][0-3]_*"]
+hot_loops = [
+    "numerical_special_functions::beta_continued_fraction",
+    "constitutive_laws::evaluate_*",
+    "app_ftcms_kernels*::*",
+]
+
+[layers.core]
+paths = ["src/core/**"]
+may_use = ["core"]
+
+[layers.numerical]
+paths = ["src/numerical/**"]
+may_use = ["numerical", "core"]
+
+[layers.domain]
+paths = ["src/domain/**"]
+may_use = ["domain", "core"]
+
+[layers.input]
+paths = ["src/io/**"]
+may_use = ["input", "core", "domain"]
+
+[layers.constitutive]
+paths = ["src/physics/constitutive/**"]
+may_use = ["constitutive", "core", "numerical"]
+
+[layers.governing]
+paths = ["src/physics/governing/**"]
+may_use = ["governing", "constitutive", "core", "input"]
+
+[layers.engine]
+paths = ["src/app/**"]
+may_use = ["engine", "governing", "constitutive", "core", "input"]
+
+[layers.entry]
+paths = ["app/**"]
+may_use = ["entry", "engine"]
+
+[layers.test]
+paths = ["test/**"]
+may_use = ["test", "core", "numerical", "domain", "input", "constitutive", "governing", "engine"]
+
+[[internals]]
+module = "app_ftcms*"
+layers = ["engine"]
+
+[[internals]]
+module = "core_check_*"
+layers = ["core"]
+
+[[internals]]
+module = "io_input_*"
+layers = ["input"]
+
+[[internals]]
+module = "boundary_*"
+layers = ["governing"]
+
+[[internals]]
+module = "physics_governing_atmosphere_*"
+layers = ["governing"]
+
+[externals.iapws]
+layers = ["constitutive", "test"]
+symbols = ["type_iapws06", "type_iapws97", "type_iapws_property"]
+
+[externals.json_module]
+layers = ["input"]
+paths = ["src/io/input/reader/**"]
+symbols = ["json_file"]
+
+[externals.stdlib_ascii]
+layers = ["core"]
+symbols = ["to_lower"]
+
+[externals.stdlib_logger]
+layers = ["engine", "input"]
+symbols = [
+    "global_logger", "logger_type", "success", "close_failure", "index_invalid_error", "non_sequential_error",
+    "open_failure", "read_only_error", "unformatted_in_error", "unopened_in_error", "write_failure",
+    "debug_level", "information_level", "warning_level", "error_level", "io_error_level", "text_error_level",
+    "all_level", "none_level",
+]
+
+[externals.stdlib_strings]
+layers = ["core", "input"]
+symbols = ["ends_with", "strip", "to_string"]
+
+[externals.stdlib_optval]
+layers = ["core", "input"]
+symbols = ["optval"]
+
+[externals.stdlib_sorting]
+layers = ["core"]
+symbols = ["sort", "ord_sort", "radix_sort", "sort_adjoint", "sort_index"]
+
+[externals.testdrive]
+layers = ["test"]
+symbols = [
+    "check", "error_type", "new_testsuite", "new_unittest", "run_selected", "run_testsuite", "skip_test",
+    "testsuite_type", "unittest_type",
+]
+
+# MPI and PETSc export sets depend on the installed MPI and PETSc build.
+# The compiler resolves their exported names and checks their interfaces.
+[externals.mpi_f08]
+layers = ["core", "input"]
+paths = [
+    "src/core/parallel_mpi.f90", "src/core/parallel_reduce.f90", "src/core/utils/system_env.f90",
+    "src/io/input/reader/input_manager.f90", "src/io/input/reader/basic/basic_base.f90",
+    "src/io/input/reader/conditions/conditions_base.f90", "src/io/input/reader/output/output_interface.f90",
+]
+compiler = true
+
+[externals.mpi]
+layers = ["domain", "engine", "test"]
+paths = [
+    "src/domain/mesh/mesh_plex.f90", "src/app/ftcms/ftcms_setup.f90", "src/app/ftcms/ftcms_output.f90",
+    "src/app/ftcms/ftcms_assimilation.f90", "test/test_petsc_smoke.f90",
+]
+compiler = true
+
+[externals.petscsys]
+layers = ["entry", "engine", "domain", "test"]
+paths = [
+    "app/ftcms.f90", "src/domain/mesh/mesh_plex.f90", "src/app/ftcms/ftcms_interface.f90",
+    "src/app/ftcms/ftcms_boundary_registry.f90", "src/app/ftcms/ftcms_kernels.f90",
+    "src/app/ftcms/ftcms_kernels_advection.f90", "src/app/ftcms/ftcms_kernels_lagrange.f90",
+    "src/app/ftcms/ftcms_assimilation.f90", "src/app/ftcms/ftcms_nodal_flux.f90", "src/app/ftcms/ftcms_output.f90",
+    "src/app/ftcms/ftcms_setup.f90", "src/app/ftcms/ftcms_step.f90", "test/test_petsc_smoke.f90",
+]
+compiler = true
+
+[externals.petscdmplex]
+layers = ["domain", "engine"]
+paths = [
+    "src/domain/mesh/mesh_plex.f90", "src/app/ftcms/ftcms_assimilation.f90", "src/app/ftcms/ftcms_interface.f90",
+    "src/app/ftcms/ftcms_nodal_flux.f90", "src/app/ftcms/ftcms_output.f90", "src/app/ftcms/ftcms_setup.f90",
+    "src/app/ftcms/ftcms_step.f90",
+]
+compiler = true
+
+[externals.petscsnes]
+layers = ["engine"]
+paths = [
+    "src/app/ftcms/ftcms_assimilation.f90", "src/app/ftcms/ftcms_interface.f90", "src/app/ftcms/ftcms_nodal_flux.f90",
+    "src/app/ftcms/ftcms_output.f90", "src/app/ftcms/ftcms_setup.f90", "src/app/ftcms/ftcms_step.f90",
+]
+compiler = true
+
+[externals.petscvec]
+layers = ["test"]
+paths = ["test/test_petsc_smoke.f90"]
+compiler = true
+
+# Record an approved deviation with an exact Fortran entity and a concrete reason.
+# [[exceptions]]
+# rule = "STD002"
+# subject = "a_module::a_procedure::a_dummy"
+# category = "significant_benefit"
+# reason = "Describe the measurable benefit and the required argument behavior."

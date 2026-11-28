@@ -1,4 +1,4 @@
-name: Verify numerical results
+name: Verify IAPWS
 
 on:
   push:
@@ -7,16 +7,64 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  fortran-check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - run: |
+          cargo test --manifest-path tools/fortran-check/Cargo.toml --locked --release
+          cargo build --manifest-path tools/fortran-check/Cargo.toml --locked --release
+      - run: >-
+          cmake --preset gnu-debug -B build/gnu-check
+          -DIAPWS_ENABLE_FORTRAN_CHECK=ON
+          "-DFORTRAN_CHECK_EXECUTABLE=$PWD/tools/fortran-check/target/release/fortran-check"
+      - run: cmake --build build/gnu-check --target fortran_check
+      - if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: fortran-check
+          path: |
+            build/gnu-check/fortran-check/diagnostics.sarif
+            build/gnu-check/fortran-check/metrics.json
+            build/gnu-check/fortran-check/dependencies.dot
+          if-no-files-found: error
+
   gfortran:
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         build: [debug, release]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: python -m pip install iapws==1.5.5
       - run: cmake --workflow --preset workflow-gnu-${{ matrix.build }}
+
+  documentation:
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main'
+    uses: ./.github/workflows/documentation.yml
+
+  deploy:
+    needs: [fortran-check, gfortran, documentation]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v7
+        with:
+          name: documentation
+          path: ./docs/api-docs
+      - uses: JamesIves/github-pages-deploy-action@v4.8.0
+        with:
+          branch: gh-pages
+          folder: ./docs/api-docs

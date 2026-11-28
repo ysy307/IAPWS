@@ -1,7 +1,9 @@
 module module_iapws95
     use, intrinsic :: iso_fortran_env, only: int32, real64
     use :: module_iapws, only:abst_iapws_helmholtz, type_iapws_helmholtz_property, type_iapws_property
-    use :: iapws95_constants
+    use :: iapws95_constants, only: critical_temperature, critical_density, specific_gas_constant_water, &
+                                  n0_log, pow, n0_pow, n0_exp, g0, nr1, d1, t1, nr2, c2, d2, t2, gamma2, &
+                                  nr3, d3, t3, alfa3, beta3, gamma3, epsilon3, nr4, a4, b4, A, B, C, D, beta4
     implicit none
     private
 
@@ -9,14 +11,14 @@ module module_iapws95
 
     type, extends(abst_iapws_helmholtz) :: type_iapws95
     contains
-        procedure, pass(self) :: initialize => initialize_type_iapws95
-        procedure, pass(self) :: saturation_estimate => saturation_estimate_iapws95
-        procedure, pass(self) :: saturation_densities => saturation_densities_iapws95
-        procedure, pass(self) :: solve_density => solve_density_iapws95
-        procedure, pass(self) :: calc_rho => calc_rho_iapws95
-        procedure, pass(self) :: calc_phi => calc_phi_iapws95
-        procedure, pass(self) :: calc_phi0 => calc_phi0_iapws95
-        procedure, pass(self) :: calc_phir => calc_phir_iapws95
+        procedure, pass(self), public :: initialize => initialize_type_iapws95
+        procedure, pass(self), public :: saturation_estimate => saturation_estimate_iapws95
+        procedure, pass(self), public :: saturation_densities => saturation_densities_iapws95
+        procedure, pass(self), public :: solve_density => solve_density_iapws95
+        procedure, pass(self), public :: calc_rho => calc_rho_iapws95
+        procedure, pass(self), public :: calc_phi => calc_phi_iapws95
+        procedure, pass(self), public :: calc_phi0 => calc_phi0_iapws95
+        procedure, pass(self), public :: calc_phir => calc_phir_iapws95
     end type type_iapws95
 
     interface

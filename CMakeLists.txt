@@ -3,6 +3,12 @@ project(IAPWS LANGUAGES Fortran VERSION 1.0.0)
 
 enable_testing()
 
+option(IAPWS_ENABLE_FORTRAN_CHECK "Run FortranCheck before compiling IAPWS" OFF)
+if(IAPWS_ENABLE_FORTRAN_CHECK)
+    include("${CMAKE_CURRENT_SOURCE_DIR}/tools/fortran-check/cmake/FortranCheck.cmake")
+    fortran_check_enable(CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/fortran-check.toml")
+endif()
+
 # ---------------------------------------------------------
 # Build Output Configuration
 # ---------------------------------------------------------
@@ -47,6 +53,10 @@ add_library(IAPWS::IAPWS ALIAS iapws)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test")
     add_subdirectory(test)
+endif()
+
+if(IAPWS_ENABLE_FORTRAN_CHECK)
+    fortran_check_add_target()
 endif()
 
 # ---------------------------------------------------------
